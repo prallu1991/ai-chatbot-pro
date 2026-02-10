@@ -375,7 +375,7 @@ def clear_chat():
         })
     
     except Exception as e:
-        logger.error(f'Clear error: {str(e)}")
+        logger.error(f'Clear error: {str(e)}')
         return jsonify({'error': str(e)}), 500
 
 @app.route('/upload', methods=['POST'])
@@ -435,4 +435,22 @@ if __name__ == '__main__':
             f'{SUPABASE_URL}/rest/v1/chat_history?select=id&limit=1',
             headers=headers,
             timeout=5
-       
+        )
+        if test_response.status_code == 200:
+            print("✅ Database connection test: PASSED")
+        else:
+            print(f"⚠️  Database connection test: HTTP {test_response.status_code}")
+    except Exception as e:
+        print(f"❌ Database connection test: FAILED - {str(e)}")
+    
+    print("=" * 70)
+    
+    # Use environment variable for port
+    port = int(os.environ.get('PORT', 8000))
+    host = '0.0.0.0' if 'RENDER' in os.environ else '127.0.0.1'
+    
+    app.run(
+        host=host,
+        port=port,
+        debug=('RENDER' not in os.environ)
+    )
