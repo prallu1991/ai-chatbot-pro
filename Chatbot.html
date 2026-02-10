@@ -3,56 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS AI - Advanced Intelligence Platform</title>
+    <title>P.R.A.I – Personalized Reasoning & Automation Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --secondary-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --accent-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
             
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --text-primary: #f8fafc;
+            --text-secondary: rgba(248, 250, 252, 0.8);
+            --text-tertiary: rgba(248, 250, 252, 0.6);
             
-            --bg-main: #0a0e27;
-            --bg-secondary: #0f1428;
-            --bg-card: rgba(15, 20, 40, 0.6);
+            --bg-main: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.4);
             
-            --border-subtle: rgba(255, 255, 255, 0.05);
-            --border-medium: rgba(255, 255, 255, 0.1);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-medium: rgba(255, 255, 255, 0.12);
             
-            --user-bubble: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --ai-bubble: rgba(255, 255, 255, 0.03);
+            --user-bubble: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --ai-bubble: rgba(255, 255, 255, 0.05);
             
             --hover-lift: translateY(-2px);
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --glow-primary: 0 0 40px rgba(99, 102, 241, 0.3);
+            --glow-secondary: 0 0 40px rgba(6, 182, 212, 0.3);
         }
 
         [data-theme="light"] {
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(99, 102, 241, 0.15);
+            --glass-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
             
-            --text-primary: #0a0e27;
-            --text-secondary: rgba(10, 14, 39, 0.7);
-            --text-tertiary: rgba(10, 14, 39, 0.5);
+            --text-primary: #0f172a;
+            --text-secondary: rgba(15, 23, 42, 0.8);
+            --text-tertiary: rgba(15, 23, 42, 0.6);
             
-            --bg-main: #f5f7fa;
+            --bg-main: #f1f5f9;
             --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.8);
+            --bg-card: rgba(255, 255, 255, 0.9);
             
-            --border-subtle: rgba(0, 0, 0, 0.05);
-            --border-medium: rgba(0, 0, 0, 0.1);
+            --border-subtle: rgba(99, 102, 241, 0.1);
+            --border-medium: rgba(99, 102, 241, 0.2);
             
-            --ai-bubble: rgba(0, 0, 0, 0.02);
+            --ai-bubble: rgba(99, 102, 241, 0.05);
         }
 
         * {
@@ -67,9 +70,10 @@
             color: var(--text-primary);
             overflow: hidden;
             position: relative;
+            line-height: 1.6;
         }
 
-        /* Animated Background */
+        /* Futuristic Animated Background */
         body::before {
             content: '';
             position: fixed;
@@ -78,17 +82,23 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
-            animation: backgroundPulse 20s ease-in-out infinite;
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
         }
 
-        @keyframes backgroundPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        .matrix-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 95%, rgba(99, 102, 241, 0.03) 100%);
+            background-size: 100px 100px;
+            opacity: 0.1;
+            z-index: 0;
         }
 
         .app-wrapper {
@@ -97,11 +107,11 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
         }
 
         /* ============================================
-           HEADER / NAVBAR
+           HEADER / NAVBAR - Futuristic Design
            ============================================ */
         .top-nav {
             padding: 16px 32px;
@@ -109,7 +119,7 @@
             justify-content: space-between;
             align-items: center;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border-subtle);
             position: relative;
             z-index: 100;
@@ -122,17 +132,26 @@
         }
 
         .logo {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             background: var(--primary-gradient);
-            border-radius: 14px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            box-shadow: var(--glow-primary);
             position: relative;
             overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .logo:hover {
+            transform: rotate(5deg) scale(1.05);
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.5);
         }
 
         .logo::before {
@@ -143,7 +162,7 @@
             width: 200%;
             height: 200%;
             background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: logoShine 3s infinite;
+            animation: logoShine 3s infinite linear;
         }
 
         @keyframes logoShine {
@@ -157,13 +176,15 @@
         }
 
         .brand-name {
+            font-family: 'Orbitron', sans-serif;
             font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
         }
 
         .brand-tagline {
@@ -194,13 +215,30 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
         }
 
         .nav-btn:hover {
             transform: var(--hover-lift);
             background: var(--primary-gradient);
             border-color: transparent;
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+            box-shadow: var(--glow-primary);
         }
 
         .icon-btn {
@@ -222,7 +260,36 @@
             transform: var(--hover-lift);
             background: var(--primary-gradient);
             border-color: transparent;
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+            box-shadow: var(--glow-primary);
+        }
+
+        /* ============================================
+           AI COMPARISON BADGE
+           ============================================ */
+        .ai-comparison {
+            position: absolute;
+            top: 80px;
+            right: 32px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-medium);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 99;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .ai-comparison::before {
+            content: '⚡';
+            font-size: 14px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* ============================================
@@ -238,12 +305,12 @@
         }
 
         /* ============================================
-           SIDEBAR
+           SIDEBAR - Elegant Design
            ============================================ */
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
             overflow-y: auto;
         }
 
@@ -262,11 +329,17 @@
 
         .sidebar-section {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border: 1px solid var(--border-medium);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 24px;
             box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-primary);
         }
 
         .section-title {
@@ -275,49 +348,27 @@
             text-transform: uppercase;
             letter-spacing: 1.2px;
             color: var(--text-tertiary);
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 12px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+
+        /* Personality Grid */
         .personality-grid {
             display: grid;
-            gap: 8px;
+            gap: 10px;
         }
 
         .personality-option {
-            padding: 12px 16px;
-            background: var(--glass-bg);
-            border: 1px solid var(--border-subtle);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .personality-option:hover {
-            background: var(--primary-gradient);
-            border-color: transparent;
-            transform: translateX(4px);
-        }
-
-        .personality-option.active {
-            background: var(--primary-gradient);
-            border-color: transparent;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-        }
-
-        .sessions-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .session-card {
             padding: 14px 16px;
             background: var(--glass-bg);
             border: 1px solid var(--border-subtle);
@@ -325,28 +376,109 @@
             cursor: pointer;
             transition: var(--transition-smooth);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
         }
 
-        .session-card:hover {
+        .personality-option::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
             background: var(--primary-gradient);
+            opacity: 0.1;
+            transition: width 0.3s ease;
+        }
+
+        .personality-option:hover::before {
+            width: 100%;
+        }
+
+        .personality-option:hover {
             border-color: transparent;
             transform: translateX(4px);
         }
 
-        .session-card.active {
+        .personality-option.active {
             background: var(--primary-gradient);
             border-color: transparent;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+            box-shadow: var(--glow-primary);
+            color: white;
+        }
+
+        /* Sessions List */
+        .sessions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .session-card {
+            padding: 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .session-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--secondary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .session-card:hover::before {
+            opacity: 1;
+        }
+
+        .session-card:hover {
+            transform: translateX(4px);
+            background: var(--glass-bg);
+            border-color: var(--border-medium);
+        }
+
+        .session-card.active {
+            background: var(--glass-bg);
+            border-color: var(--border-medium);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .session-card.active::before {
+            opacity: 1;
         }
 
         .session-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 14px;
             font-weight: 500;
+        }
+
+        .session-time {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 2px;
         }
 
         .delete-session-btn {
@@ -357,6 +489,12 @@
             font-size: 18px;
             opacity: 0;
             transition: var(--transition-smooth);
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .session-card:hover .delete-session-btn {
@@ -364,15 +502,16 @@
         }
 
         .delete-session-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
         }
 
         .action-btn {
             width: 100%;
-            padding: 14px 20px;
+            padding: 16px;
             background: var(--primary-gradient);
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             color: white;
             font-size: 14px;
             font-weight: 600;
@@ -382,32 +521,44 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+            box-shadow: var(--glow-primary);
+            margin-top: 10px;
         }
 
         .action-btn:hover {
             transform: var(--hover-lift);
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
         }
 
         /* ============================================
-           CHAT AREA
+           CHAT AREA - Modern Design
            ============================================ */
         .chat-area {
             display: flex;
             flex-direction: column;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border: 1px solid var(--border-medium);
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
             box-shadow: var(--glass-shadow);
+            position: relative;
+        }
+
+        .chat-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-gradient), transparent);
         }
 
         .chat-header {
             padding: 20px 28px;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border-subtle);
             display: flex;
             justify-content: space-between;
@@ -420,24 +571,38 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            font-family: 'Orbitron', sans-serif;
         }
 
         .status-indicator {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: var(--success-gradient);
+            background: var(--accent-gradient);
+            position: relative;
+        }
+
+        .status-indicator::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            opacity: 0.4;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.1); }
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.2); opacity: 0.2; }
         }
 
         .chat-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         #chat-container {
@@ -446,7 +611,7 @@
             padding: 28px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
         }
 
         #chat-container::-webkit-scrollbar {
@@ -462,10 +627,11 @@
             border-radius: 4px;
         }
 
+        /* Messages */
         .message {
             max-width: 75%;
-            padding: 16px 20px;
-            border-radius: 18px;
+            padding: 20px;
+            border-radius: 20px;
             font-size: 15px;
             line-height: 1.6;
             animation: messageIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -487,44 +653,45 @@
             align-self: flex-end;
             background: var(--user-bubble);
             color: white;
-            border-bottom-right-radius: 6px;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            border-bottom-right-radius: 8px;
+            box-shadow: var(--glow-primary);
         }
 
         .bot-message {
             align-self: flex-start;
             background: var(--ai-bubble);
             border: 1px solid var(--border-subtle);
-            border-bottom-left-radius: 6px;
+            border-bottom-left-radius: 8px;
             backdrop-filter: blur(10px);
+            border-left: 4px solid var(--primary-gradient);
         }
 
         .message-header {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 8px;
-            font-size: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
             font-weight: 600;
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
         .timestamp {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-tertiary);
-            margin-top: 8px;
+            margin-top: 10px;
             display: block;
             font-weight: 500;
         }
 
         .copy-btn {
             margin-top: 12px;
-            padding: 8px 14px;
+            padding: 8px 16px;
             background: var(--glass-bg);
             border: 1px solid var(--border-subtle);
-            border-radius: 8px;
+            border-radius: 10px;
             color: var(--text-primary);
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-smooth);
@@ -540,34 +707,35 @@
         }
 
         .file-info {
-            background: var(--accent-gradient);
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 13px;
+            background: var(--secondary-gradient);
+            padding: 16px 20px;
+            border-radius: 16px;
+            font-size: 14px;
             color: white;
             font-weight: 600;
             margin: 12px 0;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 16px rgba(79, 172, 254, 0.3);
+            gap: 12px;
+            box-shadow: var(--glow-secondary);
         }
 
         .typing-indicator {
             display: flex;
-            gap: 6px;
-            padding: 16px 20px;
+            gap: 8px;
+            padding: 20px;
             background: var(--ai-bubble);
             border: 1px solid var(--border-subtle);
-            border-radius: 18px;
-            border-bottom-left-radius: 6px;
+            border-radius: 20px;
+            border-bottom-left-radius: 8px;
             width: fit-content;
+            border-left: 4px solid var(--secondary-gradient);
         }
 
         .typing-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--text-secondary);
+            width: 12px;
+            height: 12px;
+            background: var(--secondary-gradient);
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
         }
@@ -581,40 +749,41 @@
         }
 
         /* ============================================
-           INPUT AREA
+           INPUT AREA - Futuristic
            ============================================ */
         .input-section {
             padding: 24px 28px;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
             border-top: 1px solid var(--border-subtle);
         }
 
         .input-wrapper {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             align-items: flex-end;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         #user-input {
             flex: 1;
-            padding: 16px 20px;
+            padding: 18px 24px;
             background: var(--bg-card);
             border: 1px solid var(--border-medium);
-            border-radius: 16px;
+            border-radius: 18px;
             color: var(--text-primary);
             font-size: 15px;
             font-family: 'Inter', sans-serif;
             resize: none;
             max-height: 150px;
             transition: var(--transition-smooth);
+            line-height: 1.5;
         }
 
         #user-input:focus {
             outline: none;
             border-color: transparent;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
         }
 
         #user-input::placeholder {
@@ -622,24 +791,26 @@
         }
 
         #send-button {
-            padding: 16px 28px;
+            padding: 18px 32px;
             background: var(--primary-gradient);
             border: none;
-            border-radius: 16px;
+            border-radius: 18px;
             color: white;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition-smooth);
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: var(--glow-primary);
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
         }
 
         #send-button:hover:not(:disabled) {
             transform: var(--hover-lift);
-            box-shadow: 0 8px 28px rgba(102, 126, 234, 0.5);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.5);
         }
 
         #send-button:disabled {
@@ -649,23 +820,23 @@
 
         .quick-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .quick-btn {
-            padding: 10px 16px;
+            padding: 12px 20px;
             background: var(--glass-bg);
             border: 1px solid var(--border-subtle);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text-primary);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-smooth);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .quick-btn:hover {
@@ -676,15 +847,16 @@
         }
 
         .voice-recording {
-            background: var(--secondary-gradient) !important;
+            background: var(--warning-gradient) !important;
             border-color: transparent !important;
             color: white !important;
             animation: recordPulse 1.5s infinite;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
         }
 
         @keyframes recordPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 87, 108, 0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(245, 87, 108, 0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            50% { box-shadow: 0 0 0 12px rgba(245, 158, 11, 0); }
         }
 
         #file-upload {
@@ -692,7 +864,30 @@
         }
 
         /* ============================================
-           RESPONSIVE
+           MODEL BADGES (AI Comparison)
+           ============================================ */
+        .model-badges {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .model-badge {
+            padding: 6px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
            ============================================ */
         @media (max-width: 1200px) {
             .main-container {
@@ -703,6 +898,7 @@
         @media (max-width: 968px) {
             .main-container {
                 grid-template-columns: 1fr;
+                padding: 16px;
             }
 
             .sidebar {
@@ -716,11 +912,20 @@
             .brand-tagline {
                 display: none;
             }
+
+            .ai-comparison {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 0 20px 16px;
+                justify-content: center;
+            }
         }
 
         @media (max-width: 640px) {
             .message {
                 max-width: 90%;
+                padding: 16px;
             }
 
             .input-wrapper {
@@ -731,25 +936,45 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .chat-header, .input-section {
+                padding: 16px;
+            }
+
+            #chat-container {
+                padding: 16px;
+            }
         }
     </style>
 </head>
 <body data-theme="dark">
-    <!-- TOP NAVIGATION -->
+    <!-- MATRIX BACKGROUND -->
+    <div class="matrix-grid"></div>
+    
+    <!-- APP WRAPPER -->
     <div class="app-wrapper">
+        <!-- TOP NAVIGATION -->
         <nav class="top-nav">
             <div class="logo-container">
-                <div class="logo">⚡</div>
+                <div class="logo">P.R.A.I</div>
                 <div class="brand">
-                    <div class="brand-name">NEXUS AI</div>
-                    <div class="brand-tagline">Advanced Intelligence Platform</div>
+                    <div class="brand-name">P.R.A.I</div>
+                    <div class="brand-tagline">Personalized Reasoning & Automation Intelligence</div>
                 </div>
             </div>
             <div class="nav-actions">
+                <button class="nav-btn" id="auth-btn">
+                    <span>👤</span> Sign In
+                </button>
                 <button class="icon-btn" id="theme-toggle" title="Toggle Theme">🌙</button>
                 <button class="icon-btn" id="settings-btn" title="Settings">⚙️</button>
             </div>
         </nav>
+
+        <!-- AI COMPARISON BADGE -->
+        <div class="ai-comparison">
+            Powered by Llama 3.3 • Competes with ChatGPT, Claude, Gemini, & Copilot
+        </div>
 
         <!-- MAIN CONTAINER -->
         <div class="main-container">
@@ -760,20 +985,27 @@
                     <div class="section-title">AI Personality</div>
                     <div class="personality-grid">
                         <div class="personality-option active" data-personality="professional">
-                            <span>💼</span> Professional
+                            <span>💼</span> Professional Analyst
                         </div>
                         <div class="personality-option" data-personality="casual">
-                            <span>😊</span> Casual
+                            <span>😊</span> Friendly Assistant
                         </div>
                         <div class="personality-option" data-personality="technical">
-                            <span>⚙️</span> Technical
+                            <span>⚙️</span> Technical Expert
                         </div>
                         <div class="personality-option" data-personality="creative">
-                            <span>🎨</span> Creative
+                            <span>🎨</span> Creative Partner
                         </div>
                         <div class="personality-option" data-personality="teacher">
-                            <span>📚</span> Teacher
+                            <span>📚</span> Learning Guide
                         </div>
+                    </div>
+                    
+                    <!-- Model Badges -->
+                    <div class="model-badges">
+                        <div class="model-badge">🤖 GPT-4 Level</div>
+                        <div class="model-badge">⚡ Instant</div>
+                        <div class="model-badge">🔐 Private</div>
                     </div>
                 </div>
 
@@ -797,6 +1029,7 @@
                     <div class="chat-actions">
                         <button class="icon-btn" id="export-button" title="Export Chat">💾</button>
                         <button class="icon-btn" id="clear-button" title="Clear Chat">🗑️</button>
+                        <button class="icon-btn" id="share-button" title="Share Chat">↗️</button>
                     </div>
                 </div>
 
@@ -804,15 +1037,16 @@
 
                 <div class="input-section">
                     <div class="input-wrapper">
-                        <textarea id="user-input" placeholder="Ask NEXUS anything..." rows="1"></textarea>
+                        <textarea id="user-input" placeholder="Ask P.R.A.I anything... Supports reasoning, analysis, coding, and creative tasks." rows="1"></textarea>
                         <button id="send-button">
-                            <span>Send</span>
+                            <span>SEND</span>
                             <span>→</span>
                         </button>
                     </div>
                     <div class="quick-actions">
-                        <button class="quick-btn" id="voice-button">🎤 Voice</button>
-                        <button class="quick-btn" id="upload-button">📁 Upload</button>
+                        <button class="quick-btn" id="voice-button">🎤 Voice Input</button>
+                        <button class="quick-btn" id="upload-button">📁 Upload PDF/TXT</button>
+                        <button class="quick-btn" id="suggest-btn">💡 Suggestions</button>
                     </div>
                     <input type="file" id="file-upload" accept=".txt,.pdf" />
                 </div>
@@ -829,10 +1063,13 @@
         const sendButton = document.getElementById('send-button');
         const clearButton = document.getElementById('clear-button');
         const exportButton = document.getElementById('export-button');
+        const shareButton = document.getElementById('share-button');
         const voiceButton = document.getElementById('voice-button');
         const uploadButton = document.getElementById('upload-button');
+        const suggestBtn = document.getElementById('suggest-btn');
         const fileUpload = document.getElementById('file-upload');
         const themeToggle = document.getElementById('theme-toggle');
+        const authBtn = document.getElementById('auth-btn');
         const newSessionBtn = document.getElementById('new-session-btn');
         const sessionList = document.getElementById('session-list');
         const personalityOptions = document.querySelectorAll('.personality-option');
@@ -851,24 +1088,32 @@
             return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
         }
 
+        function formatDate() {
+            return new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
         function generateSessionId() {
-            return 'NEXUS_' + Date.now().toString().slice(-6);
+            const adjectives = ['Quantum', 'Neural', 'Cognitive', 'Adaptive', 'Synaptic', 'Dynamic'];
+            const nouns = ['Session', 'Dialog', 'Exchange', 'Conversation', 'Thread', 'Channel'];
+            const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+            const noun = nouns[Math.floor(Math.random() * nouns.length)];
+            return `${adj} ${noun}`;
         }
 
         function saveToStorage() {
-            localStorage.setItem('nexusSessions', JSON.stringify(sessions));
-            localStorage.setItem('nexusCurrentSession', currentSessionId);
-            localStorage.setItem('nexusPersonality', currentPersonality);
+            localStorage.setItem('praiSessions', JSON.stringify(sessions));
+            localStorage.setItem('praiCurrentSession', currentSessionId);
+            localStorage.setItem('praiPersonality', currentPersonality);
         }
 
         function loadFromStorage() {
-            const saved = localStorage.getItem('nexusSessions');
+            const saved = localStorage.getItem('praiSessions');
             if (saved) sessions = JSON.parse(saved);
             
-            const savedSession = localStorage.getItem('nexusCurrentSession');
+            const savedSession = localStorage.getItem('praiCurrentSession');
             if (savedSession && sessions[savedSession]) currentSessionId = savedSession;
             
-            const savedPersonality = localStorage.getItem('nexusPersonality');
+            const savedPersonality = localStorage.getItem('praiPersonality');
             if (savedPersonality) currentPersonality = savedPersonality;
         }
 
@@ -882,7 +1127,7 @@
             if (!isUser) {
                 const header = document.createElement('div');
                 header.className = 'message-header';
-                header.innerHTML = '<span>⚡</span> NEXUS AI';
+                header.innerHTML = '<span>🧠</span> P.R.A.I Intelligence';
                 messageDiv.appendChild(header);
             }
             
@@ -898,11 +1143,11 @@
             if (showCopyBtn && !isUser) {
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'copy-btn';
-                copyBtn.innerHTML = '📋 Copy';
+                copyBtn.innerHTML = '📋 Copy Response';
                 copyBtn.onclick = () => {
                     navigator.clipboard.writeText(message);
                     copyBtn.innerHTML = '✓ Copied!';
-                    setTimeout(() => copyBtn.innerHTML = '📋 Copy', 2000);
+                    setTimeout(() => copyBtn.innerHTML = '📋 Copy Response', 2000);
                 };
                 messageDiv.appendChild(copyBtn);
             }
@@ -924,6 +1169,14 @@
                 dot.className = 'typing-dot';
                 typingDiv.appendChild(dot);
             }
+            
+            const text = document.createElement('span');
+            text.textContent = 'P.R.A.I is thinking...';
+            text.style.marginLeft = '12px';
+            text.style.color = 'var(--text-tertiary)';
+            text.style.fontSize = '14px';
+            typingDiv.appendChild(text);
+            
             chatContainer.appendChild(typingDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
@@ -940,7 +1193,7 @@
             let message = userInput.value.trim();
             
             if (uploadedFileText) {
-                message = `[Uploaded File]\n${uploadedFileText}\n\n[Question]\n${message}`;
+                message = `[Uploaded File Content]\n${uploadedFileText}\n\n[User Question]\n${message}`;
                 uploadedFileText = null;
             }
             
@@ -969,7 +1222,7 @@
                 if (data.error) {
                     addMessage('⚠️ Error: ' + data.error, false);
                 } else {
-                    const botReply = data[0]?.generated_text || 'I apologize, I didn\'t understand that.';
+                    const botReply = data[0]?.generated_text || 'I apologize, I didn\'t receive a proper response.';
                     addMessage(botReply, false, true);
                 }
             } catch (error) {
@@ -992,7 +1245,12 @@
                 
                 const info = document.createElement('div');
                 info.className = 'session-info';
-                info.innerHTML = `<span>💬</span> ${sessionId === 'default' ? 'Main Session' : sessionId}`;
+                info.innerHTML = `
+                    <div>
+                        <div>💬 ${sessionId === 'default' ? 'Welcome Session' : sessionId}</div>
+                        <div class="session-time">${sessions[sessionId].length} messages</div>
+                    </div>
+                `;
                 card.appendChild(info);
                 
                 if (sessionId !== 'default') {
@@ -1023,17 +1281,26 @@
             currentSessionId = sessionId;
             chatContainer.innerHTML = '';
             
-            if (sessions[sessionId]) {
+            if (sessions[sessionId] && sessions[sessionId].length > 0) {
                 sessions[sessionId].forEach(msg => {
-                    const div = document.createElement('div');
-                    div.className = `message ${msg.isUser ? 'user-message' : 'bot-message'}`;
-                    div.textContent = msg.text;
-                    chatContainer.appendChild(div);
+                    addMessage(msg.text, msg.isUser, false);
                 });
+            } else {
+                addWelcomeMessage();
             }
             
             renderSessionList();
             saveToStorage();
+        }
+
+        function addWelcomeMessage() {
+            const welcomeMessages = [
+                "Hello! I'm P.R.A.I – your Personalized Reasoning & Automation Intelligence. How can I assist you today?",
+                "Welcome! I'm P.R.A.I, ready to help with analysis, coding, creative tasks, or general conversation.",
+                "Greetings! I'm P.R.A.I, an advanced AI assistant. Feel free to ask me anything or upload files for analysis."
+            ];
+            const randomWelcome = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+            addMessage(randomWelcome, false);
         }
 
         newSessionBtn.onclick = () => {
@@ -1051,6 +1318,16 @@
                 option.classList.add('active');
                 currentPersonality = option.dataset.personality;
                 saveToStorage();
+                
+                const personalityNames = {
+                    'professional': 'Professional Analyst',
+                    'casual': 'Friendly Assistant',
+                    'technical': 'Technical Expert',
+                    'creative': 'Creative Partner',
+                    'teacher': 'Learning Guide'
+                };
+                
+                addMessage(`Personality switched to: ${personalityNames[currentPersonality]}`, false);
             };
         });
 
@@ -1067,6 +1344,9 @@
             formData.append('file', file);
 
             try {
+                uploadButton.innerHTML = '📁 Uploading...';
+                uploadButton.disabled = true;
+                
                 const response = await fetch('/upload', { method: 'POST', body: formData });
                 const data = await response.json();
                 
@@ -1076,35 +1356,52 @@
                     uploadedFileText = data.text;
                     const fileInfo = document.createElement('div');
                     fileInfo.className = 'file-info';
-                    fileInfo.innerHTML = `📎 ${data.filename} uploaded (${data.text.length} chars)`;
+                    fileInfo.innerHTML = `📎 ${data.filename} uploaded successfully (${data.text.length} characters)`;
                     chatContainer.appendChild(fileInfo);
                     chatContainer.scrollTop = chatContainer.scrollHeight;
+                    addMessage('I have analyzed the uploaded file. You can now ask questions about it.', false);
                 }
             } catch (error) {
                 alert('Upload failed: ' + error.message);
+            } finally {
+                uploadButton.innerHTML = '📁 Upload PDF/TXT';
+                uploadButton.disabled = false;
+                fileUpload.value = '';
             }
-
-            fileUpload.value = '';
         };
 
         // ============================================
         // VOICE INPUT
         // ============================================
-        if ('webkitSpeechRecognition' in window) {
-            recognition = new webkitSpeechRecognition();
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
             recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
 
             recognition.onresult = (e) => {
-                userInput.value = e.results[0][0].transcript;
+                const transcript = e.results[0][0].transcript;
+                userInput.value = transcript;
                 isRecording = false;
                 voiceButton.classList.remove('voice-recording');
-                voiceButton.innerHTML = '🎤 Voice';
+                voiceButton.innerHTML = '🎤 Voice Input';
+                userInput.focus();
             };
 
             recognition.onerror = () => {
                 isRecording = false;
                 voiceButton.classList.remove('voice-recording');
-                voiceButton.innerHTML = '🎤 Voice';
+                voiceButton.innerHTML = '🎤 Voice Input';
+            };
+
+            recognition.onend = () => {
+                if (isRecording) {
+                    recognition.start();
+                } else {
+                    voiceButton.classList.remove('voice-recording');
+                    voiceButton.innerHTML = '🎤 Voice Input';
+                }
             };
 
             voiceButton.onclick = () => {
@@ -1112,15 +1409,36 @@
                     recognition.start();
                     isRecording = true;
                     voiceButton.classList.add('voice-recording');
-                    voiceButton.innerHTML = '⏺️ Recording';
+                    voiceButton.innerHTML = '⏺️ Listening...';
                 } else {
                     recognition.stop();
+                    isRecording = false;
                 }
             };
         } else {
             voiceButton.disabled = true;
-            voiceButton.innerHTML = '🎤 Unavailable';
+            voiceButton.innerHTML = '🎤 Voice Unavailable';
         }
+
+        // ============================================
+        // SUGGESTIONS
+        // ============================================
+        const suggestions = [
+            "Explain quantum computing in simple terms",
+            "Write a Python script for data analysis",
+            "Help me plan a project timeline",
+            "Analyze this business strategy",
+            "Create a creative story prompt",
+            "Explain machine learning concepts"
+        ];
+
+        suggestBtn.onclick = () => {
+            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+            userInput.value = randomSuggestion;
+            userInput.focus();
+            userInput.style.height = 'auto';
+            userInput.style.height = Math.min(userInput.scrollHeight, 150) + 'px';
+        };
 
         // ============================================
         // EXPORT CHAT
@@ -1131,18 +1449,50 @@
                 return;
             }
 
-            let text = `NEXUS AI - Chat Export\n${new Date().toLocaleString()}\n${'='.repeat(60)}\n\n`;
+            let text = `P.R.A.I – Personalized Reasoning & Automation Intelligence\n`;
+            text += `Chat Export – ${new Date().toLocaleString()}\n`;
+            text += `${'='.repeat(60)}\n\n`;
+            
             sessions[currentSessionId].forEach(msg => {
-                text += `[${msg.timestamp}] ${msg.isUser ? 'You' : 'NEXUS'}: ${msg.text}\n\n`;
+                text += `[${msg.timestamp}] ${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.text}\n\n`;
             });
 
             const blob = new Blob([text], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `NEXUS_Chat_${Date.now()}.txt`;
+            a.download = `PRAI_Chat_${Date.now()}.txt`;
             a.click();
             URL.revokeObjectURL(url);
+            
+            exportButton.innerHTML = '✓';
+            setTimeout(() => exportButton.innerHTML = '💾', 2000);
+        };
+
+        // ============================================
+        // SHARE CHAT
+        // ============================================
+        shareButton.onclick = async () => {
+            if (!sessions[currentSessionId] || sessions[currentSessionId].length === 0) {
+                alert('No messages to share!');
+                return;
+            }
+            
+            try {
+                const summary = sessions[currentSessionId]
+                    .slice(-3)
+                    .map(msg => `${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.text.substring(0, 50)}...`)
+                    .join('\n');
+                
+                await navigator.share({
+                    title: `P.R.A.I Chat – ${currentSessionId}`,
+                    text: `Check out my conversation with P.R.A.I AI:\n\n${summary}`,
+                    url: window.location.href
+                });
+            } catch (err) {
+                console.log('Share failed:', err);
+                alert('Sharing not supported or cancelled.');
+            }
         };
 
         // ============================================
@@ -1159,11 +1509,20 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ session_id: currentSessionId })
                     });
-                } catch (e) {}
+                } catch (e) {
+                    console.log('Clear API error:', e);
+                }
                 
-                addMessage('Hello! I\'m NEXUS, your advanced AI assistant. How can I help you today?', false);
+                addWelcomeMessage();
                 saveToStorage();
             }
+        };
+
+        // ============================================
+        // AUTH BUTTON
+        // ============================================
+        authBtn.onclick = () => {
+            alert('Authentication coming soon! This will enable private conversations and cloud sync.');
         };
 
         // ============================================
@@ -1172,11 +1531,11 @@
         themeToggle.onclick = () => {
             const isDark = document.body.getAttribute('data-theme') === 'dark';
             document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
-            localStorage.setItem('nexusTheme', isDark ? 'light' : 'dark');
+            themeToggle.textContent = isDark ? '🌙' : '☀️';
+            localStorage.setItem('praiTheme', isDark ? 'light' : 'dark');
         };
 
-        const savedTheme = localStorage.getItem('nexusTheme');
+        const savedTheme = localStorage.getItem('praiTheme');
         if (savedTheme === 'light') {
             document.body.setAttribute('data-theme', 'light');
             themeToggle.textContent = '☀️';
@@ -1216,18 +1575,26 @@
             }
         });
         
-        if (sessions[currentSessionId] && sessions[currentSessionId].length > 0) {
-            sessions[currentSessionId].forEach(msg => {
-                const div = document.createElement('div');
-                div.className = `message ${msg.isUser ? 'user-message' : 'bot-message'}`;
-                div.textContent = msg.text;
-                chatContainer.appendChild(div);
-            });
-        } else {
-            addMessage('Hello! I\'m NEXUS, your advanced AI assistant. How can I help you today?', false);
+        if (!sessions[currentSessionId] || sessions[currentSessionId].length === 0) {
+            addWelcomeMessage();
         }
 
         userInput.focus();
+        
+        // Auto-focus input on click anywhere
+        document.addEventListener('click', () => {
+            if (!userInput.disabled) {
+                userInput.focus();
+            }
+        });
+
+        // Add some dynamic background effects
+        setInterval(() => {
+            const grid = document.querySelector('.matrix-grid');
+            if (grid) {
+                grid.style.opacity = Math.random() * 0.1 + 0.05;
+            }
+        }, 3000);
     </script>
 </body>
 </html>
