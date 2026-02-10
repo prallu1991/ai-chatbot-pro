@@ -1,7 +1,6 @@
 """
-AI Assistant Pro - Backend Server
-Professional Edition with Advanced Features
-Deployment Ready Version
+AI Assistant Pro - Backend Server with Database
+Database: Supabase (Free Tier)
 """
 
 from flask import Flask, request, jsonify, send_from_directory
@@ -12,6 +11,7 @@ import io
 import os
 from datetime import datetime
 import logging
+from supabase import create_client, Client
 
 # ============================================
 # FLASK APP CONFIGURATION
@@ -27,86 +27,100 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================
-# CONFIGURATION
+# SUPABASE CONFIGURATION
 # ============================================
-# Read API key from environment variable (secure for deployment)
+SUPABASE_URL = "https://qucokskbztplocavbxmu.supabase.co"
+SUPABASE_KEY = "sb_publishable_Do17IFydWBg3_HOsHYRiCQ_yV2Km9hc"
+
+# Initialize Supabase client
+supabase: Client = None
+try:
+    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    logger.info("✅ Supabase database connected successfully!")
+except Exception as e:
+    logger.error(f"❌ Supabase connection failed: {str(e)}")
+    supabase = None
+
+# ============================================
+# GROQ CONFIGURATION
+# ============================================
 CONFIG = {
     'API_KEY': os.environ.get('GROQ_API_KEY', 'PUT_YOUR_GROQ_KEY_HERE'),
     'API_URL': 'https://api.groq.com/openai/v1/chat/completions',
     'MODEL': 'llama-3.3-70b-versatile',
     'DEFAULT_TEMPERATURE': 0.7,
     'DEFAULT_MAX_TOKENS': 250,
-    'REQUEST_TIMEOUT': 30,
-    'MAX_FILE_SIZE_MB': 10,
 }
 
 # Personality system prompts
 PERSONALITIES = {
-    'professional': {
-        'name': 'Professional',
-        'prompt': 'You are a highly professional AI assistant. Communicate in a formal, business-appropriate manner. Be concise, accurate, and respectful. Focus on providing clear, actionable information.'
-    },
-    'casual': {
-        'name': 'Casual',
-        'prompt': 'You are a friendly, casual AI assistant. Be warm, conversational, and approachable. Use a relaxed tone while remaining helpful and informative.'
-    },
-    'technical': {
-        'name': 'Technical Expert',
-        'prompt': 'You are a technical expert AI assistant. Provide detailed, precise technical explanations. Use proper terminology, include code examples when relevant, and explain complex concepts clearly.'
-    },
-    'creative': {
-        'name': 'Creative',
-        'prompt': 'You are a creative, imaginative AI assistant. Think outside the box, provide innovative solutions, and encourage creative thinking. Be enthusiastic and inspirational.'
-    },
-    'teacher': {
-        'name': 'Teacher',
-        'prompt': 'You are a patient, educational AI assistant. Explain concepts clearly with examples and analogies. Break down complex topics into digestible parts. Encourage learning and understanding.'
-    }
+    'professional': 'Professional formal assistant',
+    'casual': 'Friendly casual assistant',
+    'technical': 'Technical expert assistant',
+    'creative': 'Creative imaginative assistant',
+    'teacher': 'Patient educational assistant'
 }
 
-# In-memory storage (use database for production)
-conversations = {}
-session_metadata = {}
-
 # ============================================
-# UTILITY FUNCTIONS
+# DATABASE FUNCTIONS
 # ============================================
 
-def validate_api_key():
-    """Check if API key is configured"""
-    api_key = CONFIG['API_KEY']
-    if not api_key or api_key == 'PUT_YOUR_GROQ_KEY_HERE':
-        logger.error('API key not configured!')
+def save_to_database(session_id, user_message, bot_reply, personality):
+    """Save conversation to Supabase database"""
+    if not supabase:
+        logger.warning("Database not available, skipping save")
         return False
-    return True
-
-def get_system_message(personality):
-    """Get system message for personality"""
-    if personality in PERSONALITIES:
-        return {
-            'role': 'system',
-            'content': PERSONALITIES[personality]['prompt']
+    
+    try:
+        data = {
+            'session_id': session_id,
+            'user_message': user_message,
+            'bot_reply': bot_reply,
+            'personality': personality,
+            'timestamp': datetime.now().isoformat()
         }
-    return {
-        'role': 'system',
-        'content': PERSONALITIES['casual']['prompt']
-    }
+        
+        response = supabase.table('chat_history').insert(data).execute()
+        logger.info(f"💾 Saved to database: Session {session_id[:8]}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Database save error: {str(e)}")
+        return False
 
-def log_request(session_id, personality, message_length):
-    """Log incoming requests"""
-    logger.info(
-        f"Request - Session: {session_id[:8]}... | "
-        f"Personality: {personality} | "
-        f"Message length: {message_length}"
-    )
+def get_chat_history(session_id):
+    """Get chat history from database for a session"""
+    if not supabase:
+        return []
+    
+    try:
+        response = supabase.table('chat_history')\
+            .select('*')\
+            .eq('session_id', session_id)\
+            .order('timestamp')\
+            .execute()
+        
+        return response.data
+    except Exception as e:
+        logger.error(f"Database fetch error: {str(e)}")
+        return []
 
-def log_response(session_id, status, response_length=0):
-    """Log responses"""
-    logger.info(
-        f"Response - Session: {session_id[:8]}... | "
-        f"Status: {status} | "
-        f"Length: {response_length}"
-    )
+def clear_database_history(session_id):
+    """Clear chat history from database for a session"""
+    if not supabase:
+        return False
+    
+    try:
+        supabase.table('chat_history')\
+            .delete()\
+            .eq('session_id', session_id)\
+            .execute()
+        
+        logger.info(f"🗑️ Cleared database history for session {session_id[:8]}")
+        return True
+    except Exception as e:
+        logger.error(f"Database clear error: {str(e)}")
+        return False
 
 # ============================================
 # ROUTES
@@ -114,32 +128,75 @@ def log_response(session_id, status, response_length=0):
 
 @app.route('/')
 def index():
-    """Serve the main application"""
     return send_from_directory('.', 'Chatbot.html')
-
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
     return jsonify({
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
-        'active_sessions': len(conversations),
+        'active_sessions': 0,
         'model': CONFIG['MODEL'],
-        'api_configured': validate_api_key(),
+        'api_configured': CONFIG['API_KEY'] != 'PUT_YOUR_GROQ_KEY_HERE',
+        'database': 'connected' if supabase else 'disconnected',
         'deployment': 'Render Ready'
     })
 
+@app.route('/test-db', methods=['GET'])
+def test_db():
+    """Test if database is working"""
+    if not supabase:
+        return jsonify({'error': 'Supabase client not initialized'}), 500
+    
+    try:
+        # Try a simple query
+        response = supabase.table('chat_history').select('id', count='exact').execute()
+        return jsonify({
+            'status': 'connected',
+            'message': 'Database is working!',
+            'row_count': response.count or 0,
+            'supabase_url': SUPABASE_URL,
+            'table': 'chat_history'
+        })
+    except Exception as e:
+        return jsonify({
+            'error': str(e),
+            'status': 'failed',
+            'supabase_url': SUPABASE_URL
+        }), 500
+
+@app.route('/stats', methods=['GET'])
+def get_stats():
+    """Get database statistics"""
+    if not supabase:
+        return jsonify({'error': 'Database not connected'}), 500
+    
+    try:
+        # Count total messages
+        response = supabase.table('chat_history').select('id', count='exact').execute()
+        total_messages = response.count or 0
+        
+        # Count unique sessions
+        sessions_response = supabase.table('chat_history')\
+            .select('session_id', count='exact')\
+            .execute()
+        unique_sessions = sessions_response.count or 0
+        
+        return jsonify({
+            'total_messages': total_messages,
+            'unique_sessions': unique_sessions,
+            'database_status': 'connected',
+            'table_name': 'chat_history',
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    """
-    Main chat endpoint
-    Handles user messages and returns AI responses
-    """
     try:
         # Validate API key
-        if not validate_api_key():
+        if CONFIG['API_KEY'] == 'PUT_YOUR_GROQ_KEY_HERE':
             return jsonify({'error': 'API key not configured'}), 500
 
         # Parse request
@@ -148,36 +205,26 @@ def chat():
         session_id = data.get('session_id', 'default')
         personality = data.get('personality', 'casual')
         
-        # Validate input
         if not user_message:
             return jsonify({'error': 'Message cannot be empty'}), 400
-        
-        if len(user_message) > 10000:
-            return jsonify({'error': 'Message too long (max 10,000 characters)'}), 400
 
-        # Log request
-        log_request(session_id, personality, len(user_message))
+        logger.info(f"💬 Chat request - Session: {session_id[:8]}, Personality: {personality}")
 
-        # Initialize conversation
-        if session_id not in conversations:
-            conversations[session_id] = []
-            session_metadata[session_id] = {
-                'created_at': datetime.now().isoformat(),
-                'personality': personality,
-                'message_count': 0
-            }
-            # Add system message
-            conversations[session_id].append(get_system_message(personality))
+        # Get conversation history from database
+        history = get_chat_history(session_id)
+        messages = []
         
-        # Add user message to history
-        conversations[session_id].append({
-            'role': 'user',
-            'content': user_message
-        })
+        # Add system message based on personality
+        system_prompt = f"You are a {PERSONALITIES.get(personality, 'friendly')}. "
+        messages.append({'role': 'system', 'content': system_prompt})
         
-        # Update metadata
-        session_metadata[session_id]['message_count'] += 1
-        session_metadata[session_id]['last_activity'] = datetime.now().isoformat()
+        # Add conversation history
+        for msg in history:
+            messages.append({'role': 'user', 'content': msg['user_message']})
+            messages.append({'role': 'assistant', 'content': msg['bot_reply']})
+        
+        # Add current user message
+        messages.append({'role': 'user', 'content': user_message})
 
         # Prepare API request
         headers = {
@@ -187,7 +234,7 @@ def chat():
         
         payload = {
             'model': CONFIG['MODEL'],
-            'messages': conversations[session_id],
+            'messages': messages[-10:],  # Last 10 messages for context
             'temperature': CONFIG['DEFAULT_TEMPERATURE'],
             'max_tokens': CONFIG['DEFAULT_MAX_TOKENS']
         }
@@ -197,269 +244,118 @@ def chat():
             CONFIG['API_URL'],
             headers=headers,
             json=payload,
-            timeout=CONFIG['REQUEST_TIMEOUT']
+            timeout=30
         )
 
-        # Handle response
         if response.status_code == 200:
             result = response.json()
             bot_reply = result['choices'][0]['message']['content']
             
-            # Add bot response to history
-            conversations[session_id].append({
-                'role': 'assistant',
-                'content': bot_reply
-            })
+            # Save to database
+            save_to_database(session_id, user_message, bot_reply, personality)
             
-            log_response(session_id, 'success', len(bot_reply))
+            logger.info(f"✅ Response saved to database")
             return jsonify([{'generated_text': bot_reply}])
         
         else:
-            error_msg = f'API Error (Status {response.status_code}): {response.text}'
+            error_msg = f'API Error: {response.text}'
             logger.error(error_msg)
-            log_response(session_id, 'error')
             return jsonify({'error': error_msg}), response.status_code
 
     except requests.exceptions.Timeout:
-        logger.error(f'Request timeout for session {session_id}')
-        return jsonify({'error': 'Request timeout - AI took too long to respond'}), 504
-    
-    except requests.exceptions.RequestException as e:
-        logger.error(f'Request error: {str(e)}')
-        return jsonify({'error': f'Connection error: {str(e)}'}), 500
+        logger.error('Request timeout')
+        return jsonify({'error': 'AI took too long to respond'}), 504
     
     except Exception as e:
-        logger.error(f'Unexpected error: {str(e)}')
+        logger.error(f'Server error: {str(e)}')
         return jsonify({'error': f'Server error: {str(e)}'}), 500
 
-
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    """
-    Handle file uploads
-    Supports .txt and .pdf files
-    """
+@app.route('/history/<session_id>', methods=['GET'])
+def get_history(session_id):
+    """Get complete chat history for a session"""
     try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file uploaded'}), 400
-        
-        file = request.files['file']
-        
-        if file.filename == '':
-            return jsonify({'error': 'No file selected'}), 400
-        
-        filename = file.filename.lower()
-        
-        # Check file size
-        file.seek(0, 2)  # Seek to end
-        file_size = file.tell()
-        file.seek(0)  # Reset to start
-        
-        max_size = CONFIG['MAX_FILE_SIZE_MB'] * 1024 * 1024
-        if file_size > max_size:
-            return jsonify({
-                'error': f'File too large (max {CONFIG["MAX_FILE_SIZE_MB"]}MB)'
-            }), 400
-
-        # Process text file
-        if filename.endswith('.txt'):
-            try:
-                text = file.read().decode('utf-8')
-                logger.info(f'Text file uploaded: {filename} ({len(text)} chars)')
-                return jsonify({
-                    'text': text,
-                    'filename': file.filename,
-                    'size': len(text)
-                })
-            except UnicodeDecodeError:
-                return jsonify({'error': 'File encoding not supported (use UTF-8)'}), 400
-        
-        # Process PDF file
-        elif filename.endswith('.pdf'):
-            try:
-                pdf_reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
-                text = ''
-                for page_num, page in enumerate(pdf_reader.pages):
-                    text += page.extract_text() + '\n'
-                
-                logger.info(f'PDF uploaded: {filename} ({len(pdf_reader.pages)} pages, {len(text)} chars)')
-                return jsonify({
-                    'text': text,
-                    'filename': file.filename,
-                    'pages': len(pdf_reader.pages),
-                    'size': len(text)
-                })
-            except Exception as e:
-                logger.error(f'PDF processing error: {str(e)}')
-                return jsonify({'error': f'PDF processing failed: {str(e)}'}), 500
-        
-        else:
-            return jsonify({
-                'error': 'Unsupported file type. Use .txt or .pdf files only.'
-            }), 400
-
+        history = get_chat_history(session_id)
+        return jsonify({
+            'session_id': session_id,
+            'history': history,
+            'count': len(history)
+        })
     except Exception as e:
-        logger.error(f'File upload error: {str(e)}')
-        return jsonify({'error': f'Upload failed: {str(e)}'}), 500
-
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/clear', methods=['POST'])
 def clear_chat():
-    """Clear conversation history for a session"""
+    """Clear chat history from database"""
     try:
         data = request.json if request.json else {}
         session_id = data.get('session_id', 'default')
         
-        if session_id in conversations:
-            msg_count = len(conversations[session_id])
-            conversations[session_id] = []
-            
-            if session_id in session_metadata:
-                session_metadata[session_id]['message_count'] = 0
-            
-            logger.info(f'Cleared {msg_count} messages for session {session_id}')
+        # Clear from database
+        success = clear_database_history(session_id)
         
         return jsonify({
-            'status': 'cleared',
-            'session_id': session_id
+            'status': 'cleared' if success else 'failed',
+            'session_id': session_id,
+            'database_cleared': success
         })
     
     except Exception as e:
         logger.error(f'Clear error: {str(e)}')
         return jsonify({'error': str(e)}), 500
 
-
-@app.route('/sessions', methods=['GET'])
-def get_sessions():
-    """Get list of active sessions with metadata"""
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    """Handle file uploads"""
     try:
-        sessions_info = []
-        for session_id, metadata in session_metadata.items():
-            sessions_info.append({
-                'id': session_id,
-                'created_at': metadata.get('created_at'),
-                'message_count': metadata.get('message_count', 0),
-                'personality': metadata.get('personality'),
-                'last_activity': metadata.get('last_activity')
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+        
+        file = request.files['file']
+        filename = file.filename.lower()
+        
+        if filename.endswith('.txt'):
+            text = file.read().decode('utf-8')
+            return jsonify({'text': text, 'filename': file.filename})
+        
+        elif filename.endswith('.pdf'):
+            pdf_reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
+            text = ''
+            for page in pdf_reader.pages:
+                text += page.extract_text() + '\n'
+            return jsonify({
+                'text': text,
+                'filename': file.filename,
+                'pages': len(pdf_reader.pages)
             })
         
-        return jsonify({
-            'sessions': sessions_info,
-            'total': len(sessions_info)
-        })
-    
+        else:
+            return jsonify({'error': 'Unsupported file type'}), 400
+            
     except Exception as e:
-        logger.error(f'Sessions list error: {str(e)}')
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/session/<session_id>', methods=['GET'])
-def get_session(session_id):
-    """Get conversation history for a specific session"""
-    try:
-        if session_id not in conversations:
-            return jsonify({'error': 'Session not found'}), 404
-        
-        return jsonify({
-            'session_id': session_id,
-            'messages': conversations[session_id],
-            'metadata': session_metadata.get(session_id, {})
-        })
-    
-    except Exception as e:
-        logger.error(f'Get session error: {str(e)}')
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/session/<session_id>', methods=['DELETE'])
-def delete_session(session_id):
-    """Delete a session"""
-    try:
-        if session_id == 'default':
-            return jsonify({'error': 'Cannot delete default session'}), 400
-        
-        if session_id in conversations:
-            del conversations[session_id]
-        
-        if session_id in session_metadata:
-            del session_metadata[session_id]
-        
-        logger.info(f'Deleted session: {session_id}')
-        return jsonify({
-            'status': 'deleted',
-            'session_id': session_id
-        })
-    
-    except Exception as e:
-        logger.error(f'Delete session error: {str(e)}')
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/personalities', methods=['GET'])
-def get_personalities():
-    """Get available personality modes"""
-    return jsonify({
-        'personalities': {
-            key: {
-                'name': value['name'],
-                'description': value['prompt']
-            }
-            for key, value in PERSONALITIES.items()
-        }
-    })
-
-
-# ============================================
-# ERROR HANDLERS
-# ============================================
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({'error': 'Endpoint not found'}), 404
-
-
-@app.errorhandler(500)
-def internal_error(error):
-    logger.error(f'Internal server error: {str(error)}')
-    return jsonify({'error': 'Internal server error'}), 500
-
+        return jsonify({'error': f'Upload failed: {str(e)}'}), 500
 
 # ============================================
 # STARTUP
 # ============================================
 
-def print_startup_banner():
-    """Print startup information"""
-    print("\n" + "=" * 70)
-    print("🤖 AI ASSISTANT PRO - BACKEND SERVER")
-    print("=" * 70)
-    print(f"📊 Model: {CONFIG['MODEL']}")
-    print(f"🔌 API: Groq")
-    print(f"🎭 Personalities: {len(PERSONALITIES)}")
-    print(f"✅ API Key: {'Configured' if validate_api_key() else '❌ NOT CONFIGURED'}")
-    print(f"🌍 Environment: {'Production' if 'RENDER' in os.environ else 'Development'}")
-    print("=" * 70)
-    print("🚀 Server Status: READY")
-    print("=" * 70 + "\n")
-
-
 if __name__ == '__main__':
     import os
     
-    print_startup_banner()
+    print("\n" + "=" * 70)
+    print("🤖 P.R.A.I CHATBOT WITH DATABASE")
+    print("=" * 70)
+    print(f"📊 Model: {CONFIG['MODEL']}")
+    print(f"💾 Database: {'✅ Connected' if supabase else '❌ Disconnected'}")
+    print(f"🔌 API: Groq")
+    print(f"🌐 URL: https://qucokskbztplocavbxmu.supabase.co")
+    print("=" * 70)
     
-    if not validate_api_key():
-        logger.warning("⚠️  WARNING: API key not configured! Set GROQ_API_KEY environment variable")
-        logger.warning("   For local testing, update the CONFIG dictionary with your key")
-    
-    # Use environment variable for port (for deployment)
+    # Use environment variable for port
     port = int(os.environ.get('PORT', 8000))
-    
-    # Determine host based on environment
     host = '0.0.0.0' if 'RENDER' in os.environ else '127.0.0.1'
     
     app.run(
         host=host,
         port=port,
-        debug=('RENDER' not in os.environ)  # Debug mode only in development
+        debug=('RENDER' not in os.environ)
     )
