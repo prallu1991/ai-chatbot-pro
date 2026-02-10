@@ -11,7 +11,6 @@ import io
 import os
 from datetime import datetime
 import logging
-from supabase import create_client, Client
 
 # ============================================
 # FLASK APP CONFIGURATION
@@ -30,16 +29,7 @@ logger = logging.getLogger(__name__)
 # SUPABASE CONFIGURATION
 # ============================================
 SUPABASE_URL = "https://qucokskbztplocavbxmu.supabase.co"
-SUPABASE_KEY = "sb_publishable_Do17IFydWBg3_HOsHYRiCQ_yV2Km9hc"
-
-# Initialize Supabase client
-supabase: Client = None
-try:
-    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-    logger.info("✅ Supabase database connected successfully!")
-except Exception as e:
-    logger.error(f"❌ Supabase connection failed: {str(e)}")
-    supabase = None
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1Y29rc2tienRwbG9jYXZieG11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2ODE1MDUsImV4cCI6MjA4NjI1NzUwNX0.K4BLzPPNmSLZEwMN6UIxTVWIOdvhx0Op3wDSPBRKRLc"
 
 # ============================================
 # GROQ CONFIGURATION
@@ -62,16 +52,19 @@ PERSONALITIES = {
 }
 
 # ============================================
-# DATABASE FUNCTIONS
+# DATABASE FUNCTIONS (HTTP DIRECT)
 # ============================================
 
 def save_to_database(session_id, user_message, bot_reply, personality):
-    """Save conversation to Supabase database"""
-    if not supabase:
-        logger.warning("Database not available, skipping save")
-        return False
-    
+    """Save conversation to Supabase using direct HTTP"""
     try:
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}',
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+        }
+        
         data = {
             'session_id': session_id,
             'user_message': user_message,
@@ -80,46 +73,72 @@ def save_to_database(session_id, user_message, bot_reply, personality):
             'timestamp': datetime.now().isoformat()
         }
         
-        response = supabase.table('chat_history').insert(data).execute()
-        logger.info(f"💾 Saved to database: Session {session_id[:8]}")
-        return True
+        response = requests.post(
+            f'{SUPABASE_URL}/rest/v1/chat_history',
+            headers=headers,
+            json=data,
+            timeout=5
+        )
         
+        if response.status_code in [200, 201]:
+            logger.info(f"💾 Saved to database: Session {session_id[:8]}")
+            return True
+        else:
+            logger.error(f"❌ Database save failed: {response.status_code} - {response.text}")
+            return False
+            
     except Exception as e:
-        logger.error(f"Database save error: {str(e)}")
+        logger.error(f"Database error: {str(e)}")
         return False
 
 def get_chat_history(session_id):
     """Get chat history from database for a session"""
-    if not supabase:
-        return []
-    
     try:
-        response = supabase.table('chat_history')\
-            .select('*')\
-            .eq('session_id', session_id)\
-            .order('timestamp')\
-            .execute()
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}'
+        }
         
-        return response.data
+        response = requests.get(
+            f'{SUPABASE_URL}/rest/v1/chat_history?session_id=eq.{session_id}&order=timestamp.asc',
+            headers=headers,
+            timeout=5
+        )
+        
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error(f"History fetch failed: {response.status_code}")
+            return []
+            
     except Exception as e:
-        logger.error(f"Database fetch error: {str(e)}")
+        logger.error(f"History error: {str(e)}")
         return []
 
 def clear_database_history(session_id):
     """Clear chat history from database for a session"""
-    if not supabase:
-        return False
-    
     try:
-        supabase.table('chat_history')\
-            .delete()\
-            .eq('session_id', session_id)\
-            .execute()
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}',
+            'Prefer': 'return=minimal'
+        }
         
-        logger.info(f"🗑️ Cleared database history for session {session_id[:8]}")
-        return True
+        response = requests.delete(
+            f'{SUPABASE_URL}/rest/v1/chat_history?session_id=eq.{session_id}',
+            headers=headers,
+            timeout=5
+        )
+        
+        if response.status_code in [200, 204]:
+            logger.info(f"🗑️ Cleared database history for session {session_id[:8]}")
+            return True
+        else:
+            logger.error(f"Clear failed: {response.status_code}")
+            return False
+            
     except Exception as e:
-        logger.error(f"Database clear error: {str(e)}")
+        logger.error(f"Clear error: {str(e)}")
         return False
 
 # ============================================
@@ -135,62 +154,118 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
-        'active_sessions': 0,
         'model': CONFIG['MODEL'],
         'api_configured': CONFIG['API_KEY'] != 'PUT_YOUR_GROQ_KEY_HERE',
-        'database': 'connected' if supabase else 'disconnected',
+        'database': 'Supabase connected',
         'deployment': 'Render Ready'
     })
 
 @app.route('/test-db', methods=['GET'])
 def test_db():
     """Test if database is working"""
-    if not supabase:
-        return jsonify({'error': 'Supabase client not initialized'}), 500
-    
     try:
-        # Try a simple query
-        response = supabase.table('chat_history').select('id', count='exact').execute()
-        return jsonify({
-            'status': 'connected',
-            'message': 'Database is working!',
-            'row_count': response.count or 0,
-            'supabase_url': SUPABASE_URL,
-            'table': 'chat_history'
-        })
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}'
+        }
+        
+        # Test insert
+        test_data = {
+            'session_id': 'connection_test',
+            'user_message': 'Database connection test',
+            'bot_reply': 'If you see this, database is working!',
+            'personality': 'test'
+        }
+        
+        insert_response = requests.post(
+            f'{SUPABASE_URL}/rest/v1/chat_history',
+            headers=headers,
+            json=test_data,
+            timeout=5
+        )
+        
+        if insert_response.status_code in [200, 201]:
+            # Now count rows
+            count_response = requests.get(
+                f'{SUPABASE_URL}/rest/v1/chat_history?select=id',
+                headers=headers,
+                timeout=5
+            )
+            
+            row_count = len(count_response.json()) if count_response.status_code == 200 else 0
+            
+            return jsonify({
+                'status': 'connected',
+                'message': 'Database is working!',
+                'insert_status': insert_response.status_code,
+                'row_count': row_count,
+                'url': SUPABASE_URL
+            })
+        else:
+            return jsonify({
+                'status': 'failed',
+                'message': f'Insert failed: {insert_response.status_code}',
+                'error': insert_response.text[:200],
+                'url': SUPABASE_URL
+            }), 500
+            
     except Exception as e:
         return jsonify({
-            'error': str(e),
             'status': 'failed',
-            'supabase_url': SUPABASE_URL
+            'error': str(e),
+            'url': SUPABASE_URL
         }), 500
 
 @app.route('/stats', methods=['GET'])
 def get_stats():
     """Get database statistics"""
-    if not supabase:
-        return jsonify({'error': 'Database not connected'}), 500
-    
     try:
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}'
+        }
+        
         # Count total messages
-        response = supabase.table('chat_history').select('id', count='exact').execute()
-        total_messages = response.count or 0
+        count_response = requests.get(
+            f'{SUPABASE_URL}/rest/v1/chat_history?select=id',
+            headers=headers,
+            timeout=5
+        )
         
-        # Count unique sessions
-        sessions_response = supabase.table('chat_history')\
-            .select('session_id', count='exact')\
-            .execute()
-        unique_sessions = sessions_response.count or 0
-        
-        return jsonify({
-            'total_messages': total_messages,
-            'unique_sessions': unique_sessions,
-            'database_status': 'connected',
-            'table_name': 'chat_history',
-            'timestamp': datetime.now().isoformat()
-        })
+        if count_response.status_code == 200:
+            data = count_response.json()
+            total_messages = len(data)
+            
+            # Get unique sessions
+            sessions_response = requests.get(
+                f'{SUPABASE_URL}/rest/v1/chat_history?select=session_id',
+                headers=headers,
+                timeout=5
+            )
+            
+            if sessions_response.status_code == 200:
+                sessions_data = sessions_response.json()
+                unique_sessions = len(set(item['session_id'] for item in sessions_data))
+            else:
+                unique_sessions = 0
+            
+            return jsonify({
+                'total_messages': total_messages,
+                'unique_sessions': unique_sessions,
+                'database_status': 'connected',
+                'timestamp': datetime.now().isoformat()
+            })
+        else:
+            return jsonify({
+                'error': f'HTTP {count_response.status_code}',
+                'database_status': 'error'
+            }), 500
+            
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'error': str(e),
+            'database_status': 'error'
+        }), 500
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -218,8 +293,8 @@ def chat():
         system_prompt = f"You are a {PERSONALITIES.get(personality, 'friendly')}. "
         messages.append({'role': 'system', 'content': system_prompt})
         
-        # Add conversation history
-        for msg in history:
+        # Add conversation history (last 5 exchanges)
+        for msg in history[-10:]:  # Last 10 messages (5 exchanges)
             messages.append({'role': 'user', 'content': msg['user_message']})
             messages.append({'role': 'assistant', 'content': msg['bot_reply']})
         
@@ -300,7 +375,7 @@ def clear_chat():
         })
     
     except Exception as e:
-        logger.error(f'Clear error: {str(e)}')
+        logger.error(f'Clear error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/upload', methods=['POST'])
@@ -342,20 +417,22 @@ if __name__ == '__main__':
     import os
     
     print("\n" + "=" * 70)
-    print("🤖 P.R.A.I CHATBOT WITH DATABASE")
+    print("🤖 P.R.A.I CHATBOT WITH SUPABASE DATABASE")
     print("=" * 70)
     print(f"📊 Model: {CONFIG['MODEL']}")
-    print(f"💾 Database: {'✅ Connected' if supabase else '❌ Disconnected'}")
+    print(f"💾 Database: Supabase")
     print(f"🔌 API: Groq")
-    print(f"🌐 URL: https://qucokskbztplocavbxmu.supabase.co")
+    print(f"🌐 Supabase URL: {SUPABASE_URL}")
     print("=" * 70)
     
-    # Use environment variable for port
-    port = int(os.environ.get('PORT', 8000))
-    host = '0.0.0.0' if 'RENDER' in os.environ else '127.0.0.1'
-    
-    app.run(
-        host=host,
-        port=port,
-        debug=('RENDER' not in os.environ)
-    )
+    # Test database connection
+    try:
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}'
+        }
+        test_response = requests.get(
+            f'{SUPABASE_URL}/rest/v1/chat_history?select=id&limit=1',
+            headers=headers,
+            timeout=5
+       
