@@ -26,16 +26,19 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================
-# SUPABASE CONFIGURATION
+# SUPABASE CONFIGURATION - LOAD FROM ENVIRONMENT
 # ============================================
-SUPABASE_URL = "https://qucokskbztplocavbxmu.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1Y29rc2tienRwbG9jYXZieG11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2ODE1MDUsImV4cCI6MjA4NjI1NzUwNX0.K4BLzPPNmSLZEwMN6UIxTVWIOdvhx0Op3wDSPBRKRLc"
+SUPABASE_URL = os.environ.get('SUPABASE_URL', '')
+SUPABASE_KEY = os.environ.get('SUPABASE_KEY', '')
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    logger.warning("⚠️ Supabase credentials not set in environment variables!")
 
 # ============================================
 # GROQ CONFIGURATION
 # ============================================
 CONFIG = {
-    'API_KEY': os.environ.get('GROQ_API_KEY', 'PUT_YOUR_GROQ_KEY_HERE'),
+    'API_KEY': os.environ.get('GROQ_API_KEY', ''),
     'API_URL': 'https://api.groq.com/openai/v1/chat/completions',
     'MODEL': 'llama-3.3-70b-versatile',
     'DEFAULT_TEMPERATURE': 0.7,
@@ -58,6 +61,10 @@ PERSONALITIES = {
 def save_to_database(session_id, user_message, bot_reply, personality):
     """Save conversation to Supabase using direct HTTP"""
     try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            logger.error("❌ Supabase credentials missing")
+            return False
+            
         headers = {
             'apikey': SUPABASE_KEY,
             'Authorization': f'Bearer {SUPABASE_KEY}',
@@ -84,7 +91,7 @@ def save_to_database(session_id, user_message, bot_reply, personality):
             logger.info(f"💾 Saved to database: Session {session_id[:8]}")
             return True
         else:
-            logger.error(f"❌ Database save failed: {response.status_code} - {response.text}")
+            logger.error(f"❌ Database save failed: {response.status_code}")
             return False
             
     except Exception as e:
@@ -94,6 +101,9 @@ def save_to_database(session_id, user_message, bot_reply, personality):
 def get_chat_history(session_id):
     """Get chat history from database for a session"""
     try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return []
+            
         headers = {
             'apikey': SUPABASE_KEY,
             'Authorization': f'Bearer {SUPABASE_KEY}'
@@ -108,7 +118,6 @@ def get_chat_history(session_id):
         if response.status_code == 200:
             return response.json()
         else:
-            logger.error(f"History fetch failed: {response.status_code}")
             return []
             
     except Exception as e:
@@ -118,6 +127,9 @@ def get_chat_history(session_id):
 def clear_database_history(session_id):
     """Clear chat history from database for a session"""
     try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return False
+            
         headers = {
             'apikey': SUPABASE_KEY,
             'Authorization': f'Bearer {SUPABASE_KEY}',
@@ -134,12 +146,146 @@ def clear_database_history(session_id):
             logger.info(f"🗑️ Cleared database history for session {session_id[:8]}")
             return True
         else:
-            logger.error(f"Clear failed: {response.status_code}")
             return False
             
     except Exception as e:
         logger.error(f"Clear error: {str(e)}")
         return False
+
+# ============================================
+# AUTHENTICATION ROUTES (SUPABASE AUTH)
+# ============================================
+
+@app.route('/auth/signup', methods=['POST'])
+def signup():
+    """Register new user"""
+    try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return jsonify({'error': 'Supabase not configured'}), 500
+            
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+        
+        if not email or not password:
+            return jsonify({'error': 'Email and password required'}), 400
+        
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}',
+            'Content-Type': 'application/json'
+        }
+        
+        payload = {
+            'email': email,
+            'password': password,
+            'email_confirm': True  # Auto-confirm since we disabled email confirmation
+        }
+        
+        response = requests.post(
+            f'{SUPABASE_URL}/auth/v1/signup',
+            headers=headers,
+            json=payload
+        )
+        
+        return jsonify(response.json()), response.status_code
+        
+    except Exception as e:
+        logger.error(f"Signup error: {str(e)}")
+        return jsonify({'error': 'Signup failed'}), 500
+
+
+@app.route('/auth/login', methods=['POST'])
+def login():
+    """Login existing user"""
+    try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return jsonify({'error': 'Supabase not configured'}), 500
+            
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+        
+        if not email or not password:
+            return jsonify({'error': 'Email and password required'}), 400
+        
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}',
+            'Content-Type': 'application/json'
+        }
+        
+        payload = {
+            'email': email,
+            'password': password
+        }
+        
+        response = requests.post(
+            f'{SUPABASE_URL}/auth/v1/token?grant_type=password',
+            headers=headers,
+            json=payload
+        )
+        
+        return jsonify(response.json()), response.status_code
+        
+    except Exception as e:
+        logger.error(f"Login error: {str(e)}")
+        return jsonify({'error': 'Login failed'}), 500
+
+
+@app.route('/auth/user', methods=['GET'])
+def get_user():
+    """Get current user from token"""
+    try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return jsonify({'user': None}), 200
+            
+        auth_header = request.headers.get('Authorization', '')
+        
+        if not auth_header:
+            return jsonify({'user': None}), 200
+        
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': auth_header
+        }
+        
+        response = requests.get(
+            f'{SUPABASE_URL}/auth/v1/user',
+            headers=headers
+        )
+        
+        return jsonify(response.json()), response.status_code
+        
+    except Exception as e:
+        logger.error(f"Get user error: {str(e)}")
+        return jsonify({'error': 'Failed to get user'}), 500
+
+
+@app.route('/auth/logout', methods=['POST'])
+def logout():
+    """Logout user"""
+    try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return jsonify({'error': 'Supabase not configured'}), 500
+            
+        auth_header = request.headers.get('Authorization', '')
+        
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': auth_header
+        }
+        
+        response = requests.post(
+            f'{SUPABASE_URL}/auth/v1/logout',
+            headers=headers
+        )
+        
+        return jsonify({'success': True}), response.status_code
+        
+    except Exception as e:
+        logger.error(f"Logout error: {str(e)}")
+        return jsonify({'error': 'Logout failed'}), 500
 
 # ============================================
 # ROUTES
@@ -155,8 +301,9 @@ def health_check():
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
         'model': CONFIG['MODEL'],
-        'api_configured': CONFIG['API_KEY'] != 'PUT_YOUR_GROQ_KEY_HERE',
-        'database': 'Supabase connected',
+        'api_configured': bool(CONFIG['API_KEY']),
+        'database': 'connected' if SUPABASE_KEY and SUPABASE_URL else 'disconnected',
+        'auth': 'enabled',
         'deployment': 'Render Ready'
     })
 
@@ -164,6 +311,9 @@ def health_check():
 def test_db():
     """Test if database is working"""
     try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return jsonify({'error': 'Supabase not configured'}), 500
+            
         headers = {
             'apikey': SUPABASE_KEY,
             'Authorization': f'Bearer {SUPABASE_KEY}'
@@ -185,41 +335,30 @@ def test_db():
         )
         
         if insert_response.status_code in [200, 201]:
-            # Now count rows
-            count_response = requests.get(
-                f'{SUPABASE_URL}/rest/v1/chat_history?select=id',
-                headers=headers,
-                timeout=5
-            )
-            
-            row_count = len(count_response.json()) if count_response.status_code == 200 else 0
-            
             return jsonify({
                 'status': 'connected',
                 'message': 'Database is working!',
-                'insert_status': insert_response.status_code,
-                'row_count': row_count,
-                'url': SUPABASE_URL
+                'insert_status': insert_response.status_code
             })
         else:
             return jsonify({
                 'status': 'failed',
-                'message': f'Insert failed: {insert_response.status_code}',
-                'error': insert_response.text[:200],
-                'url': SUPABASE_URL
+                'message': f'Insert failed: {insert_response.status_code}'
             }), 500
             
     except Exception as e:
         return jsonify({
             'status': 'failed',
-            'error': str(e),
-            'url': SUPABASE_URL
+            'error': str(e)
         }), 500
 
 @app.route('/stats', methods=['GET'])
 def get_stats():
     """Get database statistics"""
     try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return jsonify({'error': 'Supabase not configured'}), 500
+            
         headers = {
             'apikey': SUPABASE_KEY,
             'Authorization': f'Bearer {SUPABASE_KEY}'
@@ -236,22 +375,8 @@ def get_stats():
             data = count_response.json()
             total_messages = len(data)
             
-            # Get unique sessions
-            sessions_response = requests.get(
-                f'{SUPABASE_URL}/rest/v1/chat_history?select=session_id',
-                headers=headers,
-                timeout=5
-            )
-            
-            if sessions_response.status_code == 200:
-                sessions_data = sessions_response.json()
-                unique_sessions = len(set(item['session_id'] for item in sessions_data))
-            else:
-                unique_sessions = 0
-            
             return jsonify({
                 'total_messages': total_messages,
-                'unique_sessions': unique_sessions,
                 'database_status': 'connected',
                 'timestamp': datetime.now().isoformat()
             })
@@ -271,7 +396,7 @@ def get_stats():
 def chat():
     try:
         # Validate API key
-        if CONFIG['API_KEY'] == 'PUT_YOUR_GROQ_KEY_HERE':
+        if not CONFIG['API_KEY']:
             return jsonify({'error': 'API key not configured'}), 500
 
         # Parse request
@@ -290,11 +415,11 @@ def chat():
         messages = []
         
         # Add system message based on personality
-        system_prompt = f"You are a {PERSONALITIES.get(personality, 'friendly')}. "
+        system_prompt = f"You are a {PERSONALITIES.get(personality, 'friendly')}. Keep responses concise and helpful."
         messages.append({'role': 'system', 'content': system_prompt})
         
         # Add conversation history (last 5 exchanges)
-        for msg in history[-10:]:  # Last 10 messages (5 exchanges)
+        for msg in history[-10:]:
             messages.append({'role': 'user', 'content': msg['user_message']})
             messages.append({'role': 'assistant', 'content': msg['bot_reply']})
         
@@ -309,7 +434,7 @@ def chat():
         
         payload = {
             'model': CONFIG['MODEL'],
-            'messages': messages[-10:],  # Last 10 messages for context
+            'messages': messages[-10:],
             'temperature': CONFIG['DEFAULT_TEMPERATURE'],
             'max_tokens': CONFIG['DEFAULT_MAX_TOKENS']
         }
@@ -329,11 +454,11 @@ def chat():
             # Save to database
             save_to_database(session_id, user_message, bot_reply, personality)
             
-            logger.info(f"✅ Response saved to database")
+            logger.info(f"✅ Response sent")
             return jsonify([{'generated_text': bot_reply}])
         
         else:
-            error_msg = f'API Error: {response.text}'
+            error_msg = f'API Error: {response.status_code}'
             logger.error(error_msg)
             return jsonify({'error': error_msg}), response.status_code
 
@@ -365,7 +490,6 @@ def clear_chat():
         data = request.json if request.json else {}
         session_id = data.get('session_id', 'default')
         
-        # Clear from database
         success = clear_database_history(session_id)
         
         return jsonify({
@@ -417,32 +541,12 @@ if __name__ == '__main__':
     import os
     
     print("\n" + "=" * 70)
-    print("🤖 P.R.A.I CHATBOT WITH SUPABASE DATABASE")
+    print("🤖 P.R.A.I CHATBOT WITH SUPABASE DATABASE + AUTH")
     print("=" * 70)
     print(f"📊 Model: {CONFIG['MODEL']}")
-    print(f"💾 Database: Supabase")
-    print(f"🔌 API: Groq")
-    print(f"🌐 Supabase URL: {SUPABASE_URL}")
-    print("=" * 70)
-    
-    # Test database connection
-    try:
-        headers = {
-            'apikey': SUPABASE_KEY,
-            'Authorization': f'Bearer {SUPABASE_KEY}'
-        }
-        test_response = requests.get(
-            f'{SUPABASE_URL}/rest/v1/chat_history?select=id&limit=1',
-            headers=headers,
-            timeout=5
-        )
-        if test_response.status_code == 200:
-            print("✅ Database connection test: PASSED")
-        else:
-            print(f"⚠️  Database connection test: HTTP {test_response.status_code}")
-    except Exception as e:
-        print(f"❌ Database connection test: FAILED - {str(e)}")
-    
+    print(f"💾 Database: {'✅ Configured' if SUPABASE_URL and SUPABASE_KEY else '❌ Missing credentials'}")
+    print(f"🔑 Auth: ✅ Enabled")
+    print(f"🔌 API: {'✅ Configured' if CONFIG['API_KEY'] else '❌ Missing API key'}")
     print("=" * 70)
     
     # Use environment variable for port
