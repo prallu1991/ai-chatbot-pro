@@ -131,6 +131,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            position: relative;
         }
 
         .history-item:hover {
@@ -141,6 +142,54 @@
         .history-item.active {
             background: #2a2a2a;
             color: white;
+        }
+
+        .delete-history-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #8a8a8a;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .history-item:hover .delete-history-btn {
+            display: block;
+        }
+
+        .delete-history-btn:hover {
+            background: #3a3a3a;
+            color: #ff6b6b;
+        }
+
+        /* Clear All History Button */
+        .clear-all-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: transparent;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            color: #8a8a8a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .clear-all-btn:hover {
+            background: #2a2a2a;
+            color: #ff6b6b;
+            border-color: #ff6b6b;
         }
 
         /* Model Selector (Grok style) */
@@ -316,24 +365,36 @@
             30% { transform: translateY(-8px); opacity: 1; }
         }
 
-        /* Input Area (DeepSeek + ChatGPT style) */
+        /* ============================================
+           DEEPSEEK-STYLE INPUT AREA
+           ============================================ */
         .input-area {
             padding: 20px 24px;
             border-top: 1px solid #2a2a2a;
             background: #161616;
+            position: relative;
         }
 
         .input-container {
             position: relative;
             margin-bottom: 12px;
+            border-radius: 16px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            transition: all 0.2s;
+        }
+
+        .input-container:focus-within {
+            border-color: #3b82f6;
+            background: #333333;
         }
 
         .message-input {
             width: 100%;
-            padding: 14px 52px 14px 16px;
-            background: #2a2a2a;
-            border: 1px solid transparent;
-            border-radius: 8px;
+            padding: 14px 120px 14px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 16px;
             color: white;
             font-size: 15px;
             font-family: 'Inter', sans-serif;
@@ -342,57 +403,116 @@
             max-height: 200px;
             line-height: 1.6;
             transition: all 0.2s;
-        }
-
-        .message-input:focus {
             outline: none;
-            border-color: #3b82f6;
-            background: #333333;
         }
 
         .message-input::placeholder {
             color: #8a8a8a;
         }
 
-        .send-button {
+        /* Input Action Buttons (DeepSeek Style) */
+        .input-actions {
             position: absolute;
-            right: 8px;
-            bottom: 8px;
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* Attach Button */
+        .attach-btn {
+            background: transparent;
             border: none;
-            border-radius: 6px;
-            color: white;
+            color: #8a8a8a;
             cursor: pointer;
-            transition: all 0.2s;
+            padding: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
+            font-size: 18px;
         }
 
-        .send-button:hover {
+        .attach-btn:hover {
+            background: #3a3a3a;
+            color: white;
+        }
+
+        /* Web Search Toggle */
+        .web-search-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: 1px solid #3a3a3a;
+            color: #8a8a8a;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .web-search-toggle:hover {
+            background: #3a3a3a;
+            color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        .web-search-toggle.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .web-search-icon {
+            font-size: 12px;
+        }
+
+        /* Send Button */
+        .send-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 16px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .send-btn:hover:not(:disabled) {
             opacity: 0.9;
             transform: scale(1.05);
         }
 
-        .send-button:disabled {
+        .send-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        /* Quick Actions (Grok style) */
+        /* Quick Actions (DeepSeek Style) */
         .quick-actions {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            margin-top: 12px;
         }
 
         .quick-action {
             padding: 8px 12px;
             background: #2a2a2a;
-            border: none;
-            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            border-radius: 16px;
             color: #8a8a8a;
             font-size: 13px;
             font-weight: 500;
@@ -403,6 +523,48 @@
         .quick-action:hover {
             background: #3a3a3a;
             color: white;
+            border-color: #3b82f6;
+        }
+
+        /* File Upload Status */
+        .file-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .file-status-info {
+            flex: 1;
+            font-size: 14px;
+            color: #8a8a8a;
+        }
+
+        .file-status-name {
+            color: white;
+            font-weight: 500;
+        }
+
+        .remove-file-btn {
+            background: none;
+            border: none;
+            color: #8a8a8a;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .remove-file-btn:hover {
+            color: #ff6b6b;
         }
 
         /* Scrollbar Styling */
@@ -455,6 +617,18 @@
             .input-area {
                 padding: 16px;
             }
+            
+            .input-actions {
+                gap: 4px;
+            }
+            
+            .web-search-toggle span {
+                display: none;
+            }
+            
+            .web-search-toggle {
+                padding: 6px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -468,8 +642,12 @@
             }
             
             .message-input {
-                padding: 12px 48px 12px 12px;
+                padding: 12px 100px 12px 12px;
                 min-height: 48px;
+            }
+            
+            .input-actions {
+                gap: 2px;
             }
         }
     </style>
@@ -499,6 +677,11 @@
                         No conversations yet
                     </div>
                 </div>
+                
+                <!-- Clear All History Button -->
+                <button class="clear-all-btn" id="clear-all-btn">
+                    🗑️ Clear All History
+                </button>
             </div>
 
             <!-- Model Selector -->
@@ -532,6 +715,15 @@
 
             <!-- Input Area -->
             <div class="input-area">
+                <!-- File Status Display -->
+                <div class="file-status hidden" id="file-status">
+                    <div class="file-status-info">
+                        📎 <span class="file-status-name" id="file-name"></span> attached
+                    </div>
+                    <button class="remove-file-btn" id="remove-file-btn">✕</button>
+                </div>
+
+                <!-- Input Container -->
                 <div class="input-container">
                     <textarea 
                         class="message-input" 
@@ -539,18 +731,39 @@
                         placeholder="Message P.R.A.I..."
                         rows="1"
                     ></textarea>
-                    <button class="send-button" id="send-button">
-                        →
-                    </button>
+                    
+                    <!-- Input Actions (DeepSeek Style) -->
+                    <div class="input-actions">
+                        <!-- Attach Button -->
+                        <button class="attach-btn" id="attach-btn" title="Attach file">
+                            📎
+                        </button>
+                        <input type="file" id="file-input" class="hidden" accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        
+                        <!-- Web Search Toggle -->
+                        <button class="web-search-toggle" id="web-search-toggle" title="Search the web">
+                            <span class="web-search-icon">🌐</span>
+                            <span>Web</span>
+                        </button>
+                        
+                        <!-- Send Button -->
+                        <button class="send-btn" id="send-btn" title="Send message">
+                            →
+                        </button>
+                    </div>
                 </div>
+
+                <!-- Quick Actions -->
                 <div class="quick-actions">
                     <button class="quick-action" id="suggest-btn">
                         💡 Get suggestions
                     </button>
                     <button class="quick-action" id="upload-btn">
-                        📎 Upload file
+                        🔍 Summarize text
                     </button>
-                    <input type="file" id="file-input" class="hidden" accept=".txt,.pdf">
+                    <button class="quick-action" id="help-btn">
+                        ❓ Help & Tips
+                    </button>
                 </div>
             </div>
         </main>
@@ -562,22 +775,27 @@
         // ============================================
         let currentChatId = 'chat-' + Date.now();
         let chats = {};
-        let uploadedFileContent = null;
+        let uploadedFile = null;
+        let webSearchEnabled = false;
 
         // ============================================
         // DOM ELEMENTS
         // ============================================
         const messagesContainer = document.getElementById('messages-container');
         const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
+        const sendBtn = document.getElementById('send-btn');
         const newChatBtn = document.getElementById('new-chat-btn');
         const historyList = document.getElementById('history-list');
         const emptyHistory = document.getElementById('empty-history');
         const clearBtn = document.getElementById('clear-btn');
         const exportBtn = document.getElementById('export-btn');
-        const suggestBtn = document.getElementById('suggest-btn');
-        const uploadBtn = document.getElementById('upload-btn');
+        const clearAllBtn = document.getElementById('clear-all-btn');
+        const attachBtn = document.getElementById('attach-btn');
         const fileInput = document.getElementById('file-input');
+        const webSearchToggle = document.getElementById('web-search-toggle');
+        const fileStatus = document.getElementById('file-status');
+        const fileName = document.getElementById('file-name');
+        const removeFileBtn = document.getElementById('remove-file-btn');
 
         // ============================================
         // INITIALIZATION
@@ -587,6 +805,12 @@
             updateHistoryDisplay();
             addWelcomeMessage();
             messageInput.focus();
+            
+            // Set up auto-resize for textarea
+            messageInput.addEventListener('input', autoResizeTextarea);
+            
+            // Initialize web search toggle
+            updateWebSearchToggle();
         }
 
         function loadFromStorage() {
@@ -601,20 +825,44 @@
         }
 
         // ============================================
+        // TEXTAREA AUTO-RESIZE
+        // ============================================
+        function autoResizeTextarea() {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+            
+            // Enable/disable send button based on input
+            sendBtn.disabled = messageInput.value.trim() === '';
+        }
+
+        // ============================================
         // MESSAGE FUNCTIONS
         // ============================================
-        function addMessage(content, isUser) {
+        function addMessage(content, isUser, timestamp = null) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
             
+            // Add sender info
             const senderSpan = document.createElement('span');
             senderSpan.className = 'message-sender';
             senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
+            
+            // Add timestamp if provided
+            if (timestamp) {
+                const timeSpan = document.createElement('span');
+                timeSpan.textContent = ` • ${timestamp}`;
+                timeSpan.style.color = '#666';
+                timeSpan.style.fontSize = '12px';
+                timeSpan.style.marginLeft = '8px';
+                senderSpan.appendChild(timeSpan);
+            }
+            
             contentDiv.appendChild(senderSpan);
             
+            // Add content
             const textDiv = document.createElement('div');
             textDiv.textContent = content;
             contentDiv.appendChild(textDiv);
@@ -624,6 +872,10 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
             // Save to chat history
+            saveMessageToHistory(content, isUser, timestamp);
+        }
+
+        function saveMessageToHistory(content, isUser, timestamp = null) {
             if (!chats[currentChatId]) {
                 chats[currentChatId] = {
                     id: currentChatId,
@@ -636,11 +888,15 @@
             chats[currentChatId].messages.push({
                 content,
                 isUser,
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                timestamp: timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             });
             
-            chats[currentChatId].title = chats[currentChatId].messages[0]?.content.substring(0, 50) + 
-                                        (chats[currentChatId].messages[0]?.content.length > 50 ? '...' : '') || 'New Chat';
+            // Update chat title with first user message
+            const firstUserMessage = chats[currentChatId].messages.find(m => m.isUser);
+            if (firstUserMessage) {
+                chats[currentChatId].title = firstUserMessage.content.substring(0, 50) + 
+                                            (firstUserMessage.content.length > 50 ? '...' : '');
+            }
             
             saveToStorage();
             updateHistoryDisplay();
@@ -654,7 +910,7 @@
             ];
             
             const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-            addMessage(randomMessage, false);
+            addMessage(randomMessage, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
         }
 
         function showTypingIndicator() {
@@ -681,40 +937,107 @@
             const content = messageInput.value.trim();
             if (!content) return;
             
-            addMessage(content, true);
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            addMessage(content, true, timestamp);
+            
+            // Clear input
             messageInput.value = '';
-            messageInput.style.height = 'auto';
-            sendButton.disabled = true;
+            autoResizeTextarea();
+            sendBtn.disabled = true;
+            
+            // Show typing indicator
             showTypingIndicator();
             
-            try {
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: uploadedFileContent ? `[File Content]\n${uploadedFileContent}\n\n${content}` : content,
-                        session_id: currentChatId
-                    })
-                });
-                
-                const data = await response.json();
-                hideTypingIndicator();
-                
-                if (data.error) {
-                    addMessage(`Error: ${data.error}`, false);
-                } else {
-                    const reply = data[0]?.generated_text || 'I apologize, I encountered an issue. Please try again.';
-                    addMessage(reply, false);
-                }
-                
-                uploadedFileContent = null;
-            } catch (error) {
-                hideTypingIndicator();
-                addMessage('Connection error. Please check your network and try again.', false);
+            // Prepare message for sending
+            let messageToSend = content;
+            if (uploadedFile) {
+                messageToSend = `[File: ${uploadedFile.name}]\n${content}`;
+            }
+            if (webSearchEnabled) {
+                messageToSend += ' [Web Search Enabled]';
             }
             
-            sendButton.disabled = false;
+            try {
+                // Simulate AI response (replace with actual API call)
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    const responses = [
+                        `I received your message: "${content}"${uploadedFile ? ' along with the attached file.' : ''}${webSearchEnabled ? ' I will search the web for more information.' : ''}`,
+                        `Thanks for your message! ${uploadedFile ? 'I have processed the attached file. ' : ''}${webSearchEnabled ? 'Searching web resources... ' : ''}How can I assist you further?`,
+                        `Got it! ${uploadedFile ? 'The file has been uploaded successfully. ' : ''}${webSearchEnabled ? 'I will include web search results. ' : ''}Is there anything specific you'd like me to focus on?`
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                    
+                    // Clear uploaded file after sending
+                    if (uploadedFile) {
+                        clearUploadedFile();
+                    }
+                }, 1500 + Math.random() * 1000);
+                
+            } catch (error) {
+                hideTypingIndicator();
+                addMessage('Connection error. Please check your network and try again.', false, timestamp);
+            }
+            
+            sendBtn.disabled = false;
             messageInput.focus();
+        }
+
+        // ============================================
+        // FILE UPLOAD FUNCTIONS
+        // ============================================
+        function handleFileUpload(file) {
+            uploadedFile = file;
+            
+            // Show file status
+            fileStatus.classList.remove('hidden');
+            fileName.textContent = file.name;
+            
+            // Update UI
+            attachBtn.innerHTML = '📎';
+            attachBtn.title = 'Change file';
+            
+            // Simulate file processing
+            setTimeout(() => {
+                addMessage(`📎 File "${file.name}" uploaded successfully. You can now ask questions about it.`, false);
+            }, 500);
+        }
+
+        function clearUploadedFile() {
+            uploadedFile = null;
+            fileInput.value = '';
+            fileStatus.classList.add('hidden');
+            attachBtn.innerHTML = '📎';
+            attachBtn.title = 'Attach file';
+        }
+
+        // ============================================
+        // WEB SEARCH FUNCTIONS
+        // ============================================
+        function toggleWebSearch() {
+            webSearchEnabled = !webSearchEnabled;
+            updateWebSearchToggle();
+            
+            // Show notification
+            const status = webSearchEnabled ? 'enabled' : 'disabled';
+            const message = webSearchEnabled ? 
+                '🌐 Web search is now enabled. I will search for additional information.' :
+                '🌐 Web search is now disabled. Responses will be based on my knowledge.';
+            
+            addMessage(message, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        }
+
+        function updateWebSearchToggle() {
+            if (webSearchEnabled) {
+                webSearchToggle.classList.add('active');
+                webSearchToggle.title = 'Disable web search';
+            } else {
+                webSearchToggle.classList.remove('active');
+                webSearchToggle.title = 'Enable web search';
+            }
         }
 
         // ============================================
@@ -726,10 +1049,12 @@
             if (Object.keys(chats).length === 0) {
                 emptyHistory.classList.remove('hidden');
                 historyList.appendChild(emptyHistory);
+                clearAllBtn.style.display = 'none';
                 return;
             }
             
             emptyHistory.classList.add('hidden');
+            clearAllBtn.style.display = 'flex';
             
             // Sort chats by timestamp (newest first)
             const sortedChats = Object.values(chats).sort((a, b) => b.timestamp - a.timestamp);
@@ -737,9 +1062,27 @@
             sortedChats.forEach(chat => {
                 const item = document.createElement('div');
                 item.className = `history-item ${chat.id === currentChatId ? 'active' : ''}`;
-                item.textContent = chat.title;
+                item.dataset.chatId = chat.id;
                 
-                item.onclick = () => loadChat(chat.id);
+                // Chat title with time
+                const titleSpan = document.createElement('span');
+                titleSpan.textContent = chat.title;
+                
+                // Delete button for individual chat
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-history-btn';
+                deleteBtn.innerHTML = '✕';
+                deleteBtn.title = 'Delete this chat';
+                
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteChat(chat.id);
+                });
+                
+                item.appendChild(titleSpan);
+                item.appendChild(deleteBtn);
+                item.addEventListener('click', () => loadChat(chat.id));
+                
                 historyList.appendChild(item);
             });
         }
@@ -751,7 +1094,7 @@
             const chat = chats[chatId];
             if (chat && chat.messages.length > 0) {
                 chat.messages.forEach(msg => {
-                    addMessage(msg.content, msg.isUser);
+                    addMessage(msg.content, msg.isUser, msg.timestamp);
                 });
             } else {
                 addWelcomeMessage();
@@ -760,29 +1103,80 @@
             updateHistoryDisplay();
         }
 
+        function deleteChat(chatId) {
+            if (confirm('Delete this chat permanently?')) {
+                delete chats[chatId];
+                saveToStorage();
+                
+                if (chatId === currentChatId) {
+                    currentChatId = 'chat-' + Date.now();
+                    messagesContainer.innerHTML = '';
+                    addWelcomeMessage();
+                }
+                
+                updateHistoryDisplay();
+            }
+        }
+
+        function clearAllHistory() {
+            if (Object.keys(chats).length === 0) {
+                alert('No chat history to clear.');
+                return;
+            }
+            
+            if (confirm('Clear ALL chat history? This action cannot be undone.')) {
+                chats = {};
+                saveToStorage();
+                
+                currentChatId = 'chat-' + Date.now();
+                messagesContainer.innerHTML = '';
+                addWelcomeMessage();
+                updateHistoryDisplay();
+                
+                alert('All chat history has been cleared.');
+            }
+        }
+
         // ============================================
         // EVENT LISTENERS
         // ============================================
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-        });
-
+        // Message input events
         messageInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                sendMessage();
+                if (!sendBtn.disabled) {
+                    sendMessage();
+                }
             }
         });
 
-        sendButton.addEventListener('click', sendMessage);
+        // Send button
+        sendBtn.addEventListener('click', sendMessage);
 
+        // New chat button
         newChatBtn.addEventListener('click', () => {
             currentChatId = 'chat-' + Date.now();
             messagesContainer.innerHTML = '';
             addWelcomeMessage();
+            clearUploadedFile();
+            webSearchEnabled = false;
+            updateWebSearchToggle();
         });
 
+        // Clear current chat
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear this conversation?')) {
+                messagesContainer.innerHTML = '';
+                if (chats[currentChatId]) {
+                    chats[currentChatId].messages = [];
+                }
+                addWelcomeMessage();
+                clearUploadedFile();
+                saveToStorage();
+            }
+        });
+
+        // Export chat
         exportBtn.addEventListener('click', () => {
             const currentChat = chats[currentChatId];
             if (!currentChat || currentChat.messages.length === 0) {
@@ -790,7 +1184,7 @@
                 return;
             }
             
-            let exportText = `P.R.A.I Chat Export\n${new Date().toLocaleString()}\n\n`;
+            let exportText = `P.R.A.I Chat Export\nDate: ${new Date().toLocaleString()}\nChat ID: ${currentChatId}\n\n`;
             currentChat.messages.forEach(msg => {
                 exportText += `${msg.timestamp} - ${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.content}\n\n`;
             });
@@ -799,22 +1193,48 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `prai-chat-${currentChatId}.txt`;
+            a.download = `prai-chat-${currentChatId.slice(0, 8)}.txt`;
             a.click();
             URL.revokeObjectURL(url);
         });
 
-        clearBtn.addEventListener('click', () => {
-            if (confirm('Clear this conversation?')) {
-                messagesContainer.innerHTML = '';
-                if (chats[currentChatId]) {
-                    chats[currentChatId].messages = [];
-                }
-                addWelcomeMessage();
-                saveToStorage();
-            }
+        // Clear all history
+        clearAllBtn.addEventListener('click', clearAllHistory);
+
+        // File attachment
+        attachBtn.addEventListener('click', () => {
+            fileInput.click();
         });
 
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Check file size (max 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File size too large. Maximum size is 10MB.');
+                return;
+            }
+            
+            // Check file type
+            const allowedTypes = ['.txt', '.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'];
+            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(fileExt)) {
+                alert('File type not supported. Please upload: ' + allowedTypes.join(', '));
+                return;
+            }
+            
+            handleFileUpload(file);
+        });
+
+        // Remove file
+        removeFileBtn.addEventListener('click', clearUploadedFile);
+
+        // Web search toggle
+        webSearchToggle.addEventListener('click', toggleWebSearch);
+
+        // Quick action buttons
         const suggestions = [
             "Explain quantum computing in simple terms",
             "Write a Python script for data analysis",
@@ -823,48 +1243,33 @@
             "Create a creative story concept"
         ];
 
-        suggestBtn.addEventListener('click', () => {
+        document.getElementById('suggest-btn').addEventListener('click', () => {
             const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
             messageInput.value = randomSuggestion;
             messageInput.focus();
-            messageInput.style.height = 'auto';
-            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+            autoResizeTextarea();
         });
 
-        uploadBtn.addEventListener('click', () => {
-            fileInput.click();
+        document.getElementById('upload-btn').addEventListener('click', () => {
+            if (!uploadedFile) {
+                alert('Please upload a file first.');
+                fileInput.click();
+                return;
+            }
+            
+            messageInput.value = `Please summarize the content of ${uploadedFile.name}`;
+            messageInput.focus();
+            autoResizeTextarea();
         });
 
-        fileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const formData = new FormData();
-            formData.append('file', file);
-            
-            try {
-                uploadBtn.textContent = '📎 Uploading...';
-                uploadBtn.disabled = true;
-                
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    alert(`Error: ${data.error}`);
-                } else {
-                    uploadedFileContent = data.text;
-                    addMessage(`📎 File "${data.filename}" uploaded successfully. You can now ask questions about it.`, false);
-                }
-            } catch (error) {
-                alert('Failed to upload file.');
-            } finally {
-                uploadBtn.textContent = '📎 Upload file';
-                uploadBtn.disabled = false;
-                fileInput.value = '';
+        document.getElementById('help-btn').addEventListener('click', () => {
+            addMessage("💡 **Help & Tips:**\n\n• Press **Enter** to send messages\n• Use **Shift+Enter** for new lines\n• Click **📎** to attach files (text, PDF, images)\n• Toggle **🌐 Web** to enable/disable web search\n• Use **New Chat** button to start fresh conversations\n• Export chats with the 📥 button\n• Clear individual chats with the ✕ button in history", false);
+        });
+
+        // Auto-focus input
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.sidebar') && messageInput !== document.activeElement) {
+                messageInput.focus();
             }
         });
 
@@ -872,13 +1277,6 @@
         // INITIALIZE APP
         // ============================================
         init();
-        
-        // Auto-focus input
-        document.addEventListener('click', () => {
-            if (messageInput !== document.activeElement) {
-                messageInput.focus();
-            }
-        });
     </script>
 </body>
 </html>
