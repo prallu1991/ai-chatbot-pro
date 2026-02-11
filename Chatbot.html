@@ -32,7 +32,7 @@
         }
 
         /* ============================================
-           SIDEBAR (Inspired by ClaudeAI + DeepSeek)
+           SIDEBAR
            ============================================ */
         .sidebar {
             width: 260px;
@@ -43,7 +43,7 @@
             padding: 20px;
         }
 
-        /* Logo - Simple & Elegant */
+        /* Logo */
         .logo {
             display: flex;
             align-items: center;
@@ -74,7 +74,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* New Chat Button (ChatGPT style) */
+        /* New Chat Button */
         .new-chat-btn {
             width: 100%;
             padding: 12px 16px;
@@ -98,7 +98,7 @@
             transform: translateY(-1px);
         }
 
-        /* History (DeepSeek style) */
+        /* History */
         .history-section {
             flex: 1;
             overflow-y: auto;
@@ -192,7 +192,7 @@
             border-color: #ff6b6b;
         }
 
-        /* Model Selector (Grok style) */
+        /* Model Selector */
         .model-selector {
             margin-top: auto;
             padding-top: 20px;
@@ -230,7 +230,7 @@
         }
 
         /* ============================================
-           MAIN CHAT AREA (ChatGPT + DeepSeek style)
+           MAIN CHAT AREA
            ============================================ */
         .chat-area {
             flex: 1;
@@ -240,7 +240,7 @@
             position: relative;
         }
 
-        /* Chat Header (Simple & Clean) */
+        /* Chat Header */
         .chat-header {
             padding: 20px 24px;
             border-bottom: 1px solid #2a2a2a;
@@ -280,7 +280,7 @@
             color: white;
         }
 
-        /* Messages Container (ClaudeAI style) */
+        /* Messages Container */
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -290,7 +290,7 @@
             gap: 24px;
         }
 
-        /* Message (Clean & Readable) */
+        /* Message */
         .message {
             max-width: 80%;
             animation: fadeIn 0.3s ease;
@@ -337,7 +337,7 @@
             color: #8a8a8a;
         }
 
-        /* Copy button for AI messages */
+        /* Copy button */
         .copy-btn {
             margin-top: 8px;
             padding: 6px 12px;
@@ -359,7 +359,7 @@
             color: white;
         }
 
-        /* Typing Indicator (All AI style) */
+        /* Typing Indicator */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -388,7 +388,7 @@
         }
 
         /* ============================================
-           DEEPSEEK-STYLE INPUT AREA
+           INPUT AREA
            ============================================ */
         .input-area {
             padding: 20px 24px;
@@ -432,7 +432,7 @@
             color: #8a8a8a;
         }
 
-        /* Input Action Buttons (DeepSeek Style) */
+        /* Input Action Buttons */
         .input-actions {
             position: absolute;
             right: 12px;
@@ -490,7 +490,7 @@
             cursor: not-allowed;
         }
 
-        /* Quick Actions (DeepSeek Style) */
+        /* Quick Actions */
         .quick-actions {
             display: flex;
             gap: 8px;
@@ -670,7 +670,7 @@
             <div class="model-selector">
                 <span class="model-label">Model</span>
                 <div>
-                    <span class="model-badge active">P.R.A.I 1.0</span>
+                    <span class="model-badge active" id="model-badge">P.R.A.I 1.0</span>
                 </div>
             </div>
         </aside>
@@ -744,6 +744,16 @@
 
     <script>
         // ============================================
+        // CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            API_ENDPOINT: '/chat', // Change this to your actual API endpoint
+            ENABLE_MOCK_API: true, // Set to false when using real API
+            MAX_FILE_SIZE: 5 * 1024 * 1024, // 5MB
+            MAX_MESSAGES_PER_CHAT: 100
+        };
+
+        // ============================================
         // STATE MANAGEMENT
         // ============================================
         let currentChatId = 'chat-' + Date.now();
@@ -768,6 +778,33 @@
         const fileStatus = document.getElementById('file-status');
         const fileName = document.getElementById('file-name');
         const removeFileBtn = document.getElementById('remove-file-btn');
+        const modelBadge = document.getElementById('model-badge');
+
+        // ============================================
+        // MOCK API RESPONSES (Fallback if no real API)
+        // ============================================
+        const mockResponses = {
+            greetings: [
+                "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?",
+                "Hi there! I'm here to assist you. What would you like to know?",
+                "Welcome! I'm P.R.A.I, ready to help with your questions and tasks."
+            ],
+            general: [
+                "I understand. Let me help you with that.",
+                "That's an interesting question. Here's what I think about it.",
+                "Thanks for sharing. Based on my knowledge, here's the information you need."
+            ],
+            file_related: [
+                "I've analyzed the file content. Based on what I see, here's my response.",
+                "The file provides useful context. Here's how I can assist with your question.",
+                "With the file content in mind, I can better address your query."
+            ],
+            fallback: [
+                "I'm not sure I understand. Could you provide more details?",
+                "That's an interesting point. Could you rephrase your question?",
+                "I want to make sure I give you the best answer. Could you clarify?"
+            ]
+        };
 
         // ============================================
         // INITIALIZATION
@@ -776,21 +813,70 @@
             loadFromStorage();
             updateHistoryDisplay();
             addWelcomeMessage();
+            setupEventListeners();
             messageInput.focus();
-            
-            // Set up auto-resize for textarea
-            messageInput.addEventListener('input', autoResizeTextarea);
         }
 
         function loadFromStorage() {
-            const savedChats = localStorage.getItem('praiChats');
-            if (savedChats) {
-                chats = JSON.parse(savedChats);
+            try {
+                const savedChats = localStorage.getItem('praiChats');
+                if (savedChats) {
+                    chats = JSON.parse(savedChats);
+                }
+            } catch (error) {
+                console.error('Error loading chats:', error);
+                chats = {};
             }
         }
 
         function saveToStorage() {
-            localStorage.setItem('praiChats', JSON.stringify(chats));
+            try {
+                localStorage.setItem('praiChats', JSON.stringify(chats));
+            } catch (error) {
+                console.error('Error saving chats:', error);
+            }
+        }
+
+        // ============================================
+        // EVENT LISTENERS SETUP
+        // ============================================
+        function setupEventListeners() {
+            // Auto-resize textarea
+            messageInput.addEventListener('input', autoResizeTextarea);
+            
+            // Send message on Enter (without Shift)
+            messageInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!sendBtn.disabled) {
+                        sendMessage();
+                    }
+                }
+            });
+
+            // Send button
+            sendBtn.addEventListener('click', sendMessage);
+
+            // New chat button
+            newChatBtn.addEventListener('click', createNewChat);
+
+            // Clear current chat
+            clearBtn.addEventListener('click', clearCurrentChat);
+
+            // Export chat
+            exportBtn.addEventListener('click', exportChat);
+
+            // Clear all history
+            clearAllBtn.addEventListener('click', clearAllHistory);
+
+            // File attachment
+            attachBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
+            removeFileBtn.addEventListener('click', clearUploadedFile);
+
+            // Quick actions
+            document.getElementById('suggest-btn').addEventListener('click', showSuggestions);
+            document.getElementById('help-btn').addEventListener('click', showHelp);
         }
 
         // ============================================
@@ -799,8 +885,6 @@
         function autoResizeTextarea() {
             messageInput.style.height = 'auto';
             messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
-            
-            // Enable/disable send button based on input
             sendBtn.disabled = messageInput.value.trim() === '';
         }
 
@@ -819,15 +903,17 @@
             senderSpan.className = 'message-sender';
             senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
             
-            // Add timestamp if provided
-            if (timestamp) {
-                const timeSpan = document.createElement('span');
-                timeSpan.textContent = ` • ${timestamp}`;
-                timeSpan.style.color = '#666';
-                timeSpan.style.fontSize = '12px';
-                timeSpan.style.marginLeft = '8px';
-                senderSpan.appendChild(timeSpan);
-            }
+            // Add timestamp
+            const time = timestamp || new Date().toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            const timeSpan = document.createElement('span');
+            timeSpan.textContent = ` • ${time}`;
+            timeSpan.style.color = '#666';
+            timeSpan.style.fontSize = '12px';
+            timeSpan.style.marginLeft = '8px';
+            senderSpan.appendChild(timeSpan);
             
             contentDiv.appendChild(senderSpan);
             
@@ -845,6 +931,10 @@
                     navigator.clipboard.writeText(content).then(() => {
                         copyBtn.innerHTML = '✓ Copied!';
                         setTimeout(() => copyBtn.innerHTML = '📋 Copy', 2000);
+                    }).catch(err => {
+                        console.error('Copy failed:', err);
+                        copyBtn.innerHTML = '❌ Error';
+                        setTimeout(() => copyBtn.innerHTML = '📋 Copy', 2000);
                     });
                 };
                 contentDiv.appendChild(copyBtn);
@@ -855,14 +945,14 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
             // Save to chat history
-            saveMessageToHistory(content, isUser, timestamp);
+            saveMessageToHistory(content, isUser, time);
         }
 
-        function saveMessageToHistory(content, isUser, timestamp = null) {
+        function saveMessageToHistory(content, isUser, timestamp) {
             if (!chats[currentChatId]) {
                 chats[currentChatId] = {
                     id: currentChatId,
-                    title: content.substring(0, 50) + (content.length > 50 ? '...' : ''),
+                    title: isUser ? content.substring(0, 50) + (content.length > 50 ? '...' : '') : 'New Chat',
                     messages: [],
                     timestamp: Date.now()
                 };
@@ -871,29 +961,29 @@
             chats[currentChatId].messages.push({
                 content,
                 isUser,
-                timestamp: timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                timestamp
             });
             
             // Update chat title with first user message
-            const firstUserMessage = chats[currentChatId].messages.find(m => m.isUser);
-            if (firstUserMessage) {
-                chats[currentChatId].title = firstUserMessage.content.substring(0, 50) + 
-                                            (firstUserMessage.content.length > 50 ? '...' : '');
+            if (isUser && chats[currentChatId].messages.filter(m => m.isUser).length === 1) {
+                chats[currentChatId].title = content.substring(0, 50) + (content.length > 50 ? '...' : '');
             }
             
+            // Limit messages per chat
+            if (chats[currentChatId].messages.length > CONFIG.MAX_MESSAGES_PER_CHAT) {
+                chats[currentChatId].messages = chats[currentChatId].messages.slice(-CONFIG.MAX_MESSAGES_PER_CHAT);
+            }
+            
+            chats[currentChatId].timestamp = Date.now();
             saveToStorage();
             updateHistoryDisplay();
         }
 
         function addWelcomeMessage() {
-            const welcomeMessages = [
-                "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?",
-                "Welcome to P.R.A.I. I'm here to assist with any questions or tasks you have.",
-                "Hi there! I'm P.R.A.I, ready to help. What would you like to discuss?"
+            const welcomeMessage = mockResponses.greetings[
+                Math.floor(Math.random() * mockResponses.greetings.length)
             ];
-            
-            const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-            addMessage(randomMessage, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), true);
+            addMessage(welcomeMessage, false, null, true);
         }
 
         function showTypingIndicator() {
@@ -916,11 +1006,16 @@
             if (indicator) indicator.remove();
         }
 
+        // ============================================
+        // CHAT FUNCTIONS
+        // ============================================
         async function sendMessage() {
             const content = messageInput.value.trim();
             if (!content) return;
             
             const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Add user message
             addMessage(content, true, timestamp);
             
             // Clear input
@@ -931,28 +1026,163 @@
             // Show typing indicator
             showTypingIndicator();
             
-            // Prepare message for sending
-            let messageToSend = content;
-            if (uploadedFileContent) {
-                messageToSend = `[Uploaded File Content]\n${uploadedFileContent}\n\n[User Question]\n${content}`;
+            try {
+                let botReply;
+                
+                if (!CONFIG.ENABLE_MOCK_API) {
+                    // Real API call
+                    const response = await fetch(CONFIG.API_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: content,
+                            file_content: uploadedFileContent,
+                            chat_id: currentChatId
+                        }),
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    
+                    botReply = data.response || data.message || 'I received your message.';
+                } else {
+                    // Mock API response
+                    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+                    
+                    const responses = uploadedFileContent 
+                        ? mockResponses.file_related
+                        : content.toLowerCase().includes('hello') || content.toLowerCase().includes('hi')
+                            ? mockResponses.greetings
+                            : mockResponses.general;
+                    
+                    botReply = responses[Math.floor(Math.random() * responses.length)];
+                    
+                    if (uploadedFileContent) {
+                        botReply += ` I've processed the uploaded file with ${uploadedFileContent.length} characters of content.`;
+                    }
+                    
+                    // Add some context to the response
+                    botReply += ` You asked: "${content.substring(0, 50)}${content.length > 50 ? '...' : ''}"`;
+                }
+                
+                hideTypingIndicator();
+                addMessage(botReply, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), true);
+                
+                // Clear uploaded file after successful response
+                if (uploadedFileContent) {
+                    clearUploadedFile();
+                }
+                
+            } catch (error) {
+                hideTypingIndicator();
+                console.error('Chat error:', error);
+                
+                // Fallback response
+                const fallbackResponse = mockResponses.fallback[
+                    Math.floor(Math.random() * mockResponses.fallback.length)
+                ] + ` (Error: ${error.message || 'Connection issue'})`;
+                
+                addMessage(fallbackResponse, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), true);
+                
+                // Don't clear file if there was an error
+                if (uploadedFileContent) {
+                    addMessage("Note: The file is still attached. You can try again or ask a different question.", false);
+                }
+            }
+            
+            sendBtn.disabled = false;
+            messageInput.focus();
+        }
+
+        // ============================================
+        // FILE HANDLING
+        // ============================================
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Check file size
+            if (file.size > CONFIG.MAX_FILE_SIZE) {
+                alert('File size too large. Maximum size is 5MB.');
+                return;
+            }
+            
+            // Check file type
+            const allowedTypes = ['.txt', '.pdf', '.doc', '.docx'];
+            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(fileExt)) {
+                alert('File type not supported. Please upload: ' + allowedTypes.join(', '));
+                return;
             }
             
             try {
-                // Call the backend API (same endpoint as V.1)
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: messageToSend,
-                        session_id: currentChatId
-                    }),
-                });
-
-                const data = await response.json();
-                hideTypingIndicator();
-
-                if (data.error) {
-                    addMessage('⚠️ Error: ' + data.error, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), false);
+                // For text files, read content
+                if (file.type.startsWith('text/') || fileExt === '.txt') {
+                    const text = await file.text();
+                    uploadedFileContent = text.substring(0, 10000); // Limit to 10k chars
+                    
+                    // Show file status
+                    uploadedFile = file;
+                    fileStatus.classList.remove('hidden');
+                    fileName.textContent = `${file.name} (${uploadedFileContent.length} chars)`;
+                    
+                    addMessage(`📎 File "${file.name}" uploaded successfully. I can now answer questions based on its content.`, false);
                 } else {
-                    const botReply = data[0]?.generated_text || data.response || 'I apologize, I didn\'t understand that.';
-                    addMessage(bot
+                    // For other files, just note the upload
+                    uploadedFile = file;
+                    uploadedFileContent = `[File: ${file.name}, Type: ${file.type || 'unknown'}, Size: ${file.size} bytes]`;
+                    
+                    fileStatus.classList.remove('hidden');
+                    fileName.textContent = file.name;
+                    
+                    addMessage(`📎 File "${file.name}" uploaded. Note: For detailed analysis, please upload .txt files.`, false);
+                }
+                
+            } catch (error) {
+                console.error('File upload error:', error);
+                addMessage(`❌ Error uploading file: ${error.message}`, false);
+                clearUploadedFile();
+            }
+        }
+
+        function clearUploadedFile() {
+            uploadedFile = null;
+            uploadedFileContent = null;
+            fileInput.value = '';
+            fileStatus.classList.add('hidden');
+        }
+
+        // ============================================
+        // HISTORY MANAGEMENT
+        // ============================================
+        function updateHistoryDisplay() {
+            historyList.innerHTML = '';
+            
+            if (Object.keys(chats).length === 0) {
+                emptyHistory.classList.remove('hidden');
+                historyList.appendChild(emptyHistory);
+                clearAllBtn.style.display = 'none';
+                return;
+            }
+            
+            emptyHistory.classList.add('hidden');
+            clearAllBtn.style.display = 'flex';
+            
+            // Sort chats by timestamp (newest first)
+            const sortedChats = Object.values(chats).sort((a, b) => b.timestamp - a.timestamp);
+            
+            sortedChats.forEach(chat => {
+                const item = document.createElement('div');
+                item.className = `history-item ${chat.id === currentChatId ? 'active' : ''}`;
+                item.dataset.chatId = chat.id;
+                
+                // Chat title with time
+                const titleSpan = document.createElement('span');
+                titleSpan.textContent = chat.title;
+                
+                // Delete button for individual chat
+               
