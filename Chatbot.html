@@ -95,7 +95,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* New Chat Button (ChatGPT style) */
+        /* New Chat Button */
         .new-chat-btn {
             width: 100%;
             padding: 12px 16px;
@@ -119,7 +119,7 @@
             transform: translateY(-1px);
         }
 
-        /* History (DeepSeek style) */
+        /* History Section */
         .history-section {
             flex: 1;
             overflow-y: auto;
@@ -218,7 +218,7 @@
             border-color: #999999;
         }
 
-        /* Model Selector (Grok style) */
+        /* Model Selector */
         .model-selector {
             margin-top: auto;
             padding-top: 20px;
@@ -366,7 +366,7 @@
         }
 
         /* ============================================
-           MAIN CHAT AREA (ChatGPT + DeepSeek style)
+           MAIN CHAT AREA
            ============================================ */
         .chat-area {
             flex: 1;
@@ -381,7 +381,7 @@
             background: #f5f5f7;
         }
 
-        /* Chat Header (Simple & Clean) */
+        /* Chat Header */
         .chat-header {
             padding: 20px 24px;
             border-bottom: 1px solid #2a2a2a;
@@ -441,7 +441,7 @@
             color: #333333;
         }
 
-        /* Messages Container (ClaudeAI style) */
+        /* Messages Container */
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -451,7 +451,7 @@
             gap: 24px;
         }
 
-        /* Message (Clean & Readable) */
+        /* Message */
         .message {
             max-width: 80%;
             animation: fadeIn 0.3s ease;
@@ -508,7 +508,7 @@
             color: #666666;
         }
 
-        /* Typing Indicator (All AI style) */
+        /* Typing Indicator */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -545,7 +545,7 @@
             30% { transform: translateY(-8px); opacity: 1; }
         }
 
-        /* Input Area (DeepSeek + ChatGPT style) */
+        /* Input Area */
         .input-area {
             padding: 20px 24px;
             border-top: 1px solid #2a2a2a;
@@ -603,7 +603,7 @@
             color: #999999;
         }
 
-        /* Input Actions Container */
+        /* Input Actions */
         .input-actions {
             position: absolute;
             right: 8px;
@@ -685,7 +685,7 @@
             cursor: not-allowed;
         }
 
-        /* Quick Actions (Grok style) */
+        /* Quick Actions */
         .quick-actions {
             display: flex;
             gap: 8px;
@@ -750,9 +750,7 @@
             display: none;
         }
 
-        /* ============================================
-           RESPONSIVE DESIGN
-           ============================================ */
+        /* Responsive Design */
         @media (max-width: 768px) {
             .app {
                 flex-direction: column;
@@ -871,12 +869,9 @@
             <div class="chat-header">
                 <div class="chat-title">P.R.A.I Assistant</div>
                 <div class="header-actions">
-                    <button class="header-btn" id="clear-btn" title="Clear Chat">
-                        🗑️
-                    </button>
-                    <button class="header-btn" id="export-btn" title="Export">
-                        📥
-                    </button>
+                    <button class="header-btn" id="auth-btn" title="Login/Signup">👤</button>
+                    <button class="header-btn" id="clear-btn" title="Clear Chat">🗑️</button>
+                    <button class="header-btn" id="export-btn" title="Export">📥</button>
                 </div>
             </div>
 
@@ -916,6 +911,58 @@
         </main>
     </div>
 
+    <!-- Auth Modal -->
+    <div id="auth-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: #1a1a1a; padding: 40px; border-radius: 12px; width: 400px; max-width: 90%;">
+            <h2 style="margin-bottom: 24px; color: white;">Welcome to P.R.A.I</h2>
+            
+            <!-- LOGIN FORM -->
+            <div id="login-form">
+                <input type="email" id="email" placeholder="Email" 
+                       style="width: 100%; padding: 12px; margin-bottom: 16px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 6px; color: white;">
+                <input type="password" id="password" placeholder="Password" 
+                       style="width: 100%; padding: 12px; margin-bottom: 24px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 6px; color: white;">
+                
+                <button onclick="handleLogin()" 
+                        style="width: 100%; padding: 12px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; margin-bottom: 12px;">
+                    Sign In
+                </button>
+                
+                <p style="text-align: center; color: #8a8a8a;">
+                    Don't have an account? 
+                    <button onclick="showSignup()" style="background: none; border: none; color: #3b82f6; cursor: pointer; text-decoration: underline;">
+                        Sign Up
+                    </button>
+                </p>
+                
+                <button onclick="hideAuthModal()" 
+                        style="width: 100%; padding: 8px; background: transparent; border: 1px solid #4a4a4a; border-radius: 6px; color: #8a8a8a; cursor: pointer; margin-top: 8px;">
+                    Close
+                </button>
+            </div>
+            
+            <!-- SIGNUP FORM -->
+            <div id="signup-form" style="display: none;">
+                <input type="email" id="signup-email" placeholder="Email" 
+                       style="width: 100%; padding: 12px; margin-bottom: 16px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 6px; color: white;">
+                <input type="password" id="signup-password" placeholder="Password (min 6 characters)" 
+                       style="width: 100%; padding: 12px; margin-bottom: 24px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 6px; color: white;">
+                
+                <button onclick="handleSignup()" 
+                        style="width: 100%; padding: 12px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; margin-bottom: 12px;">
+                    Create Account
+                </button>
+                
+                <p style="text-align: center; color: #8a8a8a;">
+                    Already have an account? 
+                    <button onclick="showLogin()" style="background: none; border: none; color: #3b82f6; cursor: pointer; text-decoration: underline;">
+                        Sign In
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ============================================
         // STATE MANAGEMENT
@@ -926,6 +973,12 @@
         let isRecording = false;
         let mediaRecorder = null;
         let audioChunks = [];
+        
+        // ============================================
+        // AUTHENTICATION STATE
+        // ============================================
+        let userToken = localStorage.getItem('prai_token');
+        let userEmail = localStorage.getItem('prai_email');
 
         // ============================================
         // DOM ELEMENTS
@@ -959,7 +1012,6 @@
                 document.body.classList.add('dark-mode');
             }
             
-            // Update active button
             themeOptions.forEach(option => {
                 if (option.dataset.theme === theme) {
                     option.classList.add('active');
@@ -968,13 +1020,154 @@
                 }
             });
             
-            // Save to localStorage
             localStorage.setItem('praiTheme', theme);
         }
 
         function loadTheme() {
             const savedTheme = localStorage.getItem('praiTheme') || 'dark';
             setTheme(savedTheme);
+        }
+
+        // ============================================
+        // AUTHENTICATION FUNCTIONS
+        // ============================================
+        function showAuthModal() {
+            document.getElementById('auth-modal').style.display = 'flex';
+            showLogin(); // Default to login form
+        }
+
+        function hideAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('signup-form').style.display = 'none';
+        }
+
+        function showSignup() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+        }
+
+        async function handleSignup() {
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            if (!email || !password) {
+                alert('Email and password required');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('✅ Account created! Please login.');
+                    showLogin();
+                    document.getElementById('email').value = email;
+                } else {
+                    alert('❌ Error: ' + (data.msg || data.error || 'Signup failed'));
+                }
+            } catch (error) {
+                alert('❌ Connection error - please try again');
+            }
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Email and password required');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.access_token) {
+                    userToken = data.access_token;
+                    userEmail = email;
+                    localStorage.setItem('prai_token', userToken);
+                    localStorage.setItem('prai_email', email);
+                    
+                    hideAuthModal();
+                    updateAuthButton();
+                    
+                    addMessage(`✅ Logged in as ${email}`, false);
+                    
+                    // Clear input fields
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                } else {
+                    alert('❌ Error: ' + (data.msg || data.error || 'Login failed'));
+                }
+            } catch (error) {
+                alert('❌ Connection error - please try again');
+            }
+        }
+
+        function logout() {
+            if (confirm('Logout from P.R.A.I?')) {
+                localStorage.removeItem('prai_token');
+                localStorage.removeItem('prai_email');
+                userToken = null;
+                userEmail = null;
+                updateAuthButton();
+                addMessage('👋 Logged out successfully', false);
+            }
+        }
+
+        function updateAuthButton() {
+            const authBtn = document.getElementById('auth-btn');
+            if (userEmail) {
+                const username = userEmail.split('@')[0];
+                authBtn.innerHTML = '👤 ' + username.substring(0, 8) + (username.length > 8 ? '..' : '');
+                authBtn.title = `Logged in as ${userEmail} (click to logout)`;
+                authBtn.onclick = logout;
+            } else {
+                authBtn.innerHTML = '👤';
+                authBtn.title = 'Login / Sign Up';
+                authBtn.onclick = showAuthModal;
+            }
+        }
+
+        async function checkAuthStatus() {
+            if (userToken) {
+                try {
+                    const response = await fetch('/auth/user', {
+                        headers: { 'Authorization': `Bearer ${userToken}` }
+                    });
+                    
+                    if (!response.ok) {
+                        localStorage.removeItem('prai_token');
+                        localStorage.removeItem('prai_email');
+                        userToken = null;
+                        userEmail = null;
+                    }
+                } catch (error) {
+                    console.log('Auth check failed');
+                }
+            }
+            updateAuthButton();
         }
 
         // ============================================
@@ -992,9 +1185,6 @@
 
                 mediaRecorder.onstop = async () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    
-                    // In a real app, you would send this to a speech-to-text API
-                    // For demo purposes, we'll just simulate speech recognition
                     simulateSpeechRecognition();
                 };
 
@@ -1020,7 +1210,6 @@
         }
 
         function simulateSpeechRecognition() {
-            // Simulate processing time
             setTimeout(() => {
                 const sampleTranscripts = [
                     "Hello, how are you today?",
@@ -1054,6 +1243,7 @@
         function init() {
             loadFromStorage();
             loadTheme();
+            checkAuthStatus();
             updateHistoryDisplay();
             addWelcomeMessage();
             messageInput.focus();
@@ -1093,7 +1283,6 @@
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Save to chat history
             if (!chats[currentChatId]) {
                 chats[currentChatId] = {
                     id: currentChatId,
@@ -1160,7 +1349,10 @@
             try {
                 const response = await fetch('/chat', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        ...(userToken && { 'Authorization': `Bearer ${userToken}` })
+                    },
                     body: JSON.stringify({
                         message: uploadedFileContent ? `[File Content]\n${uploadedFileContent}\n\n${content}` : content,
                         session_id: currentChatId
@@ -1201,7 +1393,6 @@
             
             emptyHistory.classList.add('hidden');
             
-            // Sort chats by timestamp (newest first)
             const sortedChats = Object.values(chats).sort((a, b) => b.timestamp - a.timestamp);
             
             sortedChats.forEach(chat => {
@@ -1304,23 +1495,19 @@
 
         clearHistoryBtn.addEventListener('click', clearAllHistory);
 
-        // Theme selection
         themeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 setTheme(option.dataset.theme);
             });
         });
 
-        // Settings button
         settingsBtn.addEventListener('click', () => {
             const isHidden = themeSelector.classList.toggle('hidden');
             settingsBtn.innerHTML = isHidden ? '⚙️ Settings' : '⚙️ Close Settings';
         });
 
-        // Mic button
         micBtn.addEventListener('click', toggleRecording);
 
-        // Upload button
         uploadBtn.addEventListener('click', () => {
             fileInput.click();
         });
@@ -1379,7 +1566,6 @@
         // ============================================
         init();
         
-        // Auto-focus input
         document.addEventListener('click', () => {
             if (messageInput !== document.activeElement) {
                 messageInput.focus();
