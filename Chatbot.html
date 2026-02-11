@@ -181,7 +181,7 @@
         }
 
         /* ============================================
-           MAIN CHAT AREA (ChatGPT + DeepSeek style)
+           MAIN CHAT AREA (DeepSeek Style)
            ============================================ */
         .chat-area {
             flex: 1;
@@ -191,20 +191,24 @@
             position: relative;
         }
 
-        /* Chat Header (Simple & Clean) */
+        /* Chat Header (DeepSeek style) */
         .chat-header {
-            padding: 20px 24px;
+            padding: 16px 24px;
             border-bottom: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: #161616;
+            min-height: 64px;
         }
 
         .chat-title {
             font-size: 16px;
             font-weight: 600;
             color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .header-actions {
@@ -231,19 +235,41 @@
             color: white;
         }
 
-        /* Messages Container (ClaudeAI style) */
+        /* Clear Chat Button (DeepSeek style) */
+        .clear-chat-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid #2a2a2a;
+            border-radius: 6px;
+            color: #8a8a8a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .clear-chat-btn:hover {
+            background: #2a2a2a;
+            color: white;
+            border-color: #3a3a3a;
+        }
+
+        /* Messages Container (DeepSeek style) */
         .messages-container {
             flex: 1;
             overflow-y: auto;
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 24px;
         }
 
-        /* Message (Clean & Readable) */
+        /* Message (DeepSeek style) */
         .message {
-            max-width: 80%;
+            max-width: 85%;
             animation: fadeIn 0.3s ease;
         }
 
@@ -254,50 +280,87 @@
 
         .user-message {
             align-self: flex-end;
+            margin-left: auto;
         }
 
         .bot-message {
             align-self: flex-start;
+            margin-right: auto;
         }
 
+        /* Message content - DeepSeek style */
         .message-content {
             padding: 16px 20px;
             border-radius: 12px;
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.7;
             word-break: break-word;
+            position: relative;
         }
 
+        /* User message - Blue gradient like DeepSeek */
         .user-message .message-content {
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
-            border-bottom-right-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 12px;
+            border-bottom-left-radius: 12px;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
         }
 
+        /* Bot message - Dark background like DeepSeek */
         .bot-message .message-content {
-            background: #2a2a2a;
+            background: #1a1a1a;
             color: #f0f0f0;
-            border-bottom-left-radius: 4px;
+            border: 1px solid #2a2a2a;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
+        /* Message sender label - More subtle like DeepSeek */
         .message-sender {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: #8a8a8a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Typing Indicator (All AI style) */
+        .user-message .message-sender {
+            color: #93c5fd;
+            text-align: right;
+        }
+
+        .bot-message .message-sender {
+            color: #a3a3a3;
+            text-align: left;
+        }
+
+        /* Typing Indicator (DeepSeek style) */
         .typing-indicator {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             padding: 16px 20px;
-            background: #2a2a2a;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
             border-radius: 12px;
-            border-bottom-left-radius: 4px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
             width: fit-content;
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        .typing-text {
+            font-size: 14px;
+            color: #8a8a8a;
+            margin-right: 8px;
         }
 
         .typing-dot {
@@ -313,12 +376,12 @@
 
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-8px); opacity: 1; }
+            30% { transform: translateY(-6px); opacity: 1; }
         }
 
-        /* Input Area (DeepSeek + ChatGPT style) */
+        /* Input Area (DeepSeek style) */
         .input-area {
-            padding: 20px 24px;
+            padding: 16px 20px;
             border-top: 1px solid #2a2a2a;
             background: #161616;
         }
@@ -326,14 +389,24 @@
         .input-container {
             position: relative;
             margin-bottom: 12px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            transition: all 0.2s;
         }
 
+        .input-container:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Message Input - DeepSeek style */
         .message-input {
             width: 100%;
-            padding: 14px 52px 14px 16px;
-            background: #2a2a2a;
-            border: 1px solid transparent;
-            border-radius: 8px;
+            padding: 16px 52px 16px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
             color: white;
             font-size: 15px;
             font-family: 'Inter', sans-serif;
@@ -341,28 +414,23 @@
             min-height: 52px;
             max-height: 200px;
             line-height: 1.6;
-            transition: all 0.2s;
-        }
-
-        .message-input:focus {
             outline: none;
-            border-color: #3b82f6;
-            background: #333333;
         }
 
         .message-input::placeholder {
             color: #8a8a8a;
         }
 
+        /* Send Button - DeepSeek style */
         .send-button {
             position: absolute;
-            right: 8px;
-            bottom: 8px;
-            width: 36px;
-            height: 36px;
+            right: 12px;
+            bottom: 12px;
+            width: 32px;
+            height: 32px;
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             color: white;
             cursor: pointer;
             transition: all 0.2s;
@@ -379,9 +447,10 @@
         .send-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
-        /* Quick Actions (Grok style) */
+        /* Quick Actions (DeepSeek style) */
         .quick-actions {
             display: flex;
             gap: 8px;
@@ -390,9 +459,9 @@
 
         .quick-action {
             padding: 8px 12px;
-            background: #2a2a2a;
-            border: none;
-            border-radius: 6px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
             color: #8a8a8a;
             font-size: 13px;
             font-weight: 500;
@@ -401,8 +470,9 @@
         }
 
         .quick-action:hover {
-            background: #3a3a3a;
+            background: #2a2a2a;
             color: white;
+            border-color: #3a3a3a;
         }
 
         /* Scrollbar Styling */
@@ -428,6 +498,92 @@
             display: none;
         }
 
+        /* Clear Chat Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: #161616;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #8a8a8a;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .modal-btn.cancel {
+            background: #2a2a2a;
+            color: #8a8a8a;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #3a3a3a;
+            color: white;
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            opacity: 0.9;
+        }
+
         /* ============================================
            RESPONSIVE DESIGN
            ============================================ */
@@ -444,7 +600,7 @@
             }
             
             .message {
-                max-width: 90%;
+                max-width: 95%;
             }
             
             .messages-container {
@@ -453,7 +609,12 @@
             }
             
             .input-area {
-                padding: 16px;
+                padding: 12px;
+            }
+            
+            .clear-chat-btn {
+                padding: 6px 12px;
+                font-size: 13px;
             }
         }
 
@@ -463,18 +624,45 @@
             }
             
             .message-content {
-                padding: 12px 16px;
+                padding: 14px 16px;
                 font-size: 14px;
             }
             
             .message-input {
-                padding: 12px 48px 12px 12px;
+                padding: 14px 48px 14px 16px;
                 min-height: 48px;
+            }
+            
+            .header-actions {
+                gap: 4px;
+            }
+            
+            .clear-chat-btn span {
+                display: none;
+            }
+            
+            .clear-chat-btn::before {
+                content: "🗑️";
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Clear Chat Confirmation Modal -->
+    <div class="modal-overlay" id="clear-modal">
+        <div class="modal">
+            <div class="modal-title">Clear Conversation</div>
+            <div class="modal-message">
+                Are you sure you want to clear this conversation? This action cannot be undone.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" id="cancel-clear">Cancel</button>
+                <button class="modal-btn confirm" id="confirm-clear">Clear Chat</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Main App -->
     <div class="app">
         <!-- Sidebar -->
@@ -516,10 +704,11 @@
             <div class="chat-header">
                 <div class="chat-title">P.R.A.I Assistant</div>
                 <div class="header-actions">
-                    <button class="header-btn" id="clear-btn" title="Clear Chat">
-                        🗑️
+                    <button class="clear-chat-btn" id="clear-chat-btn">
+                        <span>🗑️</span>
+                        <span>Clear Chat</span>
                     </button>
-                    <button class="header-btn" id="export-btn" title="Export">
+                    <button class="header-btn" id="export-btn" title="Export Chat">
                         📥
                     </button>
                 </div>
@@ -550,7 +739,7 @@
                     <button class="quick-action" id="upload-btn">
                         📎 Upload file
                     </button>
-                    <input type="file" id="file-input" class="hidden" accept=".txt,.pdf">
+                    <input type="file" id="file-input" class="hidden" accept=".txt,.pdf,.doc,.docx">
                 </div>
             </div>
         </main>
@@ -573,11 +762,14 @@
         const newChatBtn = document.getElementById('new-chat-btn');
         const historyList = document.getElementById('history-list');
         const emptyHistory = document.getElementById('empty-history');
-        const clearBtn = document.getElementById('clear-btn');
+        const clearChatBtn = document.getElementById('clear-chat-btn');
         const exportBtn = document.getElementById('export-btn');
         const suggestBtn = document.getElementById('suggest-btn');
         const uploadBtn = document.getElementById('upload-btn');
         const fileInput = document.getElementById('file-input');
+        const clearModal = document.getElementById('clear-modal');
+        const cancelClearBtn = document.getElementById('cancel-clear');
+        const confirmClearBtn = document.getElementById('confirm-clear');
 
         // ============================================
         // INITIALIZATION
@@ -601,7 +793,7 @@
         }
 
         // ============================================
-        // MESSAGE FUNCTIONS
+        // MESSAGE FUNCTIONS (DeepSeek style)
         // ============================================
         function addMessage(content, isUser) {
             const messageDiv = document.createElement('div');
@@ -662,6 +854,11 @@
             typingDiv.className = 'typing-indicator';
             typingDiv.id = 'typing-indicator';
             
+            const textSpan = document.createElement('span');
+            textSpan.className = 'typing-text';
+            textSpan.textContent = 'P.R.A.I is typing';
+            typingDiv.appendChild(textSpan);
+            
             for (let i = 0; i < 3; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'typing-dot';
@@ -677,6 +874,56 @@
             if (indicator) indicator.remove();
         }
 
+        // ============================================
+        // CLEAR CHAT FEATURE
+        // ============================================
+        function showClearConfirmation() {
+            clearModal.classList.add('active');
+        }
+
+        function hideClearConfirmation() {
+            clearModal.classList.remove('active');
+        }
+
+        function clearCurrentChat() {
+            // Clear UI
+            messagesContainer.innerHTML = '';
+            
+            // Clear from storage
+            if (chats[currentChatId]) {
+                chats[currentChatId].messages = [];
+                saveToStorage();
+            }
+            
+            // Add welcome message
+            addWelcomeMessage();
+            
+            // Update history display
+            updateHistoryDisplay();
+            
+            // Hide modal
+            hideClearConfirmation();
+            
+            // Show confirmation message
+            const confirmationMsg = document.createElement('div');
+            confirmationMsg.className = 'bot-message message';
+            confirmationMsg.innerHTML = `
+                <div class="message-content">
+                    <span class="message-sender">P.R.A.I</span>
+                    <div>Chat cleared. Ready for a new conversation!</div>
+                </div>
+            `;
+            messagesContainer.appendChild(confirmationMsg);
+            
+            // Scroll to bottom
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 100);
+        }
+
+        // ============================================
+        // CHAT FUNCTIONS
+        // ============================================
         async function sendMessage() {
             const content = messageInput.value.trim();
             if (!content) return;
@@ -687,34 +934,23 @@
             sendButton.disabled = true;
             showTypingIndicator();
             
-            try {
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: uploadedFileContent ? `[File Content]\n${uploadedFileContent}\n\n${content}` : content,
-                        session_id: currentChatId
-                    })
-                });
-                
-                const data = await response.json();
+            // Simulate API call (replace with actual API)
+            setTimeout(() => {
                 hideTypingIndicator();
                 
-                if (data.error) {
-                    addMessage(`Error: ${data.error}`, false);
-                } else {
-                    const reply = data[0]?.generated_text || 'I apologize, I encountered an issue. Please try again.';
-                    addMessage(reply, false);
-                }
+                // Mock response
+                const responses = [
+                    "I understand your question about: \"" + content + "\". This is an interesting topic. In a real implementation, I would provide a detailed response based on the context and your query.",
+                    "Thank you for your message. I've processed your input about: \"" + content + "\". This is a demo response - in production, I would connect to an AI model to generate a proper answer.",
+                    "I appreciate your query regarding: \"" + content + "\". This appears to be a meaningful discussion topic. For now, this is a placeholder response from the demo interface.",
+                    "Great question about: \"" + content + "\". This demonstrates how the chat interface works. In a real application, I would analyze your query and provide a comprehensive, helpful response."
+                ];
                 
-                uploadedFileContent = null;
-            } catch (error) {
-                hideTypingIndicator();
-                addMessage('Connection error. Please check your network and try again.', false);
-            }
-            
-            sendButton.disabled = false;
-            messageInput.focus();
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, false);
+                sendButton.disabled = false;
+                messageInput.focus();
+            }, 1500);
         }
 
         // ============================================
@@ -783,6 +1019,18 @@
             addWelcomeMessage();
         });
 
+        // Clear chat functionality
+        clearChatBtn.addEventListener('click', showClearConfirmation);
+        cancelClearBtn.addEventListener('click', hideClearConfirmation);
+        confirmClearBtn.addEventListener('click', clearCurrentChat);
+
+        // Close modal when clicking outside
+        clearModal.addEventListener('click', (e) => {
+            if (e.target === clearModal) {
+                hideClearConfirmation();
+            }
+        });
+
         exportBtn.addEventListener('click', () => {
             const currentChat = chats[currentChatId];
             if (!currentChat || currentChat.messages.length === 0) {
@@ -804,23 +1052,17 @@
             URL.revokeObjectURL(url);
         });
 
-        clearBtn.addEventListener('click', () => {
-            if (confirm('Clear this conversation?')) {
-                messagesContainer.innerHTML = '';
-                if (chats[currentChatId]) {
-                    chats[currentChatId].messages = [];
-                }
-                addWelcomeMessage();
-                saveToStorage();
-            }
-        });
-
         const suggestions = [
             "Explain quantum computing in simple terms",
             "Write a Python script for data analysis",
             "Help me design a project timeline",
             "Analyze this business strategy",
-            "Create a creative story concept"
+            "Create a creative story concept",
+            "How does machine learning work?",
+            "Write a resume summary for a software engineer",
+            "Explain blockchain technology",
+            "Plan a 7-day trip to Japan",
+            "What are the benefits of meditation?"
         ];
 
         suggestBtn.addEventListener('click', () => {
@@ -839,29 +1081,24 @@
             const file = e.target.files[0];
             if (!file) return;
             
-            const formData = new FormData();
-            formData.append('file', file);
-            
+            // Simulate file upload
             try {
                 uploadBtn.textContent = '📎 Uploading...';
                 uploadBtn.disabled = true;
                 
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
+                // Simulate upload delay
+                setTimeout(() => {
+                    uploadedFileContent = `File: ${file.name} (${(file.size / 1024).toFixed(2)} KB)\nType: ${file.type}\n\n[File content would be extracted here in a real implementation]`;
+                    
+                    addMessage(`📎 File "${file.name}" uploaded successfully (${(file.size / 1024).toFixed(2)} KB). You can now ask questions about it.`, false);
+                    
+                    uploadBtn.textContent = '📎 Upload file';
+                    uploadBtn.disabled = false;
+                    fileInput.value = '';
+                }, 1000);
                 
-                const data = await response.json();
-                
-                if (data.error) {
-                    alert(`Error: ${data.error}`);
-                } else {
-                    uploadedFileContent = data.text;
-                    addMessage(`📎 File "${data.filename}" uploaded successfully. You can now ask questions about it.`, false);
-                }
             } catch (error) {
                 alert('Failed to upload file.');
-            } finally {
                 uploadBtn.textContent = '📎 Upload file';
                 uploadBtn.disabled = false;
                 fileInput.value = '';
