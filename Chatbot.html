@@ -22,6 +22,12 @@
             line-height: 1.6;
             height: 100vh;
             overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background: #f5f5f7;
+            color: #333333;
         }
 
         /* App Layout */
@@ -29,6 +35,11 @@
             display: flex;
             height: 100vh;
             background: #0f0f0f;
+            transition: background-color 0.3s;
+        }
+
+        .light-mode .app {
+            background: #f5f5f7;
         }
 
         /* ============================================
@@ -41,6 +52,12 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .sidebar {
+            background: #ffffff;
+            border-right: 1px solid #e0e0e0;
         }
 
         /* Logo - Simple & Elegant */
@@ -51,6 +68,10 @@
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 1px solid #2a2a2a;
+        }
+
+        .light-mode .logo {
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .logo-icon {
@@ -115,6 +136,10 @@
             padding-left: 4px;
         }
 
+        .light-mode .history-title {
+            color: #666666;
+        }
+
         .history-list {
             display: flex;
             flex-direction: column;
@@ -133,14 +158,64 @@
             text-overflow: ellipsis;
         }
 
+        .light-mode .history-item {
+            color: #666666;
+        }
+
         .history-item:hover {
             background: #2a2a2a;
             color: white;
         }
 
+        .light-mode .history-item:hover {
+            background: #f0f0f0;
+            color: #333333;
+        }
+
         .history-item.active {
             background: #2a2a2a;
             color: white;
+        }
+
+        .light-mode .history-item.active {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+
+        /* Clear History Button */
+        .clear-history-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: transparent;
+            border: 1px solid #4a4a4a;
+            border-radius: 8px;
+            color: #8a8a8a;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .light-mode .clear-history-btn {
+            border: 1px solid #e0e0e0;
+            color: #666666;
+        }
+
+        .clear-history-btn:hover {
+            background: #2a2a2a;
+            color: white;
+            border-color: #666666;
+        }
+
+        .light-mode .clear-history-btn:hover {
+            background: #f0f0f0;
+            color: #333333;
+            border-color: #999999;
         }
 
         /* Model Selector (Grok style) */
@@ -150,12 +225,20 @@
             border-top: 1px solid #2a2a2a;
         }
 
+        .light-mode .model-selector {
+            border-top: 1px solid #e0e0e0;
+        }
+
         .model-label {
             font-size: 12px;
             color: #8a8a8a;
             font-weight: 600;
             margin-bottom: 8px;
             display: block;
+        }
+
+        .light-mode .model-label {
+            color: #666666;
         }
 
         .model-badge {
@@ -170,14 +253,116 @@
             transition: all 0.2s;
         }
 
+        .light-mode .model-badge {
+            background: #f0f0f0;
+            color: #666666;
+        }
+
         .model-badge:hover {
             background: #3a3a3a;
             color: white;
         }
 
+        .light-mode .model-badge:hover {
+            background: #e0e0e0;
+            color: #333333;
+        }
+
         .model-badge.active {
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
+        }
+
+        /* Settings Section */
+        .settings-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .light-mode .settings-section {
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .settings-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: transparent;
+            border: 1px solid #4a4a4a;
+            border-radius: 8px;
+            color: #8a8a8a;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .light-mode .settings-btn {
+            border: 1px solid #e0e0e0;
+            color: #666666;
+        }
+
+        .settings-btn:hover {
+            background: #2a2a2a;
+            color: white;
+            border-color: #666666;
+        }
+
+        .light-mode .settings-btn:hover {
+            background: #f0f0f0;
+            color: #333333;
+            border-color: #999999;
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 8px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 4px;
+            margin-top: 8px;
+        }
+
+        .light-mode .theme-selector {
+            background: #f0f0f0;
+        }
+
+        .theme-option {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: #8a8a8a;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .light-mode .theme-option {
+            color: #666666;
+        }
+
+        .theme-option.active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .theme-option:hover:not(.active) {
+            background: #3a3a3a;
+            color: white;
+        }
+
+        .light-mode .theme-option:hover:not(.active) {
+            background: #e0e0e0;
+            color: #333333;
         }
 
         /* ============================================
@@ -189,6 +374,11 @@
             flex-direction: column;
             background: #0f0f0f;
             position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .light-mode .chat-area {
+            background: #f5f5f7;
         }
 
         /* Chat Header (Simple & Clean) */
@@ -199,12 +389,22 @@
             align-items: center;
             justify-content: space-between;
             background: #161616;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .chat-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .chat-title {
             font-size: 16px;
             font-weight: 600;
             color: white;
+        }
+
+        .light-mode .chat-title {
+            color: #333333;
         }
 
         .header-actions {
@@ -226,9 +426,19 @@
             justify-content: center;
         }
 
+        .light-mode .header-btn {
+            border: 1px solid #e0e0e0;
+            color: #666666;
+        }
+
         .header-btn:hover {
             background: #2a2a2a;
             color: white;
+        }
+
+        .light-mode .header-btn:hover {
+            background: #f0f0f0;
+            color: #333333;
         }
 
         /* Messages Container (ClaudeAI style) */
@@ -280,12 +490,22 @@
             border-bottom-left-radius: 4px;
         }
 
+        .light-mode .bot-message .message-content {
+            background: #ffffff;
+            color: #333333;
+            border: 1px solid #e0e0e0;
+        }
+
         .message-sender {
             display: block;
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 6px;
             color: #8a8a8a;
+        }
+
+        .light-mode .message-sender {
+            color: #666666;
         }
 
         /* Typing Indicator (All AI style) */
@@ -300,12 +520,21 @@
             width: fit-content;
         }
 
+        .light-mode .typing-indicator {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
         .typing-dot {
             width: 8px;
             height: 8px;
             background: #8a8a8a;
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .light-mode .typing-dot {
+            background: #666666;
         }
 
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -321,6 +550,12 @@
             padding: 20px 24px;
             border-top: 1px solid #2a2a2a;
             background: #161616;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .input-area {
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
         }
 
         .input-container {
@@ -330,7 +565,7 @@
 
         .message-input {
             width: 100%;
-            padding: 14px 52px 14px 16px;
+            padding: 14px 100px 14px 16px;
             background: #2a2a2a;
             border: 1px solid transparent;
             border-radius: 8px;
@@ -344,20 +579,74 @@
             transition: all 0.2s;
         }
 
+        .light-mode .message-input {
+            background: #f5f5f7;
+            color: #333333;
+        }
+
         .message-input:focus {
             outline: none;
             border-color: #3b82f6;
             background: #333333;
         }
 
+        .light-mode .message-input:focus {
+            background: #ffffff;
+            border-color: #3b82f6;
+        }
+
         .message-input::placeholder {
             color: #8a8a8a;
         }
 
-        .send-button {
+        .light-mode .message-input::placeholder {
+            color: #999999;
+        }
+
+        /* Input Actions Container */
+        .input-actions {
             position: absolute;
             right: 8px;
             bottom: 8px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .attachment-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: transparent;
+            border: 1px solid #4a4a4a;
+            color: #8a8a8a;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .light-mode .attachment-link {
+            border: 1px solid #e0e0e0;
+            color: #666666;
+        }
+
+        .attachment-link:hover {
+            background: #2a2a2a;
+            color: white;
+            border-color: #666666;
+        }
+
+        .light-mode .attachment-link:hover {
+            background: #f0f0f0;
+            color: #333333;
+            border-color: #999999;
+        }
+
+        .send-button {
             width: 36px;
             height: 36px;
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
@@ -400,9 +689,19 @@
             transition: all 0.2s;
         }
 
+        .light-mode .quick-action {
+            background: #f0f0f0;
+            color: #666666;
+        }
+
         .quick-action:hover {
             background: #3a3a3a;
             color: white;
+        }
+
+        .light-mode .quick-action:hover {
+            background: #e0e0e0;
+            color: #333333;
         }
 
         /* Scrollbar Styling */
@@ -419,8 +718,16 @@
             border-radius: 3px;
         }
 
+        .light-mode ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+        }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #5a5a5a;
+        }
+
+        .light-mode ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
         }
 
         /* Utility Classes */
@@ -441,6 +748,10 @@
                 height: auto;
                 border-right: none;
                 border-bottom: 1px solid #2a2a2a;
+            }
+            
+            .light-mode .sidebar {
+                border-bottom: 1px solid #e0e0e0;
             }
             
             .message {
@@ -468,8 +779,21 @@
             }
             
             .message-input {
-                padding: 12px 48px 12px 12px;
+                padding: 12px 90px 12px 12px;
                 min-height: 48px;
+            }
+            
+            .input-actions {
+                right: 4px;
+                bottom: 4px;
+                gap: 4px;
+            }
+            
+            .attachment-link,
+            .send-button {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
             }
         }
     </style>
@@ -491,6 +815,11 @@
                 New Chat
             </button>
 
+            <!-- Clear History Button -->
+            <button class="clear-history-btn" id="clear-history-btn">
+                🗑️ Clear All History
+            </button>
+
             <!-- History -->
             <div class="history-section">
                 <div class="history-title">Recent</div>
@@ -506,6 +835,17 @@
                 <span class="model-label">Model</span>
                 <div>
                     <span class="model-badge active">Llama 3.3</span>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="settings-section">
+                <button class="settings-btn" id="settings-btn">
+                    ⚙️ Settings
+                </button>
+                <div class="theme-selector" id="theme-selector">
+                    <button class="theme-option active" data-theme="dark">Dark</button>
+                    <button class="theme-option" data-theme="light">Light</button>
                 </div>
             </div>
         </aside>
@@ -539,9 +879,14 @@
                         placeholder="Message P.R.A.I..."
                         rows="1"
                     ></textarea>
-                    <button class="send-button" id="send-button">
-                        →
-                    </button>
+                    <div class="input-actions">
+                        <a href="#" class="attachment-link" id="attachment-link" title="Attach file">
+                            📎
+                        </a>
+                        <button class="send-button" id="send-button">
+                            →
+                        </button>
+                    </div>
                 </div>
                 <div class="quick-actions">
                     <button class="quick-action" id="suggest-btn">
@@ -578,12 +923,48 @@
         const suggestBtn = document.getElementById('suggest-btn');
         const uploadBtn = document.getElementById('upload-btn');
         const fileInput = document.getElementById('file-input');
+        const clearHistoryBtn = document.getElementById('clear-history-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const themeSelector = document.getElementById('theme-selector');
+        const themeOptions = themeSelector.querySelectorAll('.theme-option');
+        const attachmentLink = document.getElementById('attachment-link');
+
+        // ============================================
+        // THEME MANAGEMENT
+        // ============================================
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                document.body.classList.remove('dark-mode');
+            } else {
+                document.body.classList.remove('light-mode');
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Update active button
+            themeOptions.forEach(option => {
+                if (option.dataset.theme === theme) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('praiTheme', theme);
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('praiTheme') || 'dark';
+            setTheme(savedTheme);
+        }
 
         // ============================================
         // INITIALIZATION
         // ============================================
         function init() {
             loadFromStorage();
+            loadTheme();
             updateHistoryDisplay();
             addWelcomeMessage();
             messageInput.focus();
@@ -760,6 +1141,23 @@
             updateHistoryDisplay();
         }
 
+        function clearAllHistory() {
+            if (Object.keys(chats).length === 0) {
+                alert('No chat history to clear.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to clear ALL chat history? This action cannot be undone.')) {
+                chats = {};
+                localStorage.removeItem('praiChats');
+                currentChatId = 'chat-' + Date.now();
+                messagesContainer.innerHTML = '';
+                addWelcomeMessage();
+                updateHistoryDisplay();
+                alert('All chat history has been cleared.');
+            }
+        }
+
         // ============================================
         // EVENT LISTENERS
         // ============================================
@@ -813,6 +1211,27 @@
                 addWelcomeMessage();
                 saveToStorage();
             }
+        });
+
+        clearHistoryBtn.addEventListener('click', clearAllHistory);
+
+        // Theme selection
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                setTheme(option.dataset.theme);
+            });
+        });
+
+        // Settings button
+        settingsBtn.addEventListener('click', () => {
+            const isHidden = themeSelector.classList.toggle('hidden');
+            settingsBtn.innerHTML = isHidden ? '⚙️ Settings' : '⚙️ Close Settings';
+        });
+
+        // Attachment link
+        attachmentLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            fileInput.click();
         });
 
         const suggestions = [
