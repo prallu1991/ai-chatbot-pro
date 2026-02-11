@@ -1225,4 +1225,97 @@
 
         exportBtn.addEventListener('click', () => {
             const currentChat = chats[currentChatId];
-            if (!currentChat || currentChat.messages.length ===
+            if (!currentChat || currentChat.messages.length === 0) {
+                alert('No messages to export.');
+                return;
+            }
+            
+            let exportText = `P.R.A.I Chat Export\n${new Date().toLocaleString()}\n\n`;
+            currentChat.messages.forEach(msg => {
+                exportText += `${msg.timestamp} - ${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.content}\n\n`;
+            });
+            
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `prai-chat-${currentChatId}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear this conversation?')) {
+                messagesContainer.innerHTML = '';
+                if (chats[currentChatId]) {
+                    chats[currentChatId].messages = [];
+                }
+                addWelcomeMessage();
+                saveToStorage();
+            }
+        });
+
+        clearHistoryBtn.addEventListener('click', clearAllHistory);
+
+        const suggestions = [
+            "Explain quantum computing in simple terms",
+            "Write a Python script for data analysis",
+            "Help me design a project timeline",
+            "Analyze this business strategy",
+            "Create a creative story concept"
+        ];
+
+        suggestBtn.addEventListener('click', () => {
+            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+            messageInput.value = randomSuggestion;
+            messageInput.focus();
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+        });
+
+        attachmentBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileUpload(file);
+            }
+        });
+
+        // Settings modal
+        settingsBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'flex';
+        });
+
+        closeSettingsBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'none';
+        });
+
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+            });
+        });
+
+        // ============================================
+        // INITIALIZE APP
+        // ============================================
+        init();
+        
+        // Auto-focus input
+        document.addEventListener('click', () => {
+            if (messageInput !== document.activeElement && !settingsModal.style.display) {
+                messageInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>
