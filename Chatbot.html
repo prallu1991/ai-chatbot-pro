@@ -1,3 +1,11 @@
+I apologize for the errors. Let me fix both issues:
+
+1. **Attachment link position** - Should be in the input bar like DeepSeek
+2. **Conversation functionality** - Restore the chat flow
+
+Here's the corrected code:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -457,7 +465,7 @@
 
         .message-input {
             width: 100%;
-            padding: 14px 52px 14px 16px;
+            padding: 14px 52px 14px 44px; /* Adjusted for attachment icon */
             background: #2a2a2a;
             border: 1px solid transparent;
             border-radius: 8px;
@@ -523,8 +531,8 @@
             cursor: not-allowed;
         }
 
-        /* Attachment Button (DeepSeek style) */
-        .attachment-btn {
+        /* Attachment Button (DeepSeek style) - CORRECTED POSITION */
+        .attachment-link {
             position: absolute;
             left: 8px;
             bottom: 8px;
@@ -539,14 +547,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
+            text-decoration: none;
         }
 
-        .light-theme .attachment-btn {
+        .light-theme .attachment-link {
             color: #666666;
         }
 
-        .attachment-btn:hover {
+        .attachment-link:hover {
             background: rgba(59, 130, 246, 0.1);
             color: #3b82f6;
         }
@@ -793,7 +802,7 @@
             }
             
             .message-input {
-                padding: 12px 48px 12px 44px;
+                padding: 12px 48px 12px 40px;
                 min-height: 48px;
             }
             
@@ -893,7 +902,7 @@
             <!-- Input Area -->
             <div class="input-area">
                 <div class="input-container">
-                    <button class="attachment-btn" id="attachment-btn" title="Attach file">
+                    <button class="attachment-link" id="attachment-link" title="Attach file">
                         📎
                     </button>
                     <textarea 
@@ -937,7 +946,7 @@
         const clearBtn = document.getElementById('clear-btn');
         const exportBtn = document.getElementById('export-btn');
         const suggestBtn = document.getElementById('suggest-btn');
-        const attachmentBtn = document.getElementById('attachment-btn');
+        const attachmentLink = document.getElementById('attachment-link');
         const fileInput = document.getElementById('file-input');
         const clearHistoryBtn = document.getElementById('clear-history-btn');
         const settingsBtn = document.getElementById('settings-btn');
@@ -988,7 +997,7 @@
         }
 
         // ============================================
-        // MESSAGE FUNCTIONS
+        // MESSAGE FUNCTIONS (RESTORED CONVERSATION FLOW)
         // ============================================
         function addMessage(content, isUser) {
             const messageDiv = document.createElement('div');
@@ -1031,6 +1040,9 @@
             
             saveToStorage();
             updateHistoryDisplay();
+            
+            // Return true if message was added
+            return true;
         }
 
         function addWelcomeMessage() {
@@ -1064,39 +1076,71 @@
             if (indicator) indicator.remove();
         }
 
+        // Simulated conversation responses
+        const conversationResponses = {
+            greetings: [
+                "Hello! How can I assist you today?",
+                "Hi there! What would you like to know?",
+                "Greetings! I'm here to help with any questions."
+            ],
+            help: [
+                "I can help with a variety of topics including coding, writing, analysis, and more. What specifically are you looking for?",
+                "I'm designed to assist with questions, problem-solving, and creative tasks. What would you like me to help with?",
+                "I can provide information, explanations, write code, analyze problems, and much more. What do you need help with?"
+            ],
+            default: [
+                "That's interesting. Can you tell me more about that?",
+                "I understand. What specific aspect would you like me to focus on?",
+                "Thanks for sharing that. How can I assist you further with this?",
+                "I see. Would you like me to elaborate on any particular point?",
+                "Interesting perspective. What would you like me to do with this information?"
+            ]
+        };
+
+        function getConversationResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                return conversationResponses.greetings[Math.floor(Math.random() * conversationResponses.greetings.length)];
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
+                return conversationResponses.help[Math.floor(Math.random() * conversationResponses.help.length)];
+            } else if (lowerMessage.includes('code') || lowerMessage.includes('programming')) {
+                return "I can help with programming! What language are you working with and what specific problem are you trying to solve?";
+            } else if (lowerMessage.includes('write') || lowerMessage.includes('content')) {
+                return "I can help with writing! What type of content are you looking to create? (e.g., email, article, story, etc.)";
+            } else if (lowerMessage.includes('explain') || lowerMessage.includes('what is')) {
+                return "I'd be happy to explain that! Could you clarify which specific concept or topic you'd like me to break down?";
+            } else {
+                return conversationResponses.default[Math.floor(Math.random() * conversationResponses.default.length)];
+            }
+        }
+
         async function sendMessage() {
             const content = messageInput.value.trim();
             if (!content) return;
             
+            // Add user message
             addMessage(content, true);
             messageInput.value = '';
             messageInput.style.height = 'auto';
             sendButton.disabled = true;
+            
+            // Show typing indicator
             showTypingIndicator();
             
-            try {
-                // Simulate API response
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                hideTypingIndicator();
-                
-                const responses = [
-                    "I understand your question about \"" + content.substring(0, 30) + "...\". This is a simulated response from P.R.A.I assistant. In a real implementation, this would connect to an AI model API.",
-                    "Thank you for your message! I'm processing your request regarding: \"" + content + "\". This is a demonstration of the chat interface.",
-                    "I've received your query. Here's how I would typically respond to: \"" + content.substring(0, 40) + "...\" This interface is ready to connect to any AI backend."
-                ];
-                
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                addMessage(randomResponse, false);
-                
-                uploadedFileContent = null;
-            } catch (error) {
-                hideTypingIndicator();
-                addMessage('Connection error. Please check your network and try again.', false);
-            }
+            // Simulate AI thinking time (random between 0.5-1.5 seconds)
+            const thinkingTime = Math.random() * 1000 + 500;
             
-            sendButton.disabled = false;
-            messageInput.focus();
+            setTimeout(() => {
+                hideTypingIndicator();
+                
+                // Get appropriate response based on user message
+                const response = getConversationResponse(content);
+                addMessage(response, false);
+                
+                sendButton.disabled = false;
+                messageInput.focus();
+            }, thinkingTime);
         }
 
         // ============================================
@@ -1161,7 +1205,7 @@
         // ============================================
         // FILE HANDLING
         // ============================================
-        async function handleFileUpload(file) {
+        function handleFileUpload(file) {
             if (!file) return;
             
             // Check file size (max 5MB)
@@ -1170,152 +1214,4 @@
                 return;
             }
             
-            // Check file type
-            const allowedTypes = ['.txt', '.pdf', '.doc', '.docx', '.jpg', '.png'];
-            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
-            
-            if (!allowedTypes.includes(fileExtension)) {
-                alert('Please select a valid file type: .txt, .pdf, .doc, .docx, .jpg, .png');
-                return;
-            }
-            
-            try {
-                attachmentBtn.textContent = '📎 Uploading...';
-                attachmentBtn.disabled = true;
-                
-                // Simulate file upload
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // For demonstration, use a placeholder
-                uploadedFileContent = `[Uploaded file: ${file.name} (${(file.size / 1024).toFixed(2)} KB)]\nThis is a simulation. In a real implementation, the file would be processed and sent to the AI.`;
-                
-                addMessage(`📎 File "${file.name}" uploaded successfully. You can now ask questions about it.`, false);
-                
-            } catch (error) {
-                alert('Failed to upload file.');
-            } finally {
-                attachmentBtn.textContent = '📎';
-                attachmentBtn.disabled = false;
-                fileInput.value = '';
-            }
-        }
-
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-        });
-
-        messageInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        sendButton.addEventListener('click', sendMessage);
-
-        newChatBtn.addEventListener('click', () => {
-            currentChatId = 'chat-' + Date.now();
-            messagesContainer.innerHTML = '';
-            addWelcomeMessage();
-        });
-
-        exportBtn.addEventListener('click', () => {
-            const currentChat = chats[currentChatId];
-            if (!currentChat || currentChat.messages.length === 0) {
-                alert('No messages to export.');
-                return;
-            }
-            
-            let exportText = `P.R.A.I Chat Export\n${new Date().toLocaleString()}\n\n`;
-            currentChat.messages.forEach(msg => {
-                exportText += `${msg.timestamp} - ${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.content}\n\n`;
-            });
-            
-            const blob = new Blob([exportText], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `prai-chat-${currentChatId}.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
-        });
-
-        clearBtn.addEventListener('click', () => {
-            if (confirm('Clear this conversation?')) {
-                messagesContainer.innerHTML = '';
-                if (chats[currentChatId]) {
-                    chats[currentChatId].messages = [];
-                }
-                addWelcomeMessage();
-                saveToStorage();
-            }
-        });
-
-        clearHistoryBtn.addEventListener('click', clearAllHistory);
-
-        const suggestions = [
-            "Explain quantum computing in simple terms",
-            "Write a Python script for data analysis",
-            "Help me design a project timeline",
-            "Analyze this business strategy",
-            "Create a creative story concept"
-        ];
-
-        suggestBtn.addEventListener('click', () => {
-            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
-            messageInput.value = randomSuggestion;
-            messageInput.focus();
-            messageInput.style.height = 'auto';
-            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
-        });
-
-        attachmentBtn.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                handleFileUpload(file);
-            }
-        });
-
-        // Settings modal
-        settingsBtn.addEventListener('click', () => {
-            settingsModal.style.display = 'flex';
-        });
-
-        closeSettingsBtn.addEventListener('click', () => {
-            settingsModal.style.display = 'none';
-        });
-
-        settingsModal.addEventListener('click', (e) => {
-            if (e.target === settingsModal) {
-                settingsModal.style.display = 'none';
-            }
-        });
-
-        themeOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                applyTheme(option.dataset.theme);
-            });
-        });
-
-        // ============================================
-        // INITIALIZE APP
-        // ============================================
-        init();
-        
-        // Auto-focus input
-        document.addEventListener('click', () => {
-            if (messageInput !== document.activeElement && !settingsModal.style.display) {
-                messageInput.focus();
-            }
-        });
-    </script>
-</body>
-</html>
+            //
