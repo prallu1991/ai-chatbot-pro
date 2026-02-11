@@ -41,6 +41,7 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
+            overflow-y: auto;
         }
 
         /* Logo */
@@ -215,13 +216,6 @@
             font-size: 13px;
             font-weight: 600;
             color: #8a8a8a;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .model-badge:hover {
-            background: #3a3a3a;
-            color: white;
         }
 
         .model-badge.active {
@@ -577,7 +571,7 @@
 
         /* Utility Classes */
         .hidden {
-            display: none;
+            display: none !important;
         }
 
         /* ============================================
@@ -655,9 +649,7 @@
             <div class="history-section">
                 <div class="history-title">Recent</div>
                 <div class="history-list" id="history-list">
-                    <div class="history-item" id="empty-history">
-                        No conversations yet
-                    </div>
+                    <!-- History items will be inserted here -->
                 </div>
                 
                 <!-- Clear All History Button -->
@@ -670,7 +662,7 @@
             <div class="model-selector">
                 <span class="model-label">Model</span>
                 <div>
-                    <span class="model-badge active" id="model-badge">P.R.A.I 1.0</span>
+                    <span class="model-badge active">P.R.A.I 1.0</span>
                 </div>
             </div>
         </aside>
@@ -744,16 +736,6 @@
 
     <script>
         // ============================================
-        // CONFIGURATION
-        // ============================================
-        const CONFIG = {
-            API_ENDPOINT: '/chat', // Change this to your actual API endpoint
-            ENABLE_MOCK_API: true, // Set to false when using real API
-            MAX_FILE_SIZE: 5 * 1024 * 1024, // 5MB
-            MAX_MESSAGES_PER_CHAT: 100
-        };
-
-        // ============================================
         // STATE MANAGEMENT
         // ============================================
         let currentChatId = 'chat-' + Date.now();
@@ -769,7 +751,6 @@
         const sendBtn = document.getElementById('send-btn');
         const newChatBtn = document.getElementById('new-chat-btn');
         const historyList = document.getElementById('history-list');
-        const emptyHistory = document.getElementById('empty-history');
         const clearBtn = document.getElementById('clear-btn');
         const exportBtn = document.getElementById('export-btn');
         const clearAllBtn = document.getElementById('clear-all-btn');
@@ -778,43 +759,20 @@
         const fileStatus = document.getElementById('file-status');
         const fileName = document.getElementById('file-name');
         const removeFileBtn = document.getElementById('remove-file-btn');
-        const modelBadge = document.getElementById('model-badge');
-
-        // ============================================
-        // MOCK API RESPONSES (Fallback if no real API)
-        // ============================================
-        const mockResponses = {
-            greetings: [
-                "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?",
-                "Hi there! I'm here to assist you. What would you like to know?",
-                "Welcome! I'm P.R.A.I, ready to help with your questions and tasks."
-            ],
-            general: [
-                "I understand. Let me help you with that.",
-                "That's an interesting question. Here's what I think about it.",
-                "Thanks for sharing. Based on my knowledge, here's the information you need."
-            ],
-            file_related: [
-                "I've analyzed the file content. Based on what I see, here's my response.",
-                "The file provides useful context. Here's how I can assist with your question.",
-                "With the file content in mind, I can better address your query."
-            ],
-            fallback: [
-                "I'm not sure I understand. Could you provide more details?",
-                "That's an interesting point. Could you rephrase your question?",
-                "I want to make sure I give you the best answer. Could you clarify?"
-            ]
-        };
+        const suggestBtn = document.getElementById('suggest-btn');
+        const helpBtn = document.getElementById('help-btn');
 
         // ============================================
         // INITIALIZATION
         // ============================================
         function init() {
+            console.log('Initializing P.R.A.I...');
             loadFromStorage();
             updateHistoryDisplay();
             addWelcomeMessage();
             setupEventListeners();
             messageInput.focus();
+            console.log('Initialization complete');
         }
 
         function loadFromStorage() {
@@ -822,6 +780,7 @@
                 const savedChats = localStorage.getItem('praiChats');
                 if (savedChats) {
                     chats = JSON.parse(savedChats);
+                    console.log('Loaded chats from storage:', Object.keys(chats).length);
                 }
             } catch (error) {
                 console.error('Error loading chats:', error);
@@ -841,42 +800,50 @@
         // EVENT LISTENERS SETUP
         // ============================================
         function setupEventListeners() {
+            console.log('Setting up event listeners...');
+            
             // Auto-resize textarea
             messageInput.addEventListener('input', autoResizeTextarea);
             
             // Send message on Enter (without Shift)
-            messageInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    if (!sendBtn.disabled) {
-                        sendMessage();
-                    }
-                }
-            });
-
+            messageInput.addEventListener('keydown', handleKeyPress);
+            
             // Send button
             sendBtn.addEventListener('click', sendMessage);
-
+            
             // New chat button
             newChatBtn.addEventListener('click', createNewChat);
-
+            
             // Clear current chat
             clearBtn.addEventListener('click', clearCurrentChat);
-
+            
             // Export chat
             exportBtn.addEventListener('click', exportChat);
-
+            
             // Clear all history
             clearAllBtn.addEventListener('click', clearAllHistory);
-
+            
             // File attachment
-            attachBtn.addEventListener('click', () => fileInput.click());
+            attachBtn.addEventListener('click', () => {
+                console.log('Attach button clicked');
+                fileInput.click();
+            });
+            
             fileInput.addEventListener('change', handleFileSelect);
             removeFileBtn.addEventListener('click', clearUploadedFile);
-
+            
             // Quick actions
-            document.getElementById('suggest-btn').addEventListener('click', showSuggestions);
-            document.getElementById('help-btn').addEventListener('click', showHelp);
+            suggestBtn.addEventListener('click', showSuggestions);
+            helpBtn.addEventListener('click', showHelp);
+            
+            // Focus input when clicking anywhere on page
+            document.addEventListener('click', () => {
+                if (!messageInput.matches(':focus')) {
+                    messageInput.focus();
+                }
+            });
+            
+            console.log('Event listeners setup complete');
         }
 
         // ============================================
@@ -884,14 +851,26 @@
         // ============================================
         function autoResizeTextarea() {
             messageInput.style.height = 'auto';
-            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+            const newHeight = Math.min(messageInput.scrollHeight, 200);
+            messageInput.style.height = newHeight + 'px';
             sendBtn.disabled = messageInput.value.trim() === '';
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!sendBtn.disabled) {
+                    sendMessage();
+                }
+            }
         }
 
         // ============================================
         // MESSAGE FUNCTIONS
         // ============================================
-        function addMessage(content, isUser, timestamp = null, showCopyBtn = false) {
+        function addMessage(content, isUser, showCopyBtn = false) {
+            console.log(`Adding message: ${content.substring(0, 50)}... (User: ${isUser})`);
+            
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             
@@ -904,11 +883,11 @@
             senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
             
             // Add timestamp
-            const time = timestamp || new Date().toLocaleTimeString([], { 
+            const timeSpan = document.createElement('span');
+            const time = new Date().toLocaleTimeString([], { 
                 hour: '2-digit', 
                 minute: '2-digit' 
             });
-            const timeSpan = document.createElement('span');
             timeSpan.textContent = ` • ${time}`;
             timeSpan.style.color = '#666';
             timeSpan.style.fontSize = '12px';
@@ -933,8 +912,6 @@
                         setTimeout(() => copyBtn.innerHTML = '📋 Copy', 2000);
                     }).catch(err => {
                         console.error('Copy failed:', err);
-                        copyBtn.innerHTML = '❌ Error';
-                        setTimeout(() => copyBtn.innerHTML = '📋 Copy', 2000);
                     });
                 };
                 contentDiv.appendChild(copyBtn);
@@ -969,21 +946,20 @@
                 chats[currentChatId].title = content.substring(0, 50) + (content.length > 50 ? '...' : '');
             }
             
-            // Limit messages per chat
-            if (chats[currentChatId].messages.length > CONFIG.MAX_MESSAGES_PER_CHAT) {
-                chats[currentChatId].messages = chats[currentChatId].messages.slice(-CONFIG.MAX_MESSAGES_PER_CHAT);
-            }
-            
             chats[currentChatId].timestamp = Date.now();
             saveToStorage();
             updateHistoryDisplay();
         }
 
         function addWelcomeMessage() {
-            const welcomeMessage = mockResponses.greetings[
-                Math.floor(Math.random() * mockResponses.greetings.length)
+            const welcomeMessages = [
+                "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?",
+                "Hi there! I'm here to assist you. What would you like to know?",
+                "Welcome! I'm P.R.A.I, ready to help with your questions and tasks."
             ];
-            addMessage(welcomeMessage, false, null, true);
+            
+            const welcomeMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+            addMessage(welcomeMessage, false, true);
         }
 
         function showTypingIndicator() {
@@ -1003,7 +979,9 @@
 
         function hideTypingIndicator() {
             const indicator = document.getElementById('typing-indicator');
-            if (indicator) indicator.remove();
+            if (indicator) {
+                indicator.remove();
+            }
         }
 
         // ============================================
@@ -1011,12 +989,15 @@
         // ============================================
         async function sendMessage() {
             const content = messageInput.value.trim();
-            if (!content) return;
+            if (!content) {
+                console.log('No content to send');
+                return;
+            }
             
-            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            console.log('Sending message:', content);
             
             // Add user message
-            addMessage(content, true, timestamp);
+            addMessage(content, true);
             
             // Clear input
             messageInput.value = '';
@@ -1027,19 +1008,27 @@
             showTypingIndicator();
             
             try {
-                let botReply;
+                // Prepare message for sending
+                let messageToSend = content;
+                if (uploadedFileContent) {
+                    messageToSend = `File content: ${uploadedFileContent.substring(0, 1000)}...\n\nQuestion: ${content}`;
+                }
                 
-                if (!CONFIG.ENABLE_MOCK_API) {
-                    // Real API call
-                    const response = await fetch(CONFIG.API_ENDPOINT, {
+                // Try to use real API first
+                let botReply;
+                try {
+                    const response = await fetch('/chat', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            message: content,
-                            file_content: uploadedFileContent,
-                            chat_id: currentChatId
+                            message: messageToSend,
+                            session_id: currentChatId
                         }),
                     });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
 
                     const data = await response.json();
                     
@@ -1047,29 +1036,27 @@
                         throw new Error(data.error);
                     }
                     
-                    botReply = data.response || data.message || 'I received your message.';
-                } else {
-                    // Mock API response
+                    botReply = data[0]?.generated_text || data.response || data.message || 'I received your message.';
+                } catch (apiError) {
+                    console.log('API call failed, using mock response:', apiError.message);
+                    // Mock response if API fails
                     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
                     
-                    const responses = uploadedFileContent 
-                        ? mockResponses.file_related
-                        : content.toLowerCase().includes('hello') || content.toLowerCase().includes('hi')
-                            ? mockResponses.greetings
-                            : mockResponses.general;
-                    
-                    botReply = responses[Math.floor(Math.random() * responses.length)];
+                    const responses = [
+                        `I understand you're asking about "${content}". I'm P.R.A.I, designed to help with various tasks.`,
+                        `Thanks for your message! Regarding "${content}", I can assist you with that.`,
+                        `I've received your query about "${content}". As an AI assistant, I'm here to help.`
+                    ];
                     
                     if (uploadedFileContent) {
-                        botReply += ` I've processed the uploaded file with ${uploadedFileContent.length} characters of content.`;
+                        botReply = `Based on the uploaded file and your question "${content}", here's what I can tell you. The file contains approximately ${uploadedFileContent.length} characters of text.`;
+                    } else {
+                        botReply = responses[Math.floor(Math.random() * responses.length)];
                     }
-                    
-                    // Add some context to the response
-                    botReply += ` You asked: "${content.substring(0, 50)}${content.length > 50 ? '...' : ''}"`;
                 }
                 
                 hideTypingIndicator();
-                addMessage(botReply, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), true);
+                addMessage(botReply, false, true);
                 
                 // Clear uploaded file after successful response
                 if (uploadedFileContent) {
@@ -1081,16 +1068,8 @@
                 console.error('Chat error:', error);
                 
                 // Fallback response
-                const fallbackResponse = mockResponses.fallback[
-                    Math.floor(Math.random() * mockResponses.fallback.length)
-                ] + ` (Error: ${error.message || 'Connection issue'})`;
-                
-                addMessage(fallbackResponse, false, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), true);
-                
-                // Don't clear file if there was an error
-                if (uploadedFileContent) {
-                    addMessage("Note: The file is still attached. You can try again or ask a different question.", false);
-                }
+                const fallbackResponse = "I apologize, but I'm having trouble processing your request. Please try again.";
+                addMessage(fallbackResponse, false, true);
             }
             
             sendBtn.disabled = false;
@@ -1102,10 +1081,15 @@
         // ============================================
         async function handleFileSelect(event) {
             const file = event.target.files[0];
-            if (!file) return;
+            if (!file) {
+                console.log('No file selected');
+                return;
+            }
             
-            // Check file size
-            if (file.size > CONFIG.MAX_FILE_SIZE) {
+            console.log('File selected:', file.name, file.size, file.type);
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
                 alert('File size too large. Maximum size is 5MB.');
                 return;
             }
@@ -1123,7 +1107,7 @@
                 // For text files, read content
                 if (file.type.startsWith('text/') || fileExt === '.txt') {
                     const text = await file.text();
-                    uploadedFileContent = text.substring(0, 10000); // Limit to 10k chars
+                    uploadedFileContent = text.substring(0, 5000); // Limit to 5000 chars
                     
                     // Show file status
                     uploadedFile = file;
@@ -1163,13 +1147,15 @@
             historyList.innerHTML = '';
             
             if (Object.keys(chats).length === 0) {
-                emptyHistory.classList.remove('hidden');
-                historyList.appendChild(emptyHistory);
+                const emptyItem = document.createElement('div');
+                emptyItem.className = 'history-item';
+                emptyItem.textContent = 'No conversations yet';
+                emptyItem.id = 'empty-history';
+                historyList.appendChild(emptyItem);
                 clearAllBtn.style.display = 'none';
                 return;
             }
             
-            emptyHistory.classList.add('hidden');
             clearAllBtn.style.display = 'flex';
             
             // Sort chats by timestamp (newest first)
@@ -1185,4 +1171,52 @@
                 titleSpan.textContent = chat.title;
                 
                 // Delete button for individual chat
-               
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-history-btn';
+                deleteBtn.innerHTML = '✕';
+                deleteBtn.title = 'Delete this chat';
+                
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteChat(chat.id);
+                });
+                
+                item.appendChild(titleSpan);
+                item.appendChild(deleteBtn);
+                item.addEventListener('click', () => loadChat(chat.id));
+                
+                historyList.appendChild(item);
+            });
+        }
+
+        function loadChat(chatId) {
+            console.log('Loading chat:', chatId);
+            currentChatId = chatId;
+            messagesContainer.innerHTML = '';
+            
+            const chat = chats[chatId];
+            if (chat && chat.messages.length > 0) {
+                chat.messages.forEach(msg => {
+                    addMessage(msg.content, msg.isUser, !msg.isUser);
+                });
+            } else {
+                addWelcomeMessage();
+            }
+            
+            updateHistoryDisplay();
+        }
+
+        function deleteChat(chatId) {
+            if (confirm('Delete this chat permanently?')) {
+                delete chats[chatId];
+                saveToStorage();
+                
+                if (chatId === currentChatId) {
+                    createNewChat();
+                }
+                
+                updateHistoryDisplay();
+            }
+        }
+
+        // ============================================
