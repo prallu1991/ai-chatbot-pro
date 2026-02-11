@@ -1,11 +1,3 @@
-I apologize for the errors. Let me fix both issues:
-
-1. **Attachment link position** - Should be in the input bar like DeepSeek
-2. **Conversation functionality** - Restore the chat flow
-
-Here's the corrected code:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -997,7 +989,7 @@ Here's the corrected code:
         }
 
         // ============================================
-        // MESSAGE FUNCTIONS (RESTORED CONVERSATION FLOW)
+        // MESSAGE FUNCTIONS (PROPER CONVERSATION AI)
         // ============================================
         function addMessage(content, isUser) {
             const messageDiv = document.createElement('div');
@@ -1041,7 +1033,6 @@ Here's the corrected code:
             saveToStorage();
             updateHistoryDisplay();
             
-            // Return true if message was added
             return true;
         }
 
@@ -1076,7 +1067,7 @@ Here's the corrected code:
             if (indicator) indicator.remove();
         }
 
-        // Simulated conversation responses
+        // Smart conversation responses
         const conversationResponses = {
             greetings: [
                 "Hello! How can I assist you today?",
@@ -1088,30 +1079,69 @@ Here's the corrected code:
                 "I'm designed to assist with questions, problem-solving, and creative tasks. What would you like me to help with?",
                 "I can provide information, explanations, write code, analyze problems, and much more. What do you need help with?"
             ],
-            default: [
-                "That's interesting. Can you tell me more about that?",
-                "I understand. What specific aspect would you like me to focus on?",
-                "Thanks for sharing that. How can I assist you further with this?",
-                "I see. Would you like me to elaborate on any particular point?",
-                "Interesting perspective. What would you like me to do with this information?"
+            coding: [
+                "I can help with programming! What language are you working with and what specific problem are you trying to solve?",
+                "Programming assistance is one of my specialties. Could you share the code you're working on or describe the issue?",
+                "Let me help with your coding question. What programming language and what specific challenge are you facing?"
+            ],
+            writing: [
+                "I can help with writing! What type of content are you looking to create? (e.g., email, article, story, etc.)",
+                "Writing assistance is available. What format are you working on and what's the main topic?",
+                "I can help craft various types of content. What's the purpose and audience for your writing?"
+            ],
+            explanation: [
+                "I'd be happy to explain that! Could you clarify which specific concept or topic you'd like me to break down?",
+                "Let me provide a clear explanation. What aspect would you like me to focus on?",
+                "I can explain that concept. What's your current understanding and what specific questions do you have?"
+            ],
+            general: [
+                "I understand. Could you provide more details about what you're looking for?",
+                "Thanks for sharing. How can I assist you with this?",
+                "Interesting. What specific aspect would you like me to focus on?",
+                "I see. Would you like me to elaborate on this topic or help with something specific?",
+                "Got it. What would you like me to do next?"
             ]
         };
 
         function getConversationResponse(userMessage) {
             const lowerMessage = userMessage.toLowerCase();
             
-            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+            // Check for different types of queries
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey') || 
+                lowerMessage.includes('good morning') || lowerMessage.includes('good afternoon')) {
                 return conversationResponses.greetings[Math.floor(Math.random() * conversationResponses.greetings.length)];
-            } else if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
+            } 
+            else if (lowerMessage.includes('help') || lowerMessage.includes('what can you do') || 
+                     lowerMessage.includes('capabilities') || lowerMessage.includes('features')) {
                 return conversationResponses.help[Math.floor(Math.random() * conversationResponses.help.length)];
-            } else if (lowerMessage.includes('code') || lowerMessage.includes('programming')) {
-                return "I can help with programming! What language are you working with and what specific problem are you trying to solve?";
-            } else if (lowerMessage.includes('write') || lowerMessage.includes('content')) {
-                return "I can help with writing! What type of content are you looking to create? (e.g., email, article, story, etc.)";
-            } else if (lowerMessage.includes('explain') || lowerMessage.includes('what is')) {
-                return "I'd be happy to explain that! Could you clarify which specific concept or topic you'd like me to break down?";
-            } else {
-                return conversationResponses.default[Math.floor(Math.random() * conversationResponses.default.length)];
+            } 
+            else if (lowerMessage.includes('code') || lowerMessage.includes('programming') || 
+                     lowerMessage.includes('python') || lowerMessage.includes('javascript') || 
+                     lowerMessage.includes('java') || lowerMessage.includes('html') || 
+                     lowerMessage.includes('css') || lowerMessage.includes('react') || 
+                     lowerMessage.includes('function') || lowerMessage.includes('algorithm')) {
+                return conversationResponses.coding[Math.floor(Math.random() * conversationResponses.coding.length)];
+            } 
+            else if (lowerMessage.includes('write') || lowerMessage.includes('content') || 
+                     lowerMessage.includes('email') || lowerMessage.includes('article') || 
+                     lowerMessage.includes('story') || lowerMessage.includes('essay') || 
+                     lowerMessage.includes('blog') || lowerMessage.includes('report')) {
+                return conversationResponses.writing[Math.floor(Math.random() * conversationResponses.writing.length)];
+            } 
+            else if (lowerMessage.includes('explain') || lowerMessage.includes('what is') || 
+                     lowerMessage.includes('how does') || lowerMessage.includes('tell me about') || 
+                     lowerMessage.includes('define') || lowerMessage.includes('meaning of')) {
+                return conversationResponses.explanation[Math.floor(Math.random() * conversationResponses.explanation.length)];
+            } 
+            else if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+                return "You're welcome! Is there anything else I can help you with?";
+            }
+            else if (lowerMessage.includes('bye') || lowerMessage.includes('goodbye') || 
+                     lowerMessage.includes('see you')) {
+                return "Goodbye! Feel free to return if you have more questions. Have a great day!";
+            }
+            else {
+                return conversationResponses.general[Math.floor(Math.random() * conversationResponses.general.length)];
             }
         }
 
@@ -1128,8 +1158,8 @@ Here's the corrected code:
             // Show typing indicator
             showTypingIndicator();
             
-            // Simulate AI thinking time (random between 0.5-1.5 seconds)
-            const thinkingTime = Math.random() * 1000 + 500;
+            // Simulate AI thinking time (random between 0.5-2 seconds for realistic feel)
+            const thinkingTime = Math.random() * 1500 + 500;
             
             setTimeout(() => {
                 hideTypingIndicator();
@@ -1214,4 +1244,147 @@ Here's the corrected code:
                 return;
             }
             
-            //
+            // Check file type
+            const allowedTypes = ['.txt', '.pdf', '.doc', '.docx', '.jpg', '.png'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(fileExtension)) {
+                alert('Please select a valid file type: .txt, .pdf, .doc, .docx, .jpg, .png');
+                return;
+            }
+            
+            // Simulate file upload
+            attachmentLink.textContent = '📎 Uploading...';
+            attachmentLink.disabled = true;
+            
+            setTimeout(() => {
+                // For demonstration, use a placeholder
+                uploadedFileContent = `[Uploaded file: ${file.name} (${(file.size / 1024).toFixed(2)} KB)]`;
+                
+                addMessage(`📎 File "${file.name}" uploaded successfully. You can now ask questions about it.`, false);
+                
+                attachmentLink.textContent = '📎';
+                attachmentLink.disabled = false;
+                fileInput.value = '';
+            }, 1500);
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+        });
+
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        sendButton.addEventListener('click', sendMessage);
+
+        newChatBtn.addEventListener('click', () => {
+            currentChatId = 'chat-' + Date.now();
+            messagesContainer.innerHTML = '';
+            addWelcomeMessage();
+        });
+
+        exportBtn.addEventListener('click', () => {
+            const currentChat = chats[currentChatId];
+            if (!currentChat || currentChat.messages.length === 0) {
+                alert('No messages to export.');
+                return;
+            }
+            
+            let exportText = `P.R.A.I Chat Export\n${new Date().toLocaleString()}\n\n`;
+            currentChat.messages.forEach(msg => {
+                exportText += `${msg.timestamp} - ${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.content}\n\n`;
+            });
+            
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `prai-chat-${currentChatId}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear this conversation?')) {
+                messagesContainer.innerHTML = '';
+                if (chats[currentChatId]) {
+                    chats[currentChatId].messages = [];
+                }
+                addWelcomeMessage();
+                saveToStorage();
+            }
+        });
+
+        clearHistoryBtn.addEventListener('click', clearAllHistory);
+
+        const suggestions = [
+            "Explain quantum computing in simple terms",
+            "Write a Python script for data analysis",
+            "Help me design a project timeline",
+            "Analyze this business strategy",
+            "Create a creative story concept"
+        ];
+
+        suggestBtn.addEventListener('click', () => {
+            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+            messageInput.value = randomSuggestion;
+            messageInput.focus();
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+        });
+
+        attachmentLink.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileUpload(file);
+            }
+        });
+
+        // Settings modal
+        settingsBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'flex';
+        });
+
+        closeSettingsBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'none';
+        });
+
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+        });
+
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                applyTheme(option.dataset.theme);
+            });
+        });
+
+        // ============================================
+        // INITIALIZE APP
+        // ============================================
+        init();
+        
+        // Auto-focus input
+        document.addEventListener('click', () => {
+            if (messageInput !== document.activeElement && !settingsModal.style.display) {
+                messageInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>
