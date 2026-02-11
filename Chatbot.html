@@ -565,7 +565,7 @@
 
         .message-input {
             width: 100%;
-            padding: 14px 100px 14px 16px;
+            padding: 14px 140px 14px 16px;
             background: #2a2a2a;
             border: 1px solid transparent;
             border-radius: 8px;
@@ -613,7 +613,7 @@
             align-items: center;
         }
 
-        .attachment-link {
+        .action-btn {
             width: 36px;
             height: 36px;
             border-radius: 6px;
@@ -629,21 +629,34 @@
             font-size: 18px;
         }
 
-        .light-mode .attachment-link {
+        .light-mode .action-btn {
             border: 1px solid #e0e0e0;
             color: #666666;
         }
 
-        .attachment-link:hover {
+        .action-btn:hover {
             background: #2a2a2a;
             color: white;
             border-color: #666666;
         }
 
-        .light-mode .attachment-link:hover {
+        .light-mode .action-btn:hover {
             background: #f0f0f0;
             color: #333333;
             border-color: #999999;
+        }
+
+        .action-btn.active {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
         .send-button {
@@ -658,6 +671,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
         }
 
         .send-button:hover {
@@ -779,7 +794,7 @@
             }
             
             .message-input {
-                padding: 12px 90px 12px 12px;
+                padding: 12px 120px 12px 12px;
                 min-height: 48px;
             }
             
@@ -789,7 +804,7 @@
                 gap: 4px;
             }
             
-            .attachment-link,
+            .action-btn,
             .send-button {
                 width: 32px;
                 height: 32px;
@@ -880,10 +895,13 @@
                         rows="1"
                     ></textarea>
                     <div class="input-actions">
-                        <a href="#" class="attachment-link" id="attachment-link" title="Attach file">
+                        <button class="action-btn" id="mic-btn" title="Voice Input">
+                            🎤
+                        </button>
+                        <button class="action-btn" id="upload-btn" title="Upload File">
                             📎
-                        </a>
-                        <button class="send-button" id="send-button">
+                        </button>
+                        <button class="send-button" id="send-button" title="Send Message">
                             →
                         </button>
                     </div>
@@ -892,11 +910,8 @@
                     <button class="quick-action" id="suggest-btn">
                         💡 Get suggestions
                     </button>
-                    <button class="quick-action" id="upload-btn">
-                        📎 Upload file
-                    </button>
-                    <input type="file" id="file-input" class="hidden" accept=".txt,.pdf">
                 </div>
+                <input type="file" id="file-input" class="hidden" accept=".txt,.pdf">
             </div>
         </main>
     </div>
@@ -908,6 +923,9 @@
         let currentChatId = 'chat-' + Date.now();
         let chats = {};
         let uploadedFileContent = null;
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
 
         // ============================================
         // DOM ELEMENTS
@@ -927,7 +945,7 @@
         const settingsBtn = document.getElementById('settings-btn');
         const themeSelector = document.getElementById('theme-selector');
         const themeOptions = themeSelector.querySelectorAll('.theme-option');
-        const attachmentLink = document.getElementById('attachment-link');
+        const micBtn = document.getElementById('mic-btn');
 
         // ============================================
         // THEME MANAGEMENT
@@ -957,6 +975,77 @@
         function loadTheme() {
             const savedTheme = localStorage.getItem('praiTheme') || 'dark';
             setTheme(savedTheme);
+        }
+
+        // ============================================
+        // VOICE RECORDING FUNCTIONS
+        // ============================================
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    
+                    // In a real app, you would send this to a speech-to-text API
+                    // For demo purposes, we'll just simulate speech recognition
+                    simulateSpeechRecognition();
+                };
+
+                mediaRecorder.start();
+                isRecording = true;
+                micBtn.classList.add('active');
+                micBtn.title = 'Stop Recording';
+                addMessage("🎤 Recording started... Speak now.", false);
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                addMessage("❌ Could not access microphone. Please check permissions.", false);
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                isRecording = false;
+                micBtn.classList.remove('active');
+                micBtn.title = 'Voice Input';
+            }
+        }
+
+        function simulateSpeechRecognition() {
+            // Simulate processing time
+            setTimeout(() => {
+                const sampleTranscripts = [
+                    "Hello, how are you today?",
+                    "Can you help me with programming?",
+                    "What's the weather like today?",
+                    "Tell me a fun fact about technology.",
+                    "How can I learn machine learning?"
+                ];
+                
+                const randomTranscript = sampleTranscripts[Math.floor(Math.random() * sampleTranscripts.length)];
+                messageInput.value = randomTranscript;
+                messageInput.style.height = 'auto';
+                messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+                
+                addMessage("✅ Voice input received: " + randomTranscript, false);
+                messageInput.focus();
+            }, 1500);
+        }
+
+        function toggleRecording() {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
         }
 
         // ============================================
@@ -1228,9 +1317,11 @@
             settingsBtn.innerHTML = isHidden ? '⚙️ Settings' : '⚙️ Close Settings';
         });
 
-        // Attachment link
-        attachmentLink.addEventListener('click', (e) => {
-            e.preventDefault();
+        // Mic button
+        micBtn.addEventListener('click', toggleRecording);
+
+        // Upload button
+        uploadBtn.addEventListener('click', () => {
             fileInput.click();
         });
 
@@ -1248,10 +1339,6 @@
             messageInput.focus();
             messageInput.style.height = 'auto';
             messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
-        });
-
-        uploadBtn.addEventListener('click', () => {
-            fileInput.click();
         });
 
         fileInput.addEventListener('change', async (e) => {
@@ -1281,7 +1368,7 @@
             } catch (error) {
                 alert('Failed to upload file.');
             } finally {
-                uploadBtn.textContent = '📎 Upload file';
+                uploadBtn.textContent = '📎';
                 uploadBtn.disabled = false;
                 fileInput.value = '';
             }
