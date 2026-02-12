@@ -1,9 +1,10 @@
 """
-AI Assistant Pro - Backend Server with Database
+AI Assistant Pro - Backend Server with Database & Social Authentication
 Database: Supabase (Free Tier)
+Social Login: Google, Facebook, Outlook, LinkedIn (via Supabase OAuth)
 """
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, redirect
 from flask_cors import CORS
 import requests
 import PyPDF2
@@ -11,6 +12,7 @@ import io
 import os
 from datetime import datetime
 import logging
+import urllib.parse
 
 # ============================================
 # FLASK APP CONFIGURATION
@@ -52,6 +54,24 @@ PERSONALITIES = {
     'technical': 'Technical expert assistant',
     'creative': 'Creative imaginative assistant',
     'teacher': 'Patient educational assistant'
+}
+
+# ============================================
+# SOCIAL LOGIN CONFIGURATION - ALL PROVIDERS
+# ============================================
+
+# Frontend URL (your Render app)
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://ai-chatbot-pro-wdqz.onrender.com')
+
+# Map friendly names to Supabase provider names
+SOCIAL_PROVIDERS = {
+    'google': 'google',
+    'facebook': 'facebook',
+    'outlook': 'azure',      # Outlook uses Azure provider
+    'linkedin': 'linkedin',
+    'github': 'github',
+    'twitter': 'twitter',
+    'discord': 'discord'
 }
 
 # ============================================
@@ -153,7 +173,7 @@ def clear_database_history(session_id):
         return False
 
 # ============================================
-# AUTHENTICATION ROUTES (SUPABASE AUTH)
+# AUTHENTICATION ROUTES - EMAIL
 # ============================================
 
 @app.route('/auth/signup', methods=['POST'])
@@ -179,7 +199,7 @@ def signup():
         payload = {
             'email': email,
             'password': password,
-            'email_confirm': True  # Auto-confirm since we disabled email confirmation
+            'email_confirm': True  # Auto-confirm for testing
         }
         
         response = requests.post(
@@ -288,7 +308,111 @@ def logout():
         return jsonify({'error': 'Logout failed'}), 500
 
 # ============================================
-# ROUTES
+# SOCIAL LOGIN ROUTES - ALL PROVIDERS!
+# ============================================
+
+@app.route('/auth/login/<provider>', methods=['GET'])
+def social_login(provider):
+    """
+    Redirect to Supabase OAuth for social login
+    Supported providers: google, facebook, outlook, linkedin, github, twitter, discord
+    """
+    try:
+        if not SUPABASE_KEY or not SUPABASE_URL:
+            return jsonify({'error': 'Supabase not configured'}), 500
+        
+        # Check if provider is supported
+        if provider not in SOCIAL_PROVIDERS:
+            return jsonify({'error': f'Provider {provider} not supported'}), 400
+        
+        # Map to Supabase provider name
+        supabase_provider = SOCIAL_PROVIDERS[provider]
+        
+        # Construct redirect URI (this endpoint will handle the callback)
+        redirect_uri = f"{request.host_url.rstrip('/')}/auth/callback"
+        
+        # Construct Supabase OAuth URL
+        oauth_url = f"{SUPABASE_URL}/auth/v1/authorize"
+        params = {
+            'provider': supabase_provider,
+            'redirect_to': redirect_uri
+        }
+        
+        full_url = f"{oauth_url}?{urllib.parse.urlencode(params)}"
+        
+        logger.info(f"🔐 Redirecting to {provider} login: {full_url}")
+        
+        # Return the OAuth URL for frontend to redirect
+        return jsonify({
+            'url': full_url,
+            'provider': provider,
+            'message': f'Redirecting to {provider} login...'
+        })
+        
+    except Exception as e:
+        logger.error(f"Social login error for {provider}: {str(e)}")
+        return jsonify({'error': f'Failed to initiate {provider} login'}), 500
+
+
+@app.route('/auth/callback', methods=['GET'])
+def auth_callback():
+    """
+    Handle OAuth callback from Supabase
+    This is where Supabase redirects after successful social login
+    """
+    try:
+        # Get tokens from URL fragment (Supabase sends in URL params)
+        access_token = request.args.get('access_token')
+        refresh_token = request.args.get('refresh_token')
+        
+        if not access_token:
+            # Try to get from fragment (if sent as hash)
+            return redirect(f"{FRONTEND_URL}/?auth_error=no_token")
+        
+        # Get user info from Supabase
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {access_token}'
+        }
+        
+        user_response = requests.get(
+            f'{SUPABASE_URL}/auth/v1/user',
+            headers=headers
+        )
+        
+        if user_response.status_code == 200:
+            user_data = user_response.json()
+            email = user_data.get('email', '')
+            user_id = user_data.get('id', '')
+            
+            logger.info(f"✅ Social login successful: {email}")
+            
+            # Redirect to frontend with tokens in URL fragment
+            # This allows the frontend JavaScript to read the token and save it
+            redirect_url = f"{FRONTEND_URL}/#access_token={access_token}"
+            if refresh_token:
+                redirect_url += f"&refresh_token={refresh_token}"
+            
+            return redirect(redirect_url)
+        else:
+            logger.error(f"Failed to get user info: {user_response.status_code}")
+            return redirect(f"{FRONTEND_URL}/?auth_error=user_info_failed")
+            
+    except Exception as e:
+        logger.error(f"Auth callback error: {str(e)}")
+        return redirect(f"{FRONTEND_URL}/?auth_error=callback_failed")
+
+
+@app.route('/auth/providers', methods=['GET'])
+def list_providers():
+    """List all enabled social login providers"""
+    return jsonify({
+        'providers': list(SOCIAL_PROVIDERS.keys()),
+        'enabled': ['google', 'facebook', 'outlook', 'linkedin', 'github', 'twitter', 'discord']
+    })
+
+# ============================================
+# ROUTES - CHAT & FILE UPLOAD
 # ============================================
 
 @app.route('/')
@@ -303,7 +427,10 @@ def health_check():
         'model': CONFIG['MODEL'],
         'api_configured': bool(CONFIG['API_KEY']),
         'database': 'connected' if SUPABASE_KEY and SUPABASE_URL else 'disconnected',
-        'auth': 'enabled',
+        'auth': {
+            'email': 'enabled',
+            'social': list(SOCIAL_PROVIDERS.keys())
+        },
         'deployment': 'Render Ready'
     })
 
@@ -324,7 +451,8 @@ def test_db():
             'session_id': 'connection_test',
             'user_message': 'Database connection test',
             'bot_reply': 'If you see this, database is working!',
-            'personality': 'test'
+            'personality': 'test',
+            'timestamp': datetime.now().isoformat()
         }
         
         insert_response = requests.post(
@@ -350,46 +478,6 @@ def test_db():
         return jsonify({
             'status': 'failed',
             'error': str(e)
-        }), 500
-
-@app.route('/stats', methods=['GET'])
-def get_stats():
-    """Get database statistics"""
-    try:
-        if not SUPABASE_KEY or not SUPABASE_URL:
-            return jsonify({'error': 'Supabase not configured'}), 500
-            
-        headers = {
-            'apikey': SUPABASE_KEY,
-            'Authorization': f'Bearer {SUPABASE_KEY}'
-        }
-        
-        # Count total messages
-        count_response = requests.get(
-            f'{SUPABASE_URL}/rest/v1/chat_history?select=id',
-            headers=headers,
-            timeout=5
-        )
-        
-        if count_response.status_code == 200:
-            data = count_response.json()
-            total_messages = len(data)
-            
-            return jsonify({
-                'total_messages': total_messages,
-                'database_status': 'connected',
-                'timestamp': datetime.now().isoformat()
-            })
-        else:
-            return jsonify({
-                'error': f'HTTP {count_response.status_code}',
-                'database_status': 'error'
-            }), 500
-            
-    except Exception as e:
-        return jsonify({
-            'error': str(e),
-            'database_status': 'error'
         }), 500
 
 @app.route('/chat', methods=['POST'])
@@ -541,12 +629,37 @@ if __name__ == '__main__':
     import os
     
     print("\n" + "=" * 70)
-    print("🤖 P.R.A.I CHATBOT WITH SUPABASE DATABASE + AUTH")
+    print("🤖 P.R.A.I CHATBOT WITH SUPABASE DATABASE + SOCIAL AUTH")
     print("=" * 70)
     print(f"📊 Model: {CONFIG['MODEL']}")
     print(f"💾 Database: {'✅ Configured' if SUPABASE_URL and SUPABASE_KEY else '❌ Missing credentials'}")
-    print(f"🔑 Auth: ✅ Enabled")
+    print(f"🔑 Auth: Email + Social Login")
+    print(f"🌐 Social Providers: {', '.join(SOCIAL_PROVIDERS.keys())}")
     print(f"🔌 API: {'✅ Configured' if CONFIG['API_KEY'] else '❌ Missing API key'}")
+    print(f"🚀 Frontend URL: {FRONTEND_URL}")
+    print("=" * 70)
+    
+    # Test Supabase connection
+    if SUPABASE_URL and SUPABASE_KEY:
+        try:
+            test_headers = {
+                'apikey': SUPABASE_KEY,
+                'Authorization': f'Bearer {SUPABASE_KEY}'
+            }
+            test_response = requests.get(
+                f'{SUPABASE_URL}/rest/v1/chat_history?limit=1',
+                headers=test_headers,
+                timeout=5
+            )
+            if test_response.status_code == 200:
+                print("✅ Supabase connection: OK")
+            else:
+                print(f"⚠️ Supabase connection: HTTP {test_response.status_code}")
+        except Exception as e:
+            print(f"❌ Supabase connection: Failed - {str(e)}")
+    else:
+        print("⚠️ Supabase not configured - set SUPABASE_URL and SUPABASE_KEY env vars")
+    
     print("=" * 70)
     
     # Use environment variable for port
