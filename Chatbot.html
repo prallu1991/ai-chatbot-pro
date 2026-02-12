@@ -8,7 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Reset and Base */
+        /* ============================================
+           DEEPSEEK-STYLE DESIGN SYSTEM
+           ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -17,92 +19,90 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0f0f0f;
-            color: #ffffff;
+            background: #ffffff;
+            color: #0f0f0f;
             line-height: 1.6;
             height: 100vh;
             overflow: hidden;
             transition: background-color 0.3s, color 0.3s;
         }
 
-        body.light-mode {
-            background: #f5f5f7;
-            color: #333333;
+        body.dark-mode {
+            background: #0f0f0f;
+            color: #ffffff;
         }
 
         /* App Layout */
         .app {
             display: flex;
             height: 100vh;
-            background: #0f0f0f;
+            background: #ffffff;
             transition: background-color 0.3s;
         }
 
-        .light-mode .app {
-            background: #f5f5f7;
+        .dark-mode .app {
+            background: #0f0f0f;
         }
 
         /* ============================================
-           SIDEBAR
+           SIDEBAR - DEEPSEEK INSPIRED
            ============================================ */
         .sidebar {
-            width: 260px;
-            background: #161616;
-            border-right: 1px solid #2a2a2a;
+            width: 280px;
+            background: #f9f9f9;
+            border-right: 1px solid #e5e5e5;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 24px;
             transition: background-color 0.3s, border-color 0.3s;
         }
 
-        .light-mode .sidebar {
-            background: #ffffff;
-            border-right: 1px solid #e0e0e0;
+        .dark-mode .sidebar {
+            background: #111111;
+            border-right: 1px solid #2a2a2a;
         }
 
+        /* Logo - Clean & Minimal */
         .logo {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .light-mode .logo {
-            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 32px;
         }
 
         .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            width: 32px;
+            height: 32px;
+            background: #0066ff;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             color: white;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .logo-text {
             font-size: 18px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            color: #0066ff;
         }
 
+        .dark-mode .logo-text {
+            color: #3b82f6;
+        }
+
+        /* New Chat Button */
         .new-chat-btn {
             width: 100%;
             padding: 12px 16px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            background: #0066ff;
             border: none;
             border-radius: 8px;
             color: white;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
@@ -113,10 +113,10 @@
         }
 
         .new-chat-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+            background: #0052cc;
         }
 
+        /* History Section */
         .history-section {
             flex: 1;
             overflow-y: auto;
@@ -129,12 +129,8 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             padding-left: 4px;
-        }
-
-        .light-mode .history-title {
-            color: #666666;
         }
 
         .history-list {
@@ -147,7 +143,7 @@
             padding: 10px 12px;
             border-radius: 6px;
             font-size: 14px;
-            color: #d4d4d4;
+            color: #4a4a4a;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
@@ -155,208 +151,28 @@
             text-overflow: ellipsis;
         }
 
-        .light-mode .history-item {
-            color: #666666;
+        .dark-mode .history-item {
+            color: #d4d4d4;
         }
 
         .history-item:hover {
-            background: #2a2a2a;
-            color: white;
+            background: #f0f0f0;
+            color: #000000;
         }
 
-        .light-mode .history-item:hover {
-            background: #f0f0f0;
-            color: #333333;
+        .dark-mode .history-item:hover {
+            background: #2a2a2a;
+            color: white;
         }
 
         .history-item.active {
-            background: #2a2a2a;
-            color: white;
-        }
-
-        .light-mode .history-item.active {
             background: #e8f0fe;
-            color: #1a73e8;
+            color: #0066ff;
         }
 
-        .clear-history-btn {
-            width: 100%;
-            padding: 10px 16px;
-            background: transparent;
-            border: 1px solid #4a4a4a;
-            border-radius: 8px;
-            color: #8a8a8a;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .light-mode .clear-history-btn {
-            border: 1px solid #e0e0e0;
-            color: #666666;
-        }
-
-        .clear-history-btn:hover {
-            background: #2a2a2a;
-            color: white;
-            border-color: #666666;
-        }
-
-        .light-mode .clear-history-btn:hover {
-            background: #f0f0f0;
-            color: #333333;
-            border-color: #999999;
-        }
-
-        .model-selector {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .light-mode .model-selector {
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .model-label {
-            font-size: 12px;
-            color: #8a8a8a;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .light-mode .model-label {
-            color: #666666;
-        }
-
-        .model-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            background: #2a2a2a;
-            border-radius: 16px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #8a8a8a;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .light-mode .model-badge {
-            background: #f0f0f0;
-            color: #666666;
-        }
-
-        .model-badge:hover {
-            background: #3a3a3a;
-            color: white;
-        }
-
-        .light-mode .model-badge:hover {
-            background: #e0e0e0;
-            color: #333333;
-        }
-
-        .model-badge.active {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-
-        .settings-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .light-mode .settings-section {
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .settings-btn {
-            width: 100%;
-            padding: 10px 16px;
-            background: transparent;
-            border: 1px solid #4a4a4a;
-            border-radius: 8px;
-            color: #8a8a8a;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .light-mode .settings-btn {
-            border: 1px solid #e0e0e0;
-            color: #666666;
-        }
-
-        .settings-btn:hover {
-            background: #2a2a2a;
-            color: white;
-            border-color: #666666;
-        }
-
-        .light-mode .settings-btn:hover {
-            background: #f0f0f0;
-            color: #333333;
-            border-color: #999999;
-        }
-
-        .theme-selector {
-            display: flex;
-            gap: 8px;
-            background: #2a2a2a;
-            border-radius: 8px;
-            padding: 4px;
-            margin-top: 8px;
-        }
-
-        .light-mode .theme-selector {
-            background: #f0f0f0;
-        }
-
-        .theme-option {
-            flex: 1;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            background: transparent;
-            color: #8a8a8a;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .light-mode .theme-option {
-            color: #666666;
-        }
-
-        .theme-option.active {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-
-        .theme-option:hover:not(.active) {
-            background: #3a3a3a;
-            color: white;
-        }
-
-        .light-mode .theme-option:hover:not(.active) {
-            background: #e0e0e0;
-            color: #333333;
+        .dark-mode .history-item.active {
+            background: #1a2a3a;
+            color: #3b82f6;
         }
 
         /* ============================================
@@ -366,52 +182,52 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: #0f0f0f;
+            background: #ffffff;
             position: relative;
-            transition: background-color 0.3s;
         }
 
-        .light-mode .chat-area {
-            background: #f5f5f7;
+        .dark-mode .chat-area {
+            background: #0f0f0f;
         }
 
+        /* Header - Clean & Functional */
         .chat-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid #2a2a2a;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e5e5;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #161616;
-            transition: background-color 0.3s, border-color 0.3s;
+            background: #ffffff;
         }
 
-        .light-mode .chat-header {
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
+        .dark-mode .chat-header {
+            background: #0f0f0f;
+            border-bottom: 1px solid #2a2a2a;
         }
 
         .chat-title {
             font-size: 16px;
             font-weight: 600;
-            color: white;
+            color: #0f0f0f;
         }
 
-        .light-mode .chat-title {
-            color: #333333;
+        .dark-mode .chat-title {
+            color: white;
         }
 
         .header-actions {
             display: flex;
             gap: 8px;
+            align-items: center;
         }
 
         .header-btn {
             width: 36px;
             height: 36px;
             border-radius: 6px;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #e5e5e5;
             background: transparent;
-            color: #8a8a8a;
+            color: #666666;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
@@ -419,21 +235,398 @@
             justify-content: center;
         }
 
-        .light-mode .header-btn {
-            border: 1px solid #e0e0e0;
-            color: #666666;
+        .dark-mode .header-btn {
+            border: 1px solid #2a2a2a;
+            color: #8a8a8a;
         }
 
         .header-btn:hover {
+            background: #f5f5f5;
+            color: #000000;
+        }
+
+        .dark-mode .header-btn:hover {
             background: #2a2a2a;
             color: white;
         }
 
-        .light-mode .header-btn:hover {
-            background: #f0f0f0;
-            color: #333333;
+        /* ============================================
+           PROFILE / AVATAR SECTION - DEEPSEEK STYLE
+           ============================================ */
+        .profile-container {
+            position: relative;
+            display: inline-block;
         }
 
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px 4px 4px;
+            border-radius: 40px;
+            border: 1px solid #e5e5e5;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .profile-btn {
+            border: 1px solid #2a2a2a;
+        }
+
+        .profile-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .dark-mode .profile-btn:hover {
+            background: #2a2a2a;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            color: #0f0f0f;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dark-mode .profile-email {
+            color: white;
+        }
+
+        /* Dropdown Menu */
+        .profile-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 240px;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 8px;
+            z-index: 10000;
+            display: none;
+        }
+
+        .dark-mode .profile-dropdown {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 12px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .dark-mode .dropdown-header {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .dropdown-user-name {
+            font-weight: 600;
+            color: #0f0f0f;
+            margin-bottom: 4px;
+        }
+
+        .dark-mode .dropdown-user-name {
+            color: white;
+        }
+
+        .dropdown-user-email {
+            font-size: 12px;
+            color: #666666;
+        }
+
+        .dropdown-item {
+            padding: 10px 12px;
+            border-radius: 6px;
+            color: #0f0f0f;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .dark-mode .dropdown-item {
+            color: white;
+        }
+
+        .dropdown-item:hover {
+            background: #f5f5f5;
+        }
+
+        .dark-mode .dropdown-item:hover {
+            background: #2a2a2a;
+        }
+
+        .dropdown-item.logout {
+            color: #ff4444;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        .dark-mode .dropdown-item.logout {
+            border-top: 1px solid #2a2a2a;
+        }
+
+        /* ============================================
+           AUTH MODAL - DEEPSEEK STYLE
+           ============================================ */
+        #auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        .auth-container {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            width: 440px;
+            max-width: 90%;
+            position: relative;
+            z-index: 1000000;
+            pointer-events: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .dark-mode .auth-container {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0f0f0f;
+        }
+
+        .dark-mode .auth-header h2 {
+            color: white;
+        }
+
+        .auth-header p {
+            color: #666666;
+            font-size: 15px;
+        }
+
+        /* Social Login Buttons */
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            background: white;
+            color: #0f0f0f;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .dark-mode .social-btn {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: white;
+        }
+
+        .social-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .dark-mode .social-btn:hover {
+            background: #3a3a3a;
+        }
+
+        .social-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #8a8a8a;
+            font-size: 14px;
+            margin: 24px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .dark-mode .divider::before,
+        .dark-mode .divider::after {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .divider span {
+            margin: 0 16px;
+        }
+
+        /* Email Login Form */
+        .email-login-form {
+            display: none;
+        }
+
+        .email-login-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            color: #0f0f0f;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .form-input {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #0066ff;
+            background: white;
+        }
+
+        .dark-mode .form-input:focus {
+            background: #333333;
+            border-color: #3b82f6;
+        }
+
+        .auth-action-btn {
+            width: 100%;
+            padding: 14px;
+            background: #0066ff;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .auth-action-btn:hover {
+            background: #0052cc;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .auth-toggle button {
+            background: none;
+            border: none;
+            color: #0066ff;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+
+        .auth-toggle button:hover {
+            text-decoration: underline;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #666666;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .dark-mode .close-btn:hover {
+            background: #2a2a2a;
+        }
+
+        /* Messages Container */
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -470,49 +663,48 @@
         }
 
         .user-message .message-content {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            background: #0066ff;
             color: white;
             border-bottom-right-radius: 4px;
         }
 
         .bot-message .message-content {
-            background: #2a2a2a;
-            color: #f0f0f0;
+            background: #f5f5f5;
+            color: #0f0f0f;
             border-bottom-left-radius: 4px;
         }
 
-        .light-mode .bot-message .message-content {
-            background: #ffffff;
-            color: #333333;
-            border: 1px solid #e0e0e0;
+        .dark-mode .bot-message .message-content {
+            background: #2a2a2a;
+            color: white;
         }
 
         .message-sender {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             margin-bottom: 6px;
-            color: #8a8a8a;
-        }
-
-        .light-mode .message-sender {
             color: #666666;
         }
 
+        .dark-mode .message-sender {
+            color: #8a8a8a;
+        }
+
+        /* Typing Indicator */
         .typing-indicator {
             display: flex;
             align-items: center;
             gap: 4px;
             padding: 16px 20px;
-            background: #2a2a2a;
+            background: #f5f5f5;
             border-radius: 12px;
             border-bottom-left-radius: 4px;
             width: fit-content;
         }
 
-        .light-mode .typing-indicator {
-            background: #ffffff;
-            border: 1px solid #e0e0e0;
+        .dark-mode .typing-indicator {
+            background: #2a2a2a;
         }
 
         .typing-dot {
@@ -523,28 +715,21 @@
             animation: typing 1.4s infinite ease-in-out;
         }
 
-        .light-mode .typing-dot {
-            background: #666666;
-        }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
             30% { transform: translateY(-8px); opacity: 1; }
         }
 
+        /* Input Area */
         .input-area {
             padding: 20px 24px;
-            border-top: 1px solid #2a2a2a;
-            background: #161616;
-            transition: background-color 0.3s, border-color 0.3s;
+            border-top: 1px solid #e5e5e5;
+            background: white;
         }
 
-        .light-mode .input-area {
-            background: #ffffff;
-            border-top: 1px solid #e0e0e0;
+        .dark-mode .input-area {
+            background: #0f0f0f;
+            border-top: 1px solid #2a2a2a;
         }
 
         .input-container {
@@ -554,42 +739,34 @@
 
         .message-input {
             width: 100%;
-            padding: 14px 140px 14px 16px;
-            background: #2a2a2a;
+            padding: 16px 140px 16px 16px;
+            background: #f5f5f5;
             border: 1px solid transparent;
-            border-radius: 8px;
-            color: white;
+            border-radius: 12px;
+            color: #0f0f0f;
             font-size: 15px;
             font-family: 'Inter', sans-serif;
             resize: none;
-            min-height: 52px;
+            min-height: 56px;
             max-height: 200px;
             line-height: 1.6;
             transition: all 0.2s;
         }
 
-        .light-mode .message-input {
-            background: #f5f5f7;
-            color: #333333;
+        .dark-mode .message-input {
+            background: #2a2a2a;
+            color: white;
         }
 
         .message-input:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #0066ff;
+            background: white;
+        }
+
+        .dark-mode .message-input:focus {
             background: #333333;
-        }
-
-        .light-mode .message-input:focus {
-            background: #ffffff;
             border-color: #3b82f6;
-        }
-
-        .message-input::placeholder {
-            color: #8a8a8a;
-        }
-
-        .light-mode .message-input::placeholder {
-            color: #999999;
         }
 
         .input-actions {
@@ -602,57 +779,42 @@
         }
 
         .action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             background: transparent;
-            border: 1px solid #4a4a4a;
-            color: #8a8a8a;
+            border: 1px solid #e5e5e5;
+            color: #666666;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            font-size: 18px;
         }
 
-        .light-mode .action-btn {
-            border: 1px solid #e0e0e0;
-            color: #666666;
+        .dark-mode .action-btn {
+            border: 1px solid #3a3a3a;
+            color: #8a8a8a;
         }
 
         .action-btn:hover {
-            background: #2a2a2a;
-            color: white;
-            border-color: #666666;
+            background: white;
+            border-color: #0066ff;
+            color: #0066ff;
         }
 
-        .light-mode .action-btn:hover {
-            background: #f0f0f0;
-            color: #333333;
-            border-color: #999999;
-        }
-
-        .action-btn.active {
-            background: #ef4444;
-            color: white;
-            border-color: #ef4444;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        .dark-mode .action-btn:hover {
+            background: #3a3a3a;
+            border-color: #3b82f6;
+            color: #3b82f6;
         }
 
         .send-button {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            width: 40px;
+            height: 40px;
+            background: #0066ff;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             color: white;
             cursor: pointer;
             transition: all 0.2s;
@@ -660,17 +822,12 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .send-button:hover {
-            opacity: 0.9;
+            background: #0052cc;
             transform: scale(1.05);
-        }
-
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .quick-actions {
@@ -680,123 +837,37 @@
         }
 
         .quick-action {
-            padding: 8px 12px;
-            background: #2a2a2a;
-            border: none;
-            border-radius: 6px;
-            color: #8a8a8a;
+            padding: 8px 14px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 20px;
+            color: #666666;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .light-mode .quick-action {
-            background: #f0f0f0;
-            color: #666666;
+        .dark-mode .quick-action {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: #8a8a8a;
         }
 
         .quick-action:hover {
-            background: #3a3a3a;
-            color: white;
-        }
-
-        .light-mode .quick-action:hover {
-            background: #e0e0e0;
-            color: #333333;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #4a4a4a;
-            border-radius: 3px;
-        }
-
-        .light-mode ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #5a5a5a;
-        }
-
-        .light-mode ::-webkit-scrollbar-thumb:hover {
-            background: #a1a1a1;
+            background: white;
+            border-color: #0066ff;
+            color: #0066ff;
         }
 
         .hidden {
             display: none;
         }
-
-        @media (max-width: 768px) {
-            .app {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid #2a2a2a;
-            }
-            
-            .light-mode .sidebar {
-                border-bottom: 1px solid #e0e0e0;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-            
-            .messages-container {
-                padding: 16px;
-                gap: 16px;
-            }
-            
-            .input-area {
-                padding: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo-text {
-                font-size: 16px;
-            }
-            
-            .message-content {
-                padding: 12px 16px;
-                font-size: 14px;
-            }
-            
-            .message-input {
-                padding: 12px 120px 12px 12px;
-                min-height: 48px;
-            }
-            
-            .input-actions {
-                right: 4px;
-                bottom: 4px;
-                gap: 4px;
-            }
-            
-            .action-btn,
-            .send-button {
-                width: 32px;
-                height: 32px;
-                font-size: 16px;
-            }
-        }
     </style>
 </head>
-<body>
+<body class="dark-mode">
     <div class="app">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">P</div>
@@ -808,10 +879,6 @@
                 New Chat
             </button>
 
-            <button class="clear-history-btn" id="clear-history-btn">
-                🗑️ Clear All History
-            </button>
-
             <div class="history-section">
                 <div class="history-title">Recent</div>
                 <div class="history-list" id="history-list">
@@ -820,32 +887,39 @@
                     </div>
                 </div>
             </div>
-
-            <div class="model-selector">
-                <span class="model-label">Model</span>
-                <div>
-                    <span class="model-badge active">Llama 3.3</span>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <button class="settings-btn" id="settings-btn">
-                    ⚙️ Settings
-                </button>
-                <div class="theme-selector" id="theme-selector">
-                    <button class="theme-option active" data-theme="dark">Dark</button>
-                    <button class="theme-option" data-theme="light">Light</button>
-                </div>
-            </div>
         </aside>
 
+        <!-- Main Chat Area -->
         <main class="chat-area">
             <div class="chat-header">
                 <div class="chat-title">P.R.A.I Assistant</div>
                 <div class="header-actions">
-                    <button class="header-btn" id="auth-btn" title="Login/Signup">👤</button>
                     <button class="header-btn" id="clear-btn" title="Clear Chat">🗑️</button>
                     <button class="header-btn" id="export-btn" title="Export">📥</button>
+                    
+                    <!-- Profile Container -->
+                    <div class="profile-container" id="profile-container">
+                        <button class="profile-btn" id="profile-btn">
+                            <div class="profile-avatar" id="profile-avatar">
+                                👤
+                            </div>
+                            <span class="profile-email" id="profile-email">Sign In</span>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="profile-dropdown" id="profile-dropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-user-name" id="dropdown-user-name">Guest</div>
+                                <div class="dropdown-user-email" id="dropdown-user-email"></div>
+                            </div>
+                            <div class="dropdown-item" id="dropdown-settings">
+                                ⚙️ Settings
+                            </div>
+                            <div class="dropdown-item logout" id="dropdown-logout">
+                                🚪 Logout
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -881,56 +955,72 @@
         </main>
     </div>
 
-    <!-- FIXED AUTH MODAL - NOW FULLY CLICKABLE -->
-    <div id="auth-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 999999; align-items: center; justify-content: center; pointer-events: auto;">
-        <div style="background: #1a1a1a; padding: 40px; border-radius: 12px; width: 400px; max-width: 90%; position: relative; z-index: 1000000; pointer-events: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
-            <h2 style="margin-bottom: 24px; color: white; font-size: 24px;">Welcome to P.R.A.I</h2>
+    <!-- AUTH MODAL - DEEPSEEK STYLE WITH SOCIAL LOGIN -->
+    <div id="auth-modal">
+        <div class="auth-container">
+            <button class="close-btn" onclick="hideAuthModal()">✕</button>
             
-            <!-- LOGIN FORM -->
-            <div id="login-form">
-                <input type="email" id="email" placeholder="Email" autocomplete="email"
-                       style="width: 100%; padding: 14px; margin-bottom: 16px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 8px; color: white; font-size: 15px; pointer-events: auto; z-index: 1000001;">
+            <div class="auth-header">
+                <h2>Welcome to P.R.A.I</h2>
+                <p>Sign in to continue</p>
+            </div>
+
+            <!-- Social Login Buttons -->
+            <div class="social-login">
+                <button class="social-btn" onclick="handleSocialLogin('google')">
+                    <img src="https://www.google.com/favicon.ico" alt="Google" style="width: 20px; height: 20px;">
+                    Continue with Google
+                </button>
+                <button class="social-btn" onclick="handleSocialLogin('github')">
+                    <img src="https://github.com/favicon.ico" alt="GitHub" style="width: 20px; height: 20px;">
+                    Continue with GitHub
+                </button>
+                <button class="social-btn" onclick="handleSocialLogin('discord')">
+                    <img src="https://discord.com/favicon.ico" alt="Discord" style="width: 20px; height: 20px;">
+                    Continue with Discord
+                </button>
+            </div>
+
+            <div class="divider">
+                <span>or continue with email</span>
+            </div>
+
+            <!-- Email Login (Default) -->
+            <div id="login-form" class="email-login-form active">
+                <div class="form-group">
+                    <input type="email" id="email" class="form-input" placeholder="Email address" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-input" placeholder="Password" autocomplete="current-password">
+                </div>
                 
-                <input type="password" id="password" placeholder="Password" autocomplete="current-password"
-                       style="width: 100%; padding: 14px; margin-bottom: 24px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 8px; color: white; font-size: 15px; pointer-events: auto; z-index: 1000001;">
-                
-                <button onclick="handleLogin()" 
-                        style="width: 100%; padding: 14px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; margin-bottom: 12px; font-size: 15px; pointer-events: auto; z-index: 1000001;">
+                <button class="auth-action-btn" onclick="handleLogin()">
                     Sign In
                 </button>
                 
-                <p style="text-align: center; color: #8a8a8a; margin-bottom: 8px;">
-                    Don't have an account? 
-                    <button onclick="showSignup()" style="background: none; border: none; color: #3b82f6; cursor: pointer; text-decoration: underline; font-size: 15px; pointer-events: auto;">
-                        Sign Up
-                    </button>
-                </p>
-                
-                <button onclick="hideAuthModal()" 
-                        style="width: 100%; padding: 12px; background: transparent; border: 1px solid #4a4a4a; border-radius: 8px; color: #8a8a8a; cursor: pointer; margin-top: 8px; font-size: 14px; pointer-events: auto;">
-                    Close
-                </button>
+                <div class="auth-toggle">
+                    Don't have an account?
+                    <button onclick="showSignupForm()">Sign up</button>
+                </div>
             </div>
-            
-            <!-- SIGNUP FORM -->
-            <div id="signup-form" style="display: none;">
-                <input type="email" id="signup-email" placeholder="Email" autocomplete="email"
-                       style="width: 100%; padding: 14px; margin-bottom: 16px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 8px; color: white; font-size: 15px; pointer-events: auto; z-index: 1000001;">
+
+            <!-- Email Signup (Hidden by Default) -->
+            <div id="signup-form" class="email-login-form">
+                <div class="form-group">
+                    <input type="email" id="signup-email" class="form-input" placeholder="Email address" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signup-password" class="form-input" placeholder="Password (min 6 characters)" autocomplete="new-password">
+                </div>
                 
-                <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password"
-                       style="width: 100%; padding: 14px; margin-bottom: 24px; background: #2a2a2a; border: 1px solid #4a4a4a; border-radius: 8px; color: white; font-size: 15px; pointer-events: auto; z-index: 1000001;">
-                
-                <button onclick="handleSignup()" 
-                        style="width: 100%; padding: 14px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; margin-bottom: 12px; font-size: 15px; pointer-events: auto; z-index: 1000001;">
+                <button class="auth-action-btn" onclick="handleSignup()">
                     Create Account
                 </button>
                 
-                <p style="text-align: center; color: #8a8a8a;">
-                    Already have an account? 
-                    <button onclick="showLogin()" style="background: none; border: none; color: #3b82f6; cursor: pointer; text-decoration: underline; font-size: 15px; pointer-events: auto;">
-                        Sign In
-                    </button>
-                </p>
+                <div class="auth-toggle">
+                    Already have an account?
+                    <button onclick="showLoginForm()">Sign in</button>
+                </div>
             </div>
         </div>
     </div>
@@ -951,6 +1041,8 @@
         // ============================================
         let userToken = localStorage.getItem('prai_token');
         let userEmail = localStorage.getItem('prai_email');
+        let userAvatar = localStorage.getItem('prai_avatar');
+        let userName = localStorage.getItem('prai_name');
 
         // ============================================
         // DOM ELEMENTS
@@ -966,69 +1058,87 @@
         const suggestBtn = document.getElementById('suggest-btn');
         const uploadBtn = document.getElementById('upload-btn');
         const fileInput = document.getElementById('file-input');
-        const clearHistoryBtn = document.getElementById('clear-history-btn');
-        const settingsBtn = document.getElementById('settings-btn');
-        const themeSelector = document.getElementById('theme-selector');
-        const themeOptions = themeSelector.querySelectorAll('.theme-option');
         const micBtn = document.getElementById('mic-btn');
+        const profileBtn = document.getElementById('profile-btn');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const profileEmail = document.getElementById('profile-email');
+        const dropdownUserName = document.getElementById('dropdown-user-name');
+        const dropdownUserEmail = document.getElementById('dropdown-user-email');
+        const dropdownLogout = document.getElementById('dropdown-logout');
 
         // ============================================
-        // THEME MANAGEMENT
+        // PROFILE / DROPDOWN FUNCTIONS
         // ============================================
-        function setTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-mode');
-                document.body.classList.remove('dark-mode');
-            } else {
-                document.body.classList.remove('light-mode');
-                document.body.classList.add('dark-mode');
-            }
-            
-            themeOptions.forEach(option => {
-                if (option.dataset.theme === theme) {
-                    option.classList.add('active');
+        function toggleDropdown(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('show');
+        }
+
+        function hideDropdown() {
+            profileDropdown.classList.remove('show');
+        }
+
+        function updateProfileUI() {
+            if (userEmail) {
+                const name = userName || userEmail.split('@')[0];
+                const initial = name.charAt(0).toUpperCase();
+                const displayName = name.length > 15 ? name.substring(0, 12) + '...' : name;
+                
+                if (userAvatar) {
+                    profileAvatar.innerHTML = `<img src="${userAvatar}" alt="Profile">`;
                 } else {
-                    option.classList.remove('active');
+                    profileAvatar.innerHTML = initial;
+                    profileAvatar.style.background = 'linear-gradient(135deg, #0066ff, #0052cc)';
                 }
-            });
-            
-            localStorage.setItem('praiTheme', theme);
-        }
-
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('praiTheme') || 'dark';
-            setTheme(savedTheme);
+                
+                profileEmail.textContent = displayName;
+                profileEmail.style.color = 'white';
+                
+                dropdownUserName.textContent = name;
+                dropdownUserEmail.textContent = userEmail;
+            } else {
+                profileAvatar.innerHTML = '👤';
+                profileAvatar.style.background = 'linear-gradient(135deg, #0066ff, #0052cc)';
+                profileEmail.textContent = 'Sign In';
+                profileEmail.style.color = '#8a8a8a';
+                
+                dropdownUserName.textContent = 'Guest';
+                dropdownUserEmail.textContent = '';
+            }
         }
 
         // ============================================
-        // AUTHENTICATION FUNCTIONS - FIXED
+        // AUTHENTICATION FUNCTIONS
         // ============================================
         function showAuthModal() {
-            const modal = document.getElementById('auth-modal');
-            modal.style.display = 'flex';
-            showLogin();
-            
-            // Focus on email input after modal opens
-            setTimeout(() => {
-                document.getElementById('email').focus();
-            }, 100);
+            document.getElementById('auth-modal').style.display = 'flex';
+            showLoginForm();
         }
 
         function hideAuthModal() {
             document.getElementById('auth-modal').style.display = 'none';
         }
 
-        function showLogin() {
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('signup-form').style.display = 'none';
+        function showLoginForm() {
+            document.getElementById('login-form').classList.add('active');
+            document.getElementById('signup-form').classList.remove('active');
         }
 
-        function showSignup() {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('signup-form').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('signup-email').focus();
-            }, 100);
+        function showSignupForm() {
+            document.getElementById('login-form').classList.remove('active');
+            document.getElementById('signup-form').classList.add('active');
+        }
+
+        // Social Login Handler
+        async function handleSocialLogin(provider) {
+            alert(`🔗 Redirecting to ${provider} login...\n\nIn production, this would redirect to:\n/auth/login/${provider}\n\nFor now, please use email signup.`);
+            
+            // In production, you would redirect to:
+            // window.location.href = `/auth/login/${provider}`;
+            
+            // For demo, show email form
+            showLoginForm();
         }
 
         async function handleSignup() {
@@ -1056,9 +1166,8 @@
                 
                 if (response.ok) {
                     alert('✅ Account created! Please login.');
-                    showLogin();
+                    showLoginForm();
                     document.getElementById('email').value = email;
-                    document.getElementById('password').value = '';
                 } else {
                     alert('❌ Error: ' + (data.msg || data.error || 'Signup failed'));
                 }
@@ -1088,16 +1197,15 @@
                 if (response.ok && data.access_token) {
                     userToken = data.access_token;
                     userEmail = email;
+                    userName = email.split('@')[0];
+                    
                     localStorage.setItem('prai_token', userToken);
                     localStorage.setItem('prai_email', email);
+                    localStorage.setItem('prai_name', userName);
                     
                     hideAuthModal();
-                    updateAuthButton();
-                    
-                    addMessage(`✅ Logged in as ${email}`, false);
-                    
-                    document.getElementById('email').value = '';
-                    document.getElementById('password').value = '';
+                    updateProfileUI();
+                    addMessage(`✅ Welcome back, ${userName}!`, false);
                 } else {
                     alert('❌ Error: ' + (data.msg || data.error || 'Login failed'));
                 }
@@ -1107,28 +1215,21 @@
         }
 
         function logout() {
-            if (confirm('Logout from P.R.A.I?')) {
-                localStorage.removeItem('prai_token');
-                localStorage.removeItem('prai_email');
-                userToken = null;
-                userEmail = null;
-                updateAuthButton();
-                addMessage('👋 Logged out successfully', false);
-            }
-        }
-
-        function updateAuthButton() {
-            const authBtn = document.getElementById('auth-btn');
-            if (userEmail) {
-                const username = userEmail.split('@')[0];
-                authBtn.innerHTML = '👤 ' + username.substring(0, 8) + (username.length > 8 ? '..' : '');
-                authBtn.title = `Logged in as ${userEmail} (click to logout)`;
-                authBtn.onclick = logout;
-            } else {
-                authBtn.innerHTML = '👤';
-                authBtn.title = 'Login / Sign Up';
-                authBtn.onclick = showAuthModal;
-            }
+            profileDropdown.classList.remove('show');
+            
+            localStorage.removeItem('prai_token');
+            localStorage.removeItem('prai_email');
+            localStorage.removeItem('prai_avatar');
+            localStorage.removeItem('prai_name');
+            
+            userToken = null;
+            userEmail = null;
+            userAvatar = null;
+            userName = null;
+            
+            updateProfileUI();
+            addMessage('👋 You have been logged out', false);
+            showAuthModal();
         }
 
         async function checkAuthStatus() {
@@ -1141,6 +1242,8 @@
                     if (!response.ok) {
                         localStorage.removeItem('prai_token');
                         localStorage.removeItem('prai_email');
+                        localStorage.removeItem('prai_avatar');
+                        localStorage.removeItem('prai_name');
                         userToken = null;
                         userEmail = null;
                     }
@@ -1148,7 +1251,7 @@
                     console.log('Auth check failed');
                 }
             }
-            updateAuthButton();
+            updateProfileUI();
         }
 
         // ============================================
@@ -1172,7 +1275,7 @@
                 isRecording = true;
                 micBtn.classList.add('active');
                 micBtn.title = 'Stop Recording';
-                addMessage("🎤 Recording started... Speak now.", false);
+                addMessage("🎤 Recording started...", false);
             } catch (error) {
                 addMessage("❌ Could not access microphone.", false);
             }
@@ -1219,11 +1322,17 @@
         // ============================================
         function init() {
             loadFromStorage();
-            loadTheme();
             checkAuthStatus();
             updateHistoryDisplay();
             addWelcomeMessage();
             messageInput.focus();
+            
+            // Click outside to close dropdown
+            document.addEventListener('click', function(e) {
+                if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                    hideDropdown();
+                }
+            });
         }
 
         function loadFromStorage() {
@@ -1397,23 +1506,6 @@
             updateHistoryDisplay();
         }
 
-        function clearAllHistory() {
-            if (Object.keys(chats).length === 0) {
-                alert('No chat history to clear.');
-                return;
-            }
-            
-            if (confirm('Are you sure you want to clear ALL chat history?')) {
-                chats = {};
-                localStorage.removeItem('praiChats');
-                currentChatId = 'chat-' + Date.now();
-                messagesContainer.innerHTML = '';
-                addWelcomeMessage();
-                updateHistoryDisplay();
-                alert('All chat history has been cleared.');
-            }
-        }
-
         // ============================================
         // EVENT LISTENERS
         // ============================================
@@ -1430,10 +1522,22 @@
         });
 
         sendButton.addEventListener('click', sendMessage);
+        
         newChatBtn.addEventListener('click', () => {
             currentChatId = 'chat-' + Date.now();
             messagesContainer.innerHTML = '';
             addWelcomeMessage();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear this conversation?')) {
+                messagesContainer.innerHTML = '';
+                if (chats[currentChatId]) {
+                    chats[currentChatId].messages = [];
+                }
+                addWelcomeMessage();
+                saveToStorage();
+            }
         });
 
         exportBtn.addEventListener('click', () => {
@@ -1457,31 +1561,26 @@
             URL.revokeObjectURL(url);
         });
 
-        clearBtn.addEventListener('click', () => {
-            if (confirm('Clear this conversation?')) {
-                messagesContainer.innerHTML = '';
-                if (chats[currentChatId]) {
-                    chats[currentChatId].messages = [];
-                }
-                addWelcomeMessage();
-                saveToStorage();
+        // Profile button click
+        profileBtn.addEventListener('click', (e) => {
+            if (userEmail) {
+                toggleDropdown(e);
+            } else {
+                showAuthModal();
             }
         });
 
-        clearHistoryBtn.addEventListener('click', clearAllHistory);
+        // Logout button
+        dropdownLogout.addEventListener('click', logout);
 
-        themeOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                setTheme(option.dataset.theme);
-            });
-        });
-
-        settingsBtn.addEventListener('click', () => {
-            const isHidden = themeSelector.classList.toggle('hidden');
-            settingsBtn.innerHTML = isHidden ? '⚙️ Settings' : '⚙️ Close Settings';
+        // Settings button
+        document.getElementById('dropdown-settings').addEventListener('click', () => {
+            alert('⚙️ Settings panel coming soon!');
+            hideDropdown();
         });
 
         micBtn.addEventListener('click', toggleRecording);
+        
         uploadBtn.addEventListener('click', () => fileInput.click());
 
         const suggestions = [
@@ -1506,7 +1605,7 @@
             formData.append('file', file);
             
             try {
-                uploadBtn.textContent = '📎 Uploading...';
+                uploadBtn.textContent = '📎';
                 uploadBtn.disabled = true;
                 
                 const response = await fetch('/upload', {
@@ -1525,7 +1624,6 @@
             } catch (error) {
                 alert('Failed to upload file.');
             } finally {
-                uploadBtn.textContent = '📎';
                 uploadBtn.disabled = false;
                 fileInput.value = '';
             }
