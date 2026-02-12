@@ -727,7 +727,7 @@
         }
 
         /* ============================================
-           AUTH MODAL - DEEPSEEK PREMIUM
+           AUTH MODAL - DEEPSEEK PREMIUM - UNIFORM BLUE BUTTONS
            ============================================ */
         #auth-modal {
             display: none;
@@ -782,7 +782,7 @@
             font-size: 15px;
         }
 
-        /* Social Login Buttons */
+        /* Social Login Buttons - ALL UNIFORM BLUE */
         .social-login {
             display: flex;
             flex-direction: column;
@@ -793,10 +793,10 @@
         .social-btn {
             width: 100%;
             padding: 14px;
-            border: 1px solid #e5e5e5;
+            border: none;
             border-radius: 12px;
-            background: white;
-            color: #0f0f0f;
+            background: #0066ff;  /* UNIFORM BLUE FOR ALL */
+            color: white;
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
@@ -807,58 +807,14 @@
             gap: 12px;
         }
 
-        .dark-mode .social-btn {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            color: white;
-        }
-
         .social-btn:hover {
-            background: #f5f5f5;
+            background: #0052cc;  /* Darker blue on hover */
+            transform: translateY(-1px);
         }
 
-        .dark-mode .social-btn:hover {
-            background: #3a3a3a;
-        }
-
-        .social-btn.facebook {
-            background: #1877f2;
-            color: white;
-            border: none;
-        }
-
-        .social-btn.facebook:hover {
-            background: #166fe5;
-        }
-
-        .social-btn.gmail {
-            background: #ea4335;
-            color: white;
-            border: none;
-        }
-
-        .social-btn.gmail:hover {
-            background: #d3382a;
-        }
-
-        .social-btn.outlook {
-            background: #0078d4;
-            color: white;
-            border: none;
-        }
-
-        .social-btn.outlook:hover {
-            background: #106ebe;
-        }
-
-        .social-btn.linkedin {
-            background: #0a66c2;
-            color: white;
-            border: none;
-        }
-
-        .social-btn.linkedin:hover {
-            background: #004182;
+        .social-btn span {
+            font-size: 18px;
+            font-weight: 600;
         }
 
         .divider {
@@ -1256,6 +1212,43 @@
             from { bottom: 0; opacity: 0; }
             to { bottom: 30px; opacity: 1; }
         }
+
+        /* LIGHT MODE FIXES - All white text changed to dark */
+        .light-mode .profile-email {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .dropdown-user-name {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .settings-title {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .settings-section-title {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .settings-item-label {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .radio-label {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .chat-title {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .dropdown-item {
+            color: #0f0f0f !important;
+        }
+
+        .light-mode .auth-header h2 {
+            color: #0f0f0f !important;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -1566,7 +1559,7 @@
         </div>
     </div>
 
-    <!-- AUTH MODAL - WITH GMAIL ADDED -->
+    <!-- AUTH MODAL - UNIFORM BLUE BUTTONS FOR ALL PROVIDERS -->
     <div id="auth-modal">
         <div class="auth-container">
             <button class="close-btn" onclick="hideAuthModal()">✕</button>
@@ -1576,22 +1569,22 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <!-- Social Login Buttons - Facebook, Gmail, Outlook, LinkedIn -->
+            <!-- Social Login Buttons - ALL UNIFORM BLUE -->
             <div class="social-login">
-                <button class="social-btn facebook" onclick="handleSocialLogin('facebook')">
-                    <span style="font-size: 18px;">f</span>
+                <button class="social-btn" onclick="handleSocialLogin('facebook')">
+                    <span>f</span>
                     Continue with Facebook
                 </button>
-                <button class="social-btn gmail" onclick="handleSocialLogin('gmail')">
-                    <span style="font-size: 18px;">G</span>
+                <button class="social-btn" onclick="handleSocialLogin('gmail')">
+                    <span>G</span>
                     Continue with Gmail
                 </button>
-                <button class="social-btn outlook" onclick="handleSocialLogin('outlook')">
-                    <span style="font-size: 18px;">@</span>
+                <button class="social-btn" onclick="handleSocialLogin('outlook')">
+                    <span>@</span>
                     Continue with Outlook
                 </button>
-                <button class="social-btn linkedin" onclick="handleSocialLogin('linkedin')">
-                    <span style="font-size: 18px;">in</span>
+                <button class="social-btn" onclick="handleSocialLogin('linkedin')">
+                    <span>in</span>
                     Continue with LinkedIn
                 </button>
             </div>
@@ -1797,7 +1790,7 @@
                 }
                 
                 profileEmail.textContent = displayName;
-                profileEmail.style.color = 'white';
+                profileEmail.style.color = userEmail ? 'white' : '#8a8a8a';
                 
                 dropdownUserName.textContent = name;
                 dropdownUserEmail.textContent = userEmail;
@@ -1808,7 +1801,7 @@
                 profileAvatar.innerHTML = '👤';
                 profileAvatar.style.background = 'linear-gradient(135deg, #0066ff, #0052cc)';
                 profileEmail.textContent = 'Sign In';
-                profileEmail.style.color = '#8a8a8a';
+                profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#8a8a8a' : '#0f0f0f';
                 
                 dropdownAvatar.innerHTML = '👤';
                 dropdownUserName.textContent = 'Guest';
