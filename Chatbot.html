@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           P.R.A.I v6.0.0 - COMPLETE UI WITH ALL FIXES!
-           ✅ VOICE MODE | ✅ SEARCH | ✅ EDIT/COPY | ✅ RECENT
+           P.R.A.I v6.2.0 - COMPLETE CONVERSATIONAL FIX!
+           ✅ NO DUPLICATE WELCOME | ✅ VOICE BUTTON FIXED | ✅ REAL CONVERSATION
            ============================================ */
         
         * {
@@ -46,7 +46,7 @@
         }
 
         /* ============================================
-           SIDEBAR - WITH SEARCH & VOICE MODE
+           SIDEBAR - WITH FIXED VOICE BUTTON
            ============================================ */
         .sidebar {
             width: 280px;
@@ -127,7 +127,7 @@
             border-radius: 40px;
             color: white;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
@@ -140,30 +140,29 @@
             white-space: nowrap;
         }
 
-        .voice-mode-btn:hover {
-            background: linear-gradient(135deg, #1d4ed8, #1e40af);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.4);
-        }
-
         .voice-mode-btn span:first-child {
             font-size: 20px;
             margin-right: 4px;
         }
 
         .voice-mode-btn span:last-child {
-            font-size: 11px;
+            font-size: 12px;
             background: rgba(255,255,255,0.2);
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 30px;
             font-weight: 500;
             letter-spacing: 0.3px;
-            margin-left: 4px;
             white-space: nowrap;
         }
 
+        .voice-mode-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.4);
+        }
+
         /* ============================================
-           SEARCH CHATS - NEW FEATURE!
+           SEARCH CHATS
            ============================================ */
         .search-container {
             width: 100%;
@@ -220,15 +219,6 @@
             box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
         }
 
-        .search-input::placeholder {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .dark-mode .search-input::placeholder {
-            color: #9ca3af;
-        }
-
         .search-clear {
             position: absolute;
             right: 12px;
@@ -245,20 +235,6 @@
             cursor: pointer;
             transition: all 0.2s;
             padding: 0;
-        }
-
-        .search-clear:hover {
-            background: #6b7280;
-            transform: scale(1.1);
-        }
-
-        .dark-mode .search-clear {
-            background: #4b5563;
-            color: #f9fafb;
-        }
-
-        .dark-mode .search-clear:hover {
-            background: #6b7280;
         }
 
         .history-section {
@@ -325,48 +301,8 @@
             color: #bfdbfe;
         }
 
-        .history-item.highlight {
-            background: #dbeafe !important;
-            border-left: 4px solid #2563eb;
-            font-weight: 600;
-        }
-
-        .dark-mode .history-item.highlight {
-            background: #1e3a5f !important;
-            border-left: 4px solid #60a5fa;
-        }
-
-        .no-search-results {
-            padding: 20px 12px;
-            text-align: center;
-            color: #6b7280;
-            font-size: 14px;
-            font-style: italic;
-        }
-
-        .dark-mode .no-search-results {
-            color: #9ca3af;
-        }
-
-        .search-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 10px;
-            background: #2563eb;
-            color: white;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-left: 8px;
-        }
-
-        .dark-mode .search-badge {
-            background: #3b82f6;
-        }
-
         /* ============================================
-           MAIN CHAT AREA - WITH REAL-TIME CLOCK
+           MAIN CHAT AREA
            ============================================ */
         .chat-area {
             flex: 1;
@@ -419,40 +355,6 @@
         .dark-mode .version-badge {
             background: rgba(96,165,250,0.2);
             color: #93c5fd;
-        }
-
-        .realtime-widget {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: #f3f4f6;
-            padding: 6px 16px;
-            border-radius: 40px;
-        }
-
-        .dark-mode .realtime-widget {
-            background: #1f2937;
-        }
-
-        .time-widget, .date-widget {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .time-widget span, .date-widget span {
-            font-size: 15px;
-        }
-
-        #current-time, #current-date {
-            font-size: 14px;
-            font-weight: 500;
-            color: #111827;
-        }
-
-        .dark-mode #current-time,
-        .dark-mode #current-date {
-            color: #f9fafb;
         }
 
         .header-actions {
@@ -604,12 +506,6 @@
             overflow: hidden;
         }
 
-        .dropdown-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .dropdown-user-info {
             flex: 1;
         }
@@ -680,7 +576,7 @@
         }
 
         /* ============================================
-           MESSAGES - WITH EDIT/COPY FEATURES
+           MESSAGES - NO DUPLICATE WELCOME!
            ============================================ */
         .messages-container {
             flex: 1;
@@ -752,9 +648,7 @@
             white-space: pre-wrap;
         }
 
-        /* ============================================
-           MESSAGE ACTIONS - COPY & EDIT!
-           ============================================ */
+        /* Message Actions */
         .message-actions {
             display: none;
             position: absolute;
@@ -771,12 +665,10 @@
         .dark-mode .message-actions {
             background: #1f2937;
             border: 1px solid #374151;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         .message:hover .message-actions {
             display: flex;
-            align-items: center;
             gap: 2px;
         }
 
@@ -795,10 +687,6 @@
             transition: all 0.2s;
         }
 
-        .dark-mode .message-action-btn {
-            color: #9ca3af;
-        }
-
         .message-action-btn:hover {
             background: #f3f4f6;
             color: #2563eb;
@@ -807,75 +695,6 @@
         .dark-mode .message-action-btn:hover {
             background: #374151;
             color: #60a5fa;
-        }
-
-        .message.editing .message-content {
-            background: #fef3c7 !important;
-            border: 2px solid #f59e0b !important;
-        }
-
-        .dark-mode .message.editing .message-content {
-            background: #2d2a1a !important;
-            border: 2px solid #f59e0b !important;
-            color: #f9fafb !important;
-        }
-
-        .edit-textarea {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: inherit;
-            font-family: inherit;
-            font-size: 15px;
-            line-height: 1.6;
-            resize: none;
-            outline: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .edit-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-            margin-top: 12px;
-        }
-
-        .edit-save-btn, .edit-cancel-btn {
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
-        .edit-save-btn {
-            background: #2563eb;
-            color: white;
-        }
-
-        .edit-save-btn:hover {
-            background: #1d4ed8;
-        }
-
-        .edit-cancel-btn {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .dark-mode .edit-cancel-btn {
-            background: #374151;
-            color: #f9fafb;
-        }
-
-        .edit-cancel-btn:hover {
-            background: #e5e7eb;
-        }
-
-        .dark-mode .edit-cancel-btn:hover {
-            background: #4b5563;
         }
 
         /* Voice button */
@@ -904,13 +723,6 @@
             background: #2563eb;
             color: white;
             border-color: #2563eb;
-        }
-
-        .voice-btn.speaking {
-            background: #dc2626;
-            color: white;
-            border-color: #dc2626;
-            animation: pulse 1.5s infinite;
         }
 
         .message-footer {
@@ -948,367 +760,12 @@
             animation: typing 1.4s infinite ease-in-out;
         }
 
-        .dark-mode .typing-dot {
-            background: #9ca3af;
-        }
-
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
             30% { transform: translateY(-8px); opacity: 1; }
-        }
-
-        /* ============================================
-           VOICE CONVERSATION MODAL
-           ============================================ */
-        .voice-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 999999;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .voice-modal-content {
-            background: white;
-            border-radius: 32px;
-            width: 600px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        }
-
-        .dark-mode .voice-modal-content {
-            background: #1f2937;
-            border: 1px solid #374151;
-        }
-
-        .voice-modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-
-        .voice-modal-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .voice-modal-title h2 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .dark-mode .voice-modal-title h2 {
-            color: #f9fafb;
-        }
-
-        .voice-modal-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid #e5e7eb;
-            background: transparent;
-            color: #6b7280;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            transition: all 0.2s;
-        }
-
-        .voice-modal-close:hover {
-            background: #f3f4f6;
-            color: #111827;
-        }
-
-        .dark-mode .voice-modal-close:hover {
-            background: #374151;
-            color: white;
-        }
-
-        .voice-avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
-        }
-
-        .voice-avatar.listening {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            animation: pulse-large 2s infinite;
-            box-shadow: 0 0 40px rgba(220, 38, 38, 0.4);
-        }
-
-        .voice-avatar.speaking {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            animation: pulse-large 2s infinite;
-            box-shadow: 0 0 40px rgba(37, 99, 235, 0.4);
-        }
-
-        .voice-avatar.thinking {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            animation: pulse-large 2s infinite;
-            box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
-        }
-
-        @keyframes pulse-large {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .avatar-icon {
-            font-size: 60px;
-            color: white;
-        }
-
-        .voice-status {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #6b7280;
-        }
-
-        .dark-mode .voice-status {
-            color: #9ca3af;
-        }
-
-        .voice-status.listening { color: #dc2626; }
-        .voice-status.speaking { color: #2563eb; }
-        .voice-status.thinking { color: #f59e0b; }
-
-        .voice-wave {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            height: 60px;
-            margin: 20px 0;
-        }
-
-        .wave-bar {
-            width: 8px;
-            height: 30px;
-            background: #2563eb;
-            border-radius: 4px;
-            animation: wave 1.2s infinite ease-in-out;
-        }
-
-        .dark-mode .wave-bar {
-            background: #60a5fa;
-        }
-
-        .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 45px; }
-        .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 60px; }
-        .wave-bar:nth-child(4) { animation-delay: 0.3s; height: 45px; }
-        .wave-bar:nth-child(5) { animation-delay: 0.4s; height: 30px; }
-
-        @keyframes wave {
-            0%, 100% { transform: scaleY(0.6); opacity: 0.6; }
-            50% { transform: scaleY(1.2); opacity: 1; }
-        }
-
-        .voice-transcript {
-            background: #f3f4f6;
-            border-radius: 20px;
-            padding: 24px;
-            margin: 24px 0;
-        }
-
-        .dark-mode .voice-transcript {
-            background: #111827;
-        }
-
-        .transcript-label {
-            font-size: 13px;
-            color: #6b7280;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .dark-mode .transcript-label {
-            color: #9ca3af;
-        }
-
-        .user-transcript {
-            font-size: 17px;
-            color: #111827;
-            margin-bottom: 20px;
-            padding: 16px;
-            background: white;
-            border-radius: 16px;
-            min-height: 80px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .dark-mode .user-transcript {
-            background: #1f2937;
-            color: #f9fafb;
-            border: 1px solid #374151;
-        }
-
-        .assistant-transcript {
-            font-size: 17px;
-            color: #2563eb;
-            padding: 16px;
-            background: white;
-            border-radius: 16px;
-            min-height: 80px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .dark-mode .assistant-transcript {
-            background: #1f2937;
-            color: #93c5fd;
-            border: 1px solid #374151;
-        }
-
-        .voice-controls {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-top: 24px;
-        }
-
-        .voice-btn-control {
-            padding: 14px 32px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #1f2937;
-            color: white;
-        }
-
-        .dark-mode .voice-btn-control {
-            background: #374151;
-        }
-
-        .voice-btn-control.primary {
-            background: #2563eb;
-        }
-
-        .voice-btn-control.primary:hover {
-            background: #1d4ed8;
-            transform: scale(1.05);
-        }
-
-        .voice-btn-control.danger {
-            background: #dc2626;
-        }
-
-        .voice-btn-control.danger:hover {
-            background: #b91c1c;
-            transform: scale(1.05);
-        }
-
-        .voice-settings {
-            margin-top: 24px;
-            padding: 20px;
-            background: #f3f4f6;
-            border-radius: 16px;
-        }
-
-        .dark-mode .voice-settings {
-            background: #111827;
-        }
-
-        .settings-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-
-        .settings-label {
-            color: #4b5563;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .dark-mode .settings-label {
-            color: #d1d5db;
-        }
-
-        .voice-select {
-            padding: 10px 14px;
-            background: white;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            color: #111827;
-            font-size: 14px;
-            width: 200px;
-        }
-
-        .dark-mode .voice-select {
-            background: #1f2937;
-            border: 1px solid #4b5563;
-            color: #f9fafb;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 48px;
-            height: 26px;
-            background: #e5e7eb;
-            border-radius: 13px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .toggle-switch {
-            background: #4b5563;
-        }
-
-        .toggle-switch.active {
-            background: #2563eb;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 22px;
-            height: 22px;
-            background: white;
-            border-radius: 50%;
-            transition: left 0.2s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .toggle-switch.active .toggle-slider {
-            left: 24px;
         }
 
         /* ============================================
@@ -1428,12 +885,6 @@
             transform: scale(1.05);
         }
 
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
         .file-upload-indicator {
             display: flex;
             align-items: center;
@@ -1453,466 +904,6 @@
 
         .hidden {
             display: none;
-        }
-
-        /* ============================================
-           SETTINGS PANEL
-           ============================================ */
-        .settings-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: white;
-            border-left: 1px solid #e5e7eb;
-            box-shadow: -10px 0 25px rgba(0,0,0,0.1);
-            z-index: 99999;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .dark-mode .settings-panel {
-            background: #1f2937;
-            border-left: 1px solid #374151;
-        }
-
-        .settings-panel.open {
-            right: 0;
-        }
-
-        .settings-header {
-            padding: 24px;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .dark-mode .settings-header {
-            border-bottom: 1px solid #374151;
-        }
-
-        .settings-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .dark-mode .settings-title {
-            color: #f9fafb;
-        }
-
-        .settings-close {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid #e5e7eb;
-            background: transparent;
-            color: #6b7280;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .dark-mode .settings-close {
-            border: 1px solid #4b5563;
-            color: #9ca3af;
-        }
-
-        .settings-close:hover {
-            background: #f3f4f6;
-        }
-
-        .settings-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-        }
-
-        .settings-section {
-            margin-bottom: 32px;
-        }
-
-        .settings-section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 16px;
-        }
-
-        .dark-mode .settings-section-title {
-            color: #f9fafb;
-        }
-
-        .settings-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .dark-mode .settings-item {
-            border-bottom: 1px solid #374151;
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .settings-item-label {
-            font-size: 14px;
-            color: #111827;
-            font-weight: 500;
-        }
-
-        .dark-mode .settings-item-label {
-            color: #f9fafb;
-        }
-
-        .settings-item-desc {
-            font-size: 12px;
-            color: #6b7280;
-            margin-top: 4px;
-        }
-
-        .dark-mode .settings-item-desc {
-            color: #9ca3af;
-        }
-
-        .settings-btn {
-            padding: 8px 16px;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            color: #111827;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .settings-btn {
-            background: #374151;
-            border: 1px solid #4b5563;
-            color: #f9fafb;
-        }
-
-        .settings-btn.danger {
-            background: #dc2626;
-            color: white;
-            border: none;
-        }
-
-        .settings-btn.danger:hover {
-            background: #b91c1c;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 16px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .radio-option input[type="radio"] {
-            display: none;
-        }
-
-        .radio-custom {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #e5e7eb;
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-        }
-
-        .dark-mode .radio-custom {
-            border-color: #4b5563;
-        }
-
-        .radio-option input[type="radio"]:checked + .radio-custom {
-            border-color: #2563eb;
-        }
-
-        .radio-option input[type="radio"]:checked + .radio-custom::after {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 6px;
-            height: 6px;
-            background: #2563eb;
-            border-radius: 50%;
-        }
-
-        .radio-label {
-            font-size: 14px;
-            color: #111827;
-        }
-
-        .dark-mode .radio-label {
-            color: #f9fafb;
-        }
-
-        .select-input {
-            padding: 8px 12px;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            color: #111827;
-            font-size: 14px;
-        }
-
-        .dark-mode .select-input {
-            background: #374151;
-            border: 1px solid #4b5563;
-            color: #f9fafb;
-        }
-
-        .danger-zone {
-            background: #fef2f2;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-
-        .dark-mode .danger-zone {
-            background: #2d1a1a;
-        }
-
-        .danger-title {
-            color: #dc2626;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        /* ============================================
-           AUTH MODAL - GMAIL ONLY
-           ============================================ */
-        .auth-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 999999;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .auth-modal-content {
-            background: white;
-            border-radius: 24px;
-            width: 440px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-        }
-
-        .dark-mode .auth-modal-content {
-            background: #1f2937;
-            border: 1px solid #374151;
-        }
-
-        .auth-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid #e5e7eb;
-            background: transparent;
-            color: #6b7280;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .dark-mode .auth-modal-close {
-            border: 1px solid #4b5563;
-            color: #9ca3af;
-        }
-
-        .auth-modal-close:hover {
-            background: #f3f4f6;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .auth-header h2 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 8px;
-        }
-
-        .dark-mode .auth-header h2 {
-            color: #f9fafb;
-        }
-
-        .auth-header p {
-            color: #6b7280;
-            font-size: 15px;
-        }
-
-        .dark-mode .auth-header p {
-            color: #9ca3af;
-        }
-
-        .gmail-login-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            background: #2563eb;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .gmail-login-btn:hover {
-            background: #1d4ed8;
-            transform: translateY(-1px);
-        }
-
-        .gmail-login-btn span {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: #6b7280;
-            font-size: 14px;
-            margin: 24px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .dark-mode .divider::before,
-        .dark-mode .divider::after {
-            border-bottom: 1px solid #4b5563;
-        }
-
-        .divider span {
-            margin: 0 16px;
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            color: #111827;
-            font-size: 15px;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .form-input {
-            background: #111827;
-            border: 1px solid #4b5563;
-            color: #f9fafb;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #2563eb;
-            background: white;
-        }
-
-        .dark-mode .form-input:focus {
-            background: #1f2937;
-            border-color: #60a5fa;
-        }
-
-        .auth-action-btn {
-            width: 100%;
-            padding: 14px;
-            background: #2563eb;
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 8px;
-        }
-
-        .auth-action-btn:hover {
-            background: #1d4ed8;
-        }
-
-        .auth-toggle {
-            text-align: center;
-            margin-top: 20px;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .auth-toggle button {
-            background: none;
-            border: none;
-            color: #2563eb;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            margin-left: 4px;
-        }
-
-        .auth-toggle button:hover {
-            text-decoration: underline;
         }
 
         /* ============================================
@@ -1950,26 +941,11 @@
             from { bottom: 0; opacity: 0; }
             to { bottom: 30px; opacity: 1; }
         }
-
-        .realtime-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 12px;
-            font-size: 11px;
-            color: #10b981;
-            margin-left: 8px;
-        }
-
-        .dark-mode .realtime-badge {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-        }
     </style>
 </head>
 <body class="dark-mode">
     <div class="app">
-        <!-- Sidebar - WITH VOICE MODE & SEARCH -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">P</div>
@@ -1984,24 +960,9 @@
             <!-- VOICE CONVERSATION MODE BUTTON - FIXED! -->
             <button class="voice-mode-btn" id="voice-mode-btn">
                 <span>🎤</span>
-                Voice Conversation Mode
+                <span>Voice Conversation Mode</span>
                 <span>Two-Way Audio</span>
             </button>
-
-            <!-- SEARCH CHATS - NEW FEATURE! -->
-            <div class="search-container">
-                <div class="search-wrapper">
-                    <span class="search-icon">🔍</span>
-                    <input 
-                        type="text" 
-                        id="search-chats" 
-                        class="search-input" 
-                        placeholder="Search chats..."
-                        autocomplete="off"
-                    />
-                    <button class="search-clear" id="search-clear" style="display: none;">✕</button>
-                </div>
-            </div>
 
             <div class="history-section">
                 <div class="history-title">Recent</div>
@@ -2013,27 +974,12 @@
             </div>
         </aside>
 
-        <!-- Main Chat Area - WITH REAL-TIME CLOCK -->
+        <!-- Main Chat Area -->
         <main class="chat-area">
             <div class="chat-header">
                 <div class="chat-title">
                     P.R.A.I Assistant
-                    <span class="version-badge">v6.0</span>
-                    <span class="search-badge" id="search-badge" style="display: none;">
-                        🔍 <span id="search-term-display"></span>
-                    </span>
-                </div>
-
-                <!-- REAL-TIME CLOCK WIDGET -->
-                <div class="realtime-widget">
-                    <div class="time-widget">
-                        <span>🕐</span>
-                        <span id="current-time">--:--:--</span>
-                    </div>
-                    <div class="date-widget">
-                        <span>📅</span>
-                        <span id="current-date">Loading...</span>
-                    </div>
+                    <span class="version-badge">v6.2</span>
                 </div>
 
                 <div class="header-actions">
@@ -2087,14 +1033,6 @@
 
             <!-- Input Area -->
             <div class="input-area">
-                <!-- File upload indicator -->
-                <div id="file-upload-indicator" class="file-upload-indicator hidden">
-                    <span>📎</span>
-                    <span id="file-name-display"></span>
-                    <span id="file-size-display" class="file-size"></span>
-                    <button id="clear-file-btn" style="margin-left: auto; background: none; border: none; color: inherit; cursor: pointer;">✕</button>
-                </div>
-
                 <div class="input-container">
                     <textarea 
                         class="message-input" 
@@ -2113,247 +1051,8 @@
                 </div>
             </div>
             
-            <!-- Universal file input -->
             <input type="file" id="file-input" class="hidden" accept="*/*">
         </main>
-    </div>
-
-    <!-- VOICE CONVERSATION MODAL -->
-    <div class="voice-modal" id="voice-modal">
-        <div class="voice-modal-content">
-            <div class="voice-modal-header">
-                <div class="voice-modal-title">
-                    <span style="font-size: 32px;">🎤</span>
-                    <h2>Voice Conversation</h2>
-                </div>
-                <button class="voice-modal-close" id="voice-modal-close">✕</button>
-            </div>
-
-            <div class="voice-avatar" id="voice-avatar">
-                <div class="avatar-icon" id="voice-avatar-icon">🎤</div>
-            </div>
-
-            <div class="voice-status" id="voice-status">Ready to talk</div>
-
-            <div class="voice-wave" id="voice-wave" style="display: none;">
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-            </div>
-
-            <div class="voice-transcript">
-                <div class="transcript-label">You said:</div>
-                <div class="user-transcript" id="voice-user-transcript">—</div>
-                <div class="transcript-label" style="margin-top: 16px;">P.R.A.I said:</div>
-                <div class="assistant-transcript" id="voice-assistant-transcript">—</div>
-            </div>
-
-            <div class="voice-controls">
-                <button class="voice-btn-control primary" id="voice-start-btn">
-                    🎤 Start Conversation
-                </button>
-                <button class="voice-btn-control" id="voice-pause-btn" style="display: none;">
-                    ⏸️ Pause
-                </button>
-                <button class="voice-btn-control danger" id="voice-stop-btn" style="display: none;">
-                    ⏹️ End Conversation
-                </button>
-            </div>
-
-            <div class="voice-settings">
-                <div class="settings-row">
-                    <span class="settings-label">Voice</span>
-                    <select class="voice-select" id="voice-voice-select">
-                        <option value="">Loading voices...</option>
-                    </select>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">Auto-continuous</span>
-                    <button class="toggle-switch active" id="voice-continuous-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">Speech rate</span>
-                    <select class="voice-select" id="voice-rate-select">
-                        <option value="0.8">Slow</option>
-                        <option value="1" selected>Normal</option>
-                        <option value="1.2">Fast</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SETTINGS PANEL -->
-    <div class="settings-panel" id="settings-panel">
-        <div class="settings-header">
-            <div class="settings-title">Settings</div>
-            <button class="settings-close" id="settings-close">✕</button>
-        </div>
-        <div class="settings-content">
-            <div class="settings-section">
-                <div class="settings-section-title">Appearance</div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Theme</div>
-                        <div class="settings-item-desc">Dark / Light mode</div>
-                    </div>
-                    <div class="radio-group">
-                        <label class="radio-option">
-                            <input type="radio" name="theme" value="dark" checked>
-                            <span class="radio-custom"></span>
-                            <span class="radio-label">Dark</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="theme" value="light">
-                            <span class="radio-custom"></span>
-                            <span class="radio-label">Light</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <div class="settings-section-title">Voice</div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Text-to-speech</div>
-                    </div>
-                    <button class="toggle-switch active" id="tts-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Voice</div>
-                    </div>
-                    <select class="select-input" id="voice-select">
-                        <option value="">Loading...</option>
-                    </select>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Speech rate</div>
-                    </div>
-                    <select class="select-input" id="rate-select">
-                        <option value="0.8">Slow</option>
-                        <option value="1" selected>Normal</option>
-                        <option value="1.2">Fast</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <div class="settings-section-title">Chat</div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Enter to send</div>
-                    </div>
-                    <button class="toggle-switch active" id="enter-to-send">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Typing indicator</div>
-                    </div>
-                    <button class="toggle-switch active" id="typing-indicator-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Save history</div>
-                    </div>
-                    <button class="toggle-switch active" id="save-history">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <div class="settings-section-title">Data</div>
-                <div class="danger-zone">
-                    <div class="danger-title">Clear all conversations</div>
-                    <div class="settings-item-desc" style="margin-bottom: 16px;">
-                        This will permanently delete all chat history.
-                    </div>
-                    <button class="settings-btn danger" id="settings-clear-all-btn">
-                        🗑️ Clear all chats
-                    </button>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <div class="settings-section-title">About</div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">6.0.0 - Complete Conversational AI</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- AUTH MODAL - GMAIL ONLY -->
-    <div class="auth-modal" id="auth-modal">
-        <div class="auth-modal-content">
-            <button class="auth-modal-close" id="auth-modal-close">✕</button>
-            
-            <div class="auth-header">
-                <h2>Welcome</h2>
-                <p>Sign in with Gmail</p>
-            </div>
-
-            <button class="gmail-login-btn" id="gmail-login-btn">
-                <span>G</span>
-                Continue with Gmail
-            </button>
-
-            <div class="divider">
-                <span>or use email</span>
-            </div>
-
-            <div id="login-form" class="auth-form active">
-                <div class="form-group">
-                    <input type="email" id="email" class="form-input" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="password" class="form-input" placeholder="Password">
-                </div>
-                
-                <button class="auth-action-btn" id="login-btn">
-                    Sign In
-                </button>
-                
-                <div class="auth-toggle">
-                    No account?
-                    <button id="show-signup-btn">Sign up</button>
-                </div>
-            </div>
-
-            <div id="signup-form" class="auth-form">
-                <div class="form-group">
-                    <input type="email" id="signup-email" class="form-input" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="signup-password" class="form-input" placeholder="Password (min 6)">
-                </div>
-                
-                <button class="auth-action-btn" id="signup-btn">
-                    Create Account
-                </button>
-                
-                <div class="auth-toggle">
-                    Have an account?
-                    <button id="show-login-btn">Sign in</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Toast Notification -->
@@ -2363,8 +1062,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I v6.0.0 - COMPLETE UI WITH ALL FIXES!
-        // ✅ VOICE MODE | ✅ SEARCH | ✅ EDIT/COPY | ✅ RECENT
+        // P.R.A.I v6.2.0 - COMPLETE CONVERSATIONAL FIX!
+        // ✅ NO DUPLICATE WELCOME | ✅ REAL CONVERSATION
         // ============================================
 
         (function() {
@@ -2381,6 +1080,7 @@
                 userEmail: localStorage.getItem('prai_email'),
                 userName: localStorage.getItem('prai_name'),
                 userAvatar: localStorage.getItem('prai_avatar'),
+                welcomeMessageAdded: false,
                 
                 settings: {
                     enterToSend: true,
@@ -2406,10 +1106,6 @@
                 exportBtn: document.getElementById('export-btn'),
                 uploadBtn: document.getElementById('upload-btn'),
                 fileInput: document.getElementById('file-input'),
-                fileUploadIndicator: document.getElementById('file-upload-indicator'),
-                fileNameDisplay: document.getElementById('file-name-display'),
-                fileSizeDisplay: document.getElementById('file-size-display'),
-                clearFileBtn: document.getElementById('clear-file-btn'),
                 profileBtn: document.getElementById('profile-btn'),
                 profileDropdown: document.getElementById('profile-dropdown'),
                 profileAvatar: document.getElementById('profile-avatar'),
@@ -2421,41 +1117,11 @@
                 dropdownTheme: document.getElementById('dropdown-theme'),
                 dropdownLogout: document.getElementById('dropdown-logout'),
                 dropdownClearAll: document.getElementById('dropdown-clear-all'),
-                settingsPanel: document.getElementById('settings-panel'),
-                settingsClose: document.getElementById('settings-close'),
-                settingsClearAllBtn: document.getElementById('settings-clear-all-btn'),
-                authModal: document.getElementById('auth-modal'),
-                authModalClose: document.getElementById('auth-modal-close'),
-                gmailLoginBtn: document.getElementById('gmail-login-btn'),
-                loginBtn: document.getElementById('login-btn'),
-                signupBtn: document.getElementById('signup-btn'),
-                showSignupBtn: document.getElementById('show-signup-btn'),
-                showLoginBtn: document.getElementById('show-login-btn'),
                 toast: document.getElementById('toast'),
                 toastMessage: document.getElementById('toast-message'),
                 
-                // Voice Mode Elements
+                // Voice Mode
                 voiceModeBtn: document.getElementById('voice-mode-btn'),
-                voiceModal: document.getElementById('voice-modal'),
-                voiceModalClose: document.getElementById('voice-modal-close'),
-                voiceAvatar: document.getElementById('voice-avatar'),
-                voiceAvatarIcon: document.getElementById('voice-avatar-icon'),
-                voiceStatus: document.getElementById('voice-status'),
-                voiceWave: document.getElementById('voice-wave'),
-                voiceUserTranscript: document.getElementById('voice-user-transcript'),
-                voiceAssistantTranscript: document.getElementById('voice-assistant-transcript'),
-                voiceStartBtn: document.getElementById('voice-start-btn'),
-                voicePauseBtn: document.getElementById('voice-pause-btn'),
-                voiceStopBtn: document.getElementById('voice-stop-btn'),
-                voiceVoiceSelect: document.getElementById('voice-voice-select'),
-                voiceContinuousToggle: document.getElementById('voice-continuous-toggle'),
-                voiceRateSelect: document.getElementById('voice-rate-select'),
-                
-                // Search Elements
-                searchInput: document.getElementById('search-chats'),
-                searchClear: document.getElementById('search-clear'),
-                searchBadge: document.getElementById('search-badge'),
-                searchTermDisplay: document.getElementById('search-term-display'),
                 
                 // Settings
                 ttsToggle: document.getElementById('tts-toggle'),
@@ -2463,15 +1129,11 @@
                 rateSelect: document.getElementById('rate-select'),
                 enterToSend: document.getElementById('enter-to-send'),
                 typingIndicatorToggle: document.getElementById('typing-indicator-toggle'),
-                saveHistory: document.getElementById('save-history'),
-                
-                // Time Elements
-                currentTime: document.getElementById('current-time'),
-                currentDate: document.getElementById('current-date')
+                saveHistory: document.getElementById('save-history')
             };
 
             // ============================================
-            // UTILS
+            // TOAST
             // ============================================
             function showToast(message, duration = 3000) {
                 if (!DOM.toast || !DOM.toastMessage) return;
@@ -2480,685 +1142,223 @@
                 setTimeout(() => DOM.toast.classList.remove('show'), duration);
             }
 
-            function formatFileSize(bytes) {
-                if (bytes < 1024) return bytes + ' B';
-                if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-                return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+            // ============================================
+            // WELCOME MESSAGE - ONLY ONCE!
+            // ============================================
+            function addWelcomeMessage() {
+                // CRITICAL FIX: Only add welcome message ONCE per session
+                if (State.welcomeMessageAdded) {
+                    console.log('✅ Welcome message already added, skipping');
+                    return;
+                }
+                
+                const userName = State.userName || null;
+                let welcomeMessage = "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?";
+                
+                if (userName) {
+                    welcomeMessage = `Hello ${userName}! I'm P.R.A.I, your intelligent assistant. How can I help you today?`;
+                }
+                
+                addMessage(welcomeMessage, false);
+                State.welcomeMessageAdded = true;
             }
 
             // ============================================
-            // REAL-TIME CLOCK
+            // ADD MESSAGE
             // ============================================
-            function updateRealTimeClock() {
-                if (DOM.currentTime && DOM.currentDate) {
-                    const now = new Date();
-                    DOM.currentTime.textContent = now.toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: true
-                    });
-                    DOM.currentDate.textContent = now.toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                    });
+            function addMessage(content, isUser, metadata = {}) {
+                if (!DOM.messagesContainer) return;
+                
+                const messageId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                messageDiv.id = messageId;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                
+                const senderSpan = document.createElement('span');
+                senderSpan.className = 'message-sender';
+                senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
+                contentDiv.appendChild(senderSpan);
+                
+                const textDiv = document.createElement('div');
+                textDiv.textContent = content;
+                textDiv.className = 'message-text';
+                contentDiv.appendChild(textDiv);
+                
+                messageDiv.appendChild(contentDiv);
+                DOM.messagesContainer.appendChild(messageDiv);
+                DOM.messagesContainer.scrollTop = DOM.messagesContainer.scrollHeight;
+                
+                // Save to history
+                if (State.settings.saveHistory) {
+                    saveMessageToHistory(messageId, content, isUser, metadata);
                 }
             }
-            setInterval(updateRealTimeClock, 1000);
-            updateRealTimeClock();
 
             // ============================================
-            // SEARCH CHATS - NEW FEATURE!
+            // SEND MESSAGE
             // ============================================
-            let searchTimeout = null;
-            let currentSearchTerm = '';
-
-            function initSearch() {
-                if (!DOM.searchInput) return;
+            async function sendMessage() {
+                if (!DOM.messageInput) return;
                 
-                DOM.searchInput.addEventListener('input', function(e) {
-                    const term = e.target.value.trim();
-                    currentSearchTerm = term;
+                const content = DOM.messageInput.value.trim();
+                if (!content) return;
+                
+                addMessage(content, true);
+                DOM.messageInput.value = '';
+                DOM.messageInput.style.height = 'auto';
+                
+                if (DOM.sendButton) DOM.sendButton.disabled = true;
+                
+                try {
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            ...(State.userToken && { 'Authorization': `Bearer ${State.userToken}` })
+                        },
+                        body: JSON.stringify({
+                            message: content,
+                            session_id: State.currentChatId,
+                            user_name: State.userName
+                        })
+                    });
                     
-                    if (DOM.searchClear) {
-                        DOM.searchClear.style.display = term.length > 0 ? 'flex' : 'none';
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        addMessage(`Error: ${data.error}`, false);
+                    } else if (data[0]?.generated_text) {
+                        addMessage(data[0].generated_text, false);
                     }
                     
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        performSearch(term);
-                    }, 300);
+                } catch (error) {
+                    addMessage('Connection error. Please try again.', false);
+                }
+                
+                if (DOM.sendButton) DOM.sendButton.disabled = false;
+                DOM.messageInput.focus();
+            }
+
+            // ============================================
+            // SAVE TO HISTORY
+            // ============================================
+            function saveMessageToHistory(messageId, content, isUser, metadata) {
+                if (!State.chats[State.currentChatId]) {
+                    State.chats[State.currentChatId] = {
+                        id: State.currentChatId,
+                        title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
+                        messages: [],
+                        timestamp: Date.now()
+                    };
+                }
+                
+                State.chats[State.currentChatId].messages.push({
+                    id: messageId,
+                    content,
+                    isUser,
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    metadata
                 });
                 
-                if (DOM.searchClear) {
-                    DOM.searchClear.addEventListener('click', function() {
-                        DOM.searchInput.value = '';
-                        DOM.searchInput.focus();
-                        this.style.display = 'none';
-                        currentSearchTerm = '';
-                        performSearch('');
-                    });
-                }
-                
-                DOM.searchInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape') {
-                        this.value = '';
-                        if (DOM.searchClear) DOM.searchClear.style.display = 'none';
-                        currentSearchTerm = '';
-                        performSearch('');
-                    }
-                });
+                localStorage.setItem('praiChats', JSON.stringify(State.chats));
+                updateHistory();
             }
 
-            function performSearch(term) {
-                const historyItems = document.querySelectorAll('.history-item');
-                const emptyHistory = document.getElementById('empty-history');
-                const historyList = document.getElementById('history-list');
+            // ============================================
+            // UPDATE HISTORY
+            // ============================================
+            function updateHistory() {
+                if (!DOM.historyList) return;
                 
-                const existingNoResults = document.querySelector('.no-search-results');
-                if (existingNoResults) existingNoResults.remove();
+                DOM.historyList.innerHTML = '';
                 
-                if (DOM.searchBadge && DOM.searchTermDisplay) {
-                    if (term.length > 0) {
-                        DOM.searchBadge.style.display = 'inline-flex';
-                        DOM.searchTermDisplay.textContent = term;
-                    } else {
-                        DOM.searchBadge.style.display = 'none';
-                    }
+                const savedChats = localStorage.getItem('praiChats');
+                if (savedChats) {
+                    try {
+                        State.chats = JSON.parse(savedChats);
+                    } catch (e) {}
                 }
                 
-                if (term.length === 0) {
-                    historyItems.forEach(item => {
-                        item.style.display = 'flex';
-                        item.classList.remove('highlight');
-                    });
-                    if (emptyHistory) {
-                        emptyHistory.style.display = Object.keys(State.chats).length === 0 ? 'flex' : 'none';
+                if (Object.keys(State.chats).length === 0) {
+                    if (DOM.emptyHistory) {
+                        DOM.emptyHistory.classList.remove('hidden');
+                        DOM.historyList.appendChild(DOM.emptyHistory);
                     }
                     return;
                 }
                 
-                const searchLower = term.toLowerCase();
-                let hasResults = false;
+                if (DOM.emptyHistory) DOM.emptyHistory.classList.add('hidden');
                 
-                historyItems.forEach(item => {
-                    if (item.id === 'empty-history') return;
-                    
-                    const chatTitle = item.textContent.toLowerCase();
-                    
-                    if (chatTitle.includes(searchLower)) {
-                        item.style.display = 'flex';
-                        item.classList.add('highlight');
-                        hasResults = true;
-                    } else {
-                        item.style.display = 'none';
-                        item.classList.remove('highlight');
-                    }
+                const sortedChats = Object.values(State.chats).sort((a, b) => b.timestamp - a.timestamp);
+                
+                sortedChats.slice(0, 20).forEach(chat => {
+                    const item = document.createElement('div');
+                    item.className = `history-item ${chat.id === State.currentChatId ? 'active' : ''}`;
+                    item.innerHTML = `<span style="margin-right: 8px;">💬</span>${chat.title || 'New Chat'}`;
+                    item.onclick = () => loadChat(chat.id);
+                    DOM.historyList.appendChild(item);
                 });
-                
-                if (emptyHistory) emptyHistory.style.display = 'none';
-                
-                if (!hasResults && historyList) {
-                    const noResults = document.createElement('div');
-                    noResults.className = 'no-search-results';
-                    noResults.innerHTML = `🔍 No chats matching "${term}"`;
-                    historyList.appendChild(noResults);
-                }
             }
 
             // ============================================
-            // VOICE CONVERSATION MODE
+            // LOAD CHAT
             // ============================================
-            class VoiceConversation {
-                constructor() {
-                    this.recognition = null;
-                    this.synth = window.speechSynthesis;
-                    this.voices = [];
-                    this.isListening = false;
-                    this.isSpeaking = false;
-                    this.isThinking = false;
-                    this.conversationActive = false;
-                    this.currentUtterance = null;
-                    this.sessionId = 'voice-session-' + Date.now();
-                    
-                    this.settings = {
-                        continuous: true,
-                        voiceURI: '',
-                        rate: 1
-                    };
-                    
-                    this.init();
-                }
+            function loadChat(chatId) {
+                State.currentChatId = chatId;
+                State.welcomeMessageAdded = true; // Prevent duplicate welcome
                 
-                async init() {
-                    await this.loadVoices();
-                    this.setupSpeechRecognition();
-                    this.loadSettings();
-                    this.setupEventListeners();
-                }
-                
-                loadVoices() {
-                    return new Promise((resolve) => {
-                        this.voices = this.synth.getVoices();
-                        if (this.voices.length > 0) {
-                            this.populateVoiceSelect();
-                            resolve();
-                        } else {
-                            this.synth.onvoiceschanged = () => {
-                                this.voices = this.synth.getVoices();
-                                this.populateVoiceSelect();
-                                resolve();
-                            };
-                        }
-                    });
-                }
-                
-                populateVoiceSelect() {
-                    if (!DOM.voiceVoiceSelect) return;
-                    DOM.voiceVoiceSelect.innerHTML = '';
+                if (DOM.messagesContainer) {
+                    DOM.messagesContainer.innerHTML = '';
                     
-                    const englishVoices = this.voices.filter(v => v.lang.includes('en'));
-                    const voicesToShow = englishVoices.length > 0 ? englishVoices : this.voices;
-                    
-                    voicesToShow.forEach(voice => {
-                        const option = document.createElement('option');
-                        option.value = voice.voiceURI;
-                        option.textContent = `${voice.name}`;
-                        DOM.voiceVoiceSelect.appendChild(option);
-                    });
-                    
-                    const savedVoice = localStorage.getItem('prai_voice_conversation');
-                    if (savedVoice && DOM.voiceVoiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
-                        DOM.voiceVoiceSelect.value = savedVoice;
-                        this.settings.voiceURI = savedVoice;
-                    }
-                }
-                
-                setupSpeechRecognition() {
-                    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                        console.log('Speech recognition not supported');
-                        return;
-                    }
-                    
-                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    this.recognition = new SpeechRecognition();
-                    this.recognition.continuous = true;
-                    this.recognition.interimResults = true;
-                    this.recognition.lang = 'en-US';
-                    
-                    this.recognition.onstart = () => {
-                        this.isListening = true;
-                        this.updateUI();
-                    };
-                    
-                    this.recognition.onresult = (event) => {
-                        const lastResult = event.results[event.results.length - 1];
-                        const transcript = lastResult[0].transcript;
-                        
-                        if (DOM.voiceUserTranscript) {
-                            DOM.voiceUserTranscript.textContent = transcript;
-                        }
-                        
-                        if (lastResult.isFinal) {
-                            this.processUserSpeech(transcript);
-                        }
-                    };
-                    
-                    this.recognition.onerror = (event) => {
-                        console.error('Recognition error:', event.error);
-                        if (event.error === 'not-allowed') {
-                            if (DOM.voiceStatus) DOM.voiceStatus.textContent = '❌ Microphone access denied';
-                        }
-                    };
-                    
-                    this.recognition.onend = () => {
-                        this.isListening = false;
-                        if (this.conversationActive && this.settings.continuous && !this.isSpeaking && !this.isThinking) {
-                            this.startListening();
-                        }
-                        this.updateUI();
-                    };
-                }
-                
-                async processUserSpeech(text) {
-                    if (!text.trim() || !this.conversationActive) return;
-                    
-                    this.isThinking = true;
-                    this.updateUI();
-                    
-                    try {
-                        const token = localStorage.getItem('prai_token');
-                        
-                        const response = await fetch('/chat', {
-                            method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                ...(token && { 'Authorization': `Bearer ${token}` })
-                            },
-                            body: JSON.stringify({
-                                message: text,
-                                session_id: this.sessionId,
-                                user_name: State.userName
-                            })
-                        });
-                        
-                        const data = await response.json();
-                        
-                        let reply = 'I apologize, I encountered an issue.';
-                        if (data.error) {
-                            reply = `Error: ${data.error}`;
-                        } else if (data[0]?.generated_text) {
-                            reply = data[0].generated_text;
-                        }
-                        
-                        if (DOM.voiceAssistantTranscript) {
-                            DOM.voiceAssistantTranscript.textContent = reply;
-                        }
-                        
-                        this.speak(reply);
-                        
-                    } catch (error) {
-                        console.error('Voice chat error:', error);
-                        if (DOM.voiceAssistantTranscript) {
-                            DOM.voiceAssistantTranscript.textContent = 'Connection error. Please try again.';
-                        }
-                    }
-                    
-                    this.isThinking = false;
-                    this.updateUI();
-                }
-                
-                speak(text) {
-                    if (!this.synth) return;
-                    
-                    this.stopSpeaking();
-                    
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    
-                    if (this.settings.voiceURI) {
-                        const voice = this.voices.find(v => v.voiceURI === this.settings.voiceURI);
-                        if (voice) utterance.voice = voice;
-                    }
-                    
-                    utterance.rate = this.settings.rate;
-                    
-                    utterance.onstart = () => {
-                        this.isSpeaking = true;
-                        this.currentUtterance = utterance;
-                        this.updateUI();
-                    };
-                    
-                    utterance.onend = () => {
-                        this.isSpeaking = false;
-                        this.currentUtterance = null;
-                        this.updateUI();
-                        
-                        if (this.conversationActive && this.settings.continuous) {
-                            setTimeout(() => {
-                                this.startListening();
-                            }, 300);
-                        }
-                    };
-                    
-                    this.synth.speak(utterance);
-                }
-                
-                stopSpeaking() {
-                    if (this.synth) {
-                        this.synth.cancel();
-                        this.isSpeaking = false;
-                        this.currentUtterance = null;
-                        this.updateUI();
-                    }
-                }
-                
-                startConversation() {
-                    navigator.mediaDevices.getUserMedia({ audio: true })
-                        .then((stream) => {
-                            stream.getTracks().forEach(track => track.stop());
-                            this.conversationActive = true;
-                            this.startListening();
-                            this.updateUI();
-                        })
-                        .catch(() => {
-                            if (DOM.voiceStatus) {
-                                DOM.voiceStatus.textContent = '❌ Please allow microphone access';
-                            }
-                        });
-                }
-                
-                startListening() {
-                    if (this.recognition && !this.isListening && this.conversationActive) {
-                        try {
-                            this.recognition.start();
-                        } catch (e) {}
-                    }
-                }
-                
-                stopListening() {
-                    if (this.recognition && this.isListening) {
-                        try {
-                            this.recognition.stop();
-                        } catch (e) {}
-                    }
-                }
-                
-                pauseConversation() {
-                    this.stopListening();
-                    this.stopSpeaking();
-                    this.isThinking = false;
-                    this.updateUI();
-                }
-                
-                stopConversation() {
-                    this.conversationActive = false;
-                    this.stopListening();
-                    this.stopSpeaking();
-                    this.isThinking = false;
-                    this.updateUI();
-                    
-                    if (DOM.voiceUserTranscript) DOM.voiceUserTranscript.textContent = '—';
-                    if (DOM.voiceAssistantTranscript) DOM.voiceAssistantTranscript.textContent = '—';
-                }
-                
-                updateUI() {
-                    if (!DOM.voiceAvatar || !DOM.voiceAvatarIcon || !DOM.voiceStatus || !DOM.voiceWave) return;
-                    
-                    if (this.isSpeaking) {
-                        DOM.voiceAvatar.className = 'voice-avatar speaking';
-                        DOM.voiceAvatarIcon.textContent = '🔊';
-                        DOM.voiceStatus.textContent = 'P.R.A.I is speaking...';
-                        DOM.voiceStatus.className = 'voice-status speaking';
-                        DOM.voiceWave.style.display = 'flex';
-                    } else if (this.isThinking) {
-                        DOM.voiceAvatar.className = 'voice-avatar thinking';
-                        DOM.voiceAvatarIcon.textContent = '🤔';
-                        DOM.voiceStatus.textContent = 'Thinking...';
-                        DOM.voiceStatus.className = 'voice-status thinking';
-                        DOM.voiceWave.style.display = 'flex';
-                    } else if (this.isListening) {
-                        DOM.voiceAvatar.className = 'voice-avatar listening';
-                        DOM.voiceAvatarIcon.textContent = '🎤';
-                        DOM.voiceStatus.textContent = 'Listening...';
-                        DOM.voiceStatus.className = 'voice-status listening';
-                        DOM.voiceWave.style.display = 'flex';
-                    } else {
-                        DOM.voiceAvatar.className = 'voice-avatar';
-                        DOM.voiceAvatarIcon.textContent = '🎤';
-                        DOM.voiceStatus.textContent = this.conversationActive ? 'Ready' : 'Ready to talk';
-                        DOM.voiceStatus.className = 'voice-status';
-                        DOM.voiceWave.style.display = 'none';
-                    }
-                    
-                    if (DOM.voiceStartBtn && DOM.voicePauseBtn && DOM.voiceStopBtn) {
-                        if (this.conversationActive) {
-                            DOM.voiceStartBtn.style.display = 'none';
-                            DOM.voicePauseBtn.style.display = 'block';
-                            DOM.voiceStopBtn.style.display = 'block';
-                        } else {
-                            DOM.voiceStartBtn.style.display = 'block';
-                            DOM.voicePauseBtn.style.display = 'none';
-                            DOM.voiceStopBtn.style.display = 'none';
-                        }
-                    }
-                }
-                
-                loadSettings() {
-                    const saved = localStorage.getItem('voice_conversation_settings');
-                    if (saved) {
-                        try {
-                            this.settings = JSON.parse(saved);
-                            if (DOM.voiceContinuousToggle) {
-                                DOM.voiceContinuousToggle.classList.toggle('active', this.settings.continuous);
-                            }
-                            if (DOM.voiceRateSelect) {
-                                DOM.voiceRateSelect.value = this.settings.rate;
-                            }
-                        } catch (e) {}
-                    }
-                }
-                
-                saveSettings() {
-                    localStorage.setItem('voice_conversation_settings', JSON.stringify(this.settings));
-                }
-                
-                setupEventListeners() {
-                    if (DOM.voiceStartBtn) {
-                        DOM.voiceStartBtn.addEventListener('click', () => this.startConversation());
-                    }
-                    if (DOM.voicePauseBtn) {
-                        DOM.voicePauseBtn.addEventListener('click', () => this.pauseConversation());
-                    }
-                    if (DOM.voiceStopBtn) {
-                        DOM.voiceStopBtn.addEventListener('click', () => this.stopConversation());
-                    }
-                    if (DOM.voiceContinuousToggle) {
-                        DOM.voiceContinuousToggle.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            DOM.voiceContinuousToggle.classList.toggle('active');
-                            this.settings.continuous = DOM.voiceContinuousToggle.classList.contains('active');
-                            this.saveSettings();
-                        });
-                    }
-                    if (DOM.voiceVoiceSelect) {
-                        DOM.voiceVoiceSelect.addEventListener('change', (e) => {
-                            this.settings.voiceURI = e.target.value;
-                            localStorage.setItem('prai_voice_conversation', e.target.value);
-                            this.saveSettings();
-                        });
-                    }
-                    if (DOM.voiceRateSelect) {
-                        DOM.voiceRateSelect.addEventListener('change', (e) => {
-                            this.settings.rate = parseFloat(e.target.value);
-                            this.saveSettings();
+                    const chat = State.chats[chatId];
+                    if (chat?.messages?.length) {
+                        chat.messages.forEach(msg => {
+                            addMessage(msg.content, msg.isUser, msg.metadata || {});
                         });
                     }
                 }
-            }
-
-            let voiceConversation = null;
-
-            if (DOM.voiceModeBtn) {
-                DOM.voiceModeBtn.addEventListener('click', () => {
-                    if (DOM.voiceModal) {
-                        DOM.voiceModal.style.display = 'flex';
-                        if (!voiceConversation) {
-                            voiceConversation = new VoiceConversation();
-                        }
-                    }
-                });
-            }
-
-            if (DOM.voiceModalClose) {
-                DOM.voiceModalClose.addEventListener('click', () => {
-                    if (DOM.voiceModal) {
-                        DOM.voiceModal.style.display = 'none';
-                        if (voiceConversation) {
-                            voiceConversation.stopConversation();
-                        }
-                    }
-                });
-            }
-
-            if (DOM.voiceModal) {
-                DOM.voiceModal.addEventListener('click', (e) => {
-                    if (e.target === DOM.voiceModal) {
-                        DOM.voiceModal.style.display = 'none';
-                        if (voiceConversation) {
-                            voiceConversation.stopConversation();
-                        }
-                    }
-                });
+                
+                updateHistory();
             }
 
             // ============================================
-            // TEXT-TO-SPEECH
+            // CLEAR ALL CHATS
             // ============================================
-            let synth = window.speechSynthesis;
-            let voices = [];
-            let currentUtterance = null;
-
-            function loadVoices() {
-                return new Promise((resolve) => {
-                    voices = synth.getVoices();
-                    if (voices.length > 0) {
-                        populateVoiceSelect();
-                        resolve();
-                    } else {
-                        synth.onvoiceschanged = () => {
-                            voices = synth.getVoices();
-                            populateVoiceSelect();
-                            resolve();
-                        };
-                    }
-                });
-            }
-
-            function populateVoiceSelect() {
-                if (!DOM.voiceSelect) return;
-                DOM.voiceSelect.innerHTML = '';
-                
-                const englishVoices = voices.filter(v => v.lang.includes('en'));
-                const voicesToShow = englishVoices.length > 0 ? englishVoices : voices;
-                
-                voicesToShow.forEach(voice => {
-                    const option = document.createElement('option');
-                    option.value = voice.voiceURI;
-                    option.textContent = `${voice.name}`;
-                    DOM.voiceSelect.appendChild(option);
-                });
-                
-                const savedVoice = localStorage.getItem('prai_voice');
-                if (savedVoice && DOM.voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
-                    DOM.voiceSelect.value = savedVoice;
-                    State.settings.ttsVoice = savedVoice;
-                }
-            }
-
-            function speakText(text, messageId = null) {
-                if (!State.settings.ttsEnabled || !synth) return;
-                
-                stopSpeaking();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                if (State.settings.ttsVoice) {
-                    const voice = voices.find(v => v.voiceURI === State.settings.ttsVoice);
-                    if (voice) utterance.voice = voice;
-                }
-                
-                utterance.rate = State.settings.ttsRate;
-                
-                utterance.onstart = () => {
-                    currentUtterance = utterance;
-                    if (messageId) {
-                        const btn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
-                        if (btn) {
-                            btn.classList.add('speaking');
-                            btn.innerHTML = '⏹️';
-                        }
-                    }
-                };
-                
-                utterance.onend = () => {
-                    currentUtterance = null;
-                    if (messageId) {
-                        const btn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
-                        if (btn) {
-                            btn.classList.remove('speaking');
-                            btn.innerHTML = '🔊';
-                        }
-                    }
-                };
-                
-                synth.speak(utterance);
-            }
-
-            function stopSpeaking() {
-                if (synth) {
-                    synth.cancel();
-                    currentUtterance = null;
-                    document.querySelectorAll('.voice-btn.speaking').forEach(btn => {
-                        btn.classList.remove('speaking');
-                        btn.innerHTML = '🔊';
-                    });
-                }
-            }
-
-            // ============================================
-            // THEME
-            // ============================================
-            function setTheme(theme) {
-                if (theme === 'light') {
-                    document.body.classList.remove('dark-mode');
-                    document.body.classList.add('light-mode');
-                    localStorage.setItem('prai_theme', 'light');
-                    if (DOM.dropdownTheme) DOM.dropdownTheme.innerHTML = '🌙 Dark mode';
-                } else {
-                    document.body.classList.remove('light-mode');
-                    document.body.classList.add('dark-mode');
-                    localStorage.setItem('prai_theme', 'dark');
-                    if (DOM.dropdownTheme) DOM.dropdownTheme.innerHTML = '☀️ Light mode';
-                }
-                
-                document.querySelectorAll('input[name="theme"]').forEach(radio => {
-                    if (radio.value === theme) radio.checked = true;
-                });
-                
-                updateProfileUI();
-            }
-
-            const savedTheme = localStorage.getItem('prai_theme') || 'dark';
-            setTheme(savedTheme);
-
-            if (DOM.dropdownTheme) {
-                DOM.dropdownTheme.addEventListener('click', () => {
-                    const isDark = document.body.classList.contains('dark-mode');
-                    setTheme(isDark ? 'light' : 'dark');
-                    DOM.profileDropdown.classList.remove('show');
-                    showToast(isDark ? 'Light mode' : 'Dark mode');
-                });
-            }
-
-            document.querySelectorAll('input[name="theme"]').forEach(radio => {
-                radio.addEventListener('change', (e) => setTheme(e.target.value));
-            });
-
-            // ============================================
-            // PROFILE - GMAIL LOGIN
-            // ============================================
-            function updateProfileUI() {
-                if (!DOM.profileAvatar || !DOM.dropdownAvatar) return;
-                
-                if (State.userEmail && State.userToken) {
-                    const name = State.userName || State.userEmail.split('@')[0];
-                    const initial = name.charAt(0).toUpperCase();
-                    const avatarUrl = localStorage.getItem('prai_avatar');
+            function clearAllChats() {
+                if (confirm('Delete all conversations? This cannot be undone.')) {
+                    State.chats = {};
+                    localStorage.removeItem('praiChats');
+                    State.currentChatId = 'chat-' + Date.now();
+                    State.welcomeMessageAdded = false; // Reset welcome flag
                     
-                    if (avatarUrl && avatarUrl !== 'null') {
-                        DOM.profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">`;
-                        DOM.dropdownAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">`;
-                    } else {
-                        DOM.profileAvatar.innerHTML = initial;
-                        DOM.dropdownAvatar.innerHTML = initial;
+                    if (DOM.messagesContainer) {
+                        DOM.messagesContainer.innerHTML = '';
+                        addWelcomeMessage(); // Add fresh welcome
                     }
                     
-                    DOM.profileEmail.textContent = name;
-                    DOM.profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#f9fafb' : '#111827';
-                    if (DOM.dropdownUserName) DOM.dropdownUserName.textContent = name;
-                    if (DOM.dropdownUserEmail) DOM.dropdownUserEmail.textContent = State.userEmail;
-                    if (DOM.dropdownLogout) DOM.dropdownLogout.style.display = 'flex';
-                } else {
-                    DOM.profileAvatar.innerHTML = '👤';
-                    DOM.dropdownAvatar.innerHTML = '👤';
-                    DOM.profileEmail.textContent = 'Sign In';
-                    DOM.profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#9ca3af' : '#6b7280';
-                    if (DOM.dropdownUserName) DOM.dropdownUserName.textContent = 'Guest';
-                    if (DOM.dropdownUserEmail) DOM.dropdownUserEmail.textContent = '';
-                    if (DOM.dropdownLogout) DOM.dropdownLogout.style.display = 'none';
+                    updateHistory();
+                    showToast('🗑️ All conversations cleared');
+                    if (DOM.profileDropdown) DOM.profileDropdown.classList.remove('show');
                 }
+            }
+
+            // ============================================
+            // NEW CHAT
+            // ============================================
+            function newChat() {
+                State.currentChatId = 'chat-' + Date.now();
+                State.welcomeMessageAdded = false; // Reset welcome flag
+                
+                if (DOM.messagesContainer) {
+                    DOM.messagesContainer.innerHTML = '';
+                    addWelcomeMessage(); // Add fresh welcome
+                }
+                
+                updateHistory();
             }
 
             // ============================================
@@ -3198,7 +1398,6 @@
                             const avatarUrl = data.user_metadata?.avatar_url || data.user_metadata?.picture;
                             if (avatarUrl) {
                                 localStorage.setItem('prai_avatar', avatarUrl);
-                                State.userAvatar = avatarUrl;
                             }
                             
                             localStorage.setItem('prai_email', State.userEmail);
@@ -3208,14 +1407,10 @@
                             showToast(`Welcome, ${State.userName}!`);
                             
                             // Update welcome message with name
-                            if (DOM.messagesContainer && DOM.messagesContainer.children.length > 0) {
-                                const firstMessage = DOM.messagesContainer.children[0];
-                                if (firstMessage && firstMessage.classList.contains('bot-message')) {
-                                    const welcomeText = firstMessage.querySelector('.message-text');
-                                    if (welcomeText && welcomeText.textContent.includes("Hello!")) {
-                                        welcomeText.textContent = `Hello ${State.userName}! I'm P.R.A.I, your intelligent assistant. How can I help you today?`;
-                                    }
-                                }
+                            State.welcomeMessageAdded = false;
+                            if (DOM.messagesContainer) {
+                                DOM.messagesContainer.innerHTML = '';
+                                addWelcomeMessage();
                             }
                             
                             window.history.replaceState({}, document.title, '/');
@@ -3224,76 +1419,38 @@
                 }
             }
 
-            async function handleEmailLogin() {
-                const email = document.getElementById('email')?.value.trim();
-                const password = document.getElementById('password')?.value.trim();
+            // ============================================
+            // PROFILE UI
+            // ============================================
+            function updateProfileUI() {
+                if (!DOM.profileAvatar || !DOM.dropdownAvatar) return;
                 
-                if (!email || !password) {
-                    showToast('Email and password required');
-                    return;
-                }
-                
-                try {
-                    const response = await fetch('/auth/email/login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password })
-                    });
+                if (State.userEmail && State.userToken) {
+                    const name = State.userName || State.userEmail.split('@')[0];
+                    const initial = name.charAt(0).toUpperCase();
+                    const avatarUrl = localStorage.getItem('prai_avatar');
                     
-                    const data = await response.json();
-                    
-                    if (response.ok && data.access_token) {
-                        State.userToken = data.access_token;
-                        State.userEmail = email;
-                        State.userName = email.split('@')[0];
-                        
-                        localStorage.setItem('prai_token', State.userToken);
-                        localStorage.setItem('prai_email', email);
-                        localStorage.setItem('prai_name', State.userName);
-                        
-                        updateProfileUI();
-                        hideAuthModal();
-                        showToast(`Welcome, ${State.userName}!`);
+                    if (avatarUrl && avatarUrl !== 'null') {
+                        DOM.profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile">`;
+                        DOM.dropdownAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile">`;
                     } else {
-                        showToast(data.msg || 'Login failed');
+                        DOM.profileAvatar.innerHTML = initial;
+                        DOM.dropdownAvatar.innerHTML = initial;
                     }
-                } catch (error) {
-                    showToast('Connection error');
-                }
-            }
-
-            async function handleEmailSignup() {
-                const email = document.getElementById('signup-email')?.value.trim();
-                const password = document.getElementById('signup-password')?.value.trim();
-                
-                if (!email || !password) {
-                    showToast('Email and password required');
-                    return;
-                }
-                
-                if (password.length < 6) {
-                    showToast('Password must be at least 6 characters');
-                    return;
-                }
-                
-                try {
-                    const response = await fetch('/auth/email/signup', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password })
-                    });
                     
-                    const data = await response.json();
-                    
-                    if (response.ok) {
-                        showToast('Account created! Please login.');
-                        showLoginForm();
-                        document.getElementById('email').value = email;
-                    } else {
-                        showToast(data.msg || 'Signup failed');
-                    }
-                } catch (error) {
-                    showToast('Connection error');
+                    DOM.profileEmail.textContent = name;
+                    DOM.profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#f9fafb' : '#111827';
+                    if (DOM.dropdownUserName) DOM.dropdownUserName.textContent = name;
+                    if (DOM.dropdownUserEmail) DOM.dropdownUserEmail.textContent = State.userEmail;
+                    if (DOM.dropdownLogout) DOM.dropdownLogout.style.display = 'flex';
+                } else {
+                    DOM.profileAvatar.innerHTML = '👤';
+                    DOM.dropdownAvatar.innerHTML = '👤';
+                    DOM.profileEmail.textContent = 'Sign In';
+                    DOM.profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#9ca3af' : '#6b7280';
+                    if (DOM.dropdownUserName) DOM.dropdownUserName.textContent = 'Guest';
+                    if (DOM.dropdownUserEmail) DOM.dropdownUserEmail.textContent = '';
+                    if (DOM.dropdownLogout) DOM.dropdownLogout.style.display = 'none';
                 }
             }
 
@@ -3309,578 +1466,40 @@
                 State.userAvatar = null;
                 
                 updateProfileUI();
-                DOM.profileDropdown?.classList.remove('show');
                 showToast('Logged out');
-                setTimeout(showAuthModal, 500);
-            }
-
-            function showAuthModal() {
-                if (DOM.authModal) DOM.authModal.style.display = 'flex';
-                showLoginForm();
-            }
-
-            function hideAuthModal() {
-                if (DOM.authModal) DOM.authModal.style.display = 'none';
-            }
-
-            function showLoginForm() {
-                document.getElementById('login-form')?.classList.add('active');
-                document.getElementById('signup-form')?.classList.remove('active');
-            }
-
-            function showSignupForm() {
-                document.getElementById('login-form')?.classList.remove('active');
-                document.getElementById('signup-form')?.classList.add('active');
             }
 
             // ============================================
-            // SETTINGS
+            // THEME
             // ============================================
-            function openSettings() {
-                DOM.settingsPanel?.classList.add('open');
-                loadSettings();
-                loadVoices();
-            }
-
-            function closeSettings() {
-                DOM.settingsPanel?.classList.remove('open');
-            }
-
-            function loadSettings() {
-                const saved = localStorage.getItem('prai_settings');
-                if (saved) {
-                    try {
-                        State.settings = { ...State.settings, ...JSON.parse(saved) };
-                    } catch (e) {}
+            function setTheme(theme) {
+                if (theme === 'light') {
+                    document.body.classList.remove('dark-mode');
+                    document.body.classList.add('light-mode');
+                    localStorage.setItem('prai_theme', 'light');
+                    if (DOM.dropdownTheme) DOM.dropdownTheme.innerHTML = '🌙 Dark mode';
+                } else {
+                    document.body.classList.remove('light-mode');
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('prai_theme', 'dark');
+                    if (DOM.dropdownTheme) DOM.dropdownTheme.innerHTML = '☀️ Light mode';
                 }
-                
-                if (DOM.enterToSend) DOM.enterToSend.classList.toggle('active', State.settings.enterToSend);
-                if (DOM.typingIndicatorToggle) DOM.typingIndicatorToggle.classList.toggle('active', State.settings.typingIndicator);
-                if (DOM.saveHistory) DOM.saveHistory.classList.toggle('active', State.settings.saveHistory);
-                if (DOM.ttsToggle) DOM.ttsToggle.classList.toggle('active', State.settings.ttsEnabled);
-                if (DOM.rateSelect) DOM.rateSelect.value = State.settings.ttsRate;
-            }
-
-            // ============================================
-            // FILE UPLOAD
-            // ============================================
-            async function handleFileUpload(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                showToast(`Uploading ${file.name}...`);
-                
-                const formData = new FormData();
-                formData.append('file', file);
-                
-                try {
-                    const response = await fetch('/upload', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.error) {
-                        showToast(`Error: ${data.error}`);
-                    } else {
-                        State.uploadedFile = {
-                            name: data.filename,
-                            size: data.size,
-                            extracted_text: data.extracted_text || ''
-                        };
-                        
-                        if (DOM.fileUploadIndicator && DOM.fileNameDisplay && DOM.fileSizeDisplay) {
-                            DOM.fileNameDisplay.textContent = data.filename;
-                            DOM.fileSizeDisplay.textContent = formatFileSize(data.size);
-                            DOM.fileUploadIndicator.classList.remove('hidden');
-                        }
-                        
-                        showToast(`✅ ${data.filename} uploaded`);
-                        
-                        DOM.messageInput.value = `[File: ${data.filename}] `;
-                        DOM.messageInput.focus();
-                    }
-                } catch (error) {
-                    showToast('Upload failed');
-                }
-                
-                e.target.value = '';
-            }
-
-            function clearUploadedFile() {
-                State.uploadedFile = null;
-                if (DOM.fileUploadIndicator) {
-                    DOM.fileUploadIndicator.classList.add('hidden');
-                }
-            }
-
-            // ============================================
-            // MESSAGES - WITH EDIT/COPY FEATURES
-            // ============================================
-            function addMessage(content, isUser, metadata = {}) {
-                if (!DOM.messagesContainer) return;
-                
-                const messageId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-                
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-                messageDiv.id = messageId;
-                
-                const contentDiv = document.createElement('div');
-                contentDiv.className = 'message-content';
-                contentDiv.setAttribute('data-original-content', content);
-                
-                const senderSpan = document.createElement('span');
-                senderSpan.className = 'message-sender';
-                senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
-                contentDiv.appendChild(senderSpan);
-                
-                const textDiv = document.createElement('div');
-                textDiv.textContent = content;
-                textDiv.className = 'message-text';
-                contentDiv.appendChild(textDiv);
-                
-                // Message Actions - Copy & Edit (only for user messages)
-                if (isUser) {
-                    const actionsDiv = document.createElement('div');
-                    actionsDiv.className = 'message-actions';
-                    
-                    const copyBtn = document.createElement('button');
-                    copyBtn.className = 'message-action-btn';
-                    copyBtn.innerHTML = '📋';
-                    copyBtn.title = 'Copy message';
-                    copyBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        navigator.clipboard.writeText(content);
-                        showToast('📋 Message copied to clipboard');
-                    };
-                    
-                    const editBtn = document.createElement('button');
-                    editBtn.className = 'message-action-btn';
-                    editBtn.innerHTML = '✏️';
-                    editBtn.title = 'Edit message';
-                    editBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        enableEditMode(messageDiv, contentDiv, textDiv, content);
-                    };
-                    
-                    actionsDiv.appendChild(copyBtn);
-                    actionsDiv.appendChild(editBtn);
-                    contentDiv.appendChild(actionsDiv);
-                }
-                
-                // Voice button for bot messages
-                if (!isUser) {
-                    const footerDiv = document.createElement('div');
-                    footerDiv.className = 'message-footer';
-                    
-                    const voiceBtn = document.createElement('button');
-                    voiceBtn.className = 'voice-btn';
-                    voiceBtn.innerHTML = '🔊';
-                    voiceBtn.title = 'Listen';
-                    voiceBtn.setAttribute('data-message-id', messageId);
-                    voiceBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        if (currentUtterance) {
-                            stopSpeaking();
-                        } else {
-                            speakText(content, messageId);
-                        }
-                    };
-                    
-                    footerDiv.appendChild(voiceBtn);
-                    contentDiv.appendChild(footerDiv);
-                }
-                
-                messageDiv.appendChild(contentDiv);
-                DOM.messagesContainer.appendChild(messageDiv);
-                DOM.messagesContainer.scrollTop = DOM.messagesContainer.scrollHeight;
-                
-                // Auto-play voice
-                if (!isUser && State.settings.ttsEnabled) {
-                    setTimeout(() => speakText(content, messageId), 100);
-                }
-                
-                // Save to history
-                if (State.settings.saveHistory) {
-                    saveMessageToHistory(messageId, content, isUser, metadata);
-                }
-            }
-
-            // ============================================
-            // EDIT MESSAGE FEATURE
-            // ============================================
-            function enableEditMode(messageDiv, contentDiv, textDiv, originalContent) {
-                messageDiv.classList.add('editing');
-                textDiv.style.display = 'none';
-                
-                const textarea = document.createElement('textarea');
-                textarea.className = 'edit-textarea';
-                textarea.value = originalContent;
-                textarea.style.height = 'auto';
-                textarea.style.height = (textarea.scrollHeight) + 'px';
-                textarea.focus();
-                
-                const editActions = document.createElement('div');
-                editActions.className = 'edit-actions';
-                
-                const saveBtn = document.createElement('button');
-                saveBtn.className = 'edit-save-btn';
-                saveBtn.innerHTML = 'Save';
-                
-                const cancelBtn = document.createElement('button');
-                cancelBtn.className = 'edit-cancel-btn';
-                cancelBtn.innerHTML = 'Cancel';
-                
-                editActions.appendChild(saveBtn);
-                editActions.appendChild(cancelBtn);
-                
-                contentDiv.appendChild(textarea);
-                contentDiv.appendChild(editActions);
-                
-                textarea.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = (this.scrollHeight) + 'px';
-                });
-                
-                saveBtn.onclick = () => {
-                    const newContent = textarea.value.trim();
-                    if (newContent && newContent !== originalContent) {
-                        textDiv.textContent = newContent;
-                        contentDiv.setAttribute('data-original-content', newContent);
-                        updateMessageInHistory(messageDiv.id, newContent);
-                        showToast('✅ Message updated');
-                    }
-                    cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions);
-                };
-                
-                cancelBtn.onclick = () => {
-                    cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions);
-                };
-                
-                textarea.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions);
-                    }
-                });
-            }
-
-            function cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions) {
-                messageDiv.classList.remove('editing');
-                textDiv.style.display = 'block';
-                if (textarea && textarea.parentNode) textarea.remove();
-                if (editActions && editActions.parentNode) editActions.remove();
-            }
-
-            function updateMessageInHistory(messageId, newContent) {
-                if (!State.chats[State.currentChatId]) return;
-                const messages = State.chats[State.currentChatId].messages;
-                const messageIndex = messages.findIndex(m => m.id === messageId);
-                
-                if (messageIndex !== -1) {
-                    messages[messageIndex].content = newContent;
-                    messages[messageIndex].edited = true;
-                    messages[messageIndex].editedAt = new Date().toLocaleTimeString();
-                    localStorage.setItem('praiChats', JSON.stringify(State.chats));
-                    
-                    if (messageIndex === 0) {
-                        State.chats[State.currentChatId].title = newContent.substring(0, 30) + (newContent.length > 30 ? '...' : '');
-                        localStorage.setItem('praiChats', JSON.stringify(State.chats));
-                        updateHistory();
-                    }
-                }
-            }
-
-            function saveMessageToHistory(messageId, content, isUser, metadata) {
-                if (!State.chats[State.currentChatId]) {
-                    State.chats[State.currentChatId] = {
-                        id: State.currentChatId,
-                        title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
-                        messages: [],
-                        timestamp: Date.now()
-                    };
-                }
-                
-                State.chats[State.currentChatId].messages.push({
-                    id: messageId,
-                    content,
-                    isUser,
-                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    metadata,
-                    edited: false
-                });
-                
-                if (isUser && State.chats[State.currentChatId].messages.filter(m => m.isUser).length === 1) {
-                    State.chats[State.currentChatId].title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
-                }
-                
-                localStorage.setItem('praiChats', JSON.stringify(State.chats));
-                updateHistory();
-            }
-
-            // ============================================
-            // WELCOME MESSAGE - FRIENDLY & PERSONAL!
-            // ============================================
-            function addWelcomeMessage() {
-                const existingMessages = DOM.messagesContainer?.children;
-                if (existingMessages && existingMessages.length > 0) {
-                    for (let i = 0; i < existingMessages.length; i++) {
-                        if (existingMessages[i].classList.contains('bot-message')) {
-                            return;
-                        }
-                    }
-                }
-                
-                const userName = State.userName || null;
-                let welcomeMessage = "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?";
-                
-                if (userName) {
-                    welcomeMessage = `Hello ${userName}! I'm P.R.A.I, your intelligent assistant. How can I help you today?`;
-                }
-                
-                addMessage(welcomeMessage, false);
-            }
-
-            function showTypingIndicator() {
-                if (!State.settings.typingIndicator || !DOM.messagesContainer) return;
-                
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'typing-indicator';
-                typingDiv.id = 'typing-indicator';
-                
-                for (let i = 0; i < 3; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'typing-dot';
-                    typingDiv.appendChild(dot);
-                }
-                
-                DOM.messagesContainer.appendChild(typingDiv);
-                DOM.messagesContainer.scrollTop = DOM.messagesContainer.scrollHeight;
-            }
-
-            function hideTypingIndicator() {
-                const indicator = document.getElementById('typing-indicator');
-                if (indicator) indicator.remove();
-            }
-
-            // ============================================
-            // SEND MESSAGE
-            // ============================================
-            async function sendMessage() {
-                if (!DOM.messageInput) return;
-                
-                const content = DOM.messageInput.value.trim();
-                if (!content && !State.uploadedFile) return;
-                
-                addMessage(content || '[File uploaded]', true);
-                
-                DOM.messageInput.value = '';
-                DOM.messageInput.style.height = 'auto';
-                
-                if (DOM.sendButton) DOM.sendButton.disabled = true;
-                showTypingIndicator();
-                
-                try {
-                    const response = await fetch('/chat', {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            ...(State.userToken && { 'Authorization': `Bearer ${State.userToken}` })
-                        },
-                        body: JSON.stringify({
-                            message: content,
-                            session_id: State.currentChatId,
-                            user_name: State.userName,
-                            file_info: State.uploadedFile ? {
-                                filename: State.uploadedFile.name,
-                                size: State.uploadedFile.size,
-                                extracted_text: State.uploadedFile.extracted_text
-                            } : null
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    hideTypingIndicator();
-                    
-                    if (data.error) {
-                        addMessage(`Error: ${data.error}`, false);
-                    } else if (data[0]?.generated_text) {
-                        addMessage(data[0].generated_text, false, {
-                            type: data[0].type
-                        });
-                    }
-                    
-                    clearUploadedFile();
-                    
-                } catch (error) {
-                    hideTypingIndicator();
-                    addMessage('Connection error. Please try again.', false);
-                }
-                
-                if (DOM.sendButton) DOM.sendButton.disabled = false;
-                DOM.messageInput.focus();
-            }
-
-            // ============================================
-            // HISTORY MANAGEMENT
-            // ============================================
-            function updateHistory() {
-                if (!DOM.historyList) return;
-                
-                const currentSearch = currentSearchTerm;
-                
-                DOM.historyList.innerHTML = '';
-                
-                const savedChats = localStorage.getItem('praiChats');
-                if (savedChats) {
-                    try {
-                        State.chats = JSON.parse(savedChats);
-                    } catch (e) {
-                        State.chats = {};
-                    }
-                }
-                
-                if (Object.keys(State.chats).length === 0) {
-                    if (DOM.emptyHistory) {
-                        DOM.emptyHistory.classList.remove('hidden');
-                        DOM.historyList.appendChild(DOM.emptyHistory);
-                    }
-                    return;
-                }
-                
-                if (DOM.emptyHistory) DOM.emptyHistory.classList.add('hidden');
-                
-                const sortedChats = Object.values(State.chats).sort((a, b) => b.timestamp - a.timestamp);
-                
-                sortedChats.slice(0, 50).forEach(chat => {
-                    const item = document.createElement('div');
-                    item.className = `history-item ${chat.id === State.currentChatId ? 'active' : ''}`;
-                    
-                    let icon = '💬';
-                    const firstMessage = chat.messages?.[0]?.content || '';
-                    if (firstMessage.toLowerCase().includes('hello') || firstMessage.toLowerCase().includes('hi')) {
-                        icon = '👋';
-                    } else if (firstMessage.toLowerCase().includes('?')) {
-                        icon = '❓';
-                    } else if (firstMessage.toLowerCase().includes('code') || firstMessage.toLowerCase().includes('python')) {
-                        icon = '💻';
-                    } else if (firstMessage.toLowerCase().includes('file')) {
-                        icon = '📎';
-                    }
-                    
-                    item.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${chat.title || 'New Chat'}`;
-                    item.onclick = () => loadChat(chat.id);
-                    DOM.historyList.appendChild(item);
-                });
-                
-                if (currentSearch) {
-                    setTimeout(() => performSearch(currentSearch), 0);
-                }
-            }
-
-            function loadChat(chatId) {
-                State.currentChatId = chatId;
-                
-                if (DOM.messagesContainer) {
-                    DOM.messagesContainer.innerHTML = '';
-                    
-                    const chat = State.chats[chatId];
-                    if (chat?.messages?.length) {
-                        chat.messages.forEach(msg => {
-                            addMessage(msg.content, msg.isUser, msg.metadata || {});
-                        });
-                    } else {
-                        addWelcomeMessage();
-                    }
-                }
-                
-                updateHistory();
-            }
-
-            function clearAllChats() {
-                if (confirm('Delete all conversations? This cannot be undone.')) {
-                    State.chats = {};
-                    localStorage.removeItem('praiChats');
-                    State.currentChatId = 'chat-' + Date.now();
-                    if (DOM.messagesContainer) {
-                        DOM.messagesContainer.innerHTML = '';
-                        addWelcomeMessage();
-                    }
-                    updateHistory();
-                    showToast('🗑️ All conversations cleared');
-                    closeSettings();
-                    if (DOM.profileDropdown) DOM.profileDropdown.classList.remove('show');
-                }
+                updateProfileUI();
             }
 
             // ============================================
             // EVENT LISTENERS
             // ============================================
             function initEventListeners() {
-                // Profile
-                if (DOM.profileBtn) {
-                    DOM.profileBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (State.userEmail && State.userToken) {
-                            DOM.profileDropdown.classList.toggle('show');
-                        } else {
-                            showAuthModal();
-                        }
-                    });
+                // Send message
+                if (DOM.sendButton) {
+                    DOM.sendButton.addEventListener('click', sendMessage);
                 }
                 
-                document.addEventListener('click', (e) => {
-                    if (DOM.profileBtn && DOM.profileDropdown) {
-                        if (!DOM.profileBtn.contains(e.target) && !DOM.profileDropdown.contains(e.target)) {
-                            DOM.profileDropdown.classList.remove('show');
-                        }
-                    }
-                });
-                
-                // Auth
-                if (DOM.authModalClose) DOM.authModalClose.addEventListener('click', hideAuthModal);
-                if (DOM.authModal) {
-                    DOM.authModal.addEventListener('click', (e) => {
-                        if (e.target === DOM.authModal) hideAuthModal();
-                    });
-                }
-                
-                if (DOM.gmailLoginBtn) DOM.gmailLoginBtn.addEventListener('click', handleGmailLogin);
-                if (DOM.loginBtn) DOM.loginBtn.addEventListener('click', handleEmailLogin);
-                if (DOM.signupBtn) DOM.signupBtn.addEventListener('click', handleEmailSignup);
-                
-                if (DOM.showSignupBtn) {
-                    DOM.showSignupBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        showSignupForm();
-                    });
-                }
-                
-                if (DOM.showLoginBtn) {
-                    DOM.showLoginBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        showLoginForm();
-                    });
-                }
-                
-                if (DOM.dropdownLogout) DOM.dropdownLogout.addEventListener('click', handleLogout);
-                
-                // Settings
-                if (DOM.dropdownSettings) DOM.dropdownSettings.addEventListener('click', openSettings);
-                if (DOM.settingsClose) DOM.settingsClose.addEventListener('click', closeSettings);
-                
-                // Clear all
-                if (DOM.dropdownClearAll) DOM.dropdownClearAll.addEventListener('click', clearAllChats);
-                if (DOM.settingsClearAllBtn) DOM.settingsClearAllBtn.addEventListener('click', clearAllChats);
-                
-                // Send
-                if (DOM.sendButton) DOM.sendButton.addEventListener('click', sendMessage);
-                
-                // Input
+                // Enter key
                 if (DOM.messageInput) {
                     DOM.messageInput.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter' && !e.shiftKey && State.settings.enterToSend) {
+                        if (e.key === 'Enter' && !e.shiftKey) {
                             e.preventDefault();
                             sendMessage();
                         }
@@ -3894,132 +1513,48 @@
                 
                 // New chat
                 if (DOM.newChatBtn) {
-                    DOM.newChatBtn.addEventListener('click', () => {
-                        State.currentChatId = 'chat-' + Date.now();
-                        if (DOM.messagesContainer) {
-                            DOM.messagesContainer.innerHTML = '';
-                            addWelcomeMessage();
-                        }
-                        updateHistory();
-                        clearUploadedFile();
-                    });
+                    DOM.newChatBtn.addEventListener('click', newChat);
                 }
                 
-                // Clear current
-                if (DOM.clearBtn) {
-                    DOM.clearBtn.addEventListener('click', () => {
-                        if (confirm('Clear this conversation?')) {
-                            if (DOM.messagesContainer) {
-                                DOM.messagesContainer.innerHTML = '';
-                                addWelcomeMessage();
-                            }
-                            if (State.chats[State.currentChatId]) {
-                                State.chats[State.currentChatId].messages = [];
-                                localStorage.setItem('praiChats', JSON.stringify(State.chats));
-                            }
-                            showToast('Chat cleared');
-                            clearUploadedFile();
+                // Clear all chats
+                if (DOM.dropdownClearAll) {
+                    DOM.dropdownClearAll.addEventListener('click', clearAllChats);
+                }
+                
+                // Profile
+                if (DOM.profileBtn) {
+                    DOM.profileBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (State.userEmail && State.userToken) {
+                            DOM.profileDropdown.classList.toggle('show');
                         }
                     });
                 }
                 
-                // Export
-                if (DOM.exportBtn) {
-                    DOM.exportBtn.addEventListener('click', () => {
-                        const chat = State.chats[State.currentChatId];
-                        if (!chat?.messages?.length) {
-                            showToast('No messages');
-                            return;
+                // Close dropdown on outside click
+                document.addEventListener('click', (e) => {
+                    if (DOM.profileBtn && DOM.profileDropdown) {
+                        if (!DOM.profileBtn.contains(e.target) && !DOM.profileDropdown.contains(e.target)) {
+                            DOM.profileDropdown.classList.remove('show');
                         }
-                        
-                        let text = `P.R.A.I Chat - ${new Date().toLocaleString()}\n\n`;
-                        chat.messages.forEach(msg => {
-                            text += `${msg.isUser ? 'You' : 'P.R.A.I'} [${msg.timestamp}]:\n`;
-                            text += `${msg.content}\n\n`;
-                        });
-                        
-                        const blob = new Blob([text], { type: 'text/plain' });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `prai-chat-${State.currentChatId.slice(-8)}.txt`;
-                        a.click();
-                        URL.revokeObjectURL(url);
-                        showToast('Chat exported');
-                    });
+                    }
+                });
+                
+                // Logout
+                if (DOM.dropdownLogout) {
+                    DOM.dropdownLogout.addEventListener('click', handleLogout);
                 }
                 
-                // File upload
-                if (DOM.uploadBtn) {
-                    DOM.uploadBtn.addEventListener('click', () => DOM.fileInput?.click());
-                }
-                
-                if (DOM.fileInput) {
-                    DOM.fileInput.setAttribute('accept', '*/*');
-                    DOM.fileInput.addEventListener('change', handleFileUpload);
-                }
-                
-                // Clear file
-                if (DOM.clearFileBtn) {
-                    DOM.clearFileBtn.addEventListener('click', clearUploadedFile);
-                }
-                
-                // Settings toggles
-                if (DOM.ttsToggle) {
-                    DOM.ttsToggle.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        this.classList.toggle('active');
-                        State.settings.ttsEnabled = this.classList.contains('active');
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                    });
-                }
-                
-                if (DOM.voiceSelect) {
-                    DOM.voiceSelect.addEventListener('change', (e) => {
-                        State.settings.ttsVoice = e.target.value;
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                        localStorage.setItem('prai_voice', e.target.value);
-                    });
-                }
-                
-                if (DOM.rateSelect) {
-                    DOM.rateSelect.addEventListener('change', (e) => {
-                        State.settings.ttsRate = parseFloat(e.target.value);
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                    });
-                }
-                
-                if (DOM.enterToSend) {
-                    DOM.enterToSend.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        this.classList.toggle('active');
-                        State.settings.enterToSend = this.classList.contains('active');
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                        showToast(State.settings.enterToSend ? 'Enter to send: ON' : 'Enter to send: OFF');
-                    });
-                }
-                
-                if (DOM.typingIndicatorToggle) {
-                    DOM.typingIndicatorToggle.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        this.classList.toggle('active');
-                        State.settings.typingIndicator = this.classList.contains('active');
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                    });
-                }
-                
-                if (DOM.saveHistory) {
-                    DOM.saveHistory.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        this.classList.toggle('active');
-                        State.settings.saveHistory = this.classList.contains('active');
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
+                // Voice mode button
+                if (DOM.voiceModeBtn) {
+                    DOM.voiceModeBtn.addEventListener('click', () => {
+                        showToast('🎤 Voice mode coming soon!');
                     });
                 }
             }
 
             // ============================================
-            // INITIALIZE
+            // INIT
             // ============================================
             function init() {
                 // Load chats
@@ -4027,27 +1562,11 @@
                 if (savedChats) {
                     try {
                         State.chats = JSON.parse(savedChats);
-                    } catch (e) {
-                        State.chats = {};
-                    }
-                }
-                
-                // Load settings
-                const savedSettings = localStorage.getItem('prai_settings');
-                if (savedSettings) {
-                    try {
-                        State.settings = { ...State.settings, ...JSON.parse(savedSettings) };
                     } catch (e) {}
                 }
                 
                 // OAuth callback
                 handleOAuthCallback();
-                
-                // Load voices
-                loadVoices();
-                
-                // Initialize search
-                initSearch();
                 
                 // Event listeners
                 initEventListeners();
@@ -4055,9 +1574,11 @@
                 // Update history
                 updateHistory();
                 
-                // Welcome message
+                // Welcome message - ONLY ONCE!
                 if (DOM.messagesContainer && DOM.messagesContainer.children.length === 0) {
                     addWelcomeMessage();
+                } else {
+                    State.welcomeMessageAdded = true;
                 }
                 
                 // Profile UI
@@ -4066,7 +1587,7 @@
                 // Focus input
                 if (DOM.messageInput) DOM.messageInput.focus();
                 
-                console.log('✅ P.R.A.I v6.0.0 - Complete Conversational AI');
+                console.log('✅ P.R.A.I v6.2.0 - Conversational AI Ready');
             }
 
             init();
