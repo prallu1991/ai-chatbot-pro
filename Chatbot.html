@@ -727,7 +727,91 @@
         }
 
         /* ============================================
-           AUTH MODAL - DEEPSEEK PREMIUM - UNIFORM BLUE BUTTONS
+           VOICE OUTPUT - TEXT TO SPEECH
+           ============================================ */
+        .voice-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #e5e5e5;
+            background: transparent;
+            color: #666666;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .dark-mode .voice-btn {
+            border: 1px solid #3a3a3a;
+            color: #8a8a8a;
+        }
+
+        .voice-btn:hover {
+            background: #0066ff;
+            color: white;
+            border-color: #0066ff;
+        }
+
+        .voice-btn.active {
+            background: #0066ff;
+            color: white;
+            border-color: #0066ff;
+            animation: pulse 1.5s infinite;
+        }
+
+        .voice-btn.speaking {
+            background: #ff4444;
+            color: white;
+            border-color: #ff4444;
+        }
+
+        .message-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 4px;
+        }
+
+        .bot-message .message-footer {
+            justify-content: flex-start;
+        }
+
+        /* Voice Settings */
+        .voice-settings {
+            margin-top: 16px;
+            padding: 16px;
+            background: #f5f5f5;
+            border-radius: 12px;
+        }
+
+        .dark-mode .voice-settings {
+            background: #2a2a2a;
+        }
+
+        .voice-select {
+            width: 100%;
+            padding: 10px;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            color: #0f0f0f;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .dark-mode .voice-select {
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            color: white;
+        }
+
+        /* ============================================
+           AUTH MODAL - UNIFORM BLUE BUTTONS
            ============================================ */
         #auth-modal {
             display: none;
@@ -795,7 +879,7 @@
             padding: 14px;
             border: none;
             border-radius: 12px;
-            background: #0066ff;  /* UNIFORM BLUE FOR ALL */
+            background: #0066ff;
             color: white;
             font-size: 15px;
             font-weight: 500;
@@ -808,7 +892,7 @@
         }
 
         .social-btn:hover {
-            background: #0052cc;  /* Darker blue on hover */
+            background: #0052cc;
             transform: translateY(-1px);
         }
 
@@ -976,6 +1060,7 @@
             font-size: 15px;
             line-height: 1.6;
             word-break: break-word;
+            position: relative;
         }
 
         .user-message .message-content {
@@ -1005,6 +1090,16 @@
 
         .dark-mode .message-sender {
             color: #8a8a8a;
+        }
+
+        .message-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .message-text {
+            flex: 1;
         }
 
         .typing-indicator {
@@ -1213,7 +1308,7 @@
             to { bottom: 30px; opacity: 1; }
         }
 
-        /* LIGHT MODE FIXES - All white text changed to dark */
+        /* LIGHT MODE FIXES */
         .light-mode .profile-email {
             color: #0f0f0f !important;
         }
@@ -1365,7 +1460,7 @@
         </main>
     </div>
 
-    <!-- SETTINGS PANEL - DEEPSEEK STYLE WITH CLEAR HISTORY -->
+    <!-- SETTINGS PANEL - WITH VOICE SETTINGS -->
     <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
             <div class="settings-title">Settings</div>
@@ -1416,6 +1511,80 @@
                         <option value="ja">日本語</option>
                         <option value="ko">한국어</option>
                         <option value="hi">हिन्दी</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- VOICE OUTPUT SETTINGS - A3 -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🔊 Voice Output
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Enable text-to-speech</div>
+                        <div class="settings-item-desc">Play bot responses as speech</div>
+                    </div>
+                    <button class="toggle-switch active" id="tts-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Voice</div>
+                        <div class="settings-item-desc">Select preferred voice</div>
+                    </div>
+                </div>
+                <div class="voice-settings">
+                    <select class="voice-select" id="voice-select">
+                        <option value="">Loading voices...</option>
+                    </select>
+                    <div style="display: flex; gap: 8px; margin-top: 12px;">
+                        <button class="settings-btn" id="test-voice-btn">
+                            ▶️ Test Voice
+                        </button>
+                        <button class="settings-btn" id="stop-voice-btn">
+                            ⏹️ Stop
+                        </button>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 12px; color: #666666;">
+                        <span>✨ Free browser-based TTS - No API key required</span>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Auto-play responses</div>
+                        <div class="settings-item-desc">Automatically speak new bot messages</div>
+                    </div>
+                    <button class="toggle-switch" id="autoplay-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Speech rate</div>
+                        <div class="settings-item-desc">Speed of voice (0.5x - 2x)</div>
+                    </div>
+                    <select class="select-input" id="rate-select">
+                        <option value="0.5">0.5x - Slow</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1" selected>1x - Normal</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x - Fast</option>
+                        <option value="2">2x - Very Fast</option>
+                    </select>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Pitch</div>
+                        <div class="settings-item-desc">Voice pitch (0 - 2)</div>
+                    </div>
+                    <select class="select-input" id="pitch-select">
+                        <option value="0.5">0.5 - Low</option>
+                        <option value="0.75">0.75</option>
+                        <option value="1" selected>1 - Normal</option>
+                        <option value="1.25">1.25</option>
+                        <option value="1.5">1.5 - High</option>
                     </select>
                 </div>
             </div>
@@ -1537,7 +1706,7 @@
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">2.1.0 - DeepSeek Premium Edition</div>
+                        <div class="settings-item-desc">2.2.0 - DeepSeek Premium + Voice</div>
                     </div>
                 </div>
                 <div class="settings-item">
@@ -1559,7 +1728,7 @@
         </div>
     </div>
 
-    <!-- AUTH MODAL - UNIFORM BLUE BUTTONS FOR ALL PROVIDERS -->
+    <!-- AUTH MODAL - UNIFORM BLUE BUTTONS -->
     <div id="auth-modal">
         <div class="auth-container">
             <button class="close-btn" onclick="hideAuthModal()">✕</button>
@@ -1640,6 +1809,171 @@
 
     <script>
         // ============================================
+        // VOICE OUTPUT - WEB SPEECH API (A3)
+        // ============================================
+        
+        // Speech synthesis state
+        let synth = window.speechSynthesis;
+        let voices = [];
+        let currentUtterance = null;
+        let currentlySpeakingMessageId = null;
+        
+        // Voice settings
+        let voiceSettings = {
+            enabled: true,
+            autoplay: false,
+            voiceURI: '',
+            rate: 1,
+            pitch: 1,
+            volume: 1
+        };
+
+        // Load available voices
+        function loadVoices() {
+            return new Promise((resolve) => {
+                voices = synth.getVoices();
+                if (voices.length > 0) {
+                    resolve(voices);
+                } else {
+                    synth.onvoiceschanged = () => {
+                        voices = synth.getVoices();
+                        resolve(voices);
+                    };
+                }
+            });
+        }
+
+        // Populate voice dropdown
+        async function populateVoiceDropdown() {
+            await loadVoices();
+            const voiceSelect = document.getElementById('voice-select');
+            voiceSelect.innerHTML = '';
+            
+            // Filter for English voices (prefer female/natural)
+            const englishVoices = voices.filter(v => v.lang.includes('en'));
+            
+            if (englishVoices.length > 0) {
+                englishVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.voiceURI;
+                    option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' [Default]' : ''}`;
+                    voiceSelect.appendChild(option);
+                });
+            } else {
+                voices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.voiceURI;
+                    option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' [Default]' : ''}`;
+                    voiceSelect.appendChild(option);
+                });
+            }
+            
+            // Set saved voice or default
+            const savedVoice = localStorage.getItem('prai_voice');
+            if (savedVoice && voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
+                voiceSelect.value = savedVoice;
+                voiceSettings.voiceURI = savedVoice;
+            } else {
+                // Select first English voice or default
+                const defaultVoice = voices.find(v => v.default) || englishVoices[0] || voices[0];
+                if (defaultVoice) {
+                    voiceSelect.value = defaultVoice.voiceURI;
+                    voiceSettings.voiceURI = defaultVoice.voiceURI;
+                }
+            }
+        }
+
+        // Speak text
+        function speakText(text, messageId = null) {
+            if (!voiceSettings.enabled) return;
+            if (!synth) {
+                showToast('❌ Speech synthesis not supported in this browser');
+                return;
+            }
+            
+            // Stop current speech
+            stopSpeaking();
+            
+            // Create utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // Set voice
+            if (voiceSettings.voiceURI) {
+                const selectedVoice = voices.find(v => v.voiceURI === voiceSettings.voiceURI);
+                if (selectedVoice) utterance.voice = selectedVoice;
+            }
+            
+            // Set settings
+            utterance.rate = voiceSettings.rate;
+            utterance.pitch = voiceSettings.pitch;
+            utterance.volume = 1;
+            
+            // Event handlers
+            utterance.onstart = () => {
+                currentUtterance = utterance;
+                currentlySpeakingMessageId = messageId;
+                
+                // Update button UI
+                if (messageId) {
+                    const voiceBtn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
+                    if (voiceBtn) {
+                        voiceBtn.classList.add('speaking');
+                        voiceBtn.innerHTML = '⏹️';
+                        voiceBtn.title = 'Stop speaking';
+                    }
+                }
+            };
+            
+            utterance.onend = () => {
+                currentUtterance = null;
+                currentlySpeakingMessageId = null;
+                
+                // Reset button UI
+                if (messageId) {
+                    const voiceBtn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
+                    if (voiceBtn) {
+                        voiceBtn.classList.remove('speaking');
+                        voiceBtn.innerHTML = '🔊';
+                        voiceBtn.title = 'Listen';
+                    }
+                }
+            };
+            
+            utterance.onerror = () => {
+                currentUtterance = null;
+                currentlySpeakingMessageId = null;
+                showToast('❌ Speech failed');
+            };
+            
+            // Speak
+            synth.speak(utterance);
+        }
+
+        // Stop speaking
+        function stopSpeaking() {
+            if (synth) {
+                synth.cancel();
+                currentUtterance = null;
+                
+                // Reset all voice buttons
+                document.querySelectorAll('.voice-btn.speaking').forEach(btn => {
+                    btn.classList.remove('speaking');
+                    btn.innerHTML = '🔊';
+                    btn.title = 'Listen';
+                });
+                
+                currentlySpeakingMessageId = null;
+            }
+        }
+
+        // Test voice
+        function testVoice() {
+            const testText = 'Hello, this is a test of the voice output system.';
+            speakText(testText);
+            showToast('🔊 Testing voice...');
+        }
+
+        // ============================================
         // STATE MANAGEMENT
         // ============================================
         let currentChatId = 'chat-' + Date.now();
@@ -1657,7 +1991,12 @@
             autoSuggest: true,
             saveHistory: true,
             usageData: false,
-            language: 'en'
+            language: 'en',
+            ttsEnabled: true,
+            ttsAutoplay: false,
+            ttsRate: 1,
+            ttsPitch: 1,
+            ttsVoice: ''
         };
         
         // ============================================
@@ -1717,6 +2056,7 @@
             settingsPanel.classList.add('open');
             hideDropdown();
             loadSettingsIntoUI();
+            populateVoiceDropdown(); // Load voices when settings opened
         }
 
         function closeSettings() {
@@ -1743,6 +2083,19 @@
             document.getElementById('auto-suggest').classList.toggle('active', settings.autoSuggest);
             document.getElementById('save-history').classList.toggle('active', settings.saveHistory);
             document.getElementById('usage-data').classList.toggle('active', settings.usageData);
+            
+            // Voice settings
+            document.getElementById('tts-toggle').classList.toggle('active', settings.ttsEnabled);
+            document.getElementById('autoplay-toggle').classList.toggle('active', settings.ttsAutoplay);
+            document.getElementById('rate-select').value = settings.ttsRate;
+            document.getElementById('pitch-select').value = settings.ttsPitch;
+            
+            // Update voice settings object
+            voiceSettings.enabled = settings.ttsEnabled;
+            voiceSettings.autoplay = settings.ttsAutoplay;
+            voiceSettings.rate = settings.ttsRate;
+            voiceSettings.pitch = settings.ttsPitch;
+            voiceSettings.voiceURI = settings.ttsVoice;
         }
 
         // ============================================
@@ -1988,7 +2341,7 @@
         }
 
         // ============================================
-        // VOICE RECORDING FUNCTIONS
+        // VOICE RECORDING FUNCTIONS (A2 - Voice Input)
         // ============================================
         async function startRecording() {
             try {
@@ -2055,7 +2408,7 @@
         // ============================================
         // INITIALIZATION
         // ============================================
-        function init() {
+        async function init() {
             // Load theme
             const savedTheme = localStorage.getItem('prai_theme') || 'dark';
             setTheme(savedTheme);
@@ -2064,7 +2417,15 @@
             const savedSettings = localStorage.getItem('prai_settings');
             if (savedSettings) {
                 settings = { ...settings, ...JSON.parse(savedSettings) };
+                voiceSettings.enabled = settings.ttsEnabled;
+                voiceSettings.autoplay = settings.ttsAutoplay;
+                voiceSettings.rate = settings.ttsRate;
+                voiceSettings.pitch = settings.ttsPitch;
+                voiceSettings.voiceURI = settings.ttsVoice;
             }
+            
+            // Load voices
+            await loadVoices();
             
             loadFromStorage();
             checkAuthStatus();
@@ -2098,8 +2459,11 @@
         // MESSAGE FUNCTIONS
         // ============================================
         function addMessage(content, isUser) {
+            const messageId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+            
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.id = messageId;
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
@@ -2121,11 +2485,42 @@
             
             const textDiv = document.createElement('div');
             textDiv.textContent = content;
+            textDiv.className = 'message-text';
             contentDiv.appendChild(textDiv);
+            
+            // Add voice button for bot messages
+            if (!isUser) {
+                const footerDiv = document.createElement('div');
+                footerDiv.className = 'message-footer';
+                
+                const voiceBtn = document.createElement('button');
+                voiceBtn.className = 'voice-btn';
+                voiceBtn.innerHTML = '🔊';
+                voiceBtn.title = 'Listen';
+                voiceBtn.setAttribute('data-message-id', messageId);
+                voiceBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    if (currentUtterance && currentlySpeakingMessageId === messageId) {
+                        stopSpeaking();
+                    } else {
+                        speakText(content, messageId);
+                    }
+                };
+                
+                footerDiv.appendChild(voiceBtn);
+                contentDiv.appendChild(footerDiv);
+            }
             
             messageDiv.appendChild(contentDiv);
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Auto-play if enabled
+            if (!isUser && settings.ttsEnabled && settings.ttsAutoplay) {
+                setTimeout(() => {
+                    speakText(content, messageId);
+                }, 100);
+            }
             
             if (settings.saveHistory) {
                 if (!chats[currentChatId]) {
@@ -2138,6 +2533,7 @@
                 }
                 
                 chats[currentChatId].messages.push({
+                    id: messageId,
                     content,
                     isUser,
                     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -2461,6 +2857,53 @@
             localStorage.setItem('prai_settings', JSON.stringify(settings));
         });
 
+        // Voice Settings Toggles
+        document.getElementById('tts-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            settings.ttsEnabled = this.classList.contains('active');
+            voiceSettings.enabled = settings.ttsEnabled;
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+            showToast(settings.ttsEnabled ? '🔊 Voice output enabled' : '🔇 Voice output disabled');
+        });
+
+        document.getElementById('autoplay-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            settings.ttsAutoplay = this.classList.contains('active');
+            voiceSettings.autoplay = settings.ttsAutoplay;
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+            showToast(settings.ttsAutoplay ? '🔊 Auto-play enabled' : '🔇 Auto-play disabled');
+        });
+
+        // Voice selection
+        document.getElementById('voice-select').addEventListener('change', function(e) {
+            settings.ttsVoice = e.target.value;
+            voiceSettings.voiceURI = e.target.value;
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+            localStorage.setItem('prai_voice', e.target.value);
+        });
+
+        // Rate select
+        document.getElementById('rate-select').addEventListener('change', function(e) {
+            settings.ttsRate = parseFloat(e.target.value);
+            voiceSettings.rate = settings.ttsRate;
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+        });
+
+        // Pitch select
+        document.getElementById('pitch-select').addEventListener('change', function(e) {
+            settings.ttsPitch = parseFloat(e.target.value);
+            voiceSettings.pitch = settings.ttsPitch;
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+        });
+
+        // Test voice button
+        document.getElementById('test-voice-btn').addEventListener('click', testVoice);
+
+        // Stop voice button
+        document.getElementById('stop-voice-btn').addEventListener('click', stopSpeaking);
+
         micBtn.addEventListener('click', toggleRecording);
         
         uploadBtn.addEventListener('click', () => fileInput.click());
@@ -2524,6 +2967,11 @@
         document.getElementById('dropdown-feedback').addEventListener('click', () => {
             hideDropdown();
             showToast('💬 Feedback form coming soon!', 2000);
+        });
+
+        // Stop speaking when page unloads
+        window.addEventListener('beforeunload', function() {
+            stopSpeaking();
         });
 
         // ============================================
