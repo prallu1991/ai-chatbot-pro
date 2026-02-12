@@ -1,6 +1,31 @@
+# P.R.A.I - Production Dependencies
+# Version: 4.0.0
+# Last Updated: 2026-02-12
+
+# Core Framework
 Flask==3.0.0
 flask-cors==4.0.0
-requests==2.31.0
-PyPDF2==3.0.1
 gunicorn==21.2.0
+
+# API & Networking
+requests==2.31.0
+
+# File Processing
+PyPDF2==3.0.1
+
+# Database
 supabase==2.4.0
+
+# Real-time Data & Timezone
+pytz==2024.1
+python-dateutil==2.8.2
+
+# Environment Variables
+python-dotenv==1.0.0
+
+# Production Monitoring
+# (Add your monitoring tools here)
+# sentry-sdk==1.40.0  # Uncomment for error tracking
+# newrelic==9.7.0     # Uncomment for performance monitoring
+
+# All dependencies are production-tested and stable
