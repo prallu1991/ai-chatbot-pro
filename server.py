@@ -1,17 +1,16 @@
 """
-P.R.A.I - PRODUCTION SERVER v4.0.0
-STATUS: ✅ CONVERSATIONAL | ✅ REAL-TIME | ✅ MEMORY | ✅ STABLE
+P.R.A.I - PRODUCTION SERVER v5.0.0
+STATUS: ✅ CHATGPT STYLE | ✅ UNIVERSAL FILE UPLOAD | ✅ CLEAN UI
 
 FEATURES:
-- ✅ Conversational AI with full memory
+- ✅ ChatGPT-style conversational AI
+- ✅ Universal file upload (any file type - documents, images, Excel, PDFs, etc.)
+- ✅ Clean, minimal interface - no clutter
+- ✅ Proper conversation memory
 - ✅ Real-time data (time, date, calculations)
-- ✅ 5 distinct personalities
 - ✅ Gmail OAuth + Email fallback
 - ✅ Supabase database persistence
 - ✅ Groq API with Llama 3.3
-- ✅ File upload (PDF/TXT)
-- ✅ Health monitoring
-- ✅ Error tracking
 """
 
 from flask import Flask, request, jsonify, send_from_directory, redirect
@@ -26,8 +25,9 @@ import logging
 import urllib.parse
 import traceback
 import pytz
-from time import mktime
-from dateutil import parser
+import base64
+import magic  # For file type detection
+from werkzeug.utils import secure_filename
 
 # ============================================
 # PRODUCTION CONFIGURATION
@@ -83,24 +83,20 @@ GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
 GROQ_MODEL = 'llama-3.3-70b-versatile'
 
 # ============================================
-# ENHANCED PERSONALITY SYSTEM
+# CHATGPT STYLE SYSTEM PROMPT
 # ============================================
-PERSONALITIES = {
-    'professional': """You are a professional, formal assistant. Provide clear, concise, and professional responses. 
-                      Address users as Mr./Ms. when appropriate. Use formal language and proper grammar.""",
-    
-    'casual': """You are a friendly, casual assistant. Be warm, conversational, and approachable. 
-                Use contractions and everyday language. Feel free to use emojis occasionally.""",
-    
-    'technical': """You are a technical expert assistant. Provide detailed, accurate technical explanations.
-                   Include relevant technical terms, code examples when helpful, and references to documentation.""",
-    
-    'creative': """You are a creative, imaginative assistant. Think outside the box and be innovative.
-                  Use metaphors, analogies, and storytelling. Make complex topics engaging and fun.""",
-    
-    'teacher': """You are a patient, educational assistant. Explain concepts clearly step by step.
-                 Use the Socratic method - ask guiding questions. Provide examples and practice problems."""
-}
+SYSTEM_PROMPT = """You are P.R.A.I, a helpful, harmless, and honest AI assistant. 
+You converse naturally like ChatGPT. Be concise, friendly, and direct.
+
+Guidelines:
+- Keep responses brief and natural
+- Don't mention that you're an AI unless asked
+- Don't list your capabilities unless asked
+- Just help the user with whatever they need
+- Remember context from previous messages
+- Be conversational, not robotic
+
+Current date and time for reference: {current_time}"""
 
 # ============================================
 # REAL-TIME DATA FUNCTIONS
@@ -154,7 +150,7 @@ def get_time_for_city(city):
     return None
 
 # ============================================
-# DATABASE FUNCTIONS WITH ENHANCED MEMORY
+# DATABASE FUNCTIONS
 # ============================================
 
 def validate_supabase_credentials():
@@ -164,7 +160,7 @@ def validate_supabase_credentials():
         return False
     return True
 
-def save_conversation(session_id, user_message, bot_reply, personality='casual', user_name=None):
+def save_conversation(session_id, user_message, bot_reply, user_name=None, file_info=None):
     """Save conversation with enhanced metadata"""
     if not validate_supabase_credentials():
         return False
@@ -179,10 +175,10 @@ def save_conversation(session_id, user_message, bot_reply, personality='casual',
         
         data = {
             'session_id': session_id[:50],
-            'user_message': user_message[:1000],
-            'bot_reply': bot_reply[:2000],
-            'personality': personality[:20],
+            'user_message': user_message[:1000] if user_message else '',
+            'bot_reply': bot_reply[:2000] if bot_reply else '',
             'user_name': user_name[:50] if user_name else None,
+            'file_info': json.dumps(file_info) if file_info else None,
             'timestamp': datetime.utcnow().isoformat(),
             'created_at': datetime.utcnow().isoformat()
         }
@@ -240,13 +236,11 @@ def get_user_context(session_id):
     history = get_conversation_history(session_id, limit=100)
     context = {
         'user_name': None,
-        'preferences': [],
-        'topics_discussed': [],
         'message_count': len(history)
     }
     
     for msg in history:
-        # Try to extract user name from messages
+        # Extract user name from messages
         if not context['user_name'] and msg.get('user_message'):
             user_msg = msg['user_message'].lower()
             if "my name is" in user_msg:
@@ -260,78 +254,139 @@ def get_user_context(session_id):
     return context
 
 # ============================================
-# GROQ API WITH ENHANCED CONTEXT
+# UNIVERSAL FILE UPLOAD - ANY FILE TYPE!
 # ============================================
 
-def build_system_prompt(personality, user_context=None):
-    """Build enhanced system prompt with context"""
-    base_prompt = PERSONALITIES.get(personality, PERSONALITIES['casual'])
-    
-    enhanced_prompt = f"{base_prompt}\n\n"
-    
-    # Add real-time capabilities
-    enhanced_prompt += """You have access to real-time data:
-- Current time and date
-- Time in major cities worldwide
-- Basic calculations
-- File content analysis
+ALLOWED_EXTENSIONS = {
+    # Documents
+    'txt', 'pdf', 'doc', 'docx', 'odt', 'rtf',
+    # Images
+    'jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp',
+    # Spreadsheets
+    'xls', 'xlsx', 'csv', 'ods',
+    # Presentations
+    'ppt', 'pptx', 'odp',
+    # Archives
+    'zip', 'rar', '7z', 'tar', 'gz',
+    # Code
+    'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'md',
+    # Other
+    'log', 'ini', 'cfg', 'conf'
+}
 
-When users ask about time, date, or calculations, provide accurate real-time information.
-"""
-    
-    # Add user context if available
-    if user_context:
-        if user_context.get('user_name'):
-            enhanced_prompt += f"\nThe user's name is {user_context['user_name']}. Address them by name naturally in conversation."
-        
-        if user_context.get('message_count', 0) > 0:
-            enhanced_prompt += f"\nYou have had {user_context['message_count']} messages in this conversation. Maintain continuity and refer to previous topics when relevant."
-    
-    # Add response guidelines
-    enhanced_prompt += """
-RESPONSE GUIDELINES:
-1. Be conversational - remember what was said before
-2. Use the user's name naturally when known
-3. For time queries: provide current time in requested location
-4. For calculations: show steps and provide accurate results
-5. Keep responses concise but informative
-6. Use appropriate personality tone
-7. Acknowledge file uploads and reference their content
+MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB max
 
-Current timestamp for reference: """ + datetime.utcnow().isoformat()
+def get_file_info(filename, file_size, file_content):
+    """Extract file information based on type"""
+    ext = filename.split('.')[-1].lower() if '.' in filename else ''
     
-    return enhanced_prompt
+    file_info = {
+        'filename': filename,
+        'extension': ext,
+        'size': file_size,
+        'type': 'unknown'
+    }
+    
+    # Determine file type category
+    if ext in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp']:
+        file_info['type'] = 'image'
+        # Try to get image dimensions
+        try:
+            from PIL import Image
+            img = Image.open(io.BytesIO(file_content))
+            file_info['width'], file_info['height'] = img.size
+        except:
+            pass
+            
+    elif ext in ['pdf']:
+        file_info['type'] = 'pdf'
+        try:
+            pdf = PyPDF2.PdfReader(io.BytesIO(file_content))
+            file_info['pages'] = len(pdf.pages)
+        except:
+            pass
+            
+    elif ext in ['txt', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'md', 'log', 'ini', 'cfg', 'conf']:
+        file_info['type'] = 'text'
+        try:
+            # Try to decode as text
+            text = file_content[:1000].decode('utf-8', errors='ignore')
+            file_info['preview'] = text[:200] + '...' if len(text) > 200 else text
+        except:
+            pass
+            
+    elif ext in ['doc', 'docx', 'odt', 'rtf']:
+        file_info['type'] = 'document'
+    elif ext in ['xls', 'xlsx', 'csv', 'ods']:
+        file_info['type'] = 'spreadsheet'
+    elif ext in ['ppt', 'pptx', 'odp']:
+        file_info['type'] = 'presentation'
+    elif ext in ['zip', 'rar', '7z', 'tar', 'gz']:
+        file_info['type'] = 'archive'
+    
+    return file_info
 
-def process_real_time_query(user_message):
-    """Handle real-time data queries"""
-    message_lower = user_message.lower()
-    
-    # Time queries
-    if any(word in message_lower for word in ['time', 'clock', 'what time', 'current time']):
-        # Check for specific cities
-        cities = ['new york', 'london', 'tokyo', 'sydney', 'paris', 'berlin', 
-                  'mumbai', 'beijing', 'san francisco', 'los angeles', 'chicago',
-                  'toronto', 'vancouver', 'singapore', 'hong kong', 'seoul',
-                  'dubai', 'moscow', 'rome', 'madrid']
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    """Universal file upload handler - supports ANY file type"""
+    try:
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
         
-        for city in cities:
-            if city in message_lower:
-                time_data = get_time_for_city(city)
-                if time_data:
-                    return f"The current time in {city.title()} is {time_data['time']} on {time_data['date']}."
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
         
-        # Default to New York time
-        time_data = get_current_time()
-        if time_data:
-            return f"The current time is {time_data['time']} on {time_data['date']} (Eastern Time)."
-    
-    # Date queries
-    if any(word in message_lower for word in ['date', 'today', 'what day']):
-        time_data = get_current_time()
-        if time_data:
-            return f"Today is {time_data['date']}."
-    
-    return None
+        filename = secure_filename(file.filename)
+        
+        # Check file size
+        file.seek(0, os.SEEK_END)
+        file_size = file.tell()
+        file.seek(0)
+        
+        if file_size > MAX_FILE_SIZE:
+            return jsonify({'error': f'File too large (max {MAX_FILE_SIZE//1024//1024}MB)'}), 400
+        
+        # Read file content
+        file_content = file.read()
+        
+        # Get file info
+        ext = filename.split('.')[-1].lower() if '.' in filename else ''
+        file_info = get_file_info(filename, file_size, file_content)
+        
+        # For text files, extract content for AI
+        extracted_text = ""
+        if file_info['type'] in ['text', 'pdf']:
+            try:
+                if ext == 'txt':
+                    extracted_text = file_content.decode('utf-8', errors='ignore')[:10000]
+                elif ext == 'pdf':
+                    pdf = PyPDF2.PdfReader(io.BytesIO(file_content))
+                    for page in pdf.pages[:5]:  # First 5 pages only
+                        extracted_text += page.extract_text() + '\n'
+                    extracted_text = extracted_text[:10000]
+            except Exception as e:
+                logger.error(f"Text extraction error: {str(e)}")
+                extracted_text = "[Could not extract text from file]"
+        
+        # For images, get basic info
+        if file_info['type'] == 'image':
+            # Convert to base64 for display
+            img_base64 = base64.b64encode(file_content).decode('utf-8')
+            file_info['base64'] = f"data:image/{ext};base64,{img_base64[:100]}..."  # Truncated for response
+        
+        return jsonify({
+            'success': True,
+            'filename': filename,
+            'size': file_size,
+            'file_info': file_info,
+            'extracted_text': extracted_text,
+            'message': f'File "{filename}" uploaded successfully'
+        })
+        
+    except Exception as e:
+        logger.error(f"❌ Upload error: {str(e)}")
+        return jsonify({'error': f'Upload failed: {str(e)}'}), 500
 
 # ============================================
 # AUTHENTICATION - GMAIL ONLY
@@ -386,7 +441,6 @@ def auth_callback():
             user_data = user_response.json()
             email = user_data.get('email', '')
             logger.info(f"✅ Gmail login successful: {email}")
-            
             return redirect(f"{FRONTEND_URL}/#access_token={access_token}")
         else:
             logger.error(f"❌ Failed to get user info: {user_response.status_code}")
@@ -443,7 +497,7 @@ def email_login():
     """Email/Password login - FALLBACK"""
     try:
         if not validate_supabase_credentials():
-            return jsonify({'error': 'Service unavailable'}), 503
+            return jsonify({'error': 'Service unavailable'}), 500
             
         data = request.get_json()
         email = data.get('email', '').strip().lower()
@@ -530,12 +584,12 @@ def logout():
         return jsonify({'success': True}), 200
 
 # ============================================
-# CHAT API - ENHANCED CONVERSATIONAL AI
+# CHAT API - CHATGPT STYLE CONVERSATION
 # ============================================
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    """Process chat messages with full context and real-time data"""
+    """Process chat messages - ChatGPT style"""
     start_time = datetime.utcnow()
     
     try:
@@ -551,29 +605,44 @@ def chat():
             
         user_message = data.get('message', '').strip()
         session_id = data.get('session_id', f'session_{datetime.utcnow().timestamp()}')[:50]
-        personality = data.get('personality', 'casual')
         user_name = data.get('user_name')
+        file_info = data.get('file_info')
         
-        if not user_message:
+        if not user_message and not file_info:
             return jsonify({'error': 'Message cannot be empty'}), 400
         
-        if len(user_message) > 5000:
-            return jsonify({'error': 'Message too long (max 5000 characters)'}), 400
-        
-        logger.info(f"💬 Chat request - Session: {session_id[:8]}, Personality: {personality}")
+        logger.info(f"💬 Chat request - Session: {session_id[:8]}")
         
         # Check for real-time queries first
-        real_time_response = process_real_time_query(user_message)
-        if real_time_response:
-            # Save to database
-            save_conversation(session_id, user_message, real_time_response, personality, user_name)
+        if user_message:
+            message_lower = user_message.lower()
             
-            return jsonify([{
-                'generated_text': real_time_response,
-                'session_id': session_id,
-                'timestamp': datetime.utcnow().isoformat(),
-                'type': 'real_time'
-            }])
+            # Time queries
+            if any(word in message_lower for word in ['time', 'clock', 'what time', 'current time']):
+                # Check for specific cities
+                cities = ['new york', 'london', 'tokyo', 'sydney', 'paris', 'berlin', 'mumbai', 'beijing']
+                for city in cities:
+                    if city in message_lower:
+                        time_data = get_time_for_city(city)
+                        if time_data:
+                            response = f"The current time in {city.title()} is {time_data['time']}."
+                            save_conversation(session_id, user_message, response, user_name)
+                            return jsonify([{'generated_text': response, 'type': 'real_time'}])
+                
+                # Default time
+                time_data = get_current_time()
+                if time_data:
+                    response = f"It's {time_data['time']}."
+                    save_conversation(session_id, user_message, response, user_name)
+                    return jsonify([{'generated_text': response, 'type': 'real_time'}])
+            
+            # Date queries
+            if any(word in message_lower for word in ['date', 'today', 'what day']):
+                time_data = get_current_time()
+                if time_data:
+                    response = f"Today is {time_data['date']}."
+                    save_conversation(session_id, user_message, response, user_name)
+                    return jsonify([{'generated_text': response, 'type': 'real_time'}])
         
         # Get conversation history and user context
         history = get_conversation_history(session_id, limit=50)
@@ -583,20 +652,31 @@ def chat():
         if user_name and not user_context.get('user_name'):
             user_context['user_name'] = user_name
         
-        # Build messages array with full context
+        # Build messages array - ChatGPT style
         messages = []
         
-        # System prompt with context
-        system_prompt = build_system_prompt(personality, user_context)
+        # System prompt with current time
+        current_time = datetime.now().strftime("%A, %B %d, %Y at %I:%M %p")
+        system_prompt = SYSTEM_PROMPT.format(current_time=current_time)
         messages.append({'role': 'system', 'content': system_prompt})
         
-        # Add conversation history with full context
-        for msg in history[-20:]:  # Last 20 messages for full context
-            messages.append({'role': 'user', 'content': msg.get('user_message', '')[:1000]})
-            messages.append({'role': 'assistant', 'content': msg.get('bot_reply', '')[:2000]})
+        # Add conversation history
+        for msg in history[-20:]:
+            if msg.get('user_message'):
+                messages.append({'role': 'user', 'content': msg['user_message'][:1000]})
+            if msg.get('bot_reply'):
+                messages.append({'role': 'assistant', 'content': msg['bot_reply'][:2000]})
+        
+        # Add file context if present
+        if file_info:
+            file_context = f"[User uploaded a file: {file_info.get('filename', 'unknown')}]"
+            if file_info.get('extracted_text'):
+                file_context += f"\n\nFile contents:\n{file_info['extracted_text'][:1000]}"
+            user_message = f"{file_context}\n\n{user_message}" if user_message else file_context
         
         # Add current message
-        messages.append({'role': 'user', 'content': user_message[:1000]})
+        if user_message:
+            messages.append({'role': 'user', 'content': user_message[:1000]})
         
         # Prepare Groq API request
         headers = {
@@ -628,17 +708,16 @@ def chat():
             result = response.json()
             bot_reply = result['choices'][0]['message']['content']
             
-            # Save to database (async)
+            # Save to database
             try:
-                save_conversation(session_id, user_message, bot_reply, personality, user_context.get('user_name'))
+                save_conversation(session_id, user_message, bot_reply, user_context.get('user_name'), file_info)
             except Exception as e:
                 logger.error(f"❌ Async DB save failed: {str(e)}")
             
             return jsonify([{
                 'generated_text': bot_reply,
                 'session_id': session_id,
-                'timestamp': datetime.utcnow().isoformat(),
-                'type': 'ai_response'
+                'timestamp': datetime.utcnow().isoformat()
             }])
         else:
             error_msg = f'Groq API Error: {response.status_code}'
@@ -653,103 +732,6 @@ def chat():
         return jsonify({'error': 'Internal server error'}), 500
 
 # ============================================
-# FILE UPLOAD - ENHANCED
-# ============================================
-
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    """Handle file uploads with enhanced processing"""
-    try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file uploaded'}), 400
-        
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({'error': 'No file selected'}), 400
-        
-        filename = file.filename.lower()
-        
-        # Validate file size (10MB max)
-        file.seek(0, os.SEEK_END)
-        file_size = file.tell()
-        file.seek(0)
-        
-        if file_size > 10 * 1024 * 1024:
-            return jsonify({'error': 'File too large (max 10MB)'}), 400
-        
-        # Process TXT files
-        if filename.endswith('.txt'):
-            try:
-                text = file.read().decode('utf-8')[:15000]  # Limit to 15k chars
-                return jsonify({
-                    'text': text,
-                    'filename': file.filename,
-                    'type': 'text',
-                    'size': len(text)
-                })
-            except UnicodeDecodeError:
-                return jsonify({'error': 'Invalid text file encoding'}), 400
-        
-        # Process PDF files
-        elif filename.endswith('.pdf'):
-            try:
-                pdf_reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
-                
-                if len(pdf_reader.pages) > 50:
-                    return jsonify({'error': 'PDF too many pages (max 50)'}), 400
-                
-                text = ''
-                for page in pdf_reader.pages[:15]:  # First 15 pages only
-                    extracted = page.extract_text()
-                    if extracted:
-                        text += extracted + '\n'
-                
-                text = text[:15000]  # Limit to 15k chars
-                
-                return jsonify({
-                    'text': text,
-                    'filename': file.filename,
-                    'pages': min(len(pdf_reader.pages), 15),
-                    'type': 'pdf',
-                    'size': len(text)
-                })
-            except Exception as e:
-                logger.error(f"❌ PDF processing error: {str(e)}")
-                return jsonify({'error': 'Invalid PDF file'}), 400
-        
-        else:
-            return jsonify({'error': 'Unsupported file type. Please upload .txt or .pdf'}), 400
-            
-    except Exception as e:
-        logger.error(f"❌ Upload error: {str(e)}")
-        return jsonify({'error': 'File upload failed'}), 500
-
-# ============================================
-# REAL-TIME DATA ENDPOINTS
-# ============================================
-
-@app.route('/api/time', methods=['GET'])
-def get_time():
-    """Get current time API endpoint"""
-    timezone = request.args.get('tz', 'America/New_York')
-    time_data = get_current_time(timezone)
-    
-    if time_data:
-        return jsonify(time_data)
-    else:
-        return jsonify({'error': 'Invalid timezone'}), 400
-
-@app.route('/api/time/<city>', methods=['GET'])
-def get_city_time(city):
-    """Get time for specific city"""
-    time_data = get_time_for_city(city)
-    
-    if time_data:
-        return jsonify(time_data)
-    else:
-        return jsonify({'error': 'City not found'}), 404
-
-# ============================================
 # HEALTH & MONITORING
 # ============================================
 
@@ -761,51 +743,40 @@ def index():
 @app.route('/health', methods=['GET'])
 def health_check():
     """Production health check endpoint"""
-    status = {
+    return jsonify({
         'status': 'healthy',
         'timestamp': datetime.utcnow().isoformat(),
-        'version': '4.0.0',
+        'version': '5.0.0',
         'features': {
             'conversational_ai': True,
             'real_time_data': True,
             'memory': True,
-            'personalities': list(PERSONALITIES.keys())
+            'universal_file_upload': True
         },
         'services': {
             'database': 'connected' if validate_supabase_credentials() else 'disconnected',
             'groq': 'configured' if GROQ_API_KEY else 'missing',
             'auth': 'gmail_only'
         }
-    }
-    
-    if not GROQ_API_KEY or not validate_supabase_credentials():
-        status['status'] = 'degraded'
-    
-    return jsonify(status)
+    })
 
 @app.route('/health/detailed', methods=['GET'])
 def health_detailed():
-    """Detailed health check for debugging"""
+    """Detailed health check"""
     return jsonify({
         'status': 'healthy',
-        'timestamp': datetime.utcnow().isoformat(),
-        'version': '4.0.0',
-        'personalities': list(PERSONALITIES.keys()),
-        'supabase_url': SUPABASE_URL[:20] + '...' if SUPABASE_URL else None,
-        'supabase_key': 'configured' if SUPABASE_KEY else 'missing',
-        'groq_key': 'configured' if GROQ_API_KEY else 'missing',
-        'groq_model': GROQ_MODEL,
-        'frontend_url': FRONTEND_URL,
-        'current_time': get_current_time()
+        'version': '5.0.0',
+        'supabase': 'configured' if SUPABASE_URL else 'missing',
+        'groq': 'configured' if GROQ_API_KEY else 'missing',
+        'file_upload': {
+            'max_size': f"{MAX_FILE_SIZE//1024//1024}MB",
+            'allowed_types': list(ALLOWED_EXTENSIONS)[:20] + ['...']
+        }
     })
 
 @app.errorhandler(404)
 def not_found(e):
     return jsonify({'error': 'Endpoint not found'}), 404
-
-@app.errorhandler(405)
-def method_not_allowed(e):
-    return jsonify({'error': 'Method not allowed'}), 405
 
 @app.errorhandler(500)
 def internal_error(e):
@@ -818,23 +789,19 @@ def internal_error(e):
 
 if __name__ == '__main__':
     print("\n" + "=" * 80)
-    print("🚀 P.R.A.I PRODUCTION SERVER v4.0.0")
+    print("🚀 P.R.A.I PRODUCTION SERVER v5.0.0")
     print("=" * 80)
     print(f"📊 Status: {'✅ READY' if GROQ_API_KEY and SUPABASE_URL else '⚠️ DEGRADED'}")
     print(f"🔑 Auth: Gmail OAuth + Email Fallback")
     print(f"💾 Database: {'✅ Connected' if validate_supabase_credentials() else '❌ Disconnected'}")
+    print(f"📁 File Upload: ✅ Universal - {len(ALLOWED_EXTENSIONS)} file types supported")
+    print(f"📦 Max File Size: {MAX_FILE_SIZE//1024//1024}MB")
     print(f"🤖 AI Model: {GROQ_MODEL}")
-    print(f"🎭 Personalities: {', '.join(PERSONALITIES.keys())}")
     print(f"🌐 Frontend: {FRONTEND_URL}")
     print("=" * 80)
     
-    # Test real-time data
-    ny_time = get_current_time()
-    if ny_time:
-        print(f"🕐 New York Time: {ny_time['time']} - {ny_time['date']}")
-    else:
-        print("⚠️ Time service: Check pytz installation")
-    
+    # Test file upload capability
+    print(f"📎 Sample allowed extensions: {', '.join(list(ALLOWED_EXTENSIONS)[:10])}...")
     print("=" * 80)
     print("✅ Server starting...")
     print("=" * 80)
