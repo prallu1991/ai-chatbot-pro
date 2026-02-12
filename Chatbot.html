@@ -812,7 +812,7 @@
         }
 
         /* ============================================
-           INPUT AREA - FIXED ALIGNMENT & STYLING
+           INPUT AREA - FIXED ALIGNMENT
            ============================================ */
         .input-area {
             padding: 16px 24px;
@@ -1025,7 +1025,6 @@
             font-size: 15px;
         }
 
-        /* Social Login Buttons - ALL UNIFORM BLUE */
         .social-login {
             display: flex;
             flex-direction: column;
@@ -1324,24 +1323,6 @@
             to { bottom: 30px; opacity: 1; }
         }
 
-        /* File Attachment Styling */
-        .file-attachment {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(0, 102, 255, 0.1);
-            border-radius: 20px;
-            font-size: 13px;
-            color: #0066ff;
-            margin-bottom: 8px;
-        }
-
-        .dark-mode .file-attachment {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
-        }
-
         /* LIGHT MODE FIXES */
         .light-mode .profile-email {
             color: #0f0f0f !important;
@@ -1390,12 +1371,11 @@
             </div>
 
             <button class="new-chat-btn" id="new-chat-btn">
-                <span>+</span>
-                New Chat
+                <span id="new-chat-text">+ New Chat</span>
             </button>
 
             <div class="history-section">
-                <div class="history-title">Recent</div>
+                <div class="history-title" id="history-title">Recent</div>
                 <div class="history-list" id="history-list">
                     <div class="history-item" id="empty-history">
                         No conversations yet
@@ -1435,27 +1415,27 @@
                             
                             <div class="dropdown-section">
                                 <div class="dropdown-item" id="dropdown-settings">
-                                    ⚙️ Settings
+                                    ⚙️ <span id="dropdown-settings-text">Settings</span>
                                 </div>
                                 <div class="dropdown-item" id="dropdown-theme">
-                                    🌙 Dark mode
+                                    🌙 <span id="dropdown-theme-text">Dark mode</span>
                                 </div>
                             </div>
                             
                             <div class="dropdown-section">
                                 <div class="dropdown-item" id="dropdown-help">
-                                    📚 Help & FAQ
+                                    📚 <span id="dropdown-help-text">Help & FAQ</span>
                                 </div>
                                 <div class="dropdown-item" id="dropdown-feedback">
-                                    💬 Send feedback
+                                    💬 <span id="dropdown-feedback-text">Send feedback</span>
                                 </div>
                                 <div class="dropdown-item" id="dropdown-clear">
-                                    🗑️ Clear all chats
+                                    🗑️ <span id="dropdown-clear-text">Clear all chats</span>
                                 </div>
                             </div>
                             
                             <div class="dropdown-item logout" id="dropdown-logout">
-                                🚪 Logout
+                                🚪 <span id="dropdown-logout-text">Logout</span>
                             </div>
                         </div>
                     </div>
@@ -1464,7 +1444,7 @@
 
             <div class="messages-container" id="messages-container"></div>
 
-            <!-- FIXED INPUT AREA - PERFECT ALIGNMENT -->
+            <!-- Input Area -->
             <div class="input-area">
                 <div class="input-container">
                     <textarea 
@@ -1487,7 +1467,7 @@
                 </div>
                 <div class="quick-actions">
                     <button class="quick-action" id="suggest-btn">
-                        💡 Get suggestions
+                        💡 <span id="suggest-text">Get suggestions</span>
                     </button>
                 </div>
                 <input type="file" id="file-input" class="hidden" accept=".txt,.pdf">
@@ -1498,30 +1478,30 @@
     <!-- SETTINGS PANEL - WITH VOICE SETTINGS -->
     <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
-            <div class="settings-title">Settings</div>
+            <div class="settings-title" id="settings-title">Settings</div>
             <button class="settings-close" id="settings-close">✕</button>
         </div>
         <div class="settings-content">
             <!-- Appearance Section -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    🌓 Appearance
+                    🌓 <span id="appearance-title">Appearance</span>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Theme</div>
-                        <div class="settings-item-desc">Switch between light and dark mode</div>
+                        <div class="settings-item-label" id="theme-label">Theme</div>
+                        <div class="settings-item-desc" id="theme-desc">Switch between light and dark mode</div>
                     </div>
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="theme" value="dark" checked>
                             <span class="radio-custom"></span>
-                            <span class="radio-label">Dark</span>
+                            <span class="radio-label" id="dark-label">Dark</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="theme" value="light">
                             <span class="radio-custom"></span>
-                            <span class="radio-label">Light</span>
+                            <span class="radio-label" id="light-label">Light</span>
                         </label>
                     </div>
                 </div>
@@ -1530,12 +1510,12 @@
             <!-- Language Section -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    🌐 Language
+                    🌐 <span id="language-title">Language</span>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Display language</div>
-                        <div class="settings-item-desc">Choose your preferred language</div>
+                        <div class="settings-item-label" id="display-language-label">Display language</div>
+                        <div class="settings-item-desc" id="language-desc">Choose your preferred language</div>
                     </div>
                     <select class="select-input" id="language-select">
                         <option value="en">English</option>
@@ -1553,12 +1533,12 @@
             <!-- VOICE OUTPUT SETTINGS -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    🔊 Voice Output
+                    🔊 <span id="voice-title">Voice Output</span>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Enable text-to-speech</div>
-                        <div class="settings-item-desc">Play bot responses as speech</div>
+                        <div class="settings-item-label" id="tts-label">Enable text-to-speech</div>
+                        <div class="settings-item-desc" id="tts-desc">Play bot responses as speech</div>
                     </div>
                     <button class="toggle-switch active" id="tts-toggle">
                         <span class="toggle-slider"></span>
@@ -1566,8 +1546,8 @@
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Voice</div>
-                        <div class="settings-item-desc">Select preferred voice</div>
+                        <div class="settings-item-label" id="voice-select-label">Voice</div>
+                        <div class="settings-item-desc" id="voice-select-desc">Select preferred voice</div>
                     </div>
                 </div>
                 <div class="voice-settings">
@@ -1576,20 +1556,17 @@
                     </select>
                     <div style="display: flex; gap: 8px; margin-top: 12px;">
                         <button class="settings-btn" id="test-voice-btn">
-                            ▶️ Test Voice
+                            ▶️ <span id="test-voice-text">Test Voice</span>
                         </button>
                         <button class="settings-btn" id="stop-voice-btn">
-                            ⏹️ Stop
+                            ⏹️ <span id="stop-voice-text">Stop</span>
                         </button>
-                    </div>
-                    <div style="margin-top: 12px; font-size: 12px; color: #666666;">
-                        <span>✨ Free browser-based TTS - No API key required</span>
                     </div>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Auto-play responses</div>
-                        <div class="settings-item-desc">Automatically speak new bot messages</div>
+                        <div class="settings-item-label" id="autoplay-label">Auto-play responses</div>
+                        <div class="settings-item-desc" id="autoplay-desc">Automatically speak new bot messages</div>
                     </div>
                     <button class="toggle-switch" id="autoplay-toggle">
                         <span class="toggle-slider"></span>
@@ -1597,8 +1574,8 @@
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Speech rate</div>
-                        <div class="settings-item-desc">Speed of voice (0.5x - 2x)</div>
+                        <div class="settings-item-label" id="rate-label">Speech rate</div>
+                        <div class="settings-item-desc" id="rate-desc">Speed of voice (0.5x - 2x)</div>
                     </div>
                     <select class="select-input" id="rate-select">
                         <option value="0.5">0.5x - Slow</option>
@@ -1611,8 +1588,8 @@
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Pitch</div>
-                        <div class="settings-item-desc">Voice pitch (0 - 2)</div>
+                        <div class="settings-item-label" id="pitch-label">Pitch</div>
+                        <div class="settings-item-desc" id="pitch-desc">Voice pitch (0 - 2)</div>
                     </div>
                     <select class="select-input" id="pitch-select">
                         <option value="0.5">0.5 - Low</option>
@@ -1627,12 +1604,12 @@
             <!-- Chat Settings -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    💬 Chat
+                    💬 <span id="chat-title-settings">Chat</span>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Enter to send</div>
-                        <div class="settings-item-desc">Press Enter to send message, Shift+Enter for new line</div>
+                        <div class="settings-item-label" id="enter-label">Enter to send</div>
+                        <div class="settings-item-desc" id="enter-desc">Press Enter to send message, Shift+Enter for new line</div>
                     </div>
                     <button class="toggle-switch active" id="enter-to-send">
                         <span class="toggle-slider"></span>
@@ -1640,8 +1617,8 @@
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Typing indicator</div>
-                        <div class="settings-item-desc">Show when assistant is typing</div>
+                        <div class="settings-item-label" id="typing-label">Typing indicator</div>
+                        <div class="settings-item-desc" id="typing-desc">Show when assistant is typing</div>
                     </div>
                     <button class="toggle-switch active" id="typing-indicator-toggle">
                         <span class="toggle-slider"></span>
@@ -1649,19 +1626,10 @@
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Message timestamp</div>
-                        <div class="settings-item-desc">Show time for each message</div>
+                        <div class="settings-item-label" id="timestamp-label">Message timestamp</div>
+                        <div class="settings-item-desc" id="timestamp-desc">Show time for each message</div>
                     </div>
                     <button class="toggle-switch" id="timestamp-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Auto-suggestions</div>
-                        <div class="settings-item-desc">Show quick suggestions while typing</div>
-                    </div>
-                    <button class="toggle-switch active" id="auto-suggest">
                         <span class="toggle-slider"></span>
                     </button>
                 </div>
@@ -1670,23 +1638,14 @@
             <!-- Privacy Section -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    🔒 Privacy
+                    🔒 <span id="privacy-title">Privacy</span>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Save chat history</div>
-                        <div class="settings-item-desc">Store conversations locally</div>
+                        <div class="settings-item-label" id="save-history-label">Save chat history</div>
+                        <div class="settings-item-desc" id="save-history-desc">Store conversations locally</div>
                     </div>
                     <button class="toggle-switch active" id="save-history">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Usage data</div>
-                        <div class="settings-item-desc">Help improve P.R.A.I by sharing anonymous usage data</div>
-                    </div>
-                    <button class="toggle-switch" id="usage-data">
                         <span class="toggle-slider"></span>
                     </button>
                 </div>
@@ -1695,40 +1654,40 @@
             <!-- Data Management -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    📁 Data Management
+                    📁 <span id="data-title">Data Management</span>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Export all chats</div>
-                        <div class="settings-item-desc">Download your conversation history</div>
+                        <div class="settings-item-label" id="export-label">Export all chats</div>
+                        <div class="settings-item-desc" id="export-desc">Download your conversation history</div>
                     </div>
                     <button class="settings-btn" id="settings-export-btn">
-                        Export
+                        <span id="export-btn-text">Export</span>
                     </button>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Import chats</div>
-                        <div class="settings-item-desc">Restore conversations from backup</div>
+                        <div class="settings-item-label" id="import-label">Import chats</div>
+                        <div class="settings-item-desc" id="import-desc">Restore conversations from backup</div>
                     </div>
                     <button class="settings-btn" id="settings-import-btn">
-                        Import
+                        <span id="import-btn-text">Import</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Danger Zone - Clear History -->
+            <!-- Danger Zone -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    ⚠️ Danger Zone
+                    ⚠️ <span id="danger-title">Danger Zone</span>
                 </div>
                 <div class="danger-zone">
-                    <div class="danger-title">Clear all chat history</div>
-                    <div class="settings-item-desc" style="margin-bottom: 16px;">
+                    <div class="danger-title" id="clear-title">Clear all chat history</div>
+                    <div class="settings-item-desc" style="margin-bottom: 16px;" id="clear-desc">
                         This action cannot be undone. All your conversations will be permanently deleted.
                     </div>
                     <button class="settings-btn danger" id="settings-clear-all-btn">
-                        🗑️ Clear all chats
+                        🗑️ <span id="clear-btn-text">Clear all chats</span>
                     </button>
                 </div>
             </div>
@@ -1736,22 +1695,12 @@
             <!-- About Section -->
             <div class="settings-section">
                 <div class="settings-section-title">
-                    ℹ️ About
+                    ℹ️ <span id="about-title">About</span>
                 </div>
                 <div class="settings-item">
                     <div>
-                        <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">2.3.0 - DeepSeek Premium + Voice + Fixed</div>
-                    </div>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Terms of Service</div>
-                    </div>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Privacy Policy</div>
+                        <div class="settings-item-label" id="version-label">Version</div>
+                        <div class="settings-item-desc" id="version-desc">2.4.0 - DeepSeek Premium + Voice + Languages</div>
                     </div>
                 </div>
             </div>
@@ -1764,31 +1713,31 @@
             <button class="close-btn" onclick="hideAuthModal()">✕</button>
             
             <div class="auth-header">
-                <h2>Welcome to P.R.A.I</h2>
-                <p>Sign in to continue</p>
+                <h2 id="welcome-title">Welcome to P.R.A.I</h2>
+                <p id="signin-prompt">Sign in to continue</p>
             </div>
 
             <div class="social-login">
                 <button class="social-btn" onclick="handleSocialLogin('facebook')">
                     <span>f</span>
-                    Continue with Facebook
+                    <span id="facebook-text">Continue with Facebook</span>
                 </button>
                 <button class="social-btn" onclick="handleSocialLogin('gmail')">
                     <span>G</span>
-                    Continue with Gmail
+                    <span id="gmail-text">Continue with Gmail</span>
                 </button>
                 <button class="social-btn" onclick="handleSocialLogin('outlook')">
                     <span>@</span>
-                    Continue with Outlook
+                    <span id="outlook-text">Continue with Outlook</span>
                 </button>
                 <button class="social-btn" onclick="handleSocialLogin('linkedin')">
                     <span>in</span>
-                    Continue with LinkedIn
+                    <span id="linkedin-text">Continue with LinkedIn</span>
                 </button>
             </div>
 
             <div class="divider">
-                <span>or continue with email</span>
+                <span id="or-text">or continue with email</span>
             </div>
 
             <!-- Email Login -->
@@ -1801,12 +1750,12 @@
                 </div>
                 
                 <button class="auth-action-btn" onclick="handleLogin()">
-                    Sign In
+                    <span id="signin-btn">Sign In</span>
                 </button>
                 
                 <div class="auth-toggle">
-                    Don't have an account?
-                    <button onclick="showSignupForm()">Sign up</button>
+                    <span id="no-account-text">Don't have an account?</span>
+                    <button onclick="showSignupForm()" id="signup-link">Sign up</button>
                 </div>
             </div>
 
@@ -1820,12 +1769,12 @@
                 </div>
                 
                 <button class="auth-action-btn" onclick="handleSignup()">
-                    Create Account
+                    <span id="create-account-btn">Create Account</span>
                 </button>
                 
                 <div class="auth-toggle">
-                    Already have an account?
-                    <button onclick="showLoginForm()">Sign in</button>
+                    <span id="have-account-text">Already have an account?</span>
+                    <button onclick="showLoginForm()" id="signin-link">Sign in</button>
                 </div>
             </div>
         </div>
@@ -1838,16 +1787,845 @@
 
     <script>
         // ============================================
-        // VOICE OUTPUT - WEB SPEECH API (A3)
+        // LANGUAGE TRANSLATIONS
+        // ============================================
+        const translations = {
+            en: {
+                // Sidebar
+                'new-chat-text': '+ New Chat',
+                'history-title': 'Recent',
+                'empty-history': 'No conversations yet',
+                
+                // Profile
+                'profile-email': 'Sign In',
+                'dropdown-user-name': 'Guest',
+                'dropdown-settings-text': 'Settings',
+                'dropdown-theme-text': 'Dark mode',
+                'dropdown-help-text': 'Help & FAQ',
+                'dropdown-feedback-text': 'Send feedback',
+                'dropdown-clear-text': 'Clear all chats',
+                'dropdown-logout-text': 'Logout',
+                
+                // Input
+                'message-input': 'Message P.R.A.I...',
+                'suggest-text': 'Get suggestions',
+                
+                // Settings
+                'settings-title': 'Settings',
+                'appearance-title': 'Appearance',
+                'theme-label': 'Theme',
+                'theme-desc': 'Switch between light and dark mode',
+                'dark-label': 'Dark',
+                'light-label': 'Light',
+                'language-title': 'Language',
+                'display-language-label': 'Display language',
+                'language-desc': 'Choose your preferred language',
+                'voice-title': 'Voice Output',
+                'tts-label': 'Enable text-to-speech',
+                'tts-desc': 'Play bot responses as speech',
+                'voice-select-label': 'Voice',
+                'voice-select-desc': 'Select preferred voice',
+                'test-voice-text': 'Test Voice',
+                'stop-voice-text': 'Stop',
+                'autoplay-label': 'Auto-play responses',
+                'autoplay-desc': 'Automatically speak new bot messages',
+                'rate-label': 'Speech rate',
+                'rate-desc': 'Speed of voice (0.5x - 2x)',
+                'pitch-label': 'Pitch',
+                'pitch-desc': 'Voice pitch (0 - 2)',
+                'chat-title-settings': 'Chat',
+                'enter-label': 'Enter to send',
+                'enter-desc': 'Press Enter to send message, Shift+Enter for new line',
+                'typing-label': 'Typing indicator',
+                'typing-desc': 'Show when assistant is typing',
+                'timestamp-label': 'Message timestamp',
+                'timestamp-desc': 'Show time for each message',
+                'privacy-title': 'Privacy',
+                'save-history-label': 'Save chat history',
+                'save-history-desc': 'Store conversations locally',
+                'data-title': 'Data Management',
+                'export-label': 'Export all chats',
+                'export-desc': 'Download your conversation history',
+                'export-btn-text': 'Export',
+                'import-label': 'Import chats',
+                'import-desc': 'Restore conversations from backup',
+                'import-btn-text': 'Import',
+                'danger-title': 'Danger Zone',
+                'clear-title': 'Clear all chat history',
+                'clear-desc': 'This action cannot be undone. All your conversations will be permanently deleted.',
+                'clear-btn-text': 'Clear all chats',
+                'about-title': 'About',
+                'version-label': 'Version',
+                'version-desc': '2.4.0 - DeepSeek Premium + Voice + Languages',
+                
+                // Auth Modal
+                'welcome-title': 'Welcome to P.R.A.I',
+                'signin-prompt': 'Sign in to continue',
+                'facebook-text': 'Continue with Facebook',
+                'gmail-text': 'Continue with Gmail',
+                'outlook-text': 'Continue with Outlook',
+                'linkedin-text': 'Continue with LinkedIn',
+                'or-text': 'or continue with email',
+                'signin-btn': 'Sign In',
+                'no-account-text': "Don't have an account?",
+                'signup-link': 'Sign up',
+                'create-account-btn': 'Create Account',
+                'have-account-text': 'Already have an account?',
+                'signin-link': 'Sign in',
+                
+                // Placeholders
+                'email-placeholder': 'Email address',
+                'password-placeholder': 'Password',
+                'signup-password-placeholder': 'Password (min 6 characters)'
+            },
+            es: {
+                'new-chat-text': '+ Nuevo Chat',
+                'history-title': 'Reciente',
+                'empty-history': 'Sin conversaciones',
+                'profile-email': 'Iniciar Sesión',
+                'dropdown-user-name': 'Invitado',
+                'dropdown-settings-text': 'Ajustes',
+                'dropdown-theme-text': 'Modo oscuro',
+                'dropdown-help-text': 'Ayuda y FAQ',
+                'dropdown-feedback-text': 'Enviar comentarios',
+                'dropdown-clear-text': 'Borrar chats',
+                'dropdown-logout-text': 'Cerrar sesión',
+                'message-input': 'Mensaje para P.R.A.I...',
+                'suggest-text': 'Sugerencias',
+                'settings-title': 'Ajustes',
+                'appearance-title': 'Apariencia',
+                'theme-label': 'Tema',
+                'theme-desc': 'Cambiar entre modo claro y oscuro',
+                'dark-label': 'Oscuro',
+                'light-label': 'Claro',
+                'language-title': 'Idioma',
+                'display-language-label': 'Idioma',
+                'language-desc': 'Elige tu idioma preferido',
+                'voice-title': 'Salida de voz',
+                'tts-label': 'Activar texto a voz',
+                'tts-desc': 'Reproducir respuestas como voz',
+                'voice-select-label': 'Voz',
+                'voice-select-desc': 'Seleccionar voz preferida',
+                'test-voice-text': 'Probar voz',
+                'stop-voice-text': 'Detener',
+                'autoplay-label': 'Auto-reproducción',
+                'autoplay-desc': 'Hablar automáticamente nuevas respuestas',
+                'rate-label': 'Velocidad',
+                'rate-desc': 'Velocidad de voz (0.5x - 2x)',
+                'pitch-label': 'Tono',
+                'pitch-desc': 'Tono de voz (0 - 2)',
+                'chat-title-settings': 'Chat',
+                'enter-label': 'Enter para enviar',
+                'enter-desc': 'Presiona Enter para enviar, Shift+Enter para nueva línea',
+                'typing-label': 'Indicador de escritura',
+                'typing-desc': 'Mostrar cuando el asistente escribe',
+                'timestamp-label': 'Hora del mensaje',
+                'timestamp-desc': 'Mostrar hora en cada mensaje',
+                'privacy-title': 'Privacidad',
+                'save-history-label': 'Guardar historial',
+                'save-history-desc': 'Almacenar conversaciones localmente',
+                'data-title': 'Gestión de datos',
+                'export-label': 'Exportar chats',
+                'export-desc': 'Descargar historial de conversaciones',
+                'export-btn-text': 'Exportar',
+                'import-label': 'Importar chats',
+                'import-desc': 'Restaurar conversaciones desde copia',
+                'import-btn-text': 'Importar',
+                'danger-title': 'Zona de peligro',
+                'clear-title': 'Borrar todo el historial',
+                'clear-desc': 'Esta acción no se puede deshacer. Todas las conversaciones serán eliminadas.',
+                'clear-btn-text': 'Borrar todos los chats',
+                'about-title': 'Acerca de',
+                'version-label': 'Versión',
+                'version-desc': '2.4.0 - DeepSeek Premium + Voz + Idiomas',
+                'welcome-title': 'Bienvenido a P.R.A.I',
+                'signin-prompt': 'Inicia sesión para continuar',
+                'facebook-text': 'Continuar con Facebook',
+                'gmail-text': 'Continuar con Gmail',
+                'outlook-text': 'Continuar con Outlook',
+                'linkedin-text': 'Continuar con LinkedIn',
+                'or-text': 'o continúa con email',
+                'signin-btn': 'Iniciar Sesión',
+                'no-account-text': '¿No tienes cuenta?',
+                'signup-link': 'Regístrate',
+                'create-account-btn': 'Crear Cuenta',
+                'have-account-text': '¿Ya tienes cuenta?',
+                'signin-link': 'Inicia sesión',
+                'email-placeholder': 'Correo electrónico',
+                'password-placeholder': 'Contraseña',
+                'signup-password-placeholder': 'Contraseña (mínimo 6 caracteres)'
+            },
+            fr: {
+                'new-chat-text': '+ Nouveau Chat',
+                'history-title': 'Récent',
+                'empty-history': 'Aucune conversation',
+                'profile-email': 'Se Connecter',
+                'dropdown-user-name': 'Invité',
+                'dropdown-settings-text': 'Paramètres',
+                'dropdown-theme-text': 'Mode sombre',
+                'dropdown-help-text': 'Aide et FAQ',
+                'dropdown-feedback-text': 'Envoyer un avis',
+                'dropdown-clear-text': 'Effacer les chats',
+                'dropdown-logout-text': 'Déconnexion',
+                'message-input': 'Message pour P.R.A.I...',
+                'suggest-text': 'Suggestions',
+                'settings-title': 'Paramètres',
+                'appearance-title': 'Apparence',
+                'theme-label': 'Thème',
+                'theme-desc': 'Basculer entre mode clair et sombre',
+                'dark-label': 'Sombre',
+                'light-label': 'Clair',
+                'language-title': 'Langue',
+                'display-language-label': 'Langue',
+                'language-desc': 'Choisissez votre langue préférée',
+                'voice-title': 'Sortie vocale',
+                'tts-label': 'Activer texte à voix',
+                'tts-desc': 'Lire les réponses du bot',
+                'voice-select-label': 'Voix',
+                'voice-select-desc': 'Sélectionner la voix préférée',
+                'test-voice-text': 'Tester la voix',
+                'stop-voice-text': 'Arrêter',
+                'autoplay-label': 'Lecture auto',
+                'autoplay-desc': 'Parler automatiquement des nouvelles réponses',
+                'rate-label': 'Vitesse',
+                'rate-desc': 'Vitesse de la voix (0.5x - 2x)',
+                'pitch-label': 'Hauteur',
+                'pitch-desc': 'Hauteur de la voix (0 - 2)',
+                'chat-title-settings': 'Chat',
+                'enter-label': 'Entrée pour envoyer',
+                'enter-desc': 'Appuyez sur Entrée pour envoyer, Shift+Entrée pour nouvelle ligne',
+                'typing-label': 'Indicateur de frappe',
+                'typing-desc': 'Afficher quand l\'assistant tape',
+                'timestamp-label': 'Horodatage',
+                'timestamp-desc': 'Afficher l\'heure pour chaque message',
+                'privacy-title': 'Confidentialité',
+                'save-history-label': 'Sauvegarder l\'historique',
+                'save-history-desc': 'Stocker les conversations localement',
+                'data-title': 'Gestion des données',
+                'export-label': 'Exporter les chats',
+                'export-desc': 'Télécharger l\'historique des conversations',
+                'export-btn-text': 'Exporter',
+                'import-label': 'Importer les chats',
+                'import-desc': 'Restaurer les conversations depuis une sauvegarde',
+                'import-btn-text': 'Importer',
+                'danger-title': 'Zone dangereuse',
+                'clear-title': 'Effacer tout l\'historique',
+                'clear-desc': 'Cette action est irréversible. Toutes les conversations seront supprimées.',
+                'clear-btn-text': 'Effacer tous les chats',
+                'about-title': 'À propos',
+                'version-label': 'Version',
+                'version-desc': '2.4.0 - DeepSeek Premium + Voix + Langues',
+                'welcome-title': 'Bienvenue sur P.R.A.I',
+                'signin-prompt': 'Connectez-vous pour continuer',
+                'facebook-text': 'Continuer avec Facebook',
+                'gmail-text': 'Continuer avec Gmail',
+                'outlook-text': 'Continuer avec Outlook',
+                'linkedin-text': 'Continuer avec LinkedIn',
+                'or-text': 'ou continuez avec email',
+                'signin-btn': 'Se Connecter',
+                'no-account-text': 'Vous n\'avez pas de compte ?',
+                'signup-link': 'S\'inscrire',
+                'create-account-btn': 'Créer un compte',
+                'have-account-text': 'Vous avez déjà un compte ?',
+                'signin-link': 'Se connecter',
+                'email-placeholder': 'Adresse email',
+                'password-placeholder': 'Mot de passe',
+                'signup-password-placeholder': 'Mot de passe (min 6 caractères)'
+            },
+            de: {
+                'new-chat-text': '+ Neuer Chat',
+                'history-title': 'Kürzlich',
+                'empty-history': 'Keine Unterhaltungen',
+                'profile-email': 'Anmelden',
+                'dropdown-user-name': 'Gast',
+                'dropdown-settings-text': 'Einstellungen',
+                'dropdown-theme-text': 'Dunkelmodus',
+                'dropdown-help-text': 'Hilfe & FAQ',
+                'dropdown-feedback-text': 'Feedback senden',
+                'dropdown-clear-text': 'Alle Chats löschen',
+                'dropdown-logout-text': 'Abmelden',
+                'message-input': 'Nachricht an P.R.A.I...',
+                'suggest-text': 'Vorschläge',
+                'settings-title': 'Einstellungen',
+                'appearance-title': 'Erscheinungsbild',
+                'theme-label': 'Design',
+                'theme-desc': 'Zwischen hellem und dunklem Modus wechseln',
+                'dark-label': 'Dunkel',
+                'light-label': 'Hell',
+                'language-title': 'Sprache',
+                'display-language-label': 'Anzeigesprache',
+                'language-desc': 'Wählen Sie Ihre bevorzugte Sprache',
+                'voice-title': 'Sprachausgabe',
+                'tts-label': 'Text-zu-Sprache aktivieren',
+                'tts-desc': 'Bot-Antworten als Sprache abspielen',
+                'voice-select-label': 'Stimme',
+                'voice-select-desc': 'Bevorzugte Stimme auswählen',
+                'test-voice-text': 'Stimme testen',
+                'stop-voice-text': 'Stopp',
+                'autoplay-label': 'Auto-Wiedergabe',
+                'autoplay-desc': 'Neue Bot-Nachrichten automatisch vorlesen',
+                'rate-label': 'Geschwindigkeit',
+                'rate-desc': 'Sprechgeschwindigkeit (0.5x - 2x)',
+                'pitch-label': 'Tonhöhe',
+                'pitch-desc': 'Stimmlage (0 - 2)',
+                'chat-title-settings': 'Chat',
+                'enter-label': 'Enter zum Senden',
+                'enter-desc': 'Drücken Sie Enter zum Senden, Shift+Enter für neue Zeile',
+                'typing-label': 'Tipp-Anzeige',
+                'typing-desc': 'Anzeigen, wenn der Assistent tippt',
+                'timestamp-label': 'Zeitstempel',
+                'timestamp-desc': 'Uhrzeit für jede Nachricht anzeigen',
+                'privacy-title': 'Datenschutz',
+                'save-history-label': 'Chat-Verlauf speichern',
+                'save-history-desc': 'Unterhaltungen lokal speichern',
+                'data-title': 'Datenverwaltung',
+                'export-label': 'Alle Chats exportieren',
+                'export-desc': 'Unterhaltungsverlauf herunterladen',
+                'export-btn-text': 'Exportieren',
+                'import-label': 'Chats importieren',
+                'import-desc': 'Unterhaltungen aus Backup wiederherstellen',
+                'import-btn-text': 'Importieren',
+                'danger-title': 'Gefahrenzone',
+                'clear-title': 'Gesamten Chat-Verlauf löschen',
+                'clear-desc': 'Diese Aktion kann nicht rückgängig gemacht werden. Alle Unterhaltungen werden dauerhaft gelöscht.',
+                'clear-btn-text': 'Alle Chats löschen',
+                'about-title': 'Über',
+                'version-label': 'Version',
+                'version-desc': '2.4.0 - DeepSeek Premium + Sprache + Sprachen',
+                'welcome-title': 'Willkommen bei P.R.A.I',
+                'signin-prompt': 'Melden Sie sich an, um fortzufahren',
+                'facebook-text': 'Mit Facebook fortfahren',
+                'gmail-text': 'Mit Gmail fortfahren',
+                'outlook-text': 'Mit Outlook fortfahren',
+                'linkedin-text': 'Mit LinkedIn fortfahren',
+                'or-text': 'oder mit E-Mail fortfahren',
+                'signin-btn': 'Anmelden',
+                'no-account-text': 'Kein Konto?',
+                'signup-link': 'Registrieren',
+                'create-account-btn': 'Konto erstellen',
+                'have-account-text': 'Bereits ein Konto?',
+                'signin-link': 'Anmelden',
+                'email-placeholder': 'E-Mail-Adresse',
+                'password-placeholder': 'Passwort',
+                'signup-password-placeholder': 'Passwort (mind. 6 Zeichen)'
+            },
+            zh: {
+                'new-chat-text': '+ 新聊天',
+                'history-title': '最近',
+                'empty-history': '暂无对话',
+                'profile-email': '登录',
+                'dropdown-user-name': '访客',
+                'dropdown-settings-text': '设置',
+                'dropdown-theme-text': '深色模式',
+                'dropdown-help-text': '帮助与常见问题',
+                'dropdown-feedback-text': '发送反馈',
+                'dropdown-clear-text': '清除所有聊天',
+                'dropdown-logout-text': '退出登录',
+                'message-input': '给P.R.A.I发送消息...',
+                'suggest-text': '获取建议',
+                'settings-title': '设置',
+                'appearance-title': '外观',
+                'theme-label': '主题',
+                'theme-desc': '切换浅色/深色模式',
+                'dark-label': '深色',
+                'light-label': '浅色',
+                'language-title': '语言',
+                'display-language-label': '显示语言',
+                'language-desc': '选择您的首选语言',
+                'voice-title': '语音输出',
+                'tts-label': '启用文本转语音',
+                'tts-desc': '朗读机器人回复',
+                'voice-select-label': '语音',
+                'voice-select-desc': '选择首选语音',
+                'test-voice-text': '测试语音',
+                'stop-voice-text': '停止',
+                'autoplay-label': '自动播放',
+                'autoplay-desc': '自动朗读新的机器人消息',
+                'rate-label': '语速',
+                'rate-desc': '语音速度 (0.5x - 2x)',
+                'pitch-label': '音调',
+                'pitch-desc': '语音音调 (0 - 2)',
+                'chat-title-settings': '聊天',
+                'enter-label': '回车发送',
+                'enter-desc': '按回车发送消息，Shift+回车换行',
+                'typing-label': '输入指示器',
+                'typing-desc': '显示助手正在输入',
+                'timestamp-label': '消息时间戳',
+                'timestamp-desc': '显示每条消息的时间',
+                'privacy-title': '隐私',
+                'save-history-label': '保存聊天记录',
+                'save-history-desc': '在本地存储对话',
+                'data-title': '数据管理',
+                'export-label': '导出所有聊天',
+                'export-desc': '下载对话历史',
+                'export-btn-text': '导出',
+                'import-label': '导入聊天',
+                'import-desc': '从备份恢复对话',
+                'import-btn-text': '导入',
+                'danger-title': '危险区域',
+                'clear-title': '清除所有聊天历史',
+                'clear-desc': '此操作无法撤销。所有对话将被永久删除。',
+                'clear-btn-text': '清除所有聊天',
+                'about-title': '关于',
+                'version-label': '版本',
+                'version-desc': '2.4.0 - DeepSeek高级版 + 语音 + 多语言',
+                'welcome-title': '欢迎使用P.R.A.I',
+                'signin-prompt': '登录以继续',
+                'facebook-text': '使用Facebook继续',
+                'gmail-text': '使用Gmail继续',
+                'outlook-text': '使用Outlook继续',
+                'linkedin-text': '使用LinkedIn继续',
+                'or-text': '或使用邮箱继续',
+                'signin-btn': '登录',
+                'no-account-text': '没有账号？',
+                'signup-link': '注册',
+                'create-account-btn': '创建账号',
+                'have-account-text': '已有账号？',
+                'signin-link': '登录',
+                'email-placeholder': '邮箱地址',
+                'password-placeholder': '密码',
+                'signup-password-placeholder': '密码（最少6个字符）'
+            },
+            ja: {
+                'new-chat-text': '+ 新規チャット',
+                'history-title': '最近',
+                'empty-history': '会話がありません',
+                'profile-email': 'ログイン',
+                'dropdown-user-name': 'ゲスト',
+                'dropdown-settings-text': '設定',
+                'dropdown-theme-text': 'ダークモード',
+                'dropdown-help-text': 'ヘルプ＆FAQ',
+                'dropdown-feedback-text': 'フィードバックを送信',
+                'dropdown-clear-text': 'すべてのチャットを削除',
+                'dropdown-logout-text': 'ログアウト',
+                'message-input': 'P.R.A.Iにメッセージ...',
+                'suggest-text': '提案を取得',
+                'settings-title': '設定',
+                'appearance-title': '外観',
+                'theme-label': 'テーマ',
+                'theme-desc': 'ライト/ダークモードを切り替え',
+                'dark-label': 'ダーク',
+                'light-label': 'ライト',
+                'language-title': '言語',
+                'display-language-label': '表示言語',
+                'language-desc': '優先言語を選択',
+                'voice-title': '音声出力',
+                'tts-label': 'テキスト読み上げを有効化',
+                'tts-desc': 'ボットの応答を音声で再生',
+                'voice-select-label': '音声',
+                'voice-select-desc': '優先音声を選択',
+                'test-voice-text': '音声テスト',
+                'stop-voice-text': '停止',
+                'autoplay-label': '自動再生',
+                'autoplay-desc': '新しいボットメッセージを自動読み上げ',
+                'rate-label': '速度',
+                'rate-desc': '音声速度 (0.5x - 2x)',
+                'pitch-label': 'ピッチ',
+                'pitch-desc': '音声の高さ (0 - 2)',
+                'chat-title-settings': 'チャット',
+                'enter-label': 'Enterで送信',
+                'enter-desc': 'Enterキーで送信、Shift+Enterで改行',
+                'typing-label': '入力インジケーター',
+                'typing-desc': 'アシスタントが入力中を表示',
+                'timestamp-label': 'タイムスタンプ',
+                'timestamp-desc': '各メッセージの時刻を表示',
+                'privacy-title': 'プライバシー',
+                'save-history-label': 'チャット履歴を保存',
+                'save-history-desc': '会話をローカルに保存',
+                'data-title': 'データ管理',
+                'export-label': 'すべてのチャットをエクスポート',
+                'export-desc': '会話履歴をダウンロード',
+                'export-btn-text': 'エクスポート',
+                'import-label': 'チャットをインポート',
+                'import-desc': 'バックアップから会話を復元',
+                'import-btn-text': 'インポート',
+                'danger-title': '危険ゾーン',
+                'clear-title': 'すべてのチャット履歴を削除',
+                'clear-desc': 'この操作は元に戻せません。すべての会話が完全に削除されます。',
+                'clear-btn-text': 'すべてのチャットを削除',
+                'about-title': '概要',
+                'version-label': 'バージョン',
+                'version-desc': '2.4.0 - DeepSeekプレミアム + 音声 + 多言語',
+                'welcome-title': 'P.R.A.Iへようこそ',
+                'signin-prompt': '続行するにはログイン',
+                'facebook-text': 'Facebookで続行',
+                'gmail-text': 'Gmailで続行',
+                'outlook-text': 'Outlookで続行',
+                'linkedin-text': 'LinkedInで続行',
+                'or-text': 'またはメールで続行',
+                'signin-btn': 'ログイン',
+                'no-account-text': 'アカウントをお持ちでない方',
+                'signup-link': '新規登録',
+                'create-account-btn': 'アカウント作成',
+                'have-account-text': 'すでにアカウントをお持ちの方',
+                'signin-link': 'ログイン',
+                'email-placeholder': 'メールアドレス',
+                'password-placeholder': 'パスワード',
+                'signup-password-placeholder': 'パスワード（6文字以上）'
+            },
+            ko: {
+                'new-chat-text': '+ 새 채팅',
+                'history-title': '최근',
+                'empty-history': '대화 없음',
+                'profile-email': '로그인',
+                'dropdown-user-name': '게스트',
+                'dropdown-settings-text': '설정',
+                'dropdown-theme-text': '다크 모드',
+                'dropdown-help-text': '도움말 및 FAQ',
+                'dropdown-feedback-text': '피드백 보내기',
+                'dropdown-clear-text': '모든 채팅 지우기',
+                'dropdown-logout-text': '로그아웃',
+                'message-input': 'P.R.A.I에게 메시지...',
+                'suggest-text': '제안 받기',
+                'settings-title': '설정',
+                'appearance-title': '외관',
+                'theme-label': '테마',
+                'theme-desc': '라이트/다크 모드 전환',
+                'dark-label': '다크',
+                'light-label': '라이트',
+                'language-title': '언어',
+                'display-language-label': '표시 언어',
+                'language-desc': '선호하는 언어 선택',
+                'voice-title': '음성 출력',
+                'tts-label': '텍스트 음성 변환 활성화',
+                'tts-desc': '봇 응답을 음성으로 재생',
+                'voice-select-label': '음성',
+                'voice-select-desc': '선호하는 음성 선택',
+                'test-voice-text': '음성 테스트',
+                'stop-voice-text': '중지',
+                'autoplay-label': '자동 재생',
+                'autoplay-desc': '새 봇 메시지 자동 읽기',
+                'rate-label': '속도',
+                'rate-desc': '음성 속도 (0.5x - 2x)',
+                'pitch-label': '피치',
+                'pitch-desc': '음성 높낮이 (0 - 2)',
+                'chat-title-settings': '채팅',
+                'enter-label': 'Enter로 전송',
+                'enter-desc': 'Enter 키로 메시지 전송, Shift+Enter로 줄바꿈',
+                'typing-label': '입력 표시기',
+                'typing-desc': '어시스턴트가 입력 중일 때 표시',
+                'timestamp-label': '메시지 시간',
+                'timestamp-desc': '각 메시지에 시간 표시',
+                'privacy-title': '개인정보',
+                'save-history-label': '채팅 기록 저장',
+                'save-history-desc': '대화를 로컬에 저장',
+                'data-title': '데이터 관리',
+                'export-label': '모든 채팅 내보내기',
+                'export-desc': '대화 기록 다운로드',
+                'export-btn-text': '내보내기',
+                'import-label': '채팅 가져오기',
+                'import-desc': '백업에서 대화 복원',
+                'import-btn-text': '가져오기',
+                'danger-title': '위험 구역',
+                'clear-title': '모든 채팅 기록 지우기',
+                'clear-desc': '이 작업은 취소할 수 없습니다. 모든 대화가 영구 삭제됩니다.',
+                'clear-btn-text': '모든 채팅 지우기',
+                'about-title': '정보',
+                'version-label': '버전',
+                'version-desc': '2.4.0 - DeepSeek 프리미엄 + 음성 + 다국어',
+                'welcome-title': 'P.R.A.I에 오신 것을 환영합니다',
+                'signin-prompt': '계속하려면 로그인하세요',
+                'facebook-text': 'Facebook으로 계속',
+                'gmail-text': 'Gmail로 계속',
+                'outlook-text': 'Outlook으로 계속',
+                'linkedin-text': 'LinkedIn으로 계속',
+                'or-text': '또는 이메일로 계속',
+                'signin-btn': '로그인',
+                'no-account-text': '계정이 없으신가요?',
+                'signup-link': '회원가입',
+                'create-account-btn': '계정 만들기',
+                'have-account-text': '이미 계정이 있으신가요?',
+                'signin-link': '로그인',
+                'email-placeholder': '이메일 주소',
+                'password-placeholder': '비밀번호',
+                'signup-password-placeholder': '비밀번호 (최소 6자)'
+            },
+            hi: {
+                'new-chat-text': '+ नई चैट',
+                'history-title': 'हाल ही में',
+                'empty-history': 'कोई बातचीत नहीं',
+                'profile-email': 'साइन इन',
+                'dropdown-user-name': 'अतिथि',
+                'dropdown-settings-text': 'सेटिंग्स',
+                'dropdown-theme-text': 'डार्क मोड',
+                'dropdown-help-text': 'सहायता और FAQ',
+                'dropdown-feedback-text': 'प्रतिक्रिया भेजें',
+                'dropdown-clear-text': 'सभी चैट हटाएं',
+                'dropdown-logout-text': 'लॉग आउट',
+                'message-input': 'P.R.A.I को संदेश...',
+                'suggest-text': 'सुझाव प्राप्त करें',
+                'settings-title': 'सेटिंग्स',
+                'appearance-title': 'रूप-रंग',
+                'theme-label': 'थीम',
+                'theme-desc': 'लाइट और डार्क मोड के बीच स्विच करें',
+                'dark-label': 'डार्क',
+                'light-label': 'लाइट',
+                'language-title': 'भाषा',
+                'display-language-label': 'प्रदर्शन भाषा',
+                'language-desc': 'अपनी पसंदीदा भाषा चुनें',
+                'voice-title': 'आवाज आउटपुट',
+                'tts-label': 'टेक्स्ट-टू-स्पीच सक्षम करें',
+                'tts-desc': 'बॉट के जवाब आवाज में सुनें',
+                'voice-select-label': 'आवाज',
+                'voice-select-desc': 'पसंदीदा आवाज चुनें',
+                'test-voice-text': 'आवाज टेस्ट',
+                'stop-voice-text': 'रोकें',
+                'autoplay-label': 'ऑटो-प्ले',
+                'autoplay-desc': 'नए बॉट संदेश स्वचालित रूप से बोलें',
+                'rate-label': 'गति',
+                'rate-desc': 'आवाज की गति (0.5x - 2x)',
+                'pitch-label': 'पिच',
+                'pitch-desc': 'आवाज की पिच (0 - 2)',
+                'chat-title-settings': 'चैट',
+                'enter-label': 'एंटर से भेजें',
+                'enter-desc': 'संदेश भेजने के लिए एंटर दबाएं, नई लाइन के लिए Shift+Enter',
+                'typing-label': 'टाइपिंग इंडिकेटर',
+                'typing-desc': 'दिखाएं जब सहायक टाइप कर रहा हो',
+                'timestamp-label': 'संदेश समय',
+                'timestamp-desc': 'प्रत्येक संदेश के लिए समय दिखाएं',
+                'privacy-title': 'गोपनीयता',
+                'save-history-label': 'चैट इतिहास सहेजें',
+                'save-history-desc': 'बातचीत को स्थानीय रूप से स्टोर करें',
+                'data-title': 'डेटा प्रबंधन',
+                'export-label': 'सभी चैट निर्यात करें',
+                'export-desc': 'अपना वार्तालाप इतिहास डाउनलोड करें',
+                'export-btn-text': 'निर्यात',
+                'import-label': 'चैट आयात करें',
+                'import-desc': 'बैकअप से बातचीत पुनर्स्थापित करें',
+                'import-btn-text': 'आयात',
+                'danger-title': 'खतरा क्षेत्र',
+                'clear-title': 'सभी चैट इतिहास हटाएं',
+                'clear-desc': 'यह क्रिया पूर्ववत नहीं की जा सकती। सभी वार्तालाप स्थायी रूप से हटा दिए जाएंगे।',
+                'clear-btn-text': 'सभी चैट हटाएं',
+                'about-title': 'बारे में',
+                'version-label': 'संस्करण',
+                'version-desc': '2.4.0 - DeepSeek प्रीमियम + आवाज + भाषाएं',
+                'welcome-title': 'P.R.A.I में आपका स्वागत है',
+                'signin-prompt': 'जारी रखने के लिए साइन इन करें',
+                'facebook-text': 'Facebook से जारी रखें',
+                'gmail-text': 'Gmail से जारी रखें',
+                'outlook-text': 'Outlook से जारी रखें',
+                'linkedin-text': 'LinkedIn से जारी रखें',
+                'or-text': 'या ईमेल से जारी रखें',
+                'signin-btn': 'साइन इन',
+                'no-account-text': 'खाता नहीं है?',
+                'signup-link': 'साइन अप',
+                'create-account-btn': 'खाता बनाएं',
+                'have-account-text': 'पहले से खाता है?',
+                'signin-link': 'साइन इन',
+                'email-placeholder': 'ईमेल पता',
+                'password-placeholder': 'पासवर्ड',
+                'signup-password-placeholder': 'पासवर्ड (न्यूनतम 6 अक्षर)'
+            }
+        };
+
+        // ============================================
+        // LANGUAGE MANAGEMENT
+        // ============================================
+        let currentLanguage = 'en';
+
+        function setLanguage(lang) {
+            if (!translations[lang]) return;
+            
+            currentLanguage = lang;
+            const t = translations[lang];
+            
+            // Update all text elements with IDs
+            Object.keys(t).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = t[id];
+                    } else if (element.tagName === 'OPTION') {
+                        // Skip options - they have their own text
+                    } else {
+                        element.textContent = t[id];
+                    }
+                }
+            });
+            
+            // Update placeholders for inputs without specific IDs
+            document.querySelectorAll('input[placeholder]').forEach(input => {
+                if (input.id === 'email' && t['email-placeholder']) {
+                    input.placeholder = t['email-placeholder'];
+                } else if (input.id === 'password' && t['password-placeholder']) {
+                    input.placeholder = t['password-placeholder'];
+                } else if (input.id === 'signup-email' && t['email-placeholder']) {
+                    input.placeholder = t['email-placeholder'];
+                } else if (input.id === 'signup-password' && t['signup-password-placeholder']) {
+                    input.placeholder = t['signup-password-placeholder'];
+                }
+            });
+            
+            // Update message input placeholder
+            const messageInput = document.getElementById('message-input');
+            if (messageInput && t['message-input']) {
+                messageInput.placeholder = t['message-input'];
+            }
+            
+            // Update theme dropdown text
+            updateProfileUI();
+            
+            // Save to settings
+            settings.language = lang;
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+        }
+
+        // ============================================
+        // REAL SPEECH RECOGNITION - FIXED!
         // ============================================
         
-        // Speech synthesis state
+        // Check if browser supports speech recognition
+        function isSpeechRecognitionSupported() {
+            return 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+        }
+
+        // Initialize speech recognition
+        let recognition = null;
+        
+        function initSpeechRecognition() {
+            if (!isSpeechRecognitionSupported()) {
+                console.log('Speech recognition not supported');
+                return false;
+            }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            
+            // Set language based on current settings
+            recognition.lang = settings.language === 'en' ? 'en-US' : 
+                             settings.language === 'es' ? 'es-ES' :
+                             settings.language === 'fr' ? 'fr-FR' :
+                             settings.language === 'de' ? 'de-DE' :
+                             settings.language === 'zh' ? 'zh-CN' :
+                             settings.language === 'ja' ? 'ja-JP' :
+                             settings.language === 'ko' ? 'ko-KR' :
+                             settings.language === 'hi' ? 'hi-IN' : 'en-US';
+            
+            return true;
+        }
+
+        // Start voice input with REAL speech recognition
+        async function startVoiceInput() {
+            if (!isSpeechRecognitionSupported()) {
+                showToast('❌ Speech recognition not supported in this browser');
+                return;
+            }
+            
+            try {
+                // Request microphone permission first
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    } 
+                });
+                
+                // Stop the stream immediately - we just needed permission
+                stream.getTracks().forEach(track => track.stop());
+                
+                // Initialize recognition if not already done
+                if (!recognition) {
+                    initSpeechRecognition();
+                }
+                
+                if (!recognition) {
+                    showToast('❌ Failed to initialize speech recognition');
+                    return;
+                }
+                
+                // Set up event handlers
+                recognition.onstart = () => {
+                    isRecording = true;
+                    micBtn.classList.add('active');
+                    micBtn.innerHTML = '⏹️';
+                    micBtn.title = 'Stop Recording';
+                    showToast('🎤 Listening... Speak now');
+                };
+                
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    messageInput.value = transcript;
+                    messageInput.style.height = 'auto';
+                    messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+                    showToast('✅ Voice input: "' + transcript + '"');
+                    messageInput.focus();
+                };
+                
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    
+                    if (event.error === 'not-allowed') {
+                        showToast('❌ Microphone access denied');
+                    } else if (event.error === 'no-speech') {
+                        showToast('🎤 No speech detected');
+                    } else if (event.error === 'audio-capture') {
+                        showToast('❌ No microphone found');
+                    } else {
+                        showToast('❌ Speech recognition error: ' + event.error);
+                    }
+                    
+                    stopVoiceInput();
+                };
+                
+                recognition.onend = () => {
+                    stopVoiceInput();
+                };
+                
+                // Start recognition
+                recognition.start();
+                
+            } catch (error) {
+                console.error('Microphone error:', error);
+                
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    showToast('❌ Microphone access denied. Please allow permission.');
+                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                    showToast('❌ No microphone found');
+                } else {
+                    showToast('❌ Could not access microphone');
+                }
+                
+                stopVoiceInput();
+            }
+        }
+
+        function stopVoiceInput() {
+            if (recognition) {
+                try {
+                    recognition.stop();
+                } catch (e) {
+                    // Ignore errors when stopping
+                }
+            }
+            
+            isRecording = false;
+            micBtn.classList.remove('active');
+            micBtn.innerHTML = '🎤';
+            micBtn.title = 'Voice Input';
+        }
+
+        function toggleVoiceInput() {
+            if (!isRecording) {
+                startVoiceInput();
+            } else {
+                stopVoiceInput();
+            }
+        }
+
+        // ============================================
+        // VOICE OUTPUT - WEB SPEECH API
+        // ============================================
+        
         let synth = window.speechSynthesis;
         let voices = [];
         let currentUtterance = null;
         let currentlySpeakingMessageId = null;
         
-        // Voice settings
         let voiceSettings = {
             enabled: true,
             autoplay: false,
@@ -1857,7 +2635,6 @@
             volume: 1
         };
 
-        // Load available voices
         function loadVoices() {
             return new Promise((resolve) => {
                 voices = synth.getVoices();
@@ -1872,7 +2649,6 @@
             });
         }
 
-        // Populate voice dropdown
         async function populateVoiceDropdown() {
             await loadVoices();
             const voiceSelect = document.getElementById('voice-select');
@@ -1880,7 +2656,6 @@
             
             voiceSelect.innerHTML = '';
             
-            // Filter for English voices (prefer female/natural)
             const englishVoices = voices.filter(v => v.lang.includes('en'));
             
             if (englishVoices.length > 0) {
@@ -1899,7 +2674,6 @@
                 });
             }
             
-            // Set saved voice or default
             const savedVoice = localStorage.getItem('prai_voice');
             if (savedVoice && voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
                 voiceSelect.value = savedVoice;
@@ -1913,32 +2687,26 @@
             }
         }
 
-        // Speak text
         function speakText(text, messageId = null) {
             if (!voiceSettings.enabled) return;
             if (!synth) {
-                showToast('❌ Speech synthesis not supported in this browser');
+                showToast('❌ Speech synthesis not supported');
                 return;
             }
             
-            // Stop current speech
             stopSpeaking();
             
-            // Create utterance
             const utterance = new SpeechSynthesisUtterance(text);
             
-            // Set voice
             if (voiceSettings.voiceURI) {
                 const selectedVoice = voices.find(v => v.voiceURI === voiceSettings.voiceURI);
                 if (selectedVoice) utterance.voice = selectedVoice;
             }
             
-            // Set settings
             utterance.rate = voiceSettings.rate;
             utterance.pitch = voiceSettings.pitch;
             utterance.volume = 1;
             
-            // Event handlers
             utterance.onstart = () => {
                 currentUtterance = utterance;
                 currentlySpeakingMessageId = messageId;
@@ -1976,7 +2744,6 @@
             synth.speak(utterance);
         }
 
-        // Stop speaking
         function stopSpeaking() {
             if (synth) {
                 synth.cancel();
@@ -1992,128 +2759,15 @@
             }
         }
 
-        // Test voice
         function testVoice() {
-            const testText = 'Hello, this is a test of the voice output system.';
+            const testText = translations[currentLanguage]['test-voice-text'] === 'Test Voice' ? 
+                'Hello, this is a test of the voice output system.' : 
+                currentLanguage === 'es' ? 'Hola, esto es una prueba del sistema de voz.' :
+                currentLanguage === 'fr' ? 'Bonjour, ceci est un test du système vocal.' :
+                currentLanguage === 'de' ? 'Hallo, dies ist ein Test des Sprachausgabesystems.' :
+                'Hello, this is a test of the voice output system.';
             speakText(testText);
-            showToast('🔊 Testing voice...');
-        }
-
-        // ============================================
-        // VOICE INPUT - FIXED MICROPHONE ACCESS
-        // ============================================
-        
-        // Check if browser supports microphone
-        function isMicrophoneSupported() {
-            return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-        }
-
-        // Request microphone permission explicitly
-        async function requestMicrophonePermission() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                // Stop all tracks immediately - we just wanted permission
-                stream.getTracks().forEach(track => track.stop());
-                return true;
-            } catch (error) {
-                console.error('Microphone permission error:', error);
-                return false;
-            }
-        }
-
-        // Start recording with proper error handling
-        async function startRecording() {
-            if (!isMicrophoneSupported()) {
-                showToast('❌ Microphone not supported in this browser');
-                return;
-            }
-            
-            try {
-                // Request permission and get stream
-                const stream = await navigator.mediaDevices.getUserMedia({ 
-                    audio: {
-                        echoCancellation: true,
-                        noiseSuppression: true,
-                        autoGainControl: true
-                    } 
-                });
-                
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-
-                mediaRecorder.ondataavailable = (event) => {
-                    audioChunks.push(event.data);
-                };
-
-                mediaRecorder.onstop = async () => {
-                    // Simulate speech recognition (in production, send to API)
-                    simulateSpeechRecognition();
-                    
-                    // Stop all tracks
-                    stream.getTracks().forEach(track => track.stop());
-                };
-
-                mediaRecorder.start();
-                isRecording = true;
-                micBtn.classList.add('active');
-                micBtn.innerHTML = '⏹️';
-                micBtn.title = 'Stop Recording';
-                showToast('🎤 Recording... Click stop when done');
-                
-            } catch (error) {
-                console.error('Microphone error:', error);
-                
-                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-                    showToast('❌ Microphone access denied. Please allow permission and refresh.');
-                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-                    showToast('❌ No microphone found. Please connect a microphone.');
-                } else {
-                    showToast('❌ Could not access microphone: ' + error.message);
-                }
-                
-                isRecording = false;
-                micBtn.classList.remove('active');
-                micBtn.innerHTML = '🎤';
-                micBtn.title = 'Voice Input';
-            }
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && isRecording) {
-                mediaRecorder.stop();
-                isRecording = false;
-                micBtn.classList.remove('active');
-                micBtn.innerHTML = '🎤';
-                micBtn.title = 'Voice Input';
-            }
-        }
-
-        function simulateSpeechRecognition() {
-            setTimeout(() => {
-                const sampleTranscripts = [
-                    "Hello, how are you today?",
-                    "Can you help me with programming?",
-                    "What's the weather like today?",
-                    "Tell me about artificial intelligence",
-                    "How does machine learning work?"
-                ];
-                
-                const randomTranscript = sampleTranscripts[Math.floor(Math.random() * sampleTranscripts.length)];
-                messageInput.value = randomTranscript;
-                messageInput.style.height = 'auto';
-                messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
-                
-                showToast('✅ Voice input received');
-                messageInput.focus();
-            }, 1500);
-        }
-
-        function toggleRecording() {
-            if (!isRecording) {
-                startRecording();
-            } else {
-                stopRecording();
-            }
+            showToast('🔊 ' + translations[currentLanguage]['test-voice-text']);
         }
 
         // ============================================
@@ -2126,7 +2780,6 @@
         let mediaRecorder = null;
         let audioChunks = [];
         
-        // Settings state
         let settings = {
             enterToSend: true,
             typingIndicator: true,
@@ -2240,14 +2893,15 @@
         // CLEAR ALL HISTORY FUNCTIONS
         // ============================================
         function clearAllHistory() {
-            if (confirm('⚠️ Are you sure you want to clear ALL chat history?\n\nThis action cannot be undone.')) {
+            const confirmMsg = translations[currentLanguage]['clear-desc'] || 'This action cannot be undone. All your conversations will be permanently deleted.';
+            if (confirm('⚠️ ' + confirmMsg)) {
                 chats = {};
                 localStorage.removeItem('praiChats');
                 currentChatId = 'chat-' + Date.now();
                 messagesContainer.innerHTML = '';
                 addWelcomeMessage();
                 updateHistoryDisplay();
-                showToast('🗑️ All chat history cleared');
+                showToast('🗑️ ' + (translations[currentLanguage]['clear-btn-text'] || 'All chat history cleared'));
                 closeSettings();
             }
         }
@@ -2287,17 +2941,18 @@
                 dropdownUserEmail.textContent = userEmail;
                 
                 const isDark = document.body.classList.contains('dark-mode');
-                dropdownTheme.innerHTML = isDark ? '☀️ Light mode' : '🌙 Dark mode';
+                const themeText = translations[currentLanguage]?.['dropdown-theme-text'] || 'Dark mode';
+                dropdownTheme.innerHTML = isDark ? '☀️ ' + themeText.replace('Dark', 'Light') : '🌙 ' + themeText;
             } else {
                 profileAvatar.innerHTML = '👤';
                 profileAvatar.style.background = 'linear-gradient(135deg, #0066ff, #0052cc)';
-                profileEmail.textContent = 'Sign In';
+                profileEmail.textContent = translations[currentLanguage]?.['profile-email'] || 'Sign In';
                 profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#8a8a8a' : '#0f0f0f';
                 
                 dropdownAvatar.innerHTML = '👤';
-                dropdownUserName.textContent = 'Guest';
+                dropdownUserName.textContent = translations[currentLanguage]?.['dropdown-user-name'] || 'Guest';
                 dropdownUserEmail.textContent = '';
-                dropdownTheme.innerHTML = '🌙 Dark mode';
+                dropdownTheme.innerHTML = '🌙 ' + (translations[currentLanguage]?.['dropdown-theme-text'] || 'Dark mode');
             }
         }
 
@@ -2450,8 +3105,8 @@
             userName = null;
             
             updateProfileUI();
-            showToast('👋 Logged out successfully');
-            addMessage('👋 You have been logged out', false);
+            showToast('👋 ' + (translations[currentLanguage]?.['dropdown-logout-text'] || 'Logged out successfully'));
+            addMessage('👋 ' + (translations[currentLanguage]?.['dropdown-logout-text'] || 'You have been logged out'), false);
             showAuthModal();
         }
 
@@ -2494,6 +3149,9 @@
                 voiceSettings.voiceURI = settings.ttsVoice;
             }
             
+            // Set initial language
+            setLanguage(settings.language);
+            
             await loadVoices();
             
             loadFromStorage();
@@ -2507,8 +3165,6 @@
                     hideDropdown();
                 }
             });
-            
-            // Pre-request microphone permission? No - wait for user click
         }
 
         function loadFromStorage() {
@@ -2559,7 +3215,6 @@
             textDiv.className = 'message-text';
             contentDiv.appendChild(textDiv);
             
-            // Add voice button for bot messages
             if (!isUser) {
                 const footerDiv = document.createElement('div');
                 footerDiv.className = 'message-footer';
@@ -2586,7 +3241,6 @@
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Auto-play if enabled
             if (!isUser && settings.ttsEnabled && settings.ttsAutoplay) {
                 setTimeout(() => {
                     speakText(content, messageId);
@@ -2737,7 +3391,7 @@
         }
 
         // ============================================
-        // FILE UPLOAD - FIXED ATTACHMENT
+        // FILE UPLOAD
         // ============================================
         function handleFileUpload() {
             fileInput.click();
@@ -2800,7 +3454,6 @@
             showToast('📥 Chat exported successfully');
         });
 
-        // Profile button click
         profileBtn.addEventListener('click', (e) => {
             if (userEmail) {
                 toggleDropdown(e);
@@ -2809,22 +3462,12 @@
             }
         });
 
-        // Settings button in dropdown
         dropdownSettings.addEventListener('click', openSettings);
-
-        // Theme toggle in dropdown
         dropdownTheme.addEventListener('click', toggleTheme);
-
-        // Clear all in dropdown
         dropdownClear.addEventListener('click', clearAllHistory);
-
-        // Logout button
         dropdownLogout.addEventListener('click', logout);
-
-        // Settings panel close
         settingsClose.addEventListener('click', closeSettings);
 
-        // Settings export button
         document.getElementById('settings-export-btn').addEventListener('click', () => {
             if (Object.keys(chats).length === 0) {
                 showToast('❌ No chats to export');
@@ -2842,7 +3485,6 @@
             showToast('📥 Chats exported successfully');
         });
 
-        // Settings import button
         document.getElementById('settings-import-btn').addEventListener('click', () => {
             const input = document.createElement('input');
             input.type = 'file';
@@ -2866,10 +3508,8 @@
             input.click();
         });
 
-        // Settings clear all button
         document.getElementById('settings-clear-all-btn').addEventListener('click', clearAllHistory);
 
-        // Theme radio buttons
         document.querySelectorAll('input[name="theme"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 setTheme(e.target.value);
@@ -2877,11 +3517,22 @@
             });
         });
 
-        // Language select
+        // Language select - FIXED! Now actually changes language
         document.getElementById('language-select').addEventListener('change', (e) => {
-            settings.language = e.target.value;
-            localStorage.setItem('prai_settings', JSON.stringify(settings));
+            setLanguage(e.target.value);
             showToast(`🌐 Language changed to ${e.target.options[e.target.selectedIndex].text}`);
+            
+            // Update speech recognition language
+            if (recognition) {
+                recognition.lang = e.target.value === 'en' ? 'en-US' : 
+                                 e.target.value === 'es' ? 'es-ES' :
+                                 e.target.value === 'fr' ? 'fr-FR' :
+                                 e.target.value === 'de' ? 'de-DE' :
+                                 e.target.value === 'zh' ? 'zh-CN' :
+                                 e.target.value === 'ja' ? 'ja-JP' :
+                                 e.target.value === 'ko' ? 'ko-KR' :
+                                 e.target.value === 'hi' ? 'hi-IN' : 'en-US';
+            }
         });
 
         // Toggle switches
@@ -2955,7 +3606,6 @@
             showToast(settings.ttsAutoplay ? '🔊 Auto-play enabled' : '🔇 Auto-play disabled');
         });
 
-        // Voice selection
         document.getElementById('voice-select').addEventListener('change', function(e) {
             settings.ttsVoice = e.target.value;
             voiceSettings.voiceURI = e.target.value;
@@ -2963,33 +3613,26 @@
             localStorage.setItem('prai_voice', e.target.value);
         });
 
-        // Rate select
         document.getElementById('rate-select').addEventListener('change', function(e) {
             settings.ttsRate = parseFloat(e.target.value);
             voiceSettings.rate = settings.ttsRate;
             localStorage.setItem('prai_settings', JSON.stringify(settings));
         });
 
-        // Pitch select
         document.getElementById('pitch-select').addEventListener('change', function(e) {
             settings.ttsPitch = parseFloat(e.target.value);
             voiceSettings.pitch = settings.ttsPitch;
             localStorage.setItem('prai_settings', JSON.stringify(settings));
         });
 
-        // Test voice button
         document.getElementById('test-voice-btn').addEventListener('click', testVoice);
-
-        // Stop voice button
         document.getElementById('stop-voice-btn').addEventListener('click', stopSpeaking);
 
-        // Microphone button - FIXED
-        micBtn.addEventListener('click', toggleRecording);
+        // Microphone button - FIXED with REAL speech recognition
+        micBtn.addEventListener('click', toggleVoiceInput);
         
-        // Upload button - FIXED
         uploadBtn.addEventListener('click', handleFileUpload);
 
-        // Suggestions
         const suggestions = [
             "Explain quantum computing in simple terms",
             "Write a Python script for data analysis",
@@ -3006,7 +3649,6 @@
             messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
         });
 
-        // File upload handler - FIXED
         fileInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -3041,21 +3683,19 @@
             }
         });
 
-        // Help & FAQ
         document.getElementById('dropdown-help').addEventListener('click', () => {
             hideDropdown();
             showToast('📚 Help & FAQ coming soon!', 2000);
         });
 
-        // Send feedback
         document.getElementById('dropdown-feedback').addEventListener('click', () => {
             hideDropdown();
             showToast('💬 Feedback form coming soon!', 2000);
         });
 
-        // Stop speaking when page unloads
         window.addEventListener('beforeunload', function() {
             stopSpeaking();
+            stopVoiceInput();
         });
 
         // ============================================
