@@ -550,6 +550,7 @@
         .settings-item-label {
             font-size: 14px;
             color: #0f0f0f;
+            font-weight: 500;
         }
 
         .dark-mode .settings-item-label {
@@ -560,6 +561,42 @@
             font-size: 12px;
             color: #666666;
             margin-top: 4px;
+        }
+
+        .settings-btn {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            color: #0f0f0f;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .settings-btn {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: white;
+        }
+
+        .settings-btn:hover {
+            background: #e5e5e5;
+        }
+
+        .dark-mode .settings-btn:hover {
+            background: #3a3a3a;
+        }
+
+        .settings-btn.danger {
+            background: #ff4444;
+            color: white;
+            border: none;
+        }
+
+        .settings-btn.danger:hover {
+            background: #cc0000;
         }
 
         /* Toggle Switch */
@@ -670,6 +707,25 @@
             color: white;
         }
 
+        /* Danger Zone */
+        .danger-zone {
+            background: #fff5f5;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .dark-mode .danger-zone {
+            background: #2a1a1a;
+        }
+
+        .danger-title {
+            color: #ff4444;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
         /* ============================================
            AUTH MODAL - DEEPSEEK PREMIUM
            ============================================ */
@@ -726,7 +782,7 @@
             font-size: 15px;
         }
 
-        /* Social Login Buttons - Facebook, Outlook, LinkedIn */
+        /* Social Login Buttons */
         .social-login {
             display: flex;
             flex-direction: column;
@@ -773,6 +829,16 @@
 
         .social-btn.facebook:hover {
             background: #166fe5;
+        }
+
+        .social-btn.gmail {
+            background: #ea4335;
+            color: white;
+            border: none;
+        }
+
+        .social-btn.gmail:hover {
+            background: #d3382a;
         }
 
         .social-btn.outlook {
@@ -1156,6 +1222,40 @@
         .hidden {
             display: none;
         }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 9999999;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode .toast {
+            background: white;
+            color: #1a1a1a;
+        }
+
+        .toast.show {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { bottom: 0; opacity: 0; }
+            to { bottom: 30px; opacity: 1; }
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -1227,6 +1327,9 @@
                                 <div class="dropdown-item" id="dropdown-feedback">
                                     💬 Send feedback
                                 </div>
+                                <div class="dropdown-item" id="dropdown-clear">
+                                    🗑️ Clear all chats
+                                </div>
                             </div>
                             
                             <div class="dropdown-item logout" id="dropdown-logout">
@@ -1269,7 +1372,7 @@
         </main>
     </div>
 
-    <!-- SETTINGS PANEL - DEEPSEEK STYLE -->
+    <!-- SETTINGS PANEL - DEEPSEEK STYLE WITH CLEAR HISTORY -->
     <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
             <div class="settings-title">Settings</div>
@@ -1313,11 +1416,13 @@
                     </div>
                     <select class="select-input" id="language-select">
                         <option value="en">English</option>
-                        <option value="es">Spanish</option>
-                        <option value="fr">French</option>
-                        <option value="de">German</option>
-                        <option value="zh">Chinese</option>
-                        <option value="ja">Japanese</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिन्दी</option>
                     </select>
                 </div>
             </div>
@@ -1354,6 +1459,15 @@
                         <span class="toggle-slider"></span>
                     </button>
                 </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Auto-suggestions</div>
+                        <div class="settings-item-desc">Show quick suggestions while typing</div>
+                    </div>
+                    <button class="toggle-switch active" id="auto-suggest">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
             </div>
 
             <!-- Privacy Section -->
@@ -1381,6 +1495,47 @@
                 </div>
             </div>
 
+            <!-- Data Management -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    📁 Data Management
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Export all chats</div>
+                        <div class="settings-item-desc">Download your conversation history</div>
+                    </div>
+                    <button class="settings-btn" id="settings-export-btn">
+                        Export
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Import chats</div>
+                        <div class="settings-item-desc">Restore conversations from backup</div>
+                    </div>
+                    <button class="settings-btn" id="settings-import-btn">
+                        Import
+                    </button>
+                </div>
+            </div>
+
+            <!-- Danger Zone - Clear History -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    ⚠️ Danger Zone
+                </div>
+                <div class="danger-zone">
+                    <div class="danger-title">Clear all chat history</div>
+                    <div class="settings-item-desc" style="margin-bottom: 16px;">
+                        This action cannot be undone. All your conversations will be permanently deleted.
+                    </div>
+                    <button class="settings-btn danger" id="settings-clear-all-btn">
+                        🗑️ Clear all chats
+                    </button>
+                </div>
+            </div>
+
             <!-- About Section -->
             <div class="settings-section">
                 <div class="settings-section-title">
@@ -1389,7 +1544,7 @@
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">2.0.0 - DeepSeek Edition</div>
+                        <div class="settings-item-desc">2.1.0 - DeepSeek Premium Edition</div>
                     </div>
                 </div>
                 <div class="settings-item">
@@ -1402,11 +1557,16 @@
                         <div class="settings-item-label">Privacy Policy</div>
                     </div>
                 </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Open source licenses</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- AUTH MODAL - FACEBOOK, OUTLOOK, LINKEDIN -->
+    <!-- AUTH MODAL - WITH GMAIL ADDED -->
     <div id="auth-modal">
         <div class="auth-container">
             <button class="close-btn" onclick="hideAuthModal()">✕</button>
@@ -1416,11 +1576,15 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <!-- Social Login Buttons - Facebook, Outlook, LinkedIn -->
+            <!-- Social Login Buttons - Facebook, Gmail, Outlook, LinkedIn -->
             <div class="social-login">
                 <button class="social-btn facebook" onclick="handleSocialLogin('facebook')">
                     <span style="font-size: 18px;">f</span>
                     Continue with Facebook
+                </button>
+                <button class="social-btn gmail" onclick="handleSocialLogin('gmail')">
+                    <span style="font-size: 18px;">G</span>
+                    Continue with Gmail
                 </button>
                 <button class="social-btn outlook" onclick="handleSocialLogin('outlook')">
                     <span style="font-size: 18px;">@</span>
@@ -1476,6 +1640,11 @@
         </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toast-message"></span>
+    </div>
+
     <script>
         // ============================================
         // STATE MANAGEMENT
@@ -1486,6 +1655,17 @@
         let isRecording = false;
         let mediaRecorder = null;
         let audioChunks = [];
+        
+        // Settings state
+        let settings = {
+            enterToSend: true,
+            typingIndicator: true,
+            timestamps: false,
+            autoSuggest: true,
+            saveHistory: true,
+            usageData: false,
+            language: 'en'
+        };
         
         // ============================================
         // AUTHENTICATION STATE
@@ -1520,8 +1700,22 @@
         const dropdownLogout = document.getElementById('dropdown-logout');
         const dropdownSettings = document.getElementById('dropdown-settings');
         const dropdownTheme = document.getElementById('dropdown-theme');
+        const dropdownClear = document.getElementById('dropdown-clear');
         const settingsPanel = document.getElementById('settings-panel');
         const settingsClose = document.getElementById('settings-close');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // ============================================
+        // TOAST NOTIFICATION
+        // ============================================
+        function showToast(message, duration = 3000) {
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
 
         // ============================================
         // SETTINGS PANEL FUNCTIONS
@@ -1529,10 +1723,49 @@
         function openSettings() {
             settingsPanel.classList.add('open');
             hideDropdown();
+            loadSettingsIntoUI();
         }
 
         function closeSettings() {
             settingsPanel.classList.remove('open');
+        }
+
+        function loadSettingsIntoUI() {
+            // Load theme radios
+            const themeRadios = document.querySelectorAll('input[name="theme"]');
+            const isDark = document.body.classList.contains('dark-mode');
+            themeRadios.forEach(radio => {
+                if (radio.value === (isDark ? 'dark' : 'light')) {
+                    radio.checked = true;
+                }
+            });
+            
+            // Load language
+            document.getElementById('language-select').value = settings.language;
+            
+            // Load toggles
+            document.getElementById('enter-to-send').classList.toggle('active', settings.enterToSend);
+            document.getElementById('typing-indicator-toggle').classList.toggle('active', settings.typingIndicator);
+            document.getElementById('timestamp-toggle').classList.toggle('active', settings.timestamps);
+            document.getElementById('auto-suggest').classList.toggle('active', settings.autoSuggest);
+            document.getElementById('save-history').classList.toggle('active', settings.saveHistory);
+            document.getElementById('usage-data').classList.toggle('active', settings.usageData);
+        }
+
+        // ============================================
+        // CLEAR ALL HISTORY FUNCTIONS
+        // ============================================
+        function clearAllHistory() {
+            if (confirm('⚠️ Are you sure you want to clear ALL chat history?\n\nThis action cannot be undone.')) {
+                chats = {};
+                localStorage.removeItem('praiChats');
+                currentChatId = 'chat-' + Date.now();
+                messagesContainer.innerHTML = '';
+                addWelcomeMessage();
+                updateHistoryDisplay();
+                showToast('🗑️ All chat history cleared');
+                closeSettings();
+            }
         }
 
         // ============================================
@@ -1569,7 +1802,6 @@
                 dropdownUserName.textContent = name;
                 dropdownUserEmail.textContent = userEmail;
                 
-                // Update theme dropdown text based on current mode
                 const isDark = document.body.classList.contains('dark-mode');
                 dropdownTheme.innerHTML = isDark ? '☀️ Light mode' : '🌙 Dark mode';
             } else {
@@ -1599,7 +1831,6 @@
                 localStorage.setItem('prai_theme', 'dark');
             }
             
-            // Update radio buttons
             const radioButtons = document.querySelectorAll('input[name="theme"]');
             radioButtons.forEach(radio => {
                 if (radio.value === theme) {
@@ -1613,6 +1844,8 @@
         function toggleTheme() {
             const isDark = document.body.classList.contains('dark-mode');
             setTheme(isDark ? 'light' : 'dark');
+            hideDropdown();
+            showToast(isDark ? '☀️ Light mode enabled' : '🌙 Dark mode enabled');
         }
 
         // ============================================
@@ -1637,10 +1870,13 @@
             document.getElementById('signup-form').classList.add('active');
         }
 
-        // Social Login Handler - Facebook, Outlook, LinkedIn
         async function handleSocialLogin(provider) {
-            alert(`🔗 Redirecting to ${provider} login...\n\nIn production, this would redirect to:\n/auth/login/${provider}\n\nFor now, please use email signup.`);
-            showLoginForm();
+            let providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
+            showToast(`🔗 Redirecting to ${providerName} login...`, 2000);
+            
+            setTimeout(() => {
+                showLoginForm();
+            }, 2000);
         }
 
         async function handleSignup() {
@@ -1648,12 +1884,12 @@
             const password = document.getElementById('signup-password').value;
             
             if (!email || !password) {
-                alert('Email and password required');
+                showToast('❌ Email and password required');
                 return;
             }
             
             if (password.length < 6) {
-                alert('Password must be at least 6 characters');
+                showToast('❌ Password must be at least 6 characters');
                 return;
             }
             
@@ -1667,14 +1903,14 @@
                 const data = await response.json();
                 
                 if (response.ok) {
-                    alert('✅ Account created! Please login.');
+                    showToast('✅ Account created! Please login.');
                     showLoginForm();
                     document.getElementById('email').value = email;
                 } else {
-                    alert('❌ Error: ' + (data.msg || data.error || 'Signup failed'));
+                    showToast('❌ Error: ' + (data.msg || data.error || 'Signup failed'));
                 }
             } catch (error) {
-                alert('❌ Connection error - please try again');
+                showToast('❌ Connection error - please try again');
             }
         }
 
@@ -1683,7 +1919,7 @@
             const password = document.getElementById('password').value;
             
             if (!email || !password) {
-                alert('Email and password required');
+                showToast('❌ Email and password required');
                 return;
             }
             
@@ -1707,12 +1943,13 @@
                     
                     hideAuthModal();
                     updateProfileUI();
-                    addMessage(`✅ Welcome back, ${userName}!`, false);
+                    showToast(`✅ Welcome back, ${userName}!`);
+                    addMessage(`✅ Logged in as ${email}`, false);
                 } else {
-                    alert('❌ Error: ' + (data.msg || data.error || 'Login failed'));
+                    showToast('❌ Error: ' + (data.msg || data.error || 'Login failed'));
                 }
             } catch (error) {
-                alert('❌ Connection error - please try again');
+                showToast('❌ Connection error - please try again');
             }
         }
 
@@ -1730,6 +1967,7 @@
             userName = null;
             
             updateProfileUI();
+            showToast('👋 Logged out successfully');
             addMessage('👋 You have been logged out', false);
             showAuthModal();
         }
@@ -1777,9 +2015,9 @@
                 isRecording = true;
                 micBtn.classList.add('active');
                 micBtn.title = 'Stop Recording';
-                addMessage("🎤 Recording started...", false);
+                showToast('🎤 Recording started... Speak now');
             } catch (error) {
-                addMessage("❌ Could not access microphone.", false);
+                showToast('❌ Could not access microphone');
             }
         }
 
@@ -1798,7 +2036,9 @@
                 const sampleTranscripts = [
                     "Hello, how are you today?",
                     "Can you help me with programming?",
-                    "What's the weather like today?"
+                    "What's the weather like today?",
+                    "Tell me about artificial intelligence",
+                    "How does machine learning work?"
                 ];
                 
                 const randomTranscript = sampleTranscripts[Math.floor(Math.random() * sampleTranscripts.length)];
@@ -1806,7 +2046,7 @@
                 messageInput.style.height = 'auto';
                 messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
                 
-                addMessage("✅ Voice input received", false);
+                showToast('✅ Voice input received');
                 messageInput.focus();
             }, 1500);
         }
@@ -1827,13 +2067,18 @@
             const savedTheme = localStorage.getItem('prai_theme') || 'dark';
             setTheme(savedTheme);
             
+            // Load settings from localStorage
+            const savedSettings = localStorage.getItem('prai_settings');
+            if (savedSettings) {
+                settings = { ...settings, ...JSON.parse(savedSettings) };
+            }
+            
             loadFromStorage();
             checkAuthStatus();
             updateHistoryDisplay();
             addWelcomeMessage();
             messageInput.focus();
             
-            // Click outside to close dropdown
             document.addEventListener('click', function(e) {
                 if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
                     hideDropdown();
@@ -1842,14 +2087,18 @@
         }
 
         function loadFromStorage() {
-            const savedChats = localStorage.getItem('praiChats');
-            if (savedChats) {
-                chats = JSON.parse(savedChats);
+            if (settings.saveHistory) {
+                const savedChats = localStorage.getItem('praiChats');
+                if (savedChats) {
+                    chats = JSON.parse(savedChats);
+                }
             }
         }
 
         function saveToStorage() {
-            localStorage.setItem('praiChats', JSON.stringify(chats));
+            if (settings.saveHistory) {
+                localStorage.setItem('praiChats', JSON.stringify(chats));
+            }
         }
 
         // ============================================
@@ -1867,6 +2116,16 @@
             senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
             contentDiv.appendChild(senderSpan);
             
+            if (settings.timestamps) {
+                const timeSpan = document.createElement('span');
+                timeSpan.style.float = 'right';
+                timeSpan.style.fontSize = '11px';
+                timeSpan.style.opacity = '0.7';
+                timeSpan.style.marginLeft = '12px';
+                timeSpan.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                senderSpan.appendChild(timeSpan);
+            }
+            
             const textDiv = document.createElement('div');
             textDiv.textContent = content;
             contentDiv.appendChild(textDiv);
@@ -1875,32 +2134,35 @@
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            if (!chats[currentChatId]) {
-                chats[currentChatId] = {
-                    id: currentChatId,
-                    title: content.substring(0, 50) + (content.length > 50 ? '...' : ''),
-                    messages: [],
-                    timestamp: Date.now()
-                };
+            if (settings.saveHistory) {
+                if (!chats[currentChatId]) {
+                    chats[currentChatId] = {
+                        id: currentChatId,
+                        title: content.substring(0, 50) + (content.length > 50 ? '...' : ''),
+                        messages: [],
+                        timestamp: Date.now()
+                    };
+                }
+                
+                chats[currentChatId].messages.push({
+                    content,
+                    isUser,
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                
+                chats[currentChatId].title = chats[currentChatId].messages[0]?.content.substring(0, 50) + 
+                                            (chats[currentChatId].messages[0]?.content.length > 50 ? '...' : '') || 'New Chat';
+                
+                saveToStorage();
+                updateHistoryDisplay();
             }
-            
-            chats[currentChatId].messages.push({
-                content,
-                isUser,
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            });
-            
-            chats[currentChatId].title = chats[currentChatId].messages[0]?.content.substring(0, 50) + 
-                                        (chats[currentChatId].messages[0]?.content.length > 50 ? '...' : '') || 'New Chat';
-            
-            saveToStorage();
-            updateHistoryDisplay();
         }
 
         function addWelcomeMessage() {
             const welcomeMessages = [
                 "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?",
-                "Welcome to P.R.A.I. I'm here to assist with any questions or tasks you have."
+                "Welcome to P.R.A.I. I'm here to assist with any questions or tasks you have.",
+                "Hi there! I'm P.R.A.I, ready to help. What would you like to discuss?"
             ];
             
             const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
@@ -1908,6 +2170,8 @@
         }
 
         function showTypingIndicator() {
+            if (!settings.typingIndicator) return;
+            
             const typingDiv = document.createElement('div');
             typingDiv.className = 'typing-indicator';
             typingDiv.id = 'typing-indicator';
@@ -2021,7 +2285,7 @@
         });
 
         messageInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
+            if (e.key === 'Enter' && !e.shiftKey && settings.enterToSend) {
                 e.preventDefault();
                 sendMessage();
             }
@@ -2043,13 +2307,14 @@
                 }
                 addWelcomeMessage();
                 saveToStorage();
+                showToast('✅ Current conversation cleared');
             }
         });
 
         exportBtn.addEventListener('click', () => {
             const currentChat = chats[currentChatId];
             if (!currentChat || currentChat.messages.length === 0) {
-                alert('No messages to export.');
+                showToast('❌ No messages to export');
                 return;
             }
             
@@ -2065,6 +2330,7 @@
             a.download = `prai-chat-${currentChatId}.txt`;
             a.click();
             URL.revokeObjectURL(url);
+            showToast('📥 Chat exported successfully');
         });
 
         // Profile button click
@@ -2082,43 +2348,124 @@
         // Theme toggle in dropdown
         dropdownTheme.addEventListener('click', toggleTheme);
 
+        // Clear all in dropdown
+        dropdownClear.addEventListener('click', clearAllHistory);
+
         // Logout button
         dropdownLogout.addEventListener('click', logout);
 
         // Settings panel close
         settingsClose.addEventListener('click', closeSettings);
 
+        // Settings export button
+        document.getElementById('settings-export-btn').addEventListener('click', () => {
+            if (Object.keys(chats).length === 0) {
+                showToast('❌ No chats to export');
+                return;
+            }
+            
+            const exportData = JSON.stringify(chats, null, 2);
+            const blob = new Blob([exportData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `prai-chats-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 Chats exported successfully');
+        });
+
+        // Settings import button
+        document.getElementById('settings-import-btn').addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const importedChats = JSON.parse(event.target.result);
+                        chats = { ...chats, ...importedChats };
+                        saveToStorage();
+                        updateHistoryDisplay();
+                        showToast('✅ Chats imported successfully');
+                    } catch (error) {
+                        showToast('❌ Invalid backup file');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        });
+
+        // Settings clear all button
+        document.getElementById('settings-clear-all-btn').addEventListener('click', clearAllHistory);
+
         // Theme radio buttons
         document.querySelectorAll('input[name="theme"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 setTheme(e.target.value);
+                showToast(e.target.value === 'dark' ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
             });
+        });
+
+        // Language select
+        document.getElementById('language-select').addEventListener('change', (e) => {
+            settings.language = e.target.value;
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+            showToast(`🌐 Language changed to ${e.target.options[e.target.selectedIndex].text}`);
         });
 
         // Toggle switches
         document.getElementById('enter-to-send').addEventListener('click', function(e) {
             e.stopPropagation();
             this.classList.toggle('active');
+            settings.enterToSend = this.classList.contains('active');
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
         });
 
         document.getElementById('typing-indicator-toggle').addEventListener('click', function(e) {
             e.stopPropagation();
             this.classList.toggle('active');
+            settings.typingIndicator = this.classList.contains('active');
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
         });
 
         document.getElementById('timestamp-toggle').addEventListener('click', function(e) {
             e.stopPropagation();
             this.classList.toggle('active');
+            settings.timestamps = this.classList.contains('active');
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+            showToast(settings.timestamps ? '⏰ Timestamps enabled' : '⏰ Timestamps disabled');
+        });
+
+        document.getElementById('auto-suggest').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            settings.autoSuggest = this.classList.contains('active');
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
         });
 
         document.getElementById('save-history').addEventListener('click', function(e) {
             e.stopPropagation();
             this.classList.toggle('active');
+            settings.saveHistory = this.classList.contains('active');
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
+            
+            if (!settings.saveHistory) {
+                showToast('💾 Chat history saving disabled');
+            } else {
+                showToast('💾 Chat history saving enabled');
+                saveToStorage();
+            }
         });
 
         document.getElementById('usage-data').addEventListener('click', function(e) {
             e.stopPropagation();
             this.classList.toggle('active');
+            settings.usageData = this.classList.contains('active');
+            localStorage.setItem('prai_settings', JSON.stringify(settings));
         });
 
         micBtn.addEventListener('click', toggleRecording);
@@ -2128,7 +2475,9 @@
         const suggestions = [
             "Explain quantum computing in simple terms",
             "Write a Python script for data analysis",
-            "Help me design a project timeline"
+            "Help me design a project timeline",
+            "What are the latest AI trends?",
+            "How do I learn machine learning?"
         ];
 
         suggestBtn.addEventListener('click', () => {
@@ -2158,17 +2507,30 @@
                 const data = await response.json();
                 
                 if (data.error) {
-                    alert(`Error: ${data.error}`);
+                    showToast(`❌ Error: ${data.error}`);
                 } else {
                     uploadedFileContent = data.text;
-                    addMessage(`📎 File "${data.filename}" uploaded successfully.`, false);
+                    showToast(`📎 File "${data.filename}" uploaded successfully`);
+                    addMessage(`📎 File "${data.filename}" uploaded successfully. You can now ask questions about it.`, false);
                 }
             } catch (error) {
-                alert('Failed to upload file.');
+                showToast('❌ Failed to upload file');
             } finally {
                 uploadBtn.disabled = false;
                 fileInput.value = '';
             }
+        });
+
+        // Help & FAQ
+        document.getElementById('dropdown-help').addEventListener('click', () => {
+            hideDropdown();
+            showToast('📚 Help & FAQ coming soon!', 2000);
+        });
+
+        // Send feedback
+        document.getElementById('dropdown-feedback').addEventListener('click', () => {
+            hideDropdown();
+            showToast('💬 Feedback form coming soon!', 2000);
         });
 
         // ============================================
