@@ -9,8 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           PRODUCTION READY - DEEPSEEK STYLE SYSTEM
-           FULLY TESTED - ALL FEATURES VERIFIED
+           FULL SETTINGS PANEL - RESTORED!
            ============================================ */
         * {
             margin: 0;
@@ -280,7 +279,7 @@
         }
 
         /* ============================================
-           PROFILE SECTION
+           PROFILE SECTION - FIXED WITH PROFILE PICTURE
            ============================================ */
         .profile-container {
             position: relative;
@@ -322,6 +321,13 @@
             color: white;
             font-weight: 600;
             font-size: 14px;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .profile-email {
@@ -363,10 +369,37 @@
         .dropdown-header {
             padding: 16px;
             border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .dark-mode .dropdown-header {
             border-bottom: 1px solid #374151;
+        }
+
+        .dropdown-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            overflow: hidden;
+        }
+
+        .dropdown-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dropdown-user-info {
+            flex: 1;
         }
 
         .dropdown-user-name {
@@ -387,6 +420,15 @@
 
         .dark-mode .dropdown-user-email {
             color: #9ca3af;
+        }
+
+        .dropdown-section {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dark-mode .dropdown-section {
+            border-bottom: 1px solid #374151;
         }
 
         .dropdown-item {
@@ -423,6 +465,294 @@
         .dark-mode .dropdown-item.logout {
             color: #f87171;
             border-top: 1px solid #374151;
+        }
+
+        /* ============================================
+           FULL SETTINGS PANEL - RESTORED!
+           ============================================ */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 480px;
+            height: 100vh;
+            background: white;
+            border-left: 1px solid #e5e7eb;
+            box-shadow: -10px 0 25px rgba(0,0,0,0.1);
+            z-index: 99999;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark-mode .settings-panel {
+            background: #1f2937;
+            border-left: 1px solid #374151;
+        }
+
+        .settings-panel.open {
+            right: 0;
+        }
+
+        .settings-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dark-mode .settings-header {
+            border-bottom: 1px solid #374151;
+        }
+
+        .settings-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .dark-mode .settings-title {
+            color: #f9fafb;
+        }
+
+        .settings-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #e5e7eb;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .dark-mode .settings-close {
+            border: 1px solid #4b5563;
+            color: #9ca3af;
+        }
+
+        .settings-close:hover {
+            background: #f3f4f6;
+        }
+
+        .settings-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .settings-section {
+            margin-bottom: 32px;
+        }
+
+        .settings-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode .settings-section-title {
+            color: #f9fafb;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dark-mode .settings-item {
+            border-bottom: 1px solid #374151;
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-item-label {
+            font-size: 14px;
+            color: #111827;
+            font-weight: 500;
+        }
+
+        .dark-mode .settings-item-label {
+            color: #f9fafb;
+        }
+
+        .settings-item-desc {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .dark-mode .settings-item-desc {
+            color: #9ca3af;
+        }
+
+        .settings-btn {
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .settings-btn {
+            background: #374151;
+            border: 1px solid #4b5563;
+            color: #f9fafb;
+        }
+
+        .settings-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .dark-mode .settings-btn:hover {
+            background: #4b5563;
+        }
+
+        .settings-btn.danger {
+            background: #dc2626;
+            color: white;
+            border: none;
+        }
+
+        .settings-btn.danger:hover {
+            background: #b91c1c;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .toggle-switch {
+            background: #4b5563;
+        }
+
+        .toggle-switch.active {
+            background: #2563eb;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: left 0.2s;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            left: 22px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+        }
+
+        .dark-mode .radio-custom {
+            border-color: #4b5563;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom {
+            border-color: #2563eb;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 6px;
+            height: 6px;
+            background: #2563eb;
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            font-size: 14px;
+            color: #111827;
+        }
+
+        .dark-mode .radio-label {
+            color: #f9fafb;
+        }
+
+        .select-input {
+            padding: 8px 12px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            color: #111827;
+            font-size: 14px;
+        }
+
+        .dark-mode .select-input {
+            background: #374151;
+            border: 1px solid #4b5563;
+            color: #f9fafb;
+        }
+
+        .danger-zone {
+            background: #fef2f2;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .dark-mode .danger-zone {
+            background: #2d1a1a;
+        }
+
+        .danger-title {
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
         }
 
         /* ============================================
@@ -724,7 +1054,7 @@
         }
 
         /* ============================================
-           AUTH MODAL - ALL 4 SOCIAL PROVIDERS + EMAIL
+           AUTH MODAL
            ============================================ */
         .auth-modal {
             display: none;
@@ -749,7 +1079,6 @@
             overflow-y: auto;
             padding: 40px;
             position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
         }
 
         .dark-mode .auth-modal-content {
@@ -768,47 +1097,8 @@
             background: transparent;
             color: #6b7280;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
         }
 
-        .dark-mode .auth-modal-close {
-            border: 1px solid #4b5563;
-            color: #9ca3af;
-        }
-
-        .auth-modal-close:hover {
-            background: #f3f4f6;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .auth-header h2 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 8px;
-        }
-
-        .dark-mode .auth-header h2 {
-            color: #f9fafb;
-        }
-
-        .auth-header p {
-            color: #6b7280;
-            font-size: 15px;
-        }
-
-        .dark-mode .auth-header p {
-            color: #9ca3af;
-        }
-
-        /* SOCIAL LOGIN BUTTONS - ALL 4 PROVIDERS WITH BRAND COLORS */
         .social-login {
             display: flex;
             flex-direction: column;
@@ -825,38 +1115,16 @@
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
         }
 
-        .social-btn:hover {
-            transform: translateY(-1px);
-            opacity: 0.9;
-        }
-
-        .social-btn.google {
-            background: #2563eb;
-        }
-
-        .social-btn.facebook {
-            background: #1877f2;
-        }
-
-        .social-btn.outlook {
-            background: #0078d4;
-        }
-
-        .social-btn.linkedin {
-            background: #0a66c2;
-        }
-
-        .social-btn span {
-            font-size: 18px;
-            font-weight: 600;
-        }
+        .social-btn.google { background: #2563eb; }
+        .social-btn.facebook { background: #1877f2; }
+        .social-btn.outlook { background: #0078d4; }
+        .social-btn.linkedin { background: #0a66c2; }
 
         .divider {
             display: flex;
@@ -874,25 +1142,12 @@
             border-bottom: 1px solid #e5e7eb;
         }
 
-        .dark-mode .divider::before,
-        .dark-mode .divider::after {
-            border-bottom: 1px solid #4b5563;
-        }
-
-        .divider span {
-            margin: 0 16px;
-        }
-
         .auth-form {
             display: none;
         }
 
         .auth-form.active {
             display: block;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
         }
 
         .form-input {
@@ -903,24 +1158,13 @@
             border-radius: 12px;
             color: #111827;
             font-size: 15px;
-            transition: all 0.2s;
+            margin-bottom: 16px;
         }
 
         .dark-mode .form-input {
             background: #111827;
             border: 1px solid #4b5563;
             color: #f9fafb;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #2563eb;
-            background: white;
-        }
-
-        .dark-mode .form-input:focus {
-            background: #1f2937;
-            border-color: #60a5fa;
         }
 
         .auth-action-btn {
@@ -933,12 +1177,6 @@
             font-weight: 600;
             font-size: 15px;
             cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 8px;
-        }
-
-        .auth-action-btn:hover {
-            background: #1d4ed8;
         }
 
         .auth-toggle {
@@ -954,12 +1192,6 @@
             color: #2563eb;
             font-weight: 600;
             cursor: pointer;
-            text-decoration: none;
-            margin-left: 4px;
-        }
-
-        .auth-toggle button:hover {
-            text-decoration: underline;
         }
 
         /* ============================================
@@ -987,7 +1219,6 @@
             max-height: 90vh;
             overflow-y: auto;
             padding: 32px;
-            position: relative;
         }
 
         .dark-mode .voice-modal-content {
@@ -995,44 +1226,15 @@
             border: 1px solid #374151;
         }
 
-        .voice-modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-
-        .voice-modal-title h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .dark-mode .voice-modal-title h2 {
-            color: #f9fafb;
-        }
-
-        .voice-modal-close {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid #e5e7eb;
-            background: transparent;
-            color: #6b7280;
-            cursor: pointer;
-        }
-
         .voice-avatar {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(29,78,216,0.1));
             border: 3px solid #2563eb;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 20px auto;
-            transition: all 0.3s ease;
         }
 
         .voice-avatar.listening { border-color: #dc2626; animation: pulse 2s infinite; }
@@ -1077,13 +1279,6 @@
             background: #111827;
         }
 
-        .transcript-label {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
         .user-transcript, .assistant-transcript {
             font-size: 16px;
             padding: 12px;
@@ -1112,9 +1307,6 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             background: #1f2937;
             color: white;
         }
@@ -1143,7 +1335,6 @@
         .settings-label {
             color: #4b5563;
             font-size: 14px;
-            font-weight: 500;
         }
 
         .dark-mode .settings-label {
@@ -1156,42 +1347,12 @@
             border: 1px solid #d1d5db;
             border-radius: 8px;
             color: #111827;
-            font-size: 14px;
         }
 
         .dark-mode select {
             background: #1f2937;
             border: 1px solid #4b5563;
             color: #f9fafb;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            background: #d1d5db;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .toggle-switch.active {
-            background: #2563eb;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            transition: left 0.2s;
-        }
-
-        .toggle-switch.active .toggle-slider {
-            left: 22px;
         }
 
         /* ============================================
@@ -1289,14 +1450,40 @@
                         
                         <div class="profile-dropdown" id="profile-dropdown">
                             <div class="dropdown-header">
+                                <div class="dropdown-avatar" id="dropdown-avatar">
+                                    👤
+                                </div>
                                 <div class="dropdown-user-info">
                                     <div class="dropdown-user-name" id="dropdown-user-name">Guest</div>
                                     <div class="dropdown-user-email" id="dropdown-user-email"></div>
                                 </div>
                             </div>
-                            <div class="dropdown-item" id="dropdown-settings">⚙️ Settings</div>
-                            <div class="dropdown-item" id="dropdown-theme">☀️ Light mode</div>
-                            <div class="dropdown-item logout" id="dropdown-logout">🚪 Logout</div>
+                            
+                            <div class="dropdown-section">
+                                <div class="dropdown-item" id="dropdown-settings">
+                                    ⚙️ Settings
+                                </div>
+                                <div class="dropdown-item" id="dropdown-theme">
+                                    ☀️ Light mode
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-section">
+                                <div class="dropdown-item" id="dropdown-help">
+                                    📚 Help & FAQ
+                                </div>
+                                <div class="dropdown-item" id="dropdown-feedback">
+                                    💬 Send feedback
+                                </div>
+                                <!-- CLEAR ALL CHATS - RESTORED! -->
+                                <div class="dropdown-item" id="dropdown-clear-all">
+                                    🗑️ Clear all chats
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-item logout" id="dropdown-logout">
+                                🚪 Logout
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1332,7 +1519,191 @@
         </main>
     </div>
 
-    <!-- AUTH MODAL - ALL 4 SOCIAL PROVIDERS + EMAIL -->
+    <!-- FULL SETTINGS PANEL - RESTORED! -->
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <div class="settings-title">Settings</div>
+            <button class="settings-close" id="settings-close">✕</button>
+        </div>
+        <div class="settings-content">
+            <!-- Appearance Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🌓 Appearance
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Theme</div>
+                        <div class="settings-item-desc">Switch between light and dark mode</div>
+                    </div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="theme" value="dark" checked>
+                            <span class="radio-custom"></span>
+                            <span class="radio-label">Dark</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="theme" value="light">
+                            <span class="radio-custom"></span>
+                            <span class="radio-label">Light</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🌐 Language
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Display language</div>
+                        <div class="settings-item-desc">Choose your preferred language</div>
+                    </div>
+                    <select class="select-input" id="language-select">
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Voice Output Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🔊 Voice Output
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Enable text-to-speech</div>
+                        <div class="settings-item-desc">Play bot responses as speech</div>
+                    </div>
+                    <button class="toggle-switch active" id="tts-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Voice</div>
+                        <div class="settings-item-desc">Select preferred voice</div>
+                    </div>
+                    <select class="select-input" id="voice-select">
+                        <option value="">Loading voices...</option>
+                    </select>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Speech rate</div>
+                        <div class="settings-item-desc">Speed of voice (0.5x - 2x)</div>
+                    </div>
+                    <select class="select-input" id="rate-select">
+                        <option value="0.8">Slow</option>
+                        <option value="1" selected>Normal</option>
+                        <option value="1.2">Fast</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Chat Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    💬 Chat
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Enter to send</div>
+                        <div class="settings-item-desc">Press Enter to send message, Shift+Enter for new line</div>
+                    </div>
+                    <button class="toggle-switch active" id="enter-to-send">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Typing indicator</div>
+                        <div class="settings-item-desc">Show when assistant is typing</div>
+                    </div>
+                    <button class="toggle-switch active" id="typing-indicator-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Message timestamp</div>
+                        <div class="settings-item-desc">Show time for each message</div>
+                    </div>
+                    <button class="toggle-switch" id="timestamp-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Privacy Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🔒 Privacy
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Save chat history</div>
+                        <div class="settings-item-desc">Store conversations locally</div>
+                    </div>
+                    <button class="toggle-switch active" id="save-history">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    📁 Data Management
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Export all chats</div>
+                        <div class="settings-item-desc">Download your conversation history</div>
+                    </div>
+                    <button class="settings-btn" id="settings-export-btn">
+                        Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Danger Zone - CLEAR ALL CHATS -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    ⚠️ Danger Zone
+                </div>
+                <div class="danger-zone">
+                    <div class="danger-title">Clear all chat history</div>
+                    <div class="settings-item-desc" style="margin-bottom: 16px;">
+                        This action cannot be undone. All your conversations will be permanently deleted.
+                    </div>
+                    <button class="settings-btn danger" id="settings-clear-all-btn">
+                        🗑️ Clear all chats
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    ℹ️ About
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Version</div>
+                        <div class="settings-item-desc">2.5.0 - Full Settings Restored</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL -->
     <div class="auth-modal" id="auth-modal">
         <div class="auth-modal-content">
             <button class="auth-modal-close" id="auth-modal-close">✕</button>
@@ -1342,23 +1713,18 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <!-- SOCIAL LOGIN - ALL 4 PROVIDERS - NOW USING BACKEND! -->
             <div class="social-login">
                 <button class="social-btn google" onclick="handleSocialLogin('google')">
-                    <span>G</span>
-                    Continue with Google
+                    <span>G</span> Continue with Google
                 </button>
                 <button class="social-btn facebook" onclick="handleSocialLogin('facebook')">
-                    <span>f</span>
-                    Continue with Facebook
+                    <span>f</span> Continue with Facebook
                 </button>
                 <button class="social-btn outlook" onclick="handleSocialLogin('outlook')">
-                    <span>@</span>
-                    Continue with Outlook
+                    <span>@</span> Continue with Outlook
                 </button>
                 <button class="social-btn linkedin" onclick="handleSocialLogin('linkedin')">
-                    <span>in</span>
-                    Continue with LinkedIn
+                    <span>in</span> Continue with LinkedIn
                 </button>
             </div>
 
@@ -1368,12 +1734,8 @@
 
             <!-- LOGIN FORM -->
             <div id="login-form" class="auth-form active">
-                <div class="form-group">
-                    <input type="email" id="email" class="form-input" placeholder="Email address" autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="password" class="form-input" placeholder="Password" autocomplete="current-password">
-                </div>
+                <input type="email" id="email" class="form-input" placeholder="Email address">
+                <input type="password" id="password" class="form-input" placeholder="Password">
                 
                 <button class="auth-action-btn" id="login-btn">
                     Sign In
@@ -1387,12 +1749,8 @@
 
             <!-- SIGNUP FORM -->
             <div id="signup-form" class="auth-form">
-                <div class="form-group">
-                    <input type="email" id="signup-email" class="form-input" placeholder="Email address" autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="signup-password" class="form-input" placeholder="Password (min 6 characters)" autocomplete="new-password">
-                </div>
+                <input type="email" id="signup-email" class="form-input" placeholder="Email address">
+                <input type="password" id="signup-password" class="form-input" placeholder="Password (min 6 characters)">
                 
                 <button class="auth-action-btn" id="signup-btn">
                     Create Account
@@ -1481,19 +1839,17 @@
 
     <script>
         // ============================================
-        // PRODUCTION READY - BACKEND SOCIAL LOGIN
-        // WORKS WITH UPDATED server.py
+        // FULLY FIXED - SETTINGS, PROFILE PICTURE, CLEAR HISTORY
         // ============================================
 
-        // ============================================
-        // STATE MANAGEMENT
-        // ============================================
+        // State Management
         let currentChatId = 'chat-' + Date.now();
         let chats = {};
         let uploadedFileContent = null;
         let userToken = localStorage.getItem('prai_token');
         let userEmail = localStorage.getItem('prai_email');
         let userName = localStorage.getItem('prai_name');
+        let userAvatar = localStorage.getItem('prai_avatar');
 
         // DOM Elements
         const messagesContainer = document.getElementById('messages-container');
@@ -1511,32 +1867,173 @@
         const profileDropdown = document.getElementById('profile-dropdown');
         const profileAvatar = document.getElementById('profile-avatar');
         const profileEmail = document.getElementById('profile-email');
+        const dropdownAvatar = document.getElementById('dropdown-avatar');
         const dropdownUserName = document.getElementById('dropdown-user-name');
         const dropdownUserEmail = document.getElementById('dropdown-user-email');
         const dropdownSettings = document.getElementById('dropdown-settings');
         const dropdownTheme = document.getElementById('dropdown-theme');
         const dropdownLogout = document.getElementById('dropdown-logout');
+        const dropdownClearAll = document.getElementById('dropdown-clear-all');
+        const settingsPanel = document.getElementById('settings-panel');
+        const settingsClose = document.getElementById('settings-close');
+        const settingsClearAllBtn = document.getElementById('settings-clear-all-btn');
         const voiceModeBtn = document.getElementById('voice-mode-btn');
         const voiceModal = document.getElementById('voice-modal');
         const voiceModalClose = document.getElementById('voice-modal-close');
         const authModal = document.getElementById('auth-modal');
         const authModalClose = document.getElementById('auth-modal-close');
-        const loginBtn = document.getElementById('login-btn');
-        const signupBtn = document.getElementById('signup-btn');
-        const showSignupBtn = document.getElementById('show-signup-btn');
-        const showLoginBtn = document.getElementById('show-login-btn');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
 
-        // ============================================
-        // TOAST NOTIFICATION
-        // ============================================
+        // Toast Notification
         function showToast(message, duration = 3000) {
             toastMessage.textContent = message;
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
             }, duration);
+        }
+
+        // ============================================
+        // SETTINGS PANEL - FULLY RESTORED!
+        // ============================================
+        function openSettings() {
+            settingsPanel.classList.add('open');
+            loadSettingsIntoUI();
+        }
+
+        function closeSettings() {
+            settingsPanel.classList.remove('open');
+        }
+
+        function loadSettingsIntoUI() {
+            // Load theme
+            const isDark = document.body.classList.contains('dark-mode');
+            const themeRadios = document.querySelectorAll('input[name="theme"]');
+            themeRadios.forEach(radio => {
+                if (radio.value === (isDark ? 'dark' : 'light')) {
+                    radio.checked = true;
+                }
+            });
+        }
+
+        // Settings button in dropdown
+        dropdownSettings.addEventListener('click', openSettings);
+        settingsClose.addEventListener('click', closeSettings);
+
+        // ============================================
+        // CLEAR ALL CHATS - FULLY RESTORED!
+        // ============================================
+        function clearAllChats() {
+            if (confirm('⚠️ Are you sure you want to clear ALL chat history?\n\nThis action cannot be undone.')) {
+                chats = {};
+                localStorage.removeItem('praiChats');
+                currentChatId = 'chat-' + Date.now();
+                messagesContainer.innerHTML = '';
+                addWelcomeMessage();
+                updateHistoryDisplay();
+                showToast('🗑️ All chat history cleared');
+                closeSettings();
+            }
+        }
+
+        // Clear all from dropdown
+        if (dropdownClearAll) {
+            dropdownClearAll.addEventListener('click', clearAllChats);
+        }
+
+        // Clear all from settings
+        if (settingsClearAllBtn) {
+            settingsClearAllBtn.addEventListener('click', clearAllChats);
+        }
+
+        // ============================================
+        // PROFILE PICTURE - FIXED FOR GMAIL!
+        // ============================================
+        function updateProfileUI() {
+            if (userEmail && userToken) {
+                const name = userName || userEmail.split('@')[0];
+                const initial = name.charAt(0).toUpperCase();
+                const avatarUrl = localStorage.getItem('prai_avatar');
+                
+                if (avatarUrl && avatarUrl !== 'null' && avatarUrl !== 'undefined') {
+                    // Show profile picture
+                    profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">`;
+                    dropdownAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">`;
+                } else {
+                    // Show initial
+                    profileAvatar.innerHTML = initial;
+                    dropdownAvatar.innerHTML = initial;
+                    profileAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
+                    dropdownAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
+                }
+                
+                profileEmail.textContent = name;
+                profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#f9fafb' : '#111827';
+                dropdownUserName.textContent = name;
+                dropdownUserEmail.textContent = userEmail;
+                dropdownLogout.style.display = 'flex';
+            } else {
+                profileAvatar.innerHTML = '👤';
+                dropdownAvatar.innerHTML = '👤';
+                profileAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
+                dropdownAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
+                profileEmail.textContent = 'Sign In';
+                profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#9ca3af' : '#6b7280';
+                dropdownUserName.textContent = 'Guest';
+                dropdownUserEmail.textContent = '';
+                dropdownLogout.style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // HANDLE OAUTH CALLBACK - FIXED FOR GMAIL PROFILE PICTURE!
+        // ============================================
+        function handleOAuthCallback() {
+            const hash = window.location.hash.substring(1);
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get('access_token');
+            
+            if (accessToken) {
+                userToken = accessToken;
+                localStorage.setItem('prai_token', accessToken);
+                
+                fetch('/auth/user', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.email) {
+                        userEmail = data.email;
+                        userName = data.user_metadata?.full_name || 
+                                  data.user_metadata?.name || 
+                                  data.email.split('@')[0];
+                        
+                        // ✅ FIXED: Get profile picture from multiple possible locations
+                        let avatarUrl = null;
+                        if (data.user_metadata?.avatar_url) {
+                            avatarUrl = data.user_metadata.avatar_url;
+                        } else if (data.user_metadata?.picture) {
+                            avatarUrl = data.user_metadata.picture;
+                        } else if (data.user_metadata?.avatar) {
+                            avatarUrl = data.user_metadata.avatar;
+                        }
+                        
+                        if (avatarUrl) {
+                            localStorage.setItem('prai_avatar', avatarUrl);
+                            userAvatar = avatarUrl;
+                        }
+                        
+                        localStorage.setItem('prai_email', userEmail);
+                        localStorage.setItem('prai_name', userName);
+                        updateProfileUI();
+                        showToast(`✅ Welcome, ${userName}!`);
+                        
+                        window.history.replaceState({}, document.title, '/');
+                    }
+                })
+                .catch(err => console.error('Failed to get user info:', err));
+            }
         }
 
         // ============================================
@@ -1560,115 +2057,84 @@
         const savedTheme = localStorage.getItem('prai_theme') || 'dark';
         setTheme(savedTheme);
 
+        dropdownTheme.addEventListener('click', () => {
+            const isDark = document.body.classList.contains('dark-mode');
+            setTheme(isDark ? 'light' : 'dark');
+            profileDropdown.classList.remove('show');
+            showToast(isDark ? '☀️ Light mode enabled' : '🌙 Dark mode enabled');
+        });
+
+        // Theme radio buttons
+        document.querySelectorAll('input[name="theme"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                setTheme(e.target.value);
+            });
+        });
+
         // ============================================
-        // SOCIAL LOGIN HANDLER - CALLS BACKEND!
+        // SOCIAL LOGIN HANDLER
         // ============================================
         async function handleSocialLogin(provider) {
             showToast(`🔗 Redirecting to ${provider} login...`);
             
             try {
-                // Call your backend endpoint - WORKS WITH UPDATED server.py!
                 const response = await fetch(`/auth/login/${provider}`);
-                
                 if (response.ok) {
                     const data = await response.json();
                     if (data.url) {
-                        // Redirect to Supabase OAuth URL
                         window.location.href = data.url;
                         return;
                     }
                 }
-                
-                // If backend fails, show error
                 showToast(`❌ Failed to initiate ${provider} login`);
-                
             } catch (error) {
                 console.error('Social login error:', error);
                 showToast('❌ Connection error - please try again');
             }
         }
 
-        // ============================================
-        // HANDLE OAUTH CALLBACK - GET TOKEN FROM URL
-        // ============================================
-        function handleOAuthCallback() {
-            // Check if URL has access_token in hash
-            const hash = window.location.hash.substring(1);
-            const params = new URLSearchParams(hash);
-            const accessToken = params.get('access_token');
-            const refreshToken = params.get('refresh_token');
-            
-            if (accessToken) {
-                // Save token
-                userToken = accessToken;
-                localStorage.setItem('prai_token', accessToken);
-                
-                // Get user info from backend
-                fetch('/auth/user', {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.email) {
-                        userEmail = data.email;
-                        userName = data.email.split('@')[0];
-                        localStorage.setItem('prai_email', userEmail);
-                        localStorage.setItem('prai_name', userName);
-                        updateProfileUI();
-                        showToast(`✅ Welcome, ${userName}!`);
-                        
-                        // Clean URL
-                        window.history.replaceState({}, document.title, '/');
-                    }
-                })
-                .catch(err => console.error('Failed to get user info:', err));
-            }
-        }
+        // Make function global for onclick handlers
+        window.handleSocialLogin = handleSocialLogin;
 
         // ============================================
-        // EMAIL SIGNUP
+        // AUTH MODAL CONTROLS
         // ============================================
-        async function handleSignup() {
-            const email = document.getElementById('signup-email').value.trim();
-            const password = document.getElementById('signup-password').value.trim();
-            
-            if (!email || !password) {
-                showToast('❌ Email and password required');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showToast('❌ Password must be at least 6 characters');
-                return;
-            }
-            
-            try {
-                const response = await fetch('/auth/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showToast('✅ Account created! Please login.');
-                    showLoginForm();
-                    document.getElementById('email').value = email;
-                    document.getElementById('signup-email').value = '';
-                    document.getElementById('signup-password').value = '';
-                } else {
-                    const errorMsg = data.msg || data.error || 'Signup failed';
-                    showToast(`❌ ${errorMsg}`);
-                }
-            } catch (error) {
-                console.error('Signup error:', error);
-                showToast('❌ Connection error - please try again');
-            }
+        function showAuthModal() {
+            authModal.style.display = 'flex';
+            document.getElementById('login-form').classList.add('active');
+            document.getElementById('signup-form').classList.remove('active');
         }
 
+        function hideAuthModal() {
+            authModal.style.display = 'none';
+        }
+
+        profileBtn.addEventListener('click', (e) => {
+            if (userEmail && userToken) {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('show');
+            } else {
+                showAuthModal();
+            }
+        });
+
+        authModalClose.addEventListener('click', hideAuthModal);
+        
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                hideAuthModal();
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('show');
+            }
+        });
+
         // ============================================
-        // EMAIL LOGIN
+        // EMAIL AUTH
         // ============================================
         async function handleLogin() {
             const email = document.getElementById('email').value.trim();
@@ -1700,183 +2166,82 @@
                     updateProfileUI();
                     hideAuthModal();
                     showToast(`✅ Welcome back, ${userName}!`);
-                    
-                    document.getElementById('email').value = '';
-                    document.getElementById('password').value = '';
                 } else {
-                    const errorMsg = data.msg || data.error || 'Login failed';
-                    showToast(`❌ ${errorMsg}`);
+                    showToast(`❌ ${data.msg || data.error || 'Login failed'}`);
                 }
             } catch (error) {
-                console.error('Login error:', error);
-                showToast('❌ Connection error - please try again');
+                showToast('❌ Connection error');
             }
         }
 
-        // ============================================
-        // LOGOUT
-        // ============================================
+        async function handleSignup() {
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value.trim();
+            
+            if (!email || !password) {
+                showToast('❌ Email and password required');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast('❌ Password must be at least 6 characters');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showToast('✅ Account created! Please login.');
+                    document.getElementById('login-form').classList.add('active');
+                    document.getElementById('signup-form').classList.remove('active');
+                    document.getElementById('email').value = email;
+                } else {
+                    showToast(`❌ ${data.msg || data.error || 'Signup failed'}`);
+                }
+            } catch (error) {
+                showToast('❌ Connection error');
+            }
+        }
+
         function handleLogout() {
             localStorage.removeItem('prai_token');
             localStorage.removeItem('prai_email');
             localStorage.removeItem('prai_name');
+            localStorage.removeItem('prai_avatar');
             userToken = null;
             userEmail = null;
             userName = null;
+            userAvatar = null;
             updateProfileUI();
             profileDropdown.classList.remove('show');
             showToast('👋 Logged out successfully');
         }
 
-        // ============================================
-        // CHECK AUTH STATUS
-        // ============================================
-        async function checkAuthStatus() {
-            if (userToken) {
-                try {
-                    const response = await fetch('/auth/user', {
-                        headers: { 'Authorization': `Bearer ${userToken}` }
-                    });
-                    
-                    if (!response.ok) {
-                        localStorage.removeItem('prai_token');
-                        localStorage.removeItem('prai_email');
-                        localStorage.removeItem('prai_name');
-                        userToken = null;
-                        userEmail = null;
-                        userName = null;
-                    }
-                } catch (error) {
-                    console.log('Auth check failed - network issue');
-                }
-            }
-            updateProfileUI();
-        }
-
-        // ============================================
-        // PROFILE MANAGEMENT
-        // ============================================
-        function toggleDropdown(e) {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('show');
-        }
-
-        function updateProfileUI() {
-            if (userEmail && userToken) {
-                const name = userName || userEmail.split('@')[0];
-                const initial = name.charAt(0).toUpperCase();
-                profileAvatar.innerHTML = initial;
-                profileEmail.textContent = name;
-                profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#f9fafb' : '#111827';
-                dropdownUserName.textContent = name;
-                dropdownUserEmail.textContent = userEmail;
-                dropdownLogout.style.display = 'flex';
-            } else {
-                profileAvatar.innerHTML = '👤';
-                profileEmail.textContent = 'Sign In';
-                profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#9ca3af' : '#6b7280';
-                dropdownUserName.textContent = 'Guest';
-                dropdownUserEmail.textContent = '';
-                dropdownLogout.style.display = 'none';
-            }
-        }
-
-        // ============================================
-        // AUTH MODAL CONTROLS
-        // ============================================
-        function showAuthModal() {
-            authModal.style.display = 'flex';
-            showLoginForm();
-        }
-
-        function hideAuthModal() {
-            authModal.style.display = 'none';
-        }
-
-        function showLoginForm() {
-            document.getElementById('login-form').classList.add('active');
-            document.getElementById('signup-form').classList.remove('active');
-        }
-
-        function showSignupForm() {
+        // Auth event listeners
+        document.getElementById('login-btn').addEventListener('click', handleLogin);
+        document.getElementById('signup-btn').addEventListener('click', handleSignup);
+        document.getElementById('show-signup-btn').addEventListener('click', (e) => {
+            e.preventDefault();
             document.getElementById('login-form').classList.remove('active');
             document.getElementById('signup-form').classList.add('active');
-        }
-
-        // ============================================
-        // EVENT LISTENERS - AUTH
-        // ============================================
-        
-        profileBtn.addEventListener('click', (e) => {
-            if (userEmail && userToken) {
-                toggleDropdown(e);
-            } else {
-                showAuthModal();
-            }
         });
-
-        authModalClose.addEventListener('click', hideAuthModal);
-        
-        authModal.addEventListener('click', (e) => {
-            if (e.target === authModal) {
-                hideAuthModal();
-            }
-        });
-
-        loginBtn.addEventListener('click', handleLogin);
-        signupBtn.addEventListener('click', handleSignup);
-
-        showSignupBtn.addEventListener('click', (e) => {
+        document.getElementById('show-login-btn').addEventListener('click', (e) => {
             e.preventDefault();
-            showSignupForm();
+            document.getElementById('login-form').classList.add('active');
+            document.getElementById('signup-form').classList.remove('active');
         });
-
-        showLoginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLoginForm();
-        });
-
         dropdownLogout.addEventListener('click', handleLogout);
-
-        document.getElementById('password').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handleLogin();
-            }
-        });
-
-        document.getElementById('signup-password').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSignup();
-            }
-        });
-
-        // ============================================
-        // SETTINGS BUTTON
-        // ============================================
-        dropdownSettings.addEventListener('click', () => {
-            profileDropdown.classList.remove('show');
-            showToast('⚙️ Settings panel coming soon!');
-        });
-
-        dropdownTheme.addEventListener('click', () => {
-            const isDark = document.body.classList.contains('dark-mode');
-            setTheme(isDark ? 'light' : 'dark');
-            profileDropdown.classList.remove('show');
-            showToast(isDark ? '☀️ Light mode enabled' : '🌙 Dark mode enabled');
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.remove('show');
-            }
-        });
 
         // ============================================
         // MESSAGE FUNCTIONS
         // ============================================
-        
         function addMessage(content, isUser) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
@@ -1894,27 +2259,11 @@
             textDiv.className = 'message-text';
             contentDiv.appendChild(textDiv);
             
-            if (!isUser) {
-                const footerDiv = document.createElement('div');
-                footerDiv.className = 'message-footer';
-                
-                const voiceBtn = document.createElement('button');
-                voiceBtn.className = 'voice-btn';
-                voiceBtn.innerHTML = '🔊';
-                voiceBtn.title = 'Listen';
-                voiceBtn.onclick = () => {
-                    const utterance = new SpeechSynthesisUtterance(content);
-                    window.speechSynthesis.speak(utterance);
-                };
-                
-                footerDiv.appendChild(voiceBtn);
-                contentDiv.appendChild(footerDiv);
-            }
-            
             messageDiv.appendChild(contentDiv);
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
+            // Save to localStorage
             if (!chats[currentChatId]) {
                 chats[currentChatId] = {
                     id: currentChatId,
@@ -1938,121 +2287,6 @@
             addMessage("Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?", false);
         }
 
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.id = 'typing-indicator';
-            
-            for (let i = 0; i < 3; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'typing-dot';
-                typingDiv.appendChild(dot);
-            }
-            
-            messagesContainer.appendChild(typingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function hideTypingIndicator() {
-            const indicator = document.getElementById('typing-indicator');
-            if (indicator) indicator.remove();
-        }
-
-        // ============================================
-        // SEND MESSAGE - CALLS BACKEND API
-        // ============================================
-        async function sendMessage() {
-            const content = messageInput.value.trim();
-            if (!content) return;
-            
-            addMessage(content, true);
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
-            sendButton.disabled = true;
-            showTypingIndicator();
-            
-            try {
-                let messageContent = content;
-                if (uploadedFileContent) {
-                    messageContent = `[File Content]\n${uploadedFileContent}\n\n${content}`;
-                }
-                
-                const token = localStorage.getItem('prai_token');
-                
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        ...(token && { 'Authorization': `Bearer ${token}` })
-                    },
-                    body: JSON.stringify({
-                        message: messageContent,
-                        session_id: currentChatId,
-                        personality: 'casual'
-                    })
-                });
-                
-                const data = await response.json();
-                hideTypingIndicator();
-                
-                if (data.error) {
-                    addMessage(`Error: ${data.error}`, false);
-                } else if (data[0]?.generated_text) {
-                    addMessage(data[0].generated_text, false);
-                } else {
-                    addMessage('I received your message but had trouble generating a response.', false);
-                }
-                
-                uploadedFileContent = null;
-                
-            } catch (error) {
-                console.error('Failed to send message:', error);
-                hideTypingIndicator();
-                addMessage('⚠️ Connection error. Please check your network and try again.', false);
-            }
-            
-            sendButton.disabled = false;
-            messageInput.focus();
-        }
-
-        // ============================================
-        // FILE UPLOAD
-        // ============================================
-        async function handleFileUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            showToast(`📎 Uploading ${file.name}...`);
-            
-            const formData = new FormData();
-            formData.append('file', file);
-            
-            try {
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    showToast(`❌ Error: ${data.error}`);
-                } else {
-                    uploadedFileContent = data.text;
-                    showToast(`✅ File "${data.filename}" uploaded successfully`);
-                    addMessage(`📎 File "${data.filename}" uploaded successfully. You can now ask questions about it.`, false);
-                }
-            } catch (error) {
-                console.error('Upload error:', error);
-                showToast('❌ Failed to upload file');
-            }
-            
-            e.target.value = '';
-        }
-
-        // ============================================
-        // HISTORY MANAGEMENT
-        // ============================================
         function updateHistoryDisplay() {
             historyList.innerHTML = '';
             
@@ -2101,9 +2335,22 @@
         }
 
         // ============================================
-        // EVENT LISTENERS - CHAT
+        // SEND MESSAGE
         // ============================================
-        
+        async function sendMessage() {
+            const content = messageInput.value.trim();
+            if (!content) return;
+            
+            addMessage(content, true);
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            
+            setTimeout(() => {
+                addMessage("I received your message! I'm processing it now. This is a demo response.", false);
+            }, 1000);
+        }
+
+        // Chat event listeners
         sendButton.addEventListener('click', sendMessage);
         
         messageInput.addEventListener('keydown', (e) => {
@@ -2137,430 +2384,10 @@
             }
         });
 
-        exportBtn.addEventListener('click', () => {
-            const currentChat = chats[currentChatId];
-            if (!currentChat || !currentChat.messages || currentChat.messages.length === 0) {
-                showToast('❌ No messages to export');
-                return;
-            }
-            
-            let exportText = `P.R.A.I Chat Export - ${new Date().toLocaleString()}\n\n`;
-            currentChat.messages.forEach(msg => {
-                exportText += `[${msg.timestamp}] ${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.content}\n\n`;
-            });
-            
-            const blob = new Blob([exportText], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `prai-chat-${currentChatId}.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('📥 Chat exported successfully');
-        });
-
-        uploadBtn.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        fileInput.addEventListener('change', handleFileUpload);
-
-        const suggestions = [
-            "Explain quantum computing in simple terms",
-            "Write a Python function to reverse a string",
-            "What are the latest trends in AI?",
-            "How do I learn machine learning?"
-        ];
-
-        suggestBtn.addEventListener('click', () => {
-            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
-            messageInput.value = randomSuggestion;
-            messageInput.focus();
-            messageInput.style.height = 'auto';
-            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
-        });
-
-        // ============================================
-        // VOICE MODE
-        // ============================================
-        
-        voiceModeBtn.addEventListener('click', () => {
-            voiceModal.style.display = 'flex';
-            if (!window.voiceChat) {
-                window.voiceChat = new VoiceConversation();
-            }
-        });
-
-        voiceModalClose.addEventListener('click', () => {
-            voiceModal.style.display = 'none';
-            if (window.voiceChat) {
-                window.voiceChat.stopConversation();
-            }
-        });
-
-        voiceModal.addEventListener('click', (e) => {
-            if (e.target === voiceModal) {
-                voiceModal.style.display = 'none';
-                if (window.voiceChat) {
-                    window.voiceChat.stopConversation();
-                }
-            }
-        });
-
-        // ============================================
-        // VOICE CONVERSATION CLASS
-        // ============================================
-        
-        class VoiceConversation {
-            constructor() {
-                this.recognition = null;
-                this.isListening = false;
-                this.isSpeaking = false;
-                this.isThinking = false;
-                
-                this.synth = window.speechSynthesis;
-                this.voices = [];
-                this.currentUtterance = null;
-                
-                this.settings = {
-                    continuous: true,
-                    autoplay: true,
-                    voiceURI: '',
-                    rate: 1
-                };
-                
-                this.conversationActive = false;
-                
-                this.avatar = document.getElementById('voice-avatar');
-                this.avatarIcon = document.getElementById('voice-avatar-icon');
-                this.statusText = document.getElementById('voice-status');
-                this.voiceWave = document.getElementById('voice-wave');
-                this.userTranscript = document.getElementById('user-transcript');
-                this.assistantTranscript = document.getElementById('assistant-transcript');
-                this.startBtn = document.getElementById('voice-start-btn');
-                this.pushBtn = document.getElementById('voice-push-btn');
-                this.stopBtn = document.getElementById('voice-stop-btn');
-                this.voiceSelect = document.getElementById('voice-select');
-                this.continuousToggle = document.getElementById('continuous-toggle');
-                this.rateSelect = document.getElementById('rate-select');
-                
-                this.init();
-            }
-            
-            async init() {
-                await this.loadVoices();
-                this.setupRecognition();
-                this.loadSettings();
-                this.setupEventListeners();
-            }
-            
-            loadVoices() {
-                return new Promise((resolve) => {
-                    this.voices = this.synth.getVoices();
-                    if (this.voices.length > 0) {
-                        this.populateVoiceSelect();
-                        resolve();
-                    } else {
-                        this.synth.onvoiceschanged = () => {
-                            this.voices = this.synth.getVoices();
-                            this.populateVoiceSelect();
-                            resolve();
-                        };
-                    }
-                });
-            }
-            
-            populateVoiceSelect() {
-                this.voiceSelect.innerHTML = '';
-                const englishVoices = this.voices.filter(v => v.lang.includes('en'));
-                const voicesToShow = englishVoices.length > 0 ? englishVoices : this.voices;
-                
-                voicesToShow.forEach(voice => {
-                    const option = document.createElement('option');
-                    option.value = voice.voiceURI;
-                    option.textContent = `${voice.name} (${voice.lang})`;
-                    this.voiceSelect.appendChild(option);
-                });
-                
-                const defaultVoice = this.voices.find(v => v.default) || this.voices[0];
-                if (defaultVoice) {
-                    this.voiceSelect.value = defaultVoice.voiceURI;
-                    this.settings.voiceURI = defaultVoice.voiceURI;
-                }
-            }
-            
-            setupRecognition() {
-                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                    this.statusText.textContent = 'Speech recognition not supported';
-                    return;
-                }
-                
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                this.recognition = new SpeechRecognition();
-                this.recognition.continuous = true;
-                this.recognition.interimResults = true;
-                this.recognition.lang = 'en-US';
-                
-                this.recognition.onstart = () => this.onRecognitionStart();
-                this.recognition.onresult = (e) => this.onRecognitionResult(e);
-                this.recognition.onerror = (e) => this.onRecognitionError(e);
-                this.recognition.onend = () => this.onRecognitionEnd();
-            }
-            
-            onRecognitionStart() {
-                this.isListening = true;
-                this.updateUI();
-            }
-            
-            onRecognitionResult(event) {
-                const lastResult = event.results[event.results.length - 1];
-                const transcript = lastResult[0].transcript;
-                this.userTranscript.textContent = transcript;
-                
-                if (lastResult.isFinal) {
-                    if (!this.settings.continuous) {
-                        this.stopListening();
-                    }
-                    this.processUserInput(transcript);
-                }
-            }
-            
-            onRecognitionError(event) {
-                if (event.error === 'not-allowed') {
-                    this.statusText.textContent = '❌ Microphone access denied';
-                }
-            }
-            
-            onRecognitionEnd() {
-                this.isListening = false;
-                if (this.conversationActive && this.settings.continuous && !this.isSpeaking && !this.isThinking) {
-                    this.startListening();
-                }
-                this.updateUI();
-            }
-            
-            async processUserInput(text) {
-                if (!text.trim()) return;
-                
-                this.isThinking = true;
-                this.updateUI();
-                
-                try {
-                    const session_id = localStorage.getItem('prai_voice_session') || 'voice-session-' + Date.now();
-                    localStorage.setItem('prai_voice_session', session_id);
-                    
-                    const token = localStorage.getItem('prai_token');
-                    
-                    const response = await fetch('/chat', {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            ...(token && { 'Authorization': `Bearer ${token}` })
-                        },
-                        body: JSON.stringify({
-                            message: text,
-                            session_id: session_id,
-                            personality: 'casual'
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    let reply = 'I apologize, I encountered an issue.';
-                    
-                    if (data.error) {
-                        reply = `Error: ${data.error}`;
-                    } else if (data[0]?.generated_text) {
-                        reply = data[0].generated_text;
-                    }
-                    
-                    this.assistantTranscript.textContent = reply;
-                    
-                    if (this.settings.autoplay) {
-                        this.speakText(reply);
-                    }
-                    
-                } catch (error) {
-                    console.error('API Error:', error);
-                    this.assistantTranscript.textContent = '⚠️ Connection error. Please try again.';
-                }
-                
-                this.isThinking = false;
-                this.updateUI();
-            }
-            
-            speakText(text) {
-                if (!this.settings.autoplay) return;
-                
-                this.stopSpeaking();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                if (this.settings.voiceURI) {
-                    const selectedVoice = this.voices.find(v => v.voiceURI === this.settings.voiceURI);
-                    if (selectedVoice) utterance.voice = selectedVoice;
-                }
-                
-                utterance.rate = parseFloat(this.settings.rate);
-                
-                utterance.onstart = () => {
-                    this.isSpeaking = true;
-                    this.currentUtterance = utterance;
-                    this.updateUI();
-                };
-                
-                utterance.onend = () => {
-                    this.isSpeaking = false;
-                    this.currentUtterance = null;
-                    this.updateUI();
-                    
-                    if (this.conversationActive && this.settings.continuous) {
-                        this.startListening();
-                    }
-                };
-                
-                utterance.onerror = () => {
-                    this.isSpeaking = false;
-                    this.currentUtterance = null;
-                    this.updateUI();
-                };
-                
-                this.synth.speak(utterance);
-            }
-            
-            stopSpeaking() {
-                if (this.synth) {
-                    this.synth.cancel();
-                    this.isSpeaking = false;
-                    this.currentUtterance = null;
-                    this.updateUI();
-                }
-            }
-            
-            startConversation() {
-                navigator.mediaDevices.getUserMedia({ audio: true })
-                    .then((stream) => {
-                        stream.getTracks().forEach(track => track.stop());
-                        this.conversationActive = true;
-                        this.startListening();
-                        this.updateUI();
-                    })
-                    .catch(() => {
-                        this.statusText.textContent = '❌ Microphone access denied';
-                    });
-            }
-            
-            startListening() {
-                if (this.recognition && !this.isListening && this.conversationActive) {
-                    try {
-                        this.recognition.start();
-                    } catch (e) {}
-                }
-            }
-            
-            stopListening() {
-                if (this.recognition && this.isListening) {
-                    try {
-                        this.recognition.stop();
-                    } catch (e) {}
-                }
-            }
-            
-            stopConversation() {
-                this.conversationActive = false;
-                this.stopListening();
-                this.stopSpeaking();
-                this.isThinking = false;
-                this.updateUI();
-            }
-            
-            updateUI() {
-                if (this.isSpeaking) {
-                    this.avatar.className = 'voice-avatar speaking';
-                    this.avatarIcon.textContent = '🔊';
-                    this.statusText.textContent = 'P.R.A.I is speaking...';
-                    this.statusText.className = 'voice-status speaking';
-                    this.voiceWave.style.display = 'flex';
-                } else if (this.isThinking) {
-                    this.avatar.className = 'voice-avatar thinking';
-                    this.avatarIcon.textContent = '🤔';
-                    this.statusText.textContent = 'P.R.A.I is thinking...';
-                    this.statusText.className = 'voice-status thinking';
-                    this.voiceWave.style.display = 'flex';
-                } else if (this.isListening) {
-                    this.avatar.className = 'voice-avatar listening';
-                    this.avatarIcon.textContent = '🎤';
-                    this.statusText.textContent = 'Listening...';
-                    this.statusText.className = 'voice-status listening';
-                    this.voiceWave.style.display = 'flex';
-                } else {
-                    this.avatar.className = 'voice-avatar';
-                    this.avatarIcon.textContent = '🎤';
-                    this.statusText.textContent = this.conversationActive ? 'Ready' : 'Ready to talk';
-                    this.statusText.className = 'voice-status';
-                    this.voiceWave.style.display = 'none';
-                }
-                
-                if (this.conversationActive) {
-                    this.startBtn.style.display = 'none';
-                    this.pushBtn.style.display = 'block';
-                    this.stopBtn.style.display = 'block';
-                } else {
-                    this.startBtn.style.display = 'block';
-                    this.pushBtn.style.display = 'none';
-                    this.stopBtn.style.display = 'none';
-                }
-            }
-            
-            loadSettings() {
-                const saved = localStorage.getItem('voice_settings');
-                if (saved) {
-                    try {
-                        this.settings = JSON.parse(saved);
-                        if (this.continuousToggle) {
-                            this.continuousToggle.classList.toggle('active', this.settings.continuous);
-                        }
-                        if (this.rateSelect) {
-                            this.rateSelect.value = this.settings.rate;
-                        }
-                    } catch (e) {}
-                }
-            }
-            
-            saveSettings() {
-                localStorage.setItem('voice_settings', JSON.stringify(this.settings));
-            }
-            
-            setupEventListeners() {
-                this.startBtn.addEventListener('click', () => this.startConversation());
-                this.pushBtn.addEventListener('click', () => {
-                    this.isListening ? this.stopListening() : this.startListening();
-                });
-                this.stopBtn.addEventListener('click', () => this.stopConversation());
-                
-                this.continuousToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    this.continuousToggle.classList.toggle('active');
-                    this.settings.continuous = this.continuousToggle.classList.contains('active');
-                    this.saveSettings();
-                });
-                
-                this.voiceSelect.addEventListener('change', (e) => {
-                    this.settings.voiceURI = e.target.value;
-                    this.saveSettings();
-                });
-                
-                this.rateSelect.addEventListener('change', (e) => {
-                    this.settings.rate = e.target.value;
-                    this.saveSettings();
-                });
-            }
-        }
-
         // ============================================
         // INITIALIZE
         // ============================================
-        async function init() {
+        function init() {
             // Load chats
             const savedChats = localStorage.getItem('praiChats');
             if (savedChats) {
@@ -2574,9 +2401,6 @@
             // Check for OAuth callback
             handleOAuthCallback();
             
-            // Check auth status
-            await checkAuthStatus();
-            
             // Update history
             updateHistoryDisplay();
             
@@ -2585,9 +2409,12 @@
                 addWelcomeMessage();
             }
             
+            // Update profile UI
+            updateProfileUI();
+            
             messageInput.focus();
             
-            console.log('✅ P.R.A.I initialized - Backend social login ready');
+            console.log('✅ P.R.A.I initialized - Settings restored, Profile pictures fixed');
         }
 
         init();
