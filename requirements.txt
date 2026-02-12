@@ -8,6 +8,5 @@ supabase==2.4.0
 pytz==2024.1
 python-dateutil==2.8.2
 python-dotenv==1.0.0
-Pillow==10.1.0  # For image processing
 python-magic==0.4.27  # For file type detection
 Werkzeug==3.0.1  # For secure_filename
