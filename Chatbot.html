@@ -425,11 +425,6 @@
             border-top: 1px solid #2a2a2a;
         }
 
-        .dropdown-item i {
-            width: 20px;
-            text-align: center;
-        }
-
         /* ============================================
            SETTINGS PANEL - DEEPSEEK STYLE
            ============================================ */
@@ -741,7 +736,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 16px;
             margin-left: 8px;
             flex-shrink: 0;
         }
@@ -761,20 +756,26 @@
             background: #0066ff;
             color: white;
             border-color: #0066ff;
-            animation: pulse 1.5s infinite;
         }
 
         .voice-btn.speaking {
             background: #ff4444;
             color: white;
             border-color: #ff4444;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(255, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); }
         }
 
         .message-footer {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            margin-top: 4px;
+            margin-top: 8px;
         }
 
         .bot-message .message-footer {
@@ -808,6 +809,164 @@
             background: #1a1a1a;
             border: 1px solid #3a3a3a;
             color: white;
+        }
+
+        /* ============================================
+           INPUT AREA - FIXED ALIGNMENT & STYLING
+           ============================================ */
+        .input-area {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e5e5;
+            background: white;
+        }
+
+        .dark-mode .input-area {
+            background: #0f0f0f;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            background: #f5f5f5;
+            border: 1px solid transparent;
+            border-radius: 24px;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .input-container {
+            background: #2a2a2a;
+        }
+
+        .input-container:focus-within {
+            border-color: #0066ff;
+            background: white;
+        }
+
+        .dark-mode .input-container:focus-within {
+            background: #333333;
+            border-color: #3b82f6;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 14px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 24px;
+            color: #0f0f0f;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            resize: none;
+            min-height: 52px;
+            max-height: 200px;
+            line-height: 1.6;
+            outline: none;
+        }
+
+        .dark-mode .message-input {
+            color: white;
+        }
+
+        .message-input::placeholder {
+            color: #8a8a8a;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding-right: 8px;
+            padding-bottom: 8px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            color: #666666;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .dark-mode .action-btn {
+            color: #8a8a8a;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 102, 255, 0.1);
+            color: #0066ff;
+        }
+
+        .action-btn.active {
+            background: #ff4444;
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .send-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #0066ff;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .send-button:hover {
+            background: #0052cc;
+            transform: scale(1.05);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .quick-action {
+            padding: 6px 14px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 20px;
+            color: #666666;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .quick-action {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: #8a8a8a;
+        }
+
+        .quick-action:hover {
+            background: white;
+            border-color: #0066ff;
+            color: #0066ff;
         }
 
         /* ============================================
@@ -1056,7 +1215,7 @@
 
         .message-content {
             padding: 16px 20px;
-            border-radius: 12px;
+            border-radius: 18px;
             font-size: 15px;
             line-height: 1.6;
             word-break: break-word;
@@ -1092,14 +1251,8 @@
             color: #8a8a8a;
         }
 
-        .message-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
         .message-text {
-            flex: 1;
+            white-space: pre-wrap;
         }
 
         .typing-indicator {
@@ -1108,7 +1261,7 @@
             gap: 4px;
             padding: 16px 20px;
             background: #f5f5f5;
-            border-radius: 12px;
+            border-radius: 18px;
             border-bottom-left-radius: 4px;
             width: fit-content;
         }
@@ -1125,149 +1278,12 @@
             animation: typing 1.4s infinite ease-in-out;
         }
 
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
             30% { transform: translateY(-8px); opacity: 1; }
-        }
-
-        /* Input Area */
-        .input-area {
-            padding: 20px 24px;
-            border-top: 1px solid #e5e5e5;
-            background: white;
-        }
-
-        .dark-mode .input-area {
-            background: #0f0f0f;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .input-container {
-            position: relative;
-            margin-bottom: 12px;
-        }
-
-        .message-input {
-            width: 100%;
-            padding: 16px 140px 16px 16px;
-            background: #f5f5f5;
-            border: 1px solid transparent;
-            border-radius: 12px;
-            color: #0f0f0f;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            resize: none;
-            min-height: 56px;
-            max-height: 200px;
-            line-height: 1.6;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .message-input {
-            background: #2a2a2a;
-            color: white;
-        }
-
-        .message-input:focus {
-            outline: none;
-            border-color: #0066ff;
-            background: white;
-        }
-
-        .dark-mode .message-input:focus {
-            background: #333333;
-            border-color: #3b82f6;
-        }
-
-        .input-actions {
-            position: absolute;
-            right: 8px;
-            bottom: 8px;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .action-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: transparent;
-            border: 1px solid #e5e5e5;
-            color: #666666;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dark-mode .action-btn {
-            border: 1px solid #3a3a3a;
-            color: #8a8a8a;
-        }
-
-        .action-btn:hover {
-            background: white;
-            border-color: #0066ff;
-            color: #0066ff;
-        }
-
-        .dark-mode .action-btn:hover {
-            background: #3a3a3a;
-            border-color: #3b82f6;
-            color: #3b82f6;
-        }
-
-        .send-button {
-            width: 40px;
-            height: 40px;
-            background: #0066ff;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .send-button:hover {
-            background: #0052cc;
-            transform: scale(1.05);
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .quick-action {
-            padding: 8px 14px;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
-            border-radius: 20px;
-            color: #666666;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .quick-action {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            color: #8a8a8a;
-        }
-
-        .quick-action:hover {
-            background: white;
-            border-color: #0066ff;
-            color: #0066ff;
         }
 
         .hidden {
@@ -1306,6 +1322,24 @@
         @keyframes slideUp {
             from { bottom: 0; opacity: 0; }
             to { bottom: 30px; opacity: 1; }
+        }
+
+        /* File Attachment Styling */
+        .file-attachment {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: 20px;
+            font-size: 13px;
+            color: #0066ff;
+            margin-bottom: 8px;
+        }
+
+        .dark-mode .file-attachment {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
         }
 
         /* LIGHT MODE FIXES */
@@ -1430,6 +1464,7 @@
 
             <div class="messages-container" id="messages-container"></div>
 
+            <!-- FIXED INPUT AREA - PERFECT ALIGNMENT -->
             <div class="input-area">
                 <div class="input-container">
                     <textarea 
@@ -1515,7 +1550,7 @@
                 </div>
             </div>
 
-            <!-- VOICE OUTPUT SETTINGS - A3 -->
+            <!-- VOICE OUTPUT SETTINGS -->
             <div class="settings-section">
                 <div class="settings-section-title">
                     🔊 Voice Output
@@ -1706,7 +1741,7 @@
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">2.2.0 - DeepSeek Premium + Voice</div>
+                        <div class="settings-item-desc">2.3.0 - DeepSeek Premium + Voice + Fixed</div>
                     </div>
                 </div>
                 <div class="settings-item">
@@ -1719,16 +1754,11 @@
                         <div class="settings-item-label">Privacy Policy</div>
                     </div>
                 </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Open source licenses</div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- AUTH MODAL - UNIFORM BLUE BUTTONS -->
+    <!-- AUTH MODAL -->
     <div id="auth-modal">
         <div class="auth-container">
             <button class="close-btn" onclick="hideAuthModal()">✕</button>
@@ -1738,7 +1768,6 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <!-- Social Login Buttons - ALL UNIFORM BLUE -->
             <div class="social-login">
                 <button class="social-btn" onclick="handleSocialLogin('facebook')">
                     <span>f</span>
@@ -1847,6 +1876,8 @@
         async function populateVoiceDropdown() {
             await loadVoices();
             const voiceSelect = document.getElementById('voice-select');
+            if (!voiceSelect) return;
+            
             voiceSelect.innerHTML = '';
             
             // Filter for English voices (prefer female/natural)
@@ -1874,7 +1905,6 @@
                 voiceSelect.value = savedVoice;
                 voiceSettings.voiceURI = savedVoice;
             } else {
-                // Select first English voice or default
                 const defaultVoice = voices.find(v => v.default) || englishVoices[0] || voices[0];
                 if (defaultVoice) {
                     voiceSelect.value = defaultVoice.voiceURI;
@@ -1913,7 +1943,6 @@
                 currentUtterance = utterance;
                 currentlySpeakingMessageId = messageId;
                 
-                // Update button UI
                 if (messageId) {
                     const voiceBtn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
                     if (voiceBtn) {
@@ -1928,7 +1957,6 @@
                 currentUtterance = null;
                 currentlySpeakingMessageId = null;
                 
-                // Reset button UI
                 if (messageId) {
                     const voiceBtn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
                     if (voiceBtn) {
@@ -1945,7 +1973,6 @@
                 showToast('❌ Speech failed');
             };
             
-            // Speak
             synth.speak(utterance);
         }
 
@@ -1955,7 +1982,6 @@
                 synth.cancel();
                 currentUtterance = null;
                 
-                // Reset all voice buttons
                 document.querySelectorAll('.voice-btn.speaking').forEach(btn => {
                     btn.classList.remove('speaking');
                     btn.innerHTML = '🔊';
@@ -1971,6 +1997,123 @@
             const testText = 'Hello, this is a test of the voice output system.';
             speakText(testText);
             showToast('🔊 Testing voice...');
+        }
+
+        // ============================================
+        // VOICE INPUT - FIXED MICROPHONE ACCESS
+        // ============================================
+        
+        // Check if browser supports microphone
+        function isMicrophoneSupported() {
+            return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+        }
+
+        // Request microphone permission explicitly
+        async function requestMicrophonePermission() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                // Stop all tracks immediately - we just wanted permission
+                stream.getTracks().forEach(track => track.stop());
+                return true;
+            } catch (error) {
+                console.error('Microphone permission error:', error);
+                return false;
+            }
+        }
+
+        // Start recording with proper error handling
+        async function startRecording() {
+            if (!isMicrophoneSupported()) {
+                showToast('❌ Microphone not supported in this browser');
+                return;
+            }
+            
+            try {
+                // Request permission and get stream
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    } 
+                });
+                
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    // Simulate speech recognition (in production, send to API)
+                    simulateSpeechRecognition();
+                    
+                    // Stop all tracks
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                mediaRecorder.start();
+                isRecording = true;
+                micBtn.classList.add('active');
+                micBtn.innerHTML = '⏹️';
+                micBtn.title = 'Stop Recording';
+                showToast('🎤 Recording... Click stop when done');
+                
+            } catch (error) {
+                console.error('Microphone error:', error);
+                
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    showToast('❌ Microphone access denied. Please allow permission and refresh.');
+                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                    showToast('❌ No microphone found. Please connect a microphone.');
+                } else {
+                    showToast('❌ Could not access microphone: ' + error.message);
+                }
+                
+                isRecording = false;
+                micBtn.classList.remove('active');
+                micBtn.innerHTML = '🎤';
+                micBtn.title = 'Voice Input';
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                micBtn.classList.remove('active');
+                micBtn.innerHTML = '🎤';
+                micBtn.title = 'Voice Input';
+            }
+        }
+
+        function simulateSpeechRecognition() {
+            setTimeout(() => {
+                const sampleTranscripts = [
+                    "Hello, how are you today?",
+                    "Can you help me with programming?",
+                    "What's the weather like today?",
+                    "Tell me about artificial intelligence",
+                    "How does machine learning work?"
+                ];
+                
+                const randomTranscript = sampleTranscripts[Math.floor(Math.random() * sampleTranscripts.length)];
+                messageInput.value = randomTranscript;
+                messageInput.style.height = 'auto';
+                messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
+                
+                showToast('✅ Voice input received');
+                messageInput.focus();
+            }, 1500);
+        }
+
+        function toggleRecording() {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
         }
 
         // ============================================
@@ -2056,7 +2199,7 @@
             settingsPanel.classList.add('open');
             hideDropdown();
             loadSettingsIntoUI();
-            populateVoiceDropdown(); // Load voices when settings opened
+            populateVoiceDropdown();
         }
 
         function closeSettings() {
@@ -2064,7 +2207,6 @@
         }
 
         function loadSettingsIntoUI() {
-            // Load theme radios
             const themeRadios = document.querySelectorAll('input[name="theme"]');
             const isDark = document.body.classList.contains('dark-mode');
             themeRadios.forEach(radio => {
@@ -2073,10 +2215,8 @@
                 }
             });
             
-            // Load language
             document.getElementById('language-select').value = settings.language;
             
-            // Load toggles
             document.getElementById('enter-to-send').classList.toggle('active', settings.enterToSend);
             document.getElementById('typing-indicator-toggle').classList.toggle('active', settings.typingIndicator);
             document.getElementById('timestamp-toggle').classList.toggle('active', settings.timestamps);
@@ -2084,13 +2224,11 @@
             document.getElementById('save-history').classList.toggle('active', settings.saveHistory);
             document.getElementById('usage-data').classList.toggle('active', settings.usageData);
             
-            // Voice settings
             document.getElementById('tts-toggle').classList.toggle('active', settings.ttsEnabled);
             document.getElementById('autoplay-toggle').classList.toggle('active', settings.ttsAutoplay);
             document.getElementById('rate-select').value = settings.ttsRate;
             document.getElementById('pitch-select').value = settings.ttsPitch;
             
-            // Update voice settings object
             voiceSettings.enabled = settings.ttsEnabled;
             voiceSettings.autoplay = settings.ttsAutoplay;
             voiceSettings.rate = settings.ttsRate;
@@ -2219,7 +2357,6 @@
         async function handleSocialLogin(provider) {
             let providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
             showToast(`🔗 Redirecting to ${providerName} login...`, 2000);
-            
             setTimeout(() => {
                 showLoginForm();
             }, 2000);
@@ -2341,79 +2478,12 @@
         }
 
         // ============================================
-        // VOICE RECORDING FUNCTIONS (A2 - Voice Input)
-        // ============================================
-        async function startRecording() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-
-                mediaRecorder.ondataavailable = (event) => {
-                    audioChunks.push(event.data);
-                };
-
-                mediaRecorder.onstop = async () => {
-                    simulateSpeechRecognition();
-                };
-
-                mediaRecorder.start();
-                isRecording = true;
-                micBtn.classList.add('active');
-                micBtn.title = 'Stop Recording';
-                showToast('🎤 Recording started... Speak now');
-            } catch (error) {
-                showToast('❌ Could not access microphone');
-            }
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && isRecording) {
-                mediaRecorder.stop();
-                mediaRecorder.stream.getTracks().forEach(track => track.stop());
-                isRecording = false;
-                micBtn.classList.remove('active');
-                micBtn.title = 'Voice Input';
-            }
-        }
-
-        function simulateSpeechRecognition() {
-            setTimeout(() => {
-                const sampleTranscripts = [
-                    "Hello, how are you today?",
-                    "Can you help me with programming?",
-                    "What's the weather like today?",
-                    "Tell me about artificial intelligence",
-                    "How does machine learning work?"
-                ];
-                
-                const randomTranscript = sampleTranscripts[Math.floor(Math.random() * sampleTranscripts.length)];
-                messageInput.value = randomTranscript;
-                messageInput.style.height = 'auto';
-                messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
-                
-                showToast('✅ Voice input received');
-                messageInput.focus();
-            }, 1500);
-        }
-
-        function toggleRecording() {
-            if (!isRecording) {
-                startRecording();
-            } else {
-                stopRecording();
-            }
-        }
-
-        // ============================================
         // INITIALIZATION
         // ============================================
         async function init() {
-            // Load theme
             const savedTheme = localStorage.getItem('prai_theme') || 'dark';
             setTheme(savedTheme);
             
-            // Load settings from localStorage
             const savedSettings = localStorage.getItem('prai_settings');
             if (savedSettings) {
                 settings = { ...settings, ...JSON.parse(savedSettings) };
@@ -2424,7 +2494,6 @@
                 voiceSettings.voiceURI = settings.ttsVoice;
             }
             
-            // Load voices
             await loadVoices();
             
             loadFromStorage();
@@ -2438,6 +2507,8 @@
                     hideDropdown();
                 }
             });
+            
+            // Pre-request microphone permission? No - wait for user click
         }
 
         function loadFromStorage() {
@@ -2666,6 +2737,13 @@
         }
 
         // ============================================
+        // FILE UPLOAD - FIXED ATTACHMENT
+        // ============================================
+        function handleFileUpload() {
+            fileInput.click();
+        }
+
+        // ============================================
         // EVENT LISTENERS
         // ============================================
         messageInput.addEventListener('input', function() {
@@ -2812,6 +2890,7 @@
             this.classList.toggle('active');
             settings.enterToSend = this.classList.contains('active');
             localStorage.setItem('prai_settings', JSON.stringify(settings));
+            showToast(settings.enterToSend ? '⌨️ Enter to send: ON' : '⌨️ Enter to send: OFF');
         });
 
         document.getElementById('typing-indicator-toggle').addEventListener('click', function(e) {
@@ -2904,10 +2983,13 @@
         // Stop voice button
         document.getElementById('stop-voice-btn').addEventListener('click', stopSpeaking);
 
+        // Microphone button - FIXED
         micBtn.addEventListener('click', toggleRecording);
         
-        uploadBtn.addEventListener('click', () => fileInput.click());
+        // Upload button - FIXED
+        uploadBtn.addEventListener('click', handleFileUpload);
 
+        // Suggestions
         const suggestions = [
             "Explain quantum computing in simple terms",
             "Write a Python script for data analysis",
@@ -2924,6 +3006,7 @@
             messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
         });
 
+        // File upload handler - FIXED
         fileInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -2932,8 +3015,8 @@
             formData.append('file', file);
             
             try {
-                uploadBtn.textContent = '📎';
                 uploadBtn.disabled = true;
+                uploadBtn.style.opacity = '0.5';
                 
                 const response = await fetch('/upload', {
                     method: 'POST',
@@ -2953,6 +3036,7 @@
                 showToast('❌ Failed to upload file');
             } finally {
                 uploadBtn.disabled = false;
+                uploadBtn.style.opacity = '1';
                 fileInput.value = '';
             }
         });
