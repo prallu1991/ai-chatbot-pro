@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           DEEPSEEK-STYLE DESIGN SYSTEM - PREMIUM
+           DEEPSEEK-STYLE DESIGN SYSTEM - YOUR EXISTING CSS
            ============================================ */
         * {
             margin: 0;
@@ -44,7 +44,7 @@
         }
 
         /* ============================================
-           SIDEBAR
+           SIDEBAR - YOUR EXISTING STYLES
            ============================================ */
         .sidebar {
             width: 280px;
@@ -106,11 +106,40 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
 
         .new-chat-btn:hover {
             background: #0052cc;
+        }
+
+        /* Voice Mode Button */
+        .voice-mode-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid #0066ff;
+            border-radius: 8px;
+            color: #0066ff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .dark-mode .voice-mode-btn {
+            color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        .voice-mode-btn:hover {
+            background: rgba(0, 102, 255, 0.1);
+            transform: translateY(-1px);
         }
 
         .history-section {
@@ -290,13 +319,6 @@
             font-size: 14px;
         }
 
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
         .profile-email {
             font-size: 14px;
             color: #0f0f0f;
@@ -324,12 +346,6 @@
             display: none;
         }
 
-        .dark-mode .profile-dropdown {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
         .profile-dropdown.show {
             display: block;
         }
@@ -337,30 +353,6 @@
         .dropdown-header {
             padding: 16px;
             border-bottom: 1px solid #e5e5e5;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .dark-mode .dropdown-header {
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .dropdown-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0066ff, #0052cc);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .dropdown-user-info {
-            flex: 1;
         }
 
         .dropdown-user-name {
@@ -370,22 +362,9 @@
             font-size: 15px;
         }
 
-        .dark-mode .dropdown-user-name {
-            color: white;
-        }
-
         .dropdown-user-email {
             font-size: 12px;
             color: #666666;
-        }
-
-        .dropdown-section {
-            padding: 8px 0;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .dark-mode .dropdown-section {
-            border-bottom: 1px solid #2a2a2a;
         }
 
         .dropdown-item {
@@ -400,12 +379,12 @@
             gap: 12px;
         }
 
-        .dark-mode .dropdown-item {
-            color: white;
-        }
-
         .dropdown-item:hover {
             background: #f5f5f5;
+        }
+
+        .dark-mode .dropdown-item {
+            color: white;
         }
 
         .dark-mode .dropdown-item:hover {
@@ -419,544 +398,8 @@
             padding-top: 12px;
         }
 
-        .dark-mode .dropdown-item.logout {
-            border-top: 1px solid #2a2a2a;
-        }
-
         /* ============================================
-           SETTINGS PANEL
-           ============================================ */
-        .settings-panel {
-            position: fixed;
-            top: 0;
-            right: -500px;
-            width: 480px;
-            height: 100vh;
-            background: white;
-            border-left: 1px solid #e5e5e5;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            z-index: 99999;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .dark-mode .settings-panel {
-            background: #1a1a1a;
-            border-left: 1px solid #2a2a2a;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-        }
-
-        .settings-panel.open {
-            right: 0;
-        }
-
-        .settings-header {
-            padding: 24px;
-            border-bottom: 1px solid #e5e5e5;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .dark-mode .settings-header {
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .settings-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #0f0f0f;
-        }
-
-        .dark-mode .settings-title {
-            color: white;
-        }
-
-        .settings-close {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid #e5e5e5;
-            background: transparent;
-            color: #666666;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .dark-mode .settings-close {
-            border: 1px solid #2a2a2a;
-            color: #8a8a8a;
-        }
-
-        .settings-close:hover {
-            background: #f5f5f5;
-        }
-
-        .dark-mode .settings-close:hover {
-            background: #2a2a2a;
-        }
-
-        .settings-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-        }
-
-        .settings-section {
-            margin-bottom: 32px;
-        }
-
-        .settings-section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #0f0f0f;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dark-mode .settings-section-title {
-            color: white;
-        }
-
-        .settings-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .dark-mode .settings-item {
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .settings-item-label {
-            font-size: 14px;
-            color: #0f0f0f;
-            font-weight: 500;
-        }
-
-        .dark-mode .settings-item-label {
-            color: white;
-        }
-
-        .settings-item-desc {
-            font-size: 12px;
-            color: #666666;
-            margin-top: 4px;
-        }
-
-        .settings-btn {
-            padding: 8px 16px;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
-            border-radius: 6px;
-            color: #0f0f0f;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .settings-btn {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            color: white;
-        }
-
-        .settings-btn:hover {
-            background: #e5e5e5;
-        }
-
-        .dark-mode .settings-btn:hover {
-            background: #3a3a3a;
-        }
-
-        .settings-btn.danger {
-            background: #ff4444;
-            color: white;
-            border: none;
-        }
-
-        .settings-btn.danger:hover {
-            background: #cc0000;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            background: #e5e5e5;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .toggle-switch {
-            background: #2a2a2a;
-        }
-
-        .toggle-switch.active {
-            background: #0066ff;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            transition: left 0.2s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .toggle-switch.active .toggle-slider {
-            left: 22px;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 16px;
-            margin-top: 8px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
-        .radio-option input[type="radio"] {
-            display: none;
-        }
-
-        .radio-custom {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #e5e5e5;
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-        }
-
-        .dark-mode .radio-custom {
-            border-color: #2a2a2a;
-        }
-
-        .radio-option input[type="radio"]:checked + .radio-custom {
-            border-color: #0066ff;
-        }
-
-        .radio-option input[type="radio"]:checked + .radio-custom::after {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 6px;
-            height: 6px;
-            background: #0066ff;
-            border-radius: 50%;
-        }
-
-        .radio-label {
-            font-size: 14px;
-            color: #0f0f0f;
-        }
-
-        .dark-mode .radio-label {
-            color: white;
-        }
-
-        .select-input {
-            padding: 8px 12px;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
-            border-radius: 6px;
-            color: #0f0f0f;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .dark-mode .select-input {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            color: white;
-        }
-
-        .danger-zone {
-            background: #fff5f5;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-
-        .dark-mode .danger-zone {
-            background: #2a1a1a;
-        }
-
-        .danger-title {
-            color: #ff4444;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        /* ============================================
-           VOICE OUTPUT
-           ============================================ */
-        .voice-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid #e5e5e5;
-            background: transparent;
-            color: #666666;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            margin-left: 8px;
-            flex-shrink: 0;
-        }
-
-        .dark-mode .voice-btn {
-            border: 1px solid #3a3a3a;
-            color: #8a8a8a;
-        }
-
-        .voice-btn:hover {
-            background: #0066ff;
-            color: white;
-            border-color: #0066ff;
-        }
-
-        .voice-btn.speaking {
-            background: #ff4444;
-            color: white;
-            border-color: #ff4444;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(255, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); }
-        }
-
-        .message-footer {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: 8px;
-        }
-
-        .bot-message .message-footer {
-            justify-content: flex-start;
-        }
-
-        .voice-settings {
-            margin-top: 16px;
-            padding: 16px;
-            background: #f5f5f5;
-            border-radius: 12px;
-        }
-
-        .dark-mode .voice-settings {
-            background: #2a2a2a;
-        }
-
-        .voice-select {
-            width: 100%;
-            padding: 10px;
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            color: #0f0f0f;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .dark-mode .voice-select {
-            background: #1a1a1a;
-            border: 1px solid #3a3a3a;
-            color: white;
-        }
-
-        /* ============================================
-           INPUT AREA - MIC REMOVED, ATTACHMENT FIXED
-           ============================================ */
-        .input-area {
-            padding: 16px 24px;
-            border-top: 1px solid #e5e5e5;
-            background: white;
-        }
-
-        .dark-mode .input-area {
-            background: #0f0f0f;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .input-container {
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            background: #f5f5f5;
-            border: 1px solid transparent;
-            border-radius: 24px;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .input-container {
-            background: #2a2a2a;
-        }
-
-        .input-container:focus-within {
-            border-color: #0066ff;
-            background: white;
-        }
-
-        .dark-mode .input-container:focus-within {
-            background: #333333;
-            border-color: #3b82f6;
-        }
-
-        .message-input {
-            flex: 1;
-            padding: 14px 16px;
-            background: transparent;
-            border: none;
-            border-radius: 24px;
-            color: #0f0f0f;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            resize: none;
-            min-height: 52px;
-            max-height: 200px;
-            line-height: 1.6;
-            outline: none;
-        }
-
-        .dark-mode .message-input {
-            color: white;
-        }
-
-        .message-input::placeholder {
-            color: #8a8a8a;
-        }
-
-        .input-actions {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-            padding-right: 8px;
-            padding-bottom: 8px;
-        }
-
-        /* ATTACHMENT BUTTON - FIXED */
-        .action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: transparent;
-            border: none;
-            color: #666666;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .dark-mode .action-btn {
-            color: #8a8a8a;
-        }
-
-        .action-btn:hover {
-            background: rgba(0, 102, 255, 0.1);
-            color: #0066ff;
-        }
-
-        .send-button {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #0066ff;
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 20px;
-        }
-
-        .send-button:hover {
-            background: #0052cc;
-            transform: scale(1.05);
-        }
-
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-
-        .quick-action {
-            padding: 6px 14px;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
-            border-radius: 20px;
-            color: #666666;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .quick-action {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            color: #8a8a8a;
-        }
-
-        .quick-action:hover {
-            background: white;
-            border-color: #0066ff;
-            color: #0066ff;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* ============================================
-           MESSAGES
+           MESSAGES CONTAINER
            ============================================ */
         .messages-container {
             flex: 1;
@@ -991,7 +434,6 @@
             font-size: 15px;
             line-height: 1.6;
             word-break: break-word;
-            position: relative;
         }
 
         .user-message .message-content {
@@ -1019,14 +461,177 @@
             color: #666666;
         }
 
-        .dark-mode .message-sender {
-            color: #8a8a8a;
-        }
-
         .message-text {
             white-space: pre-wrap;
         }
 
+        /* Voice button for bot messages */
+        .voice-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #e5e5e5;
+            background: transparent;
+            color: #666666;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-left: 8px;
+        }
+
+        .voice-btn:hover {
+            background: #0066ff;
+            color: white;
+            border-color: #0066ff;
+        }
+
+        .voice-btn.speaking {
+            background: #ff4444;
+            color: white;
+            border-color: #ff4444;
+            animation: pulse 1.5s infinite;
+        }
+
+        .message-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .bot-message .message-footer {
+            justify-content: flex-start;
+        }
+
+        /* ============================================
+           INPUT AREA - FIXED ATTACHMENT
+           ============================================ */
+        .input-area {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e5e5;
+            background: white;
+        }
+
+        .dark-mode .input-area {
+            background: #0f0f0f;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            background: #f5f5f5;
+            border: 1px solid transparent;
+            border-radius: 24px;
+        }
+
+        .dark-mode .input-container {
+            background: #2a2a2a;
+        }
+
+        .input-container:focus-within {
+            border-color: #0066ff;
+            background: white;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 14px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 24px;
+            color: #0f0f0f;
+            font-size: 15px;
+            resize: none;
+            min-height: 52px;
+            max-height: 200px;
+            outline: none;
+        }
+
+        .dark-mode .message-input {
+            color: white;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding-right: 8px;
+            padding-bottom: 8px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            color: #666666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 102, 255, 0.1);
+            color: #0066ff;
+        }
+
+        .send-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #0066ff;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .send-button:hover {
+            background: #0052cc;
+            transform: scale(1.05);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .quick-action {
+            padding: 6px 14px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 20px;
+            color: #666666;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .quick-action:hover {
+            background: white;
+            border-color: #0066ff;
+            color: #0066ff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* ============================================
+           TYPING INDICATOR
+           ============================================ */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -1077,11 +682,6 @@
             gap: 8px;
         }
 
-        .dark-mode .toast {
-            background: white;
-            color: #1a1a1a;
-        }
-
         .toast.show {
             display: flex;
             animation: slideUp 0.3s ease;
@@ -1092,59 +692,37 @@
             to { bottom: 30px; opacity: 1; }
         }
 
-        /* Light Mode Fixes */
-        .light-mode .profile-email {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .dropdown-user-name {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .settings-title {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .settings-section-title {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .settings-item-label {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .radio-label {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .chat-title {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .dropdown-item {
-            color: #0f0f0f !important;
-        }
-
-        .light-mode .auth-header h2 {
-            color: #0f0f0f !important;
-        }
-
-        /* File Attachment Styling */
-        .file-attachment-message {
-            display: inline-flex;
+        /* ============================================
+           VOICE MODAL (KEPT FOR REFERENCE)
+           ============================================ */
+        .voice-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(0, 102, 255, 0.1);
-            border-radius: 20px;
-            font-size: 13px;
-            color: #0066ff;
-            margin-bottom: 8px;
+            justify-content: center;
         }
 
-        .dark-mode .file-attachment-message {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
+        .voice-modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 600px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            position: relative;
+        }
+
+        .dark-mode .voice-modal-content {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
         }
     </style>
 </head>
@@ -1158,11 +736,17 @@
             </div>
 
             <button class="new-chat-btn" id="new-chat-btn">
-                <span id="new-chat-text">+ New Chat</span>
+                <span>+</span>
+                New Chat
+            </button>
+
+            <!-- Voice Mode Button -->
+            <button class="voice-mode-btn" id="voice-mode-btn">
+                🎤 Voice Conversation Mode
             </button>
 
             <div class="history-section">
-                <div class="history-title" id="history-title">Recent</div>
+                <div class="history-title">Recent</div>
                 <div class="history-list" id="history-list">
                     <div class="history-item" id="empty-history">
                         No conversations yet
@@ -1188,42 +772,16 @@
                             <span class="profile-email" id="profile-email">Sign In</span>
                         </button>
                         
-                        <!-- Dropdown Menu -->
                         <div class="profile-dropdown" id="profile-dropdown">
                             <div class="dropdown-header">
-                                <div class="dropdown-avatar" id="dropdown-avatar">
-                                    👤
-                                </div>
                                 <div class="dropdown-user-info">
                                     <div class="dropdown-user-name" id="dropdown-user-name">Guest</div>
                                     <div class="dropdown-user-email" id="dropdown-user-email"></div>
                                 </div>
                             </div>
-                            
-                            <div class="dropdown-section">
-                                <div class="dropdown-item" id="dropdown-settings">
-                                    ⚙️ <span id="dropdown-settings-text">Settings</span>
-                                </div>
-                                <div class="dropdown-item" id="dropdown-theme">
-                                    🌙 <span id="dropdown-theme-text">Dark mode</span>
-                                </div>
-                            </div>
-                            
-                            <div class="dropdown-section">
-                                <div class="dropdown-item" id="dropdown-help">
-                                    📚 <span id="dropdown-help-text">Help & FAQ</span>
-                                </div>
-                                <div class="dropdown-item" id="dropdown-feedback">
-                                    💬 <span id="dropdown-feedback-text">Send feedback</span>
-                                </div>
-                                <div class="dropdown-item" id="dropdown-clear">
-                                    🗑️ <span id="dropdown-clear-text">Clear all chats</span>
-                                </div>
-                            </div>
-                            
-                            <div class="dropdown-item logout" id="dropdown-logout">
-                                🚪 <span id="dropdown-logout-text">Logout</span>
-                            </div>
+                            <div class="dropdown-item" id="dropdown-settings">⚙️ Settings</div>
+                            <div class="dropdown-item" id="dropdown-theme">🌙 Dark mode</div>
+                            <div class="dropdown-item logout" id="dropdown-logout">🚪 Logout</div>
                         </div>
                     </div>
                 </div>
@@ -1231,7 +789,7 @@
 
             <div class="messages-container" id="messages-container"></div>
 
-            <!-- INPUT AREA - MIC REMOVED, ATTACHMENT FIXED -->
+            <!-- INPUT AREA - FIXED ATTACHMENT -->
             <div class="input-area">
                 <div class="input-container">
                     <textarea 
@@ -1241,7 +799,7 @@
                         rows="1"
                     ></textarea>
                     <div class="input-actions">
-                        <!-- ATTACHMENT BUTTON - DIRECT onclick -->
+                        <!-- FIXED: Attachment button with direct click handler -->
                         <button class="action-btn" id="upload-btn" title="Upload File" onclick="document.getElementById('file-input').click()">
                             📎
                         </button>
@@ -1252,318 +810,13 @@
                 </div>
                 <div class="quick-actions">
                     <button class="quick-action" id="suggest-btn">
-                        💡 <span id="suggest-text">Get suggestions</span>
+                        💡 Get suggestions
                     </button>
                 </div>
-                <!-- FILE INPUT - HIDDEN, READY FOR UPLOAD -->
+                <!-- File input - hidden -->
                 <input type="file" id="file-input" class="hidden" accept=".txt,.pdf">
             </div>
         </main>
-    </div>
-
-    <!-- SETTINGS PANEL -->
-    <div class="settings-panel" id="settings-panel">
-        <div class="settings-header">
-            <div class="settings-title" id="settings-title">Settings</div>
-            <button class="settings-close" id="settings-close">✕</button>
-        </div>
-        <div class="settings-content">
-            <!-- Appearance Section -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    🌓 <span id="appearance-title">Appearance</span>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="theme-label">Theme</div>
-                        <div class="settings-item-desc" id="theme-desc">Switch between light and dark mode</div>
-                    </div>
-                    <div class="radio-group">
-                        <label class="radio-option">
-                            <input type="radio" name="theme" value="dark" checked>
-                            <span class="radio-custom"></span>
-                            <span class="radio-label" id="dark-label">Dark</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="theme" value="light">
-                            <span class="radio-custom"></span>
-                            <span class="radio-label" id="light-label">Light</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Language Section -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    🌐 <span id="language-title">Language</span>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="display-language-label">Display language</div>
-                        <div class="settings-item-desc" id="language-desc">Choose your preferred language</div>
-                    </div>
-                    <select class="select-input" id="language-select">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                        <option value="de">Deutsch</option>
-                        <option value="zh">中文</option>
-                        <option value="ja">日本語</option>
-                        <option value="ko">한국어</option>
-                        <option value="hi">हिन्दी</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- VOICE OUTPUT SETTINGS -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    🔊 <span id="voice-title">Voice Output</span>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="tts-label">Enable text-to-speech</div>
-                        <div class="settings-item-desc" id="tts-desc">Play bot responses as speech</div>
-                    </div>
-                    <button class="toggle-switch active" id="tts-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="voice-select-label">Voice</div>
-                        <div class="settings-item-desc" id="voice-select-desc">Select preferred voice</div>
-                    </div>
-                </div>
-                <div class="voice-settings">
-                    <select class="voice-select" id="voice-select">
-                        <option value="">Loading voices...</option>
-                    </select>
-                    <div style="display: flex; gap: 8px; margin-top: 12px;">
-                        <button class="settings-btn" id="test-voice-btn">
-                            ▶️ <span id="test-voice-text">Test Voice</span>
-                        </button>
-                        <button class="settings-btn" id="stop-voice-btn">
-                            ⏹️ <span id="stop-voice-text">Stop</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="autoplay-label">Auto-play responses</div>
-                        <div class="settings-item-desc" id="autoplay-desc">Automatically speak new bot messages</div>
-                    </div>
-                    <button class="toggle-switch" id="autoplay-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="rate-label">Speech rate</div>
-                        <div class="settings-item-desc" id="rate-desc">Speed of voice (0.5x - 2x)</div>
-                    </div>
-                    <select class="select-input" id="rate-select">
-                        <option value="0.5">0.5x - Slow</option>
-                        <option value="0.75">0.75x</option>
-                        <option value="1" selected>1x - Normal</option>
-                        <option value="1.25">1.25x</option>
-                        <option value="1.5">1.5x - Fast</option>
-                        <option value="2">2x - Very Fast</option>
-                    </select>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="pitch-label">Pitch</div>
-                        <div class="settings-item-desc" id="pitch-desc">Voice pitch (0 - 2)</div>
-                    </div>
-                    <select class="select-input" id="pitch-select">
-                        <option value="0.5">0.5 - Low</option>
-                        <option value="0.75">0.75</option>
-                        <option value="1" selected>1 - Normal</option>
-                        <option value="1.25">1.25</option>
-                        <option value="1.5">1.5 - High</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Chat Settings -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    💬 <span id="chat-title-settings">Chat</span>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="enter-label">Enter to send</div>
-                        <div class="settings-item-desc" id="enter-desc">Press Enter to send message, Shift+Enter for new line</div>
-                    </div>
-                    <button class="toggle-switch active" id="enter-to-send">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="typing-label">Typing indicator</div>
-                        <div class="settings-item-desc" id="typing-desc">Show when assistant is typing</div>
-                    </div>
-                    <button class="toggle-switch active" id="typing-indicator-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="timestamp-label">Message timestamp</div>
-                        <div class="settings-item-desc" id="timestamp-desc">Show time for each message</div>
-                    </div>
-                    <button class="toggle-switch" id="timestamp-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Privacy Section -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    🔒 <span id="privacy-title">Privacy</span>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="save-history-label">Save chat history</div>
-                        <div class="settings-item-desc" id="save-history-desc">Store conversations locally</div>
-                    </div>
-                    <button class="toggle-switch active" id="save-history">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Data Management -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    📁 <span id="data-title">Data Management</span>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="export-label">Export all chats</div>
-                        <div class="settings-item-desc" id="export-desc">Download your conversation history</div>
-                    </div>
-                    <button class="settings-btn" id="settings-export-btn">
-                        <span id="export-btn-text">Export</span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="import-label">Import chats</div>
-                        <div class="settings-item-desc" id="import-desc">Restore conversations from backup</div>
-                    </div>
-                    <button class="settings-btn" id="settings-import-btn">
-                        <span id="import-btn-text">Import</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Danger Zone -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    ⚠️ <span id="danger-title">Danger Zone</span>
-                </div>
-                <div class="danger-zone">
-                    <div class="danger-title" id="clear-title">Clear all chat history</div>
-                    <div class="settings-item-desc" style="margin-bottom: 16px;" id="clear-desc">
-                        This action cannot be undone. All your conversations will be permanently deleted.
-                    </div>
-                    <button class="settings-btn danger" id="settings-clear-all-btn">
-                        🗑️ <span id="clear-btn-text">Clear all chats</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- About Section -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    ℹ️ <span id="about-title">About</span>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label" id="version-label">Version</div>
-                        <div class="settings-item-desc" id="version-desc">2.6.0 - DeepSeek Premium + Attachment Fixed</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- AUTH MODAL -->
-    <div id="auth-modal">
-        <div class="auth-container">
-            <button class="close-btn" onclick="hideAuthModal()">✕</button>
-            
-            <div class="auth-header">
-                <h2 id="welcome-title">Welcome to P.R.A.I</h2>
-                <p id="signin-prompt">Sign in to continue</p>
-            </div>
-
-            <div class="social-login">
-                <button class="social-btn" onclick="handleSocialLogin('facebook')">
-                    <span>f</span>
-                    <span id="facebook-text">Continue with Facebook</span>
-                </button>
-                <button class="social-btn" onclick="handleSocialLogin('gmail')">
-                    <span>G</span>
-                    <span id="gmail-text">Continue with Gmail</span>
-                </button>
-                <button class="social-btn" onclick="handleSocialLogin('outlook')">
-                    <span>@</span>
-                    <span id="outlook-text">Continue with Outlook</span>
-                </button>
-                <button class="social-btn" onclick="handleSocialLogin('linkedin')">
-                    <span>in</span>
-                    <span id="linkedin-text">Continue with LinkedIn</span>
-                </button>
-            </div>
-
-            <div class="divider">
-                <span id="or-text">or continue with email</span>
-            </div>
-
-            <!-- Email Login -->
-            <div id="login-form" class="email-login-form active">
-                <div class="form-group">
-                    <input type="email" id="email" class="form-input" placeholder="Email address" autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="password" class="form-input" placeholder="Password" autocomplete="current-password">
-                </div>
-                
-                <button class="auth-action-btn" onclick="handleLogin()">
-                    <span id="signin-btn">Sign In</span>
-                </button>
-                
-                <div class="auth-toggle">
-                    <span id="no-account-text">Don't have an account?</span>
-                    <button onclick="showSignupForm()" id="signup-link">Sign up</button>
-                </div>
-            </div>
-
-            <!-- Email Signup -->
-            <div id="signup-form" class="email-login-form">
-                <div class="form-group">
-                    <input type="email" id="signup-email" class="form-input" placeholder="Email address" autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="signup-password" class="form-input" placeholder="Password (min 6 characters)" autocomplete="new-password">
-                </div>
-                
-                <button class="auth-action-btn" onclick="handleSignup()">
-                    <span id="create-account-btn">Create Account</span>
-                </button>
-                
-                <div class="auth-toggle">
-                    <span id="have-account-text">Already have an account?</span>
-                    <button onclick="showLoginForm()" id="signin-link">Sign in</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Toast Notification -->
@@ -1573,288 +826,18 @@
 
     <script>
         // ============================================
-        // LANGUAGE TRANSLATIONS (Simplified for brevity)
+        // FIXED: CHATBOT WITH WORKING ATTACHMENT & API RESPONSES
         // ============================================
-        const translations = {
-            en: {
-                'new-chat-text': '+ New Chat',
-                'history-title': 'Recent',
-                'empty-history': 'No conversations yet',
-                'profile-email': 'Sign In',
-                'dropdown-user-name': 'Guest',
-                'dropdown-settings-text': 'Settings',
-                'dropdown-theme-text': 'Dark mode',
-                'dropdown-help-text': 'Help & FAQ',
-                'dropdown-feedback-text': 'Send feedback',
-                'dropdown-clear-text': 'Clear all chats',
-                'dropdown-logout-text': 'Logout',
-                'message-input': 'Message P.R.A.I...',
-                'suggest-text': 'Get suggestions',
-                'settings-title': 'Settings',
-                'appearance-title': 'Appearance',
-                'theme-label': 'Theme',
-                'theme-desc': 'Switch between light and dark mode',
-                'dark-label': 'Dark',
-                'light-label': 'Light',
-                'language-title': 'Language',
-                'display-language-label': 'Display language',
-                'language-desc': 'Choose your preferred language',
-                'voice-title': 'Voice Output',
-                'tts-label': 'Enable text-to-speech',
-                'tts-desc': 'Play bot responses as speech',
-                'voice-select-label': 'Voice',
-                'voice-select-desc': 'Select preferred voice',
-                'test-voice-text': 'Test Voice',
-                'stop-voice-text': 'Stop',
-                'autoplay-label': 'Auto-play responses',
-                'autoplay-desc': 'Automatically speak new bot messages',
-                'rate-label': 'Speech rate',
-                'rate-desc': 'Speed of voice (0.5x - 2x)',
-                'pitch-label': 'Pitch',
-                'pitch-desc': 'Voice pitch (0 - 2)',
-                'chat-title-settings': 'Chat',
-                'enter-label': 'Enter to send',
-                'enter-desc': 'Press Enter to send message, Shift+Enter for new line',
-                'typing-label': 'Typing indicator',
-                'typing-desc': 'Show when assistant is typing',
-                'timestamp-label': 'Message timestamp',
-                'timestamp-desc': 'Show time for each message',
-                'privacy-title': 'Privacy',
-                'save-history-label': 'Save chat history',
-                'save-history-desc': 'Store conversations locally',
-                'data-title': 'Data Management',
-                'export-label': 'Export all chats',
-                'export-desc': 'Download your conversation history',
-                'export-btn-text': 'Export',
-                'import-label': 'Import chats',
-                'import-desc': 'Restore conversations from backup',
-                'import-btn-text': 'Import',
-                'danger-title': 'Danger Zone',
-                'clear-title': 'Clear all chat history',
-                'clear-desc': 'This action cannot be undone. All your conversations will be permanently deleted.',
-                'clear-btn-text': 'Clear all chats',
-                'about-title': 'About',
-                'version-label': 'Version',
-                'version-desc': '2.6.0 - DeepSeek Premium + Attachment Fixed',
-                'welcome-title': 'Welcome to P.R.A.I',
-                'signin-prompt': 'Sign in to continue',
-                'facebook-text': 'Continue with Facebook',
-                'gmail-text': 'Continue with Gmail',
-                'outlook-text': 'Continue with Outlook',
-                'linkedin-text': 'Continue with LinkedIn',
-                'or-text': 'or continue with email',
-                'signin-btn': 'Sign In',
-                'no-account-text': "Don't have an account?",
-                'signup-link': 'Sign up',
-                'create-account-btn': 'Create Account',
-                'have-account-text': 'Already have an account?',
-                'signin-link': 'Sign in',
-                'email-placeholder': 'Email address',
-                'password-placeholder': 'Password',
-                'signup-password-placeholder': 'Password (min 6 characters)'
-            }
-        };
 
-        // ============================================
-        // LANGUAGE MANAGEMENT
-        // ============================================
-        let currentLanguage = 'en';
-
-        function setLanguage(lang) {
-            if (!translations[lang]) return;
-            currentLanguage = lang;
-            const t = translations[lang];
-            
-            Object.keys(t).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                        element.placeholder = t[id];
-                    } else {
-                        element.textContent = t[id];
-                    }
-                }
-            });
-            
-            // Update message input placeholder
-            const messageInput = document.getElementById('message-input');
-            if (messageInput && t['message-input']) {
-                messageInput.placeholder = t['message-input'];
-            }
-            
-            settings.language = lang;
-            localStorage.setItem('prai_settings', JSON.stringify(settings));
-        }
-
-        // ============================================
-        // VOICE OUTPUT
-        // ============================================
-        let synth = window.speechSynthesis;
-        let voices = [];
-        let currentUtterance = null;
-        let currentlySpeakingMessageId = null;
-        
-        let voiceSettings = {
-            enabled: true,
-            autoplay: false,
-            voiceURI: '',
-            rate: 1,
-            pitch: 1,
-            volume: 1
-        };
-
-        function loadVoices() {
-            return new Promise((resolve) => {
-                voices = synth.getVoices();
-                if (voices.length > 0) {
-                    resolve(voices);
-                } else {
-                    synth.onvoiceschanged = () => {
-                        voices = synth.getVoices();
-                        resolve(voices);
-                    };
-                }
-            });
-        }
-
-        async function populateVoiceDropdown() {
-            await loadVoices();
-            const voiceSelect = document.getElementById('voice-select');
-            if (!voiceSelect) return;
-            
-            voiceSelect.innerHTML = '';
-            
-            const englishVoices = voices.filter(v => v.lang.includes('en'));
-            const voicesToShow = englishVoices.length > 0 ? englishVoices : voices;
-            
-            voicesToShow.forEach(voice => {
-                const option = document.createElement('option');
-                option.value = voice.voiceURI;
-                option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' [Default]' : ''}`;
-                voiceSelect.appendChild(option);
-            });
-            
-            const savedVoice = localStorage.getItem('prai_voice');
-            if (savedVoice && voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
-                voiceSelect.value = savedVoice;
-                voiceSettings.voiceURI = savedVoice;
-            } else {
-                const defaultVoice = voices.find(v => v.default) || voices[0];
-                if (defaultVoice) {
-                    voiceSelect.value = defaultVoice.voiceURI;
-                    voiceSettings.voiceURI = defaultVoice.voiceURI;
-                }
-            }
-        }
-
-        function speakText(text, messageId = null) {
-            if (!voiceSettings.enabled) return;
-            if (!synth) {
-                showToast('❌ Speech synthesis not supported');
-                return;
-            }
-            
-            stopSpeaking();
-            
-            const utterance = new SpeechSynthesisUtterance(text);
-            
-            if (voiceSettings.voiceURI) {
-                const selectedVoice = voices.find(v => v.voiceURI === voiceSettings.voiceURI);
-                if (selectedVoice) utterance.voice = selectedVoice;
-            }
-            
-            utterance.rate = voiceSettings.rate;
-            utterance.pitch = voiceSettings.pitch;
-            utterance.volume = 1;
-            
-            utterance.onstart = () => {
-                currentUtterance = utterance;
-                currentlySpeakingMessageId = messageId;
-                
-                if (messageId) {
-                    const voiceBtn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
-                    if (voiceBtn) {
-                        voiceBtn.classList.add('speaking');
-                        voiceBtn.innerHTML = '⏹️';
-                        voiceBtn.title = 'Stop speaking';
-                    }
-                }
-            };
-            
-            utterance.onend = () => {
-                currentUtterance = null;
-                currentlySpeakingMessageId = null;
-                
-                if (messageId) {
-                    const voiceBtn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
-                    if (voiceBtn) {
-                        voiceBtn.classList.remove('speaking');
-                        voiceBtn.innerHTML = '🔊';
-                        voiceBtn.title = 'Listen';
-                    }
-                }
-            };
-            
-            utterance.onerror = () => {
-                currentUtterance = null;
-                currentlySpeakingMessageId = null;
-                showToast('❌ Speech failed');
-            };
-            
-            synth.speak(utterance);
-        }
-
-        function stopSpeaking() {
-            if (synth) {
-                synth.cancel();
-                currentUtterance = null;
-                
-                document.querySelectorAll('.voice-btn.speaking').forEach(btn => {
-                    btn.classList.remove('speaking');
-                    btn.innerHTML = '🔊';
-                    btn.title = 'Listen';
-                });
-                
-                currentlySpeakingMessageId = null;
-            }
-        }
-
-        function testVoice() {
-            const testText = 'Hello, this is a test of the voice output system.';
-            speakText(testText);
-            showToast('🔊 Testing voice...');
-        }
-
-        // ============================================
-        // STATE MANAGEMENT
-        // ============================================
+        // State
         let currentChatId = 'chat-' + Date.now();
         let chats = {};
         let uploadedFileContent = null;
-        
-        let settings = {
-            enterToSend: true,
-            typingIndicator: true,
-            timestamps: false,
-            saveHistory: true,
-            language: 'en',
-            ttsEnabled: true,
-            ttsAutoplay: false,
-            ttsRate: 1,
-            ttsPitch: 1,
-            ttsVoice: ''
-        };
-
-        // ============================================
-        // AUTHENTICATION
-        // ============================================
         let userToken = localStorage.getItem('prai_token');
         let userEmail = localStorage.getItem('prai_email');
         let userName = localStorage.getItem('prai_name');
 
-        // ============================================
-        // DOM ELEMENTS
-        // ============================================
+        // DOM Elements
         const messagesContainer = document.getElementById('messages-container');
         const messageInput = document.getElementById('message-input');
         const sendButton = document.getElementById('send-button');
@@ -1864,21 +847,15 @@
         const clearBtn = document.getElementById('clear-btn');
         const exportBtn = document.getElementById('export-btn');
         const suggestBtn = document.getElementById('suggest-btn');
-        const uploadBtn = document.getElementById('upload-btn');
         const fileInput = document.getElementById('file-input');
         const profileBtn = document.getElementById('profile-btn');
         const profileDropdown = document.getElementById('profile-dropdown');
         const profileAvatar = document.getElementById('profile-avatar');
         const profileEmail = document.getElementById('profile-email');
-        const dropdownAvatar = document.getElementById('dropdown-avatar');
         const dropdownUserName = document.getElementById('dropdown-user-name');
         const dropdownUserEmail = document.getElementById('dropdown-user-email');
         const dropdownLogout = document.getElementById('dropdown-logout');
-        const dropdownSettings = document.getElementById('dropdown-settings');
         const dropdownTheme = document.getElementById('dropdown-theme');
-        const dropdownClear = document.getElementById('dropdown-clear');
-        const settingsPanel = document.getElementById('settings-panel');
-        const settingsClose = document.getElementById('settings-close');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
 
@@ -1894,97 +871,7 @@
         }
 
         // ============================================
-        // SETTINGS PANEL
-        // ============================================
-        function openSettings() {
-            settingsPanel.classList.add('open');
-            hideDropdown();
-            loadSettingsIntoUI();
-            populateVoiceDropdown();
-        }
-
-        function closeSettings() {
-            settingsPanel.classList.remove('open');
-        }
-
-        function loadSettingsIntoUI() {
-            const themeRadios = document.querySelectorAll('input[name="theme"]');
-            const isDark = document.body.classList.contains('dark-mode');
-            themeRadios.forEach(radio => {
-                if (radio.value === (isDark ? 'dark' : 'light')) {
-                    radio.checked = true;
-                }
-            });
-            
-            document.getElementById('language-select').value = settings.language;
-            document.getElementById('enter-to-send').classList.toggle('active', settings.enterToSend);
-            document.getElementById('typing-indicator-toggle').classList.toggle('active', settings.typingIndicator);
-            document.getElementById('timestamp-toggle').classList.toggle('active', settings.timestamps);
-            document.getElementById('save-history').classList.toggle('active', settings.saveHistory);
-            document.getElementById('tts-toggle').classList.toggle('active', settings.ttsEnabled);
-            document.getElementById('autoplay-toggle').classList.toggle('active', settings.ttsAutoplay);
-            document.getElementById('rate-select').value = settings.ttsRate;
-            document.getElementById('pitch-select').value = settings.ttsPitch;
-            
-            voiceSettings.enabled = settings.ttsEnabled;
-            voiceSettings.autoplay = settings.ttsAutoplay;
-            voiceSettings.rate = settings.ttsRate;
-            voiceSettings.pitch = settings.ttsPitch;
-            voiceSettings.voiceURI = settings.ttsVoice;
-        }
-
-        // ============================================
-        // CLEAR ALL HISTORY
-        // ============================================
-        function clearAllHistory() {
-            if (confirm('⚠️ Are you sure you want to clear ALL chat history?\n\nThis action cannot be undone.')) {
-                chats = {};
-                localStorage.removeItem('praiChats');
-                currentChatId = 'chat-' + Date.now();
-                messagesContainer.innerHTML = '';
-                addWelcomeMessage();
-                updateHistoryDisplay();
-                showToast('🗑️ All chat history cleared');
-                closeSettings();
-            }
-        }
-
-        // ============================================
-        // PROFILE
-        // ============================================
-        function toggleDropdown(e) {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('show');
-        }
-
-        function hideDropdown() {
-            profileDropdown.classList.remove('show');
-        }
-
-        function updateProfileUI() {
-            if (userEmail) {
-                const name = userName || userEmail.split('@')[0];
-                const initial = name.charAt(0).toUpperCase();
-                const displayName = name.length > 15 ? name.substring(0, 12) + '...' : name;
-                
-                profileAvatar.innerHTML = initial;
-                dropdownAvatar.innerHTML = initial;
-                profileEmail.textContent = displayName;
-                profileEmail.style.color = 'white';
-                dropdownUserName.textContent = name;
-                dropdownUserEmail.textContent = userEmail;
-            } else {
-                profileAvatar.innerHTML = '👤';
-                profileEmail.textContent = 'Sign In';
-                profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#8a8a8a' : '#0f0f0f';
-                dropdownAvatar.innerHTML = '👤';
-                dropdownUserName.textContent = 'Guest';
-                dropdownUserEmail.textContent = '';
-            }
-        }
-
-        // ============================================
-        // THEME
+        // THEME MANAGEMENT
         // ============================================
         function setTheme(theme) {
             if (theme === 'light') {
@@ -1999,105 +886,81 @@
             updateProfileUI();
         }
 
-        function toggleTheme() {
+        // Load saved theme
+        const savedTheme = localStorage.getItem('prai_theme') || 'dark';
+        setTheme(savedTheme);
+
+        // Toggle theme
+        dropdownTheme.addEventListener('click', () => {
             const isDark = document.body.classList.contains('dark-mode');
             setTheme(isDark ? 'light' : 'dark');
-            hideDropdown();
-            showToast(isDark ? '☀️ Light mode enabled' : '🌙 Dark mode enabled');
-        }
-
-        // ============================================
-        // AUTHENTICATION
-        // ============================================
-        function showAuthModal() {
-            document.getElementById('auth-modal').style.display = 'flex';
-            showLoginForm();
-        }
-
-        function hideAuthModal() {
-            document.getElementById('auth-modal').style.display = 'none';
-        }
-
-        function showLoginForm() {
-            document.getElementById('login-form').classList.add('active');
-            document.getElementById('signup-form').classList.remove('active');
-        }
-
-        function showSignupForm() {
-            document.getElementById('login-form').classList.remove('active');
-            document.getElementById('signup-form').classList.add('active');
-        }
-
-        async function handleSocialLogin(provider) {
-            showToast(`🔗 Redirecting to ${provider} login...`, 2000);
-        }
-
-        async function handleSignup() {
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            
-            if (!email || !password) {
-                showToast('❌ Email and password required');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showToast('❌ Password must be at least 6 characters');
-                return;
-            }
-            
-            showToast('✅ Account created! Please login.');
-            showLoginForm();
-            document.getElementById('email').value = email;
-        }
-
-        async function handleLogin() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (!email || !password) {
-                showToast('❌ Email and password required');
-                return;
-            }
-            
-            userToken = 'demo-token';
-            userEmail = email;
-            userName = email.split('@')[0];
-            
-            localStorage.setItem('prai_token', userToken);
-            localStorage.setItem('prai_email', email);
-            localStorage.setItem('prai_name', userName);
-            
-            hideAuthModal();
-            updateProfileUI();
-            showToast(`✅ Welcome back, ${userName}!`);
-        }
-
-        function logout() {
             profileDropdown.classList.remove('show');
-            
+            showToast(isDark ? '☀️ Light mode enabled' : '🌙 Dark mode enabled');
+        });
+
+        // ============================================
+        // PROFILE MANAGEMENT
+        // ============================================
+        function toggleDropdown(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('show');
+        }
+
+        function updateProfileUI() {
+            if (userEmail) {
+                const name = userName || userEmail.split('@')[0];
+                const initial = name.charAt(0).toUpperCase();
+                profileAvatar.innerHTML = initial;
+                profileEmail.textContent = name;
+                profileEmail.style.color = 'white';
+                dropdownUserName.textContent = name;
+                dropdownUserEmail.textContent = userEmail;
+            } else {
+                profileAvatar.innerHTML = '👤';
+                profileEmail.textContent = 'Sign In';
+                profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#8a8a8a' : '#0f0f0f';
+                dropdownUserName.textContent = 'Guest';
+                dropdownUserEmail.textContent = '';
+            }
+        }
+        updateProfileUI();
+
+        // Profile button click
+        profileBtn.addEventListener('click', (e) => {
+            if (userEmail) {
+                toggleDropdown(e);
+            } else {
+                showToast('Please sign in to access your profile');
+            }
+        });
+
+        // Click outside to close dropdown
+        document.addEventListener('click', function(e) {
+            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('show');
+            }
+        });
+
+        // Logout
+        dropdownLogout.addEventListener('click', () => {
             localStorage.removeItem('prai_token');
             localStorage.removeItem('prai_email');
             localStorage.removeItem('prai_name');
-            
             userToken = null;
             userEmail = null;
             userName = null;
-            
             updateProfileUI();
+            profileDropdown.classList.remove('show');
             showToast('👋 Logged out successfully');
-            showAuthModal();
-        }
+        });
 
         // ============================================
-        // MESSAGE FUNCTIONS
+        // FIXED: MESSAGE FUNCTIONS WITH REAL API CALLS
         // ============================================
+        
         function addMessage(content, isUser) {
-            const messageId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-            
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            messageDiv.id = messageId;
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
@@ -2112,6 +975,7 @@
             textDiv.className = 'message-text';
             contentDiv.appendChild(textDiv);
             
+            // Add voice button for bot messages
             if (!isUser) {
                 const footerDiv = document.createElement('div');
                 footerDiv.className = 'message-footer';
@@ -2120,14 +984,9 @@
                 voiceBtn.className = 'voice-btn';
                 voiceBtn.innerHTML = '🔊';
                 voiceBtn.title = 'Listen';
-                voiceBtn.setAttribute('data-message-id', messageId);
-                voiceBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    if (currentUtterance && currentlySpeakingMessageId === messageId) {
-                        stopSpeaking();
-                    } else {
-                        speakText(content, messageId);
-                    }
+                voiceBtn.onclick = () => {
+                    const utterance = new SpeechSynthesisUtterance(content);
+                    window.speechSynthesis.speak(utterance);
                 };
                 
                 footerDiv.appendChild(voiceBtn);
@@ -2138,40 +997,28 @@
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            if (!isUser && settings.ttsEnabled && settings.ttsAutoplay) {
-                setTimeout(() => {
-                    speakText(content, messageId);
-                }, 100);
+            // Save to localStorage
+            if (!chats[currentChatId]) {
+                chats[currentChatId] = {
+                    id: currentChatId,
+                    title: content.substring(0, 30) + '...',
+                    messages: [],
+                    timestamp: Date.now()
+                };
             }
             
-            if (settings.saveHistory) {
-                if (!chats[currentChatId]) {
-                    chats[currentChatId] = {
-                        id: currentChatId,
-                        title: content.substring(0, 30) + '...',
-                        messages: [],
-                        timestamp: Date.now()
-                    };
-                }
-                
-                chats[currentChatId].messages.push({
-                    content,
-                    isUser,
-                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                });
-                
-                saveToStorage();
-                updateHistoryDisplay();
-            }
+            chats[currentChatId].messages.push({
+                content,
+                isUser,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+            
+            localStorage.setItem('praiChats', JSON.stringify(chats));
+            updateHistoryDisplay();
         }
 
-        function addWelcomeMessage() {
-            addMessage("Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?", false);
-        }
-
+        // Typing indicator
         function showTypingIndicator() {
-            if (!settings.typingIndicator) return;
-            
             const typingDiv = document.createElement('div');
             typingDiv.className = 'typing-indicator';
             typingDiv.id = 'typing-indicator';
@@ -2191,51 +1038,109 @@
             if (indicator) indicator.remove();
         }
 
-        function sendMessage() {
+        // ============================================
+        // FIXED: SEND MESSAGE - CALLS YOUR REAL BACKEND API
+        // ============================================
+        async function sendMessage() {
             const content = messageInput.value.trim();
             if (!content) return;
             
+            // Add user message
             addMessage(content, true);
             messageInput.value = '';
             messageInput.style.height = 'auto';
             sendButton.disabled = true;
+            
+            // Show typing indicator
             showTypingIndicator();
             
-            setTimeout(() => {
+            try {
+                // Prepare file content if uploaded
+                let messageContent = content;
+                if (uploadedFileContent) {
+                    messageContent = `[File Content]\n${uploadedFileContent}\n\n${content}`;
+                }
+                
+                // Get auth token
+                const token = localStorage.getItem('prai_token');
+                
+                // CALL YOUR REAL BACKEND API
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        ...(token && { 'Authorization': `Bearer ${token}` })
+                    },
+                    body: JSON.stringify({
+                        message: messageContent,
+                        session_id: currentChatId,
+                        personality: 'casual'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Hide typing indicator
                 hideTypingIndicator();
-                const replies = [
-                    "I understand. Let me help you with that.",
-                    "Thanks for your message. Here's what I think...",
-                    "That's a great question. Let me explain...",
-                    "I appreciate you asking. Here's my response..."
-                ];
-                const randomReply = replies[Math.floor(Math.random() * replies.length)];
-                addMessage(randomReply + ' "' + content.substring(0, 30) + '..."', false);
-                sendButton.disabled = false;
-            }, 1500);
+                
+                // Handle response
+                if (data.error) {
+                    addMessage(`Error: ${data.error}`, false);
+                    console.error('API Error:', data.error);
+                } else if (data[0]?.generated_text) {
+                    // YOUR API RESPONSE FORMAT
+                    addMessage(data[0].generated_text, false);
+                } else {
+                    addMessage('I received your message but had trouble generating a response.', false);
+                }
+                
+                // Clear uploaded file content
+                uploadedFileContent = null;
+                
+            } catch (error) {
+                console.error('Failed to send message:', error);
+                hideTypingIndicator();
+                addMessage('Connection error. Please check your network and try again.', false);
+            }
+            
+            sendButton.disabled = false;
+            messageInput.focus();
         }
 
         // ============================================
-        // FILE UPLOAD - FIXED AND WORKING!
+        // FIXED: FILE UPLOAD - CALLS YOUR BACKEND /upload ENDPOINT
         // ============================================
-        function setupFileUpload() {
-            if (fileInput) {
-                fileInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (!file) return;
-                    
-                    showToast(`📎 Uploading ${file.name}...`);
-                    
-                    // Simulate upload (replace with actual API call)
-                    setTimeout(() => {
-                        showToast(`✅ File "${file.name}" uploaded successfully`);
-                        addMessage(`📎 File "${file.name}" uploaded successfully. You can now ask questions about it.`, false);
-                        fileInput.value = ''; // Reset file input
-                    }, 1500);
+        async function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            showToast(`📎 Uploading ${file.name}...`);
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
                 });
                 
-                console.log('✅ File upload handler setup complete');
+                const data = await response.json();
+                
+                if (data.error) {
+                    showToast(`❌ Error: ${data.error}`);
+                } else {
+                    uploadedFileContent = data.text;
+                    showToast(`✅ File "${data.filename}" uploaded successfully`);
+                    addMessage(`📎 File "${data.filename}" uploaded successfully. You can now ask questions about it.`, false);
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                showToast('❌ Failed to upload file');
             }
+            
+            // Clear file input
+            e.target.value = '';
         }
 
         // ============================================
@@ -2243,6 +1148,12 @@
         // ============================================
         function updateHistoryDisplay() {
             historyList.innerHTML = '';
+            
+            // Load chats from localStorage
+            const savedChats = localStorage.getItem('praiChats');
+            if (savedChats) {
+                chats = JSON.parse(savedChats);
+            }
             
             if (Object.keys(chats).length === 0) {
                 emptyHistory.classList.remove('hidden');
@@ -2279,250 +1190,111 @@
             updateHistoryDisplay();
         }
 
-        function saveToStorage() {
-            if (settings.saveHistory) {
-                localStorage.setItem('praiChats', JSON.stringify(chats));
-            }
-        }
-
-        function loadFromStorage() {
-            if (settings.saveHistory) {
-                const savedChats = localStorage.getItem('praiChats');
-                if (savedChats) {
-                    chats = JSON.parse(savedChats);
-                }
-            }
-        }
-
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-        async function init() {
-            console.log('🚀 Initializing P.R.A.I...');
-            
-            // Load saved settings
-            const savedTheme = localStorage.getItem('prai_theme') || 'dark';
-            setTheme(savedTheme);
-            
-            const savedSettings = localStorage.getItem('prai_settings');
-            if (savedSettings) {
-                settings = { ...settings, ...JSON.parse(savedSettings) };
-                voiceSettings.enabled = settings.ttsEnabled;
-                voiceSettings.autoplay = settings.ttsAutoplay;
-                voiceSettings.rate = settings.ttsRate;
-                voiceSettings.pitch = settings.ttsPitch;
-                voiceSettings.voiceURI = settings.ttsVoice;
-            }
-            
-            // Set language
-            setLanguage(settings.language);
-            
-            // Load voices
-            await loadVoices();
-            
-            // Load chat history
-            loadFromStorage();
-            
-            // Check auth status
-            updateProfileUI();
-            
-            // Update history display
-            updateHistoryDisplay();
-            
-            // Add welcome message if no messages
-            if (messagesContainer.children.length === 0) {
-                addWelcomeMessage();
-            }
-            
-            // Focus input
-            messageInput.focus();
-            
-            // SETUP FILE UPLOAD HANDLER - THIS IS THE KEY FIX!
-            setupFileUpload();
-            
-            console.log('✅ P.R.A.I initialized successfully!');
+        function addWelcomeMessage() {
+            addMessage("Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?", false);
         }
 
         // ============================================
         // EVENT LISTENERS
         // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // Message input auto-resize
-            messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-            });
+        
+        // Send message
+        sendButton.addEventListener('click', sendMessage);
+        
+        // Enter key
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
 
-            // Enter to send
-            messageInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey && settings.enterToSend) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+        });
 
-            // Send button
-            sendButton.addEventListener('click', sendMessage);
-            
-            // New chat
-            newChatBtn.addEventListener('click', () => {
-                currentChatId = 'chat-' + Date.now();
+        // New chat
+        newChatBtn.addEventListener('click', () => {
+            currentChatId = 'chat-' + Date.now();
+            messagesContainer.innerHTML = '';
+            addWelcomeMessage();
+            updateHistoryDisplay();
+        });
+
+        // Clear current chat
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear this conversation?')) {
                 messagesContainer.innerHTML = '';
                 addWelcomeMessage();
-            });
-
-            // Clear current chat
-            clearBtn.addEventListener('click', () => {
-                if (confirm('Clear this conversation?')) {
-                    messagesContainer.innerHTML = '';
-                    addWelcomeMessage();
+                if (chats[currentChatId]) {
+                    chats[currentChatId].messages = [];
+                    localStorage.setItem('praiChats', JSON.stringify(chats));
                 }
-            });
+                showToast('✅ Current conversation cleared');
+            }
+        });
 
-            // Export chat
-            exportBtn.addEventListener('click', () => {
-                showToast('📥 Export feature coming soon!');
-            });
-
-            // Profile button
-            profileBtn.addEventListener('click', (e) => {
-                if (userEmail) {
-                    toggleDropdown(e);
-                } else {
-                    showAuthModal();
-                }
-            });
-
-            // Dropdown items
-            dropdownSettings.addEventListener('click', openSettings);
-            dropdownTheme.addEventListener('click', toggleTheme);
-            dropdownClear.addEventListener('click', clearAllHistory);
-            dropdownLogout.addEventListener('click', logout);
+        // Export chat
+        exportBtn.addEventListener('click', () => {
+            const currentChat = chats[currentChatId];
+            if (!currentChat || currentChat.messages.length === 0) {
+                showToast('❌ No messages to export');
+                return;
+            }
             
-            // Settings panel
-            settingsClose.addEventListener('click', closeSettings);
-
-            // Settings export/import
-            document.getElementById('settings-export-btn').addEventListener('click', () => {
-                showToast('📥 Export all chats coming soon!');
+            let exportText = `P.R.A.I Chat Export\n${new Date().toLocaleString()}\n\n`;
+            currentChat.messages.forEach(msg => {
+                exportText += `${msg.timestamp} - ${msg.isUser ? 'You' : 'P.R.A.I'}: ${msg.content}\n\n`;
             });
+            
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `prai-chat-${currentChatId}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 Chat exported successfully');
+        });
 
-            document.getElementById('settings-import-btn').addEventListener('click', () => {
-                showToast('📤 Import chats coming soon!');
-            });
+        // ============================================
+        // FIXED: FILE UPLOAD - WORKING WITH YOUR BACKEND
+        // ============================================
+        fileInput.addEventListener('change', handleFileUpload);
 
-            document.getElementById('settings-clear-all-btn').addEventListener('click', clearAllHistory);
+        // Suggestions
+        const suggestions = [
+            "Explain quantum computing",
+            "Write Python code",
+            "Help me design a project",
+            "What are AI trends?"
+        ];
 
-            // Theme radios
-            document.querySelectorAll('input[name="theme"]').forEach(radio => {
-                radio.addEventListener('change', (e) => {
-                    setTheme(e.target.value);
-                });
-            });
-
-            // Language select
-            document.getElementById('language-select').addEventListener('change', (e) => {
-                setLanguage(e.target.value);
-                showToast(`🌐 Language changed to ${e.target.options[e.target.selectedIndex].text}`);
-            });
-
-            // Toggle switches
-            document.getElementById('enter-to-send').addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                settings.enterToSend = this.classList.contains('active');
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-                showToast(settings.enterToSend ? '⌨️ Enter to send: ON' : '⌨️ Enter to send: OFF');
-            });
-
-            document.getElementById('typing-indicator-toggle').addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                settings.typingIndicator = this.classList.contains('active');
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-            });
-
-            document.getElementById('timestamp-toggle').addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                settings.timestamps = this.classList.contains('active');
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-            });
-
-            document.getElementById('save-history').addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                settings.saveHistory = this.classList.contains('active');
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-                showToast(settings.saveHistory ? '💾 Chat history saving enabled' : '💾 Chat history saving disabled');
-            });
-
-            // Voice toggles
-            document.getElementById('tts-toggle').addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                settings.ttsEnabled = this.classList.contains('active');
-                voiceSettings.enabled = settings.ttsEnabled;
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-                showToast(settings.ttsEnabled ? '🔊 Voice output enabled' : '🔇 Voice output disabled');
-            });
-
-            document.getElementById('autoplay-toggle').addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                settings.ttsAutoplay = this.classList.contains('active');
-                voiceSettings.autoplay = settings.ttsAutoplay;
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-            });
-
-            document.getElementById('voice-select').addEventListener('change', function(e) {
-                settings.ttsVoice = e.target.value;
-                voiceSettings.voiceURI = e.target.value;
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-                localStorage.setItem('prai_voice', e.target.value);
-            });
-
-            document.getElementById('rate-select').addEventListener('change', function(e) {
-                settings.ttsRate = parseFloat(e.target.value);
-                voiceSettings.rate = settings.ttsRate;
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-            });
-
-            document.getElementById('pitch-select').addEventListener('change', function(e) {
-                settings.ttsPitch = parseFloat(e.target.value);
-                voiceSettings.pitch = settings.ttsPitch;
-                localStorage.setItem('prai_settings', JSON.stringify(settings));
-            });
-
-            document.getElementById('test-voice-btn').addEventListener('click', testVoice);
-            document.getElementById('stop-voice-btn').addEventListener('click', stopSpeaking);
-
-            // Suggestions
-            const suggestions = [
-                "Explain quantum computing",
-                "Write Python code",
-                "Help me design a project",
-                "What are AI trends?"
-            ];
-
-            suggestBtn.addEventListener('click', () => {
-                const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
-                messageInput.value = randomSuggestion;
-                messageInput.focus();
-                messageInput.style.height = 'auto';
-                messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
-            });
-
-            // Cleanup
-            window.addEventListener('beforeunload', function() {
-                stopSpeaking();
-            });
+        suggestBtn.addEventListener('click', () => {
+            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+            messageInput.value = randomSuggestion;
+            messageInput.focus();
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 200) + 'px';
         });
 
         // ============================================
         // INITIALIZE
         // ============================================
+        function init() {
+            // Load chats
+            const savedChats = localStorage.getItem('praiChats');
+            if (savedChats) {
+                chats = JSON.parse(savedChats);
+            }
+            
+            updateHistoryDisplay();
+            addWelcomeMessage();
+            messageInput.focus();
+        }
+
         init();
     </script>
 </body>
