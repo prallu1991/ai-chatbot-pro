@@ -1,4 +1,3 @@
-# P.R.A.I - Production Dependencies v5.0.0
 Flask==3.0.0
 flask-cors==4.0.0
 gunicorn==21.2.0
@@ -8,5 +7,5 @@ supabase==2.4.0
 pytz==2024.1
 python-dateutil==2.8.2
 python-dotenv==1.0.0
-python-magic==0.4.27  # For file type detection
-Werkzeug==3.0.1  # For secure_filename
+python-magic==0.4.27
+Werkzeug==3.0.1
