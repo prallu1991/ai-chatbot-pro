@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           P.R.A.I v5.0.0 - CHATGPT STYLE
-           CLEAN | MINIMAL | CONVERSATIONAL
+           P.R.A.I v5.2.0 - VOICE CONVERSATION MODE
+           ✅ TWO-WAY AUDIO | ✅ CHATGPT STYLE | ✅ MEMORY
            ============================================ */
         
         * {
@@ -46,7 +46,7 @@
         }
 
         /* ============================================
-           SIDEBAR - MINIMAL
+           SIDEBAR - WITH VOICE MODE BUTTON
            ============================================ */
         .sidebar {
             width: 260px;
@@ -109,11 +109,43 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
 
         .new-chat-btn:hover {
             background: #1d4ed8;
+        }
+
+        /* ============================================
+           VOICE CONVERSATION MODE BUTTON - MAIN FEATURE!
+           ============================================ */
+        .voice-mode-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .voice-mode-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .voice-mode-btn span {
+            font-size: 20px;
         }
 
         .history-section {
@@ -179,7 +211,7 @@
         }
 
         /* ============================================
-           MAIN CHAT AREA - CLEAN, CHATGPT STYLE
+           MAIN CHAT AREA
            ============================================ */
         .chat-area {
             flex: 1;
@@ -442,7 +474,7 @@
         }
 
         /* ============================================
-           MESSAGES - CLEAN, CHATGPT STYLE
+           MESSAGES
            ============================================ */
         .messages-container {
             flex: 1;
@@ -512,53 +544,7 @@
             white-space: pre-wrap;
         }
 
-        /* File attachment preview */
-        .file-preview {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: rgba(37, 99, 235, 0.1);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .dark-mode .file-preview {
-            background: rgba(96, 165, 250, 0.1);
-        }
-
-        .file-icon {
-            font-size: 24px;
-        }
-
-        .file-info {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 600;
-            color: #2563eb;
-        }
-
-        .dark-mode .file-name {
-            color: #93c5fd;
-        }
-
-        .file-size {
-            font-size: 12px;
-            color: #6b7280;
-            margin-left: 8px;
-        }
-
-        .image-preview {
-            max-width: 300px;
-            max-height: 200px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
-
-        /* Voice button */
+        /* Voice button for bot messages */
         .voice-btn {
             width: 32px;
             height: 32px;
@@ -641,7 +627,363 @@
         }
 
         /* ============================================
-           INPUT AREA - CLEAN, CHATGPT STYLE
+           VOICE CONVERSATION MODAL - FULL TWO-WAY AUDIO!
+           ============================================ */
+        .voice-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-modal-content {
+            background: white;
+            border-radius: 32px;
+            width: 600px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .dark-mode .voice-modal-content {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+
+        .voice-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .voice-modal-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .voice-modal-title h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .dark-mode .voice-modal-title h2 {
+            color: #f9fafb;
+        }
+
+        .voice-modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #e5e7eb;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.2s;
+        }
+
+        .voice-modal-close:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .dark-mode .voice-modal-close:hover {
+            background: #374151;
+            color: white;
+        }
+
+        /* Voice Avatar - Animated */
+        .voice-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .voice-avatar.listening {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            animation: pulse-large 2s infinite;
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.4);
+        }
+
+        .voice-avatar.speaking {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            animation: pulse-large 2s infinite;
+            box-shadow: 0 0 40px rgba(37, 99, 235, 0.4);
+        }
+
+        .voice-avatar.thinking {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            animation: pulse-large 2s infinite;
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
+        }
+
+        @keyframes pulse-large {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .avatar-icon {
+            font-size: 60px;
+            color: white;
+        }
+
+        .voice-status {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #6b7280;
+        }
+
+        .dark-mode .voice-status {
+            color: #9ca3af;
+        }
+
+        .voice-status.listening { color: #dc2626; }
+        .voice-status.speaking { color: #2563eb; }
+        .voice-status.thinking { color: #f59e0b; }
+
+        /* Voice Wave Animation */
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 60px;
+            margin: 20px 0;
+        }
+
+        .wave-bar {
+            width: 8px;
+            height: 30px;
+            background: #2563eb;
+            border-radius: 4px;
+            animation: wave 1.2s infinite ease-in-out;
+        }
+
+        .dark-mode .wave-bar {
+            background: #60a5fa;
+        }
+
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 45px; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 60px; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; height: 45px; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; height: 30px; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.6); opacity: 0.6; }
+            50% { transform: scaleY(1.2); opacity: 1; }
+        }
+
+        /* Transcript Area */
+        .voice-transcript {
+            background: #f3f4f6;
+            border-radius: 20px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .dark-mode .voice-transcript {
+            background: #111827;
+        }
+
+        .transcript-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .dark-mode .transcript-label {
+            color: #9ca3af;
+        }
+
+        .user-transcript {
+            font-size: 17px;
+            color: #111827;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: white;
+            border-radius: 16px;
+            min-height: 80px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dark-mode .user-transcript {
+            background: #1f2937;
+            color: #f9fafb;
+            border: 1px solid #374151;
+        }
+
+        .assistant-transcript {
+            font-size: 17px;
+            color: #2563eb;
+            padding: 16px;
+            background: white;
+            border-radius: 16px;
+            min-height: 80px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dark-mode .assistant-transcript {
+            background: #1f2937;
+            color: #93c5fd;
+            border: 1px solid #374151;
+        }
+
+        /* Voice Controls */
+        .voice-controls {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .voice-btn-control {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #1f2937;
+            color: white;
+        }
+
+        .dark-mode .voice-btn-control {
+            background: #374151;
+        }
+
+        .voice-btn-control.primary {
+            background: #2563eb;
+        }
+
+        .voice-btn-control.primary:hover {
+            background: #1d4ed8;
+            transform: scale(1.05);
+        }
+
+        .voice-btn-control.danger {
+            background: #dc2626;
+        }
+
+        .voice-btn-control.danger:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+
+        /* Voice Settings */
+        .voice-settings {
+            margin-top: 24px;
+            padding: 20px;
+            background: #f3f4f6;
+            border-radius: 16px;
+        }
+
+        .dark-mode .voice-settings {
+            background: #111827;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .settings-label {
+            color: #4b5563;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .dark-mode .settings-label {
+            color: #d1d5db;
+        }
+
+        .voice-select {
+            padding: 10px 14px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            color: #111827;
+            font-size: 14px;
+            width: 200px;
+        }
+
+        .dark-mode .voice-select {
+            background: #1f2937;
+            border: 1px solid #4b5563;
+            color: #f9fafb;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            background: #e5e7eb;
+            border-radius: 13px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .toggle-switch {
+            background: #4b5563;
+        }
+
+        .toggle-switch.active {
+            background: #2563eb;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: left 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            left: 24px;
+        }
+
+        /* ============================================
+           INPUT AREA - SIMPLE, CLEAN
            ============================================ */
         .input-area {
             padding: 16px 24px 24px;
@@ -786,7 +1128,7 @@
         }
 
         /* ============================================
-           SETTINGS PANEL - MINIMAL
+           SETTINGS PANEL
            ============================================ */
         .settings-panel {
             position: fixed;
@@ -932,10 +1274,6 @@
             color: #f9fafb;
         }
 
-        .settings-btn:hover {
-            background: #e5e7eb;
-        }
-
         .settings-btn.danger {
             background: #dc2626;
             color: white;
@@ -944,40 +1282,6 @@
 
         .settings-btn.danger:hover {
             background: #b91c1c;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            background: #e5e7eb;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .toggle-switch {
-            background: #4b5563;
-        }
-
-        .toggle-switch.active {
-            background: #2563eb;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            transition: left 0.2s;
-        }
-
-        .toggle-switch.active .toggle-slider {
-            left: 22px;
         }
 
         .radio-group {
@@ -1319,13 +1623,6 @@
             to { bottom: 30px; opacity: 1; }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Real-time badge */
         .realtime-badge {
             display: inline-block;
             padding: 2px 8px;
@@ -1344,7 +1641,7 @@
 </head>
 <body class="dark-mode">
     <div class="app">
-        <!-- Sidebar - Minimal -->
+        <!-- Sidebar - WITH VOICE MODE BUTTON -->
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">P</div>
@@ -1354,6 +1651,15 @@
             <button class="new-chat-btn" id="new-chat-btn">
                 <span>+</span>
                 New Chat
+            </button>
+
+            <!-- ============================================
+               VOICE CONVERSATION MODE BUTTON - MAIN FEATURE!
+               ============================================ -->
+            <button class="voice-mode-btn" id="voice-mode-btn">
+                <span>🎤</span>
+                Voice Conversation Mode
+                <span style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 20px;">Two-Way Audio</span>
             </button>
 
             <div class="history-section">
@@ -1366,7 +1672,7 @@
             </div>
         </aside>
 
-        <!-- Main Chat Area - Clean ChatGPT Style -->
+        <!-- Main Chat Area -->
         <main class="chat-area">
             <div class="chat-header">
                 <div class="chat-title">P.R.A.I</div>
@@ -1420,9 +1726,9 @@
 
             <div class="messages-container" id="messages-container"></div>
 
-            <!-- Input Area - Clean, No Suggestions -->
+            <!-- Input Area - Simple text input -->
             <div class="input-area">
-                <!-- File upload indicator (hidden by default) -->
+                <!-- File upload indicator -->
                 <div id="file-upload-indicator" class="file-upload-indicator hidden">
                     <span>📎</span>
                     <span id="file-name-display"></span>
@@ -1438,9 +1744,11 @@
                         rows="1"
                     ></textarea>
                     <div class="input-actions">
+                        <!-- File upload button -->
                         <button class="action-btn" id="upload-btn" title="Upload any file">
                             📎
                         </button>
+                        <!-- Send button -->
                         <button class="send-button" id="send-button" title="Send message">
                             →
                         </button>
@@ -1448,12 +1756,89 @@
                 </div>
             </div>
             
-            <!-- Universal file input - supports ALL file types -->
+            <!-- Universal file input -->
             <input type="file" id="file-input" class="hidden" accept="*/*">
         </main>
     </div>
 
-    <!-- Settings Panel - Minimal -->
+    <!-- ============================================
+       VOICE CONVERSATION MODAL - FULL TWO-WAY AUDIO!
+       ============================================ -->
+    <div class="voice-modal" id="voice-modal">
+        <div class="voice-modal-content">
+            <div class="voice-modal-header">
+                <div class="voice-modal-title">
+                    <span style="font-size: 32px;">🎤</span>
+                    <h2>Voice Conversation</h2>
+                </div>
+                <button class="voice-modal-close" id="voice-modal-close">✕</button>
+            </div>
+
+            <!-- Animated Voice Avatar -->
+            <div class="voice-avatar" id="voice-avatar">
+                <div class="avatar-icon" id="voice-avatar-icon">🎤</div>
+            </div>
+
+            <!-- Status -->
+            <div class="voice-status" id="voice-status">Ready to talk</div>
+
+            <!-- Voice Wave Animation -->
+            <div class="voice-wave" id="voice-wave" style="display: none;">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+
+            <!-- Live Transcript -->
+            <div class="voice-transcript">
+                <div class="transcript-label">You said:</div>
+                <div class="user-transcript" id="voice-user-transcript">—</div>
+                <div class="transcript-label" style="margin-top: 16px;">P.R.A.I said:</div>
+                <div class="assistant-transcript" id="voice-assistant-transcript">—</div>
+            </div>
+
+            <!-- Voice Controls -->
+            <div class="voice-controls">
+                <button class="voice-btn-control primary" id="voice-start-btn">
+                    🎤 Start Conversation
+                </button>
+                <button class="voice-btn-control" id="voice-pause-btn" style="display: none;">
+                    ⏸️ Pause
+                </button>
+                <button class="voice-btn-control danger" id="voice-stop-btn" style="display: none;">
+                    ⏹️ End Conversation
+                </button>
+            </div>
+
+            <!-- Voice Settings -->
+            <div class="voice-settings">
+                <div class="settings-row">
+                    <span class="settings-label">Voice</span>
+                    <select class="voice-select" id="voice-voice-select">
+                        <option value="">Loading voices...</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label">Auto-continuous</span>
+                    <button class="toggle-switch active" id="voice-continuous-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label">Speech rate</span>
+                    <select class="voice-select" id="voice-rate-select">
+                        <option value="0.8">Slow</option>
+                        <option value="1" selected>Normal</option>
+                        <option value="1.2">Fast</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
     <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
             <div class="settings-title">Settings</div>
@@ -1483,39 +1868,7 @@
                 </div>
             </div>
 
-            <!-- Voice -->
-            <div class="settings-section">
-                <div class="settings-section-title">Voice</div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Text-to-speech</div>
-                        <div class="settings-item-desc">Play responses aloud</div>
-                    </div>
-                    <button class="toggle-switch active" id="tts-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Voice</div>
-                    </div>
-                    <select class="select-input" id="voice-select">
-                        <option value="">Loading...</option>
-                    </select>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Speech rate</div>
-                    </div>
-                    <select class="select-input" id="rate-select">
-                        <option value="0.8">Slow</option>
-                        <option value="1" selected>Normal</option>
-                        <option value="1.2">Fast</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Chat -->
+            <!-- Chat Settings -->
             <div class="settings-section">
                 <div class="settings-section-title">Chat</div>
                 <div class="settings-item">
@@ -1564,7 +1917,7 @@
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">5.0.0 - ChatGPT Style</div>
+                        <div class="settings-item-desc">5.2.0 - Voice Conversation Mode</div>
                     </div>
                 </div>
             </div>
@@ -1637,8 +1990,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I v5.0.0 - CHATGPT STYLE
-        // CLEAN | MINIMAL | CONVERSATIONAL
+        // P.R.A.I v5.2.0 - VOICE CONVERSATION MODE
+        // ✅ TWO-WAY AUDIO | ✅ CHATGPT STYLE | ✅ MEMORY
         // ============================================
 
         (function() {
@@ -1659,16 +2012,7 @@
                 settings: {
                     enterToSend: true,
                     typingIndicator: true,
-                    saveHistory: true,
-                    ttsEnabled: true,
-                    ttsRate: 1,
-                    ttsVoice: ''
-                },
-                
-                voiceSettings: {
-                    enabled: true,
-                    voiceURI: '',
-                    rate: 1
+                    saveHistory: true
                 }
             };
 
@@ -1714,10 +2058,24 @@
                 toast: document.getElementById('toast'),
                 toastMessage: document.getElementById('toast-message'),
                 
+                // Voice Mode Elements
+                voiceModeBtn: document.getElementById('voice-mode-btn'),
+                voiceModal: document.getElementById('voice-modal'),
+                voiceModalClose: document.getElementById('voice-modal-close'),
+                voiceAvatar: document.getElementById('voice-avatar'),
+                voiceAvatarIcon: document.getElementById('voice-avatar-icon'),
+                voiceStatus: document.getElementById('voice-status'),
+                voiceWave: document.getElementById('voice-wave'),
+                voiceUserTranscript: document.getElementById('voice-user-transcript'),
+                voiceAssistantTranscript: document.getElementById('voice-assistant-transcript'),
+                voiceStartBtn: document.getElementById('voice-start-btn'),
+                voicePauseBtn: document.getElementById('voice-pause-btn'),
+                voiceStopBtn: document.getElementById('voice-stop-btn'),
+                voiceVoiceSelect: document.getElementById('voice-voice-select'),
+                voiceContinuousToggle: document.getElementById('voice-continuous-toggle'),
+                voiceRateSelect: document.getElementById('voice-rate-select'),
+                
                 // Settings
-                ttsToggle: document.getElementById('tts-toggle'),
-                voiceSelect: document.getElementById('voice-select'),
-                rateSelect: document.getElementById('rate-select'),
                 enterToSend: document.getElementById('enter-to-send'),
                 typingIndicatorToggle: document.getElementById('typing-indicator-toggle'),
                 saveHistory: document.getElementById('save-history')
@@ -1737,6 +2095,424 @@
                 if (bytes < 1024) return bytes + ' B';
                 if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
                 return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+            }
+
+            // ============================================
+            // VOICE CONVERSATION MODE - FULL TWO-WAY AUDIO!
+            // ============================================
+            
+            // Voice Conversation Class
+            class VoiceConversation {
+                constructor() {
+                    this.recognition = null;
+                    this.synth = window.speechSynthesis;
+                    this.voices = [];
+                    this.isListening = false;
+                    this.isSpeaking = false;
+                    this.isThinking = false;
+                    this.conversationActive = false;
+                    this.currentUtterance = null;
+                    this.sessionId = 'voice-session-' + Date.now();
+                    
+                    this.settings = {
+                        continuous: true,
+                        voiceURI: '',
+                        rate: 1
+                    };
+                    
+                    this.init();
+                }
+                
+                async init() {
+                    await this.loadVoices();
+                    this.setupSpeechRecognition();
+                    this.loadSettings();
+                    this.setupEventListeners();
+                }
+                
+                loadVoices() {
+                    return new Promise((resolve) => {
+                        this.voices = this.synth.getVoices();
+                        if (this.voices.length > 0) {
+                            this.populateVoiceSelect();
+                            resolve();
+                        } else {
+                            this.synth.onvoiceschanged = () => {
+                                this.voices = this.synth.getVoices();
+                                this.populateVoiceSelect();
+                                resolve();
+                            };
+                        }
+                    });
+                }
+                
+                populateVoiceSelect() {
+                    if (!DOM.voiceVoiceSelect) return;
+                    DOM.voiceVoiceSelect.innerHTML = '';
+                    
+                    const englishVoices = this.voices.filter(v => v.lang.includes('en'));
+                    const voicesToShow = englishVoices.length > 0 ? englishVoices : this.voices;
+                    
+                    voicesToShow.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voiceURI;
+                        option.textContent = `${voice.name}`;
+                        DOM.voiceVoiceSelect.appendChild(option);
+                    });
+                    
+                    const savedVoice = localStorage.getItem('prai_voice_conversation');
+                    if (savedVoice && DOM.voiceVoiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
+                        DOM.voiceVoiceSelect.value = savedVoice;
+                        this.settings.voiceURI = savedVoice;
+                    }
+                }
+                
+                setupSpeechRecognition() {
+                    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                        console.log('Speech recognition not supported');
+                        return;
+                    }
+                    
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    this.recognition = new SpeechRecognition();
+                    this.recognition.continuous = true;
+                    this.recognition.interimResults = true;
+                    this.recognition.lang = 'en-US';
+                    
+                    this.recognition.onstart = () => {
+                        this.isListening = true;
+                        this.updateUI();
+                    };
+                    
+                    this.recognition.onresult = (event) => {
+                        const lastResult = event.results[event.results.length - 1];
+                        const transcript = lastResult[0].transcript;
+                        
+                        if (DOM.voiceUserTranscript) {
+                            DOM.voiceUserTranscript.textContent = transcript;
+                        }
+                        
+                        if (lastResult.isFinal) {
+                            this.processUserSpeech(transcript);
+                        }
+                    };
+                    
+                    this.recognition.onerror = (event) => {
+                        console.error('Recognition error:', event.error);
+                        if (event.error === 'not-allowed') {
+                            if (DOM.voiceStatus) DOM.voiceStatus.textContent = '❌ Microphone access denied';
+                        }
+                    };
+                    
+                    this.recognition.onend = () => {
+                        this.isListening = false;
+                        if (this.conversationActive && this.settings.continuous && !this.isSpeaking && !this.isThinking) {
+                            this.startListening();
+                        }
+                        this.updateUI();
+                    };
+                }
+                
+                async processUserSpeech(text) {
+                    if (!text.trim() || !this.conversationActive) return;
+                    
+                    this.isThinking = true;
+                    this.updateUI();
+                    
+                    try {
+                        const token = localStorage.getItem('prai_token');
+                        
+                        const response = await fetch('/chat', {
+                            method: 'POST',
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                ...(token && { 'Authorization': `Bearer ${token}` })
+                            },
+                            body: JSON.stringify({
+                                message: text,
+                                session_id: this.sessionId,
+                                user_name: State.userName
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        let reply = 'I apologize, I encountered an issue.';
+                        if (data.error) {
+                            reply = `Error: ${data.error}`;
+                        } else if (data[0]?.generated_text) {
+                            reply = data[0].generated_text;
+                        }
+                        
+                        if (DOM.voiceAssistantTranscript) {
+                            DOM.voiceAssistantTranscript.textContent = reply;
+                        }
+                        
+                        this.speak(reply);
+                        
+                    } catch (error) {
+                        console.error('Voice chat error:', error);
+                        if (DOM.voiceAssistantTranscript) {
+                            DOM.voiceAssistantTranscript.textContent = 'Connection error. Please try again.';
+                        }
+                    }
+                    
+                    this.isThinking = false;
+                    this.updateUI();
+                }
+                
+                speak(text) {
+                    if (!this.synth) return;
+                    
+                    this.stopSpeaking();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    if (this.settings.voiceURI) {
+                        const voice = this.voices.find(v => v.voiceURI === this.settings.voiceURI);
+                        if (voice) utterance.voice = voice;
+                    }
+                    
+                    utterance.rate = this.settings.rate;
+                    
+                    utterance.onstart = () => {
+                        this.isSpeaking = true;
+                        this.currentUtterance = utterance;
+                        this.updateUI();
+                    };
+                    
+                    utterance.onend = () => {
+                        this.isSpeaking = false;
+                        this.currentUtterance = null;
+                        this.updateUI();
+                        
+                        if (this.conversationActive && this.settings.continuous) {
+                            setTimeout(() => {
+                                this.startListening();
+                            }, 300);
+                        }
+                    };
+                    
+                    this.synth.speak(utterance);
+                }
+                
+                stopSpeaking() {
+                    if (this.synth) {
+                        this.synth.cancel();
+                        this.isSpeaking = false;
+                        this.currentUtterance = null;
+                        this.updateUI();
+                    }
+                }
+                
+                startConversation() {
+                    navigator.mediaDevices.getUserMedia({ audio: true })
+                        .then((stream) => {
+                            stream.getTracks().forEach(track => track.stop());
+                            this.conversationActive = true;
+                            this.startListening();
+                            this.updateUI();
+                        })
+                        .catch((error) => {
+                            console.error('Microphone error:', error);
+                            if (DOM.voiceStatus) {
+                                DOM.voiceStatus.textContent = '❌ Please allow microphone access';
+                            }
+                        });
+                }
+                
+                startListening() {
+                    if (this.recognition && !this.isListening && this.conversationActive) {
+                        try {
+                            this.recognition.start();
+                        } catch (e) {
+                            console.log('Recognition already started');
+                        }
+                    }
+                }
+                
+                stopListening() {
+                    if (this.recognition && this.isListening) {
+                        try {
+                            this.recognition.stop();
+                        } catch (e) {}
+                    }
+                }
+                
+                pauseConversation() {
+                    this.stopListening();
+                    this.stopSpeaking();
+                    this.isThinking = false;
+                    this.updateUI();
+                }
+                
+                stopConversation() {
+                    this.conversationActive = false;
+                    this.stopListening();
+                    this.stopSpeaking();
+                    this.isThinking = false;
+                    this.updateUI();
+                    
+                    // Reset transcript
+                    if (DOM.voiceUserTranscript) DOM.voiceUserTranscript.textContent = '—';
+                    if (DOM.voiceAssistantTranscript) DOM.voiceAssistantTranscript.textContent = '—';
+                }
+                
+                updateUI() {
+                    if (!DOM.voiceAvatar || !DOM.voiceAvatarIcon || !DOM.voiceStatus || !DOM.voiceWave) return;
+                    
+                    if (this.isSpeaking) {
+                        DOM.voiceAvatar.className = 'voice-avatar speaking';
+                        DOM.voiceAvatarIcon.textContent = '🔊';
+                        DOM.voiceStatus.textContent = 'P.R.A.I is speaking...';
+                        DOM.voiceStatus.className = 'voice-status speaking';
+                        DOM.voiceWave.style.display = 'flex';
+                    } else if (this.isThinking) {
+                        DOM.voiceAvatar.className = 'voice-avatar thinking';
+                        DOM.voiceAvatarIcon.textContent = '🤔';
+                        DOM.voiceStatus.textContent = 'Thinking...';
+                        DOM.voiceStatus.className = 'voice-status thinking';
+                        DOM.voiceWave.style.display = 'flex';
+                    } else if (this.isListening) {
+                        DOM.voiceAvatar.className = 'voice-avatar listening';
+                        DOM.voiceAvatarIcon.textContent = '🎤';
+                        DOM.voiceStatus.textContent = 'Listening...';
+                        DOM.voiceStatus.className = 'voice-status listening';
+                        DOM.voiceWave.style.display = 'flex';
+                    } else {
+                        DOM.voiceAvatar.className = 'voice-avatar';
+                        DOM.voiceAvatarIcon.textContent = '🎤';
+                        DOM.voiceStatus.textContent = this.conversationActive ? 'Ready' : 'Ready to talk';
+                        DOM.voiceStatus.className = 'voice-status';
+                        DOM.voiceWave.style.display = 'none';
+                    }
+                    
+                    // Update buttons
+                    if (DOM.voiceStartBtn && DOM.voicePauseBtn && DOM.voiceStopBtn) {
+                        if (this.conversationActive) {
+                            DOM.voiceStartBtn.style.display = 'none';
+                            DOM.voicePauseBtn.style.display = 'block';
+                            DOM.voiceStopBtn.style.display = 'block';
+                        } else {
+                            DOM.voiceStartBtn.style.display = 'block';
+                            DOM.voicePauseBtn.style.display = 'none';
+                            DOM.voiceStopBtn.style.display = 'none';
+                        }
+                    }
+                }
+                
+                loadSettings() {
+                    const saved = localStorage.getItem('voice_conversation_settings');
+                    if (saved) {
+                        try {
+                            this.settings = JSON.parse(saved);
+                            if (DOM.voiceContinuousToggle) {
+                                DOM.voiceContinuousToggle.classList.toggle('active', this.settings.continuous);
+                            }
+                            if (DOM.voiceRateSelect) {
+                                DOM.voiceRateSelect.value = this.settings.rate;
+                            }
+                        } catch (e) {}
+                    }
+                }
+                
+                saveSettings() {
+                    localStorage.setItem('voice_conversation_settings', JSON.stringify(this.settings));
+                }
+                
+                setupEventListeners() {
+                    // Start conversation
+                    if (DOM.voiceStartBtn) {
+                        DOM.voiceStartBtn.addEventListener('click', () => {
+                            this.startConversation();
+                        });
+                    }
+                    
+                    // Pause conversation
+                    if (DOM.voicePauseBtn) {
+                        DOM.voicePauseBtn.addEventListener('click', () => {
+                            this.pauseConversation();
+                        });
+                    }
+                    
+                    // Stop conversation
+                    if (DOM.voiceStopBtn) {
+                        DOM.voiceStopBtn.addEventListener('click', () => {
+                            this.stopConversation();
+                        });
+                    }
+                    
+                    // Continuous toggle
+                    if (DOM.voiceContinuousToggle) {
+                        DOM.voiceContinuousToggle.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            DOM.voiceContinuousToggle.classList.toggle('active');
+                            this.settings.continuous = DOM.voiceContinuousToggle.classList.contains('active');
+                            this.saveSettings();
+                        });
+                    }
+                    
+                    // Voice select
+                    if (DOM.voiceVoiceSelect) {
+                        DOM.voiceVoiceSelect.addEventListener('change', (e) => {
+                            this.settings.voiceURI = e.target.value;
+                            localStorage.setItem('prai_voice_conversation', e.target.value);
+                            this.saveSettings();
+                        });
+                    }
+                    
+                    // Rate select
+                    if (DOM.voiceRateSelect) {
+                        DOM.voiceRateSelect.addEventListener('change', (e) => {
+                            this.settings.rate = parseFloat(e.target.value);
+                            this.saveSettings();
+                        });
+                    }
+                }
+            }
+
+            // Voice Conversation Instance
+            let voiceConversation = null;
+
+            // ============================================
+            // VOICE MODE BUTTON HANDLER
+            // ============================================
+            if (DOM.voiceModeBtn) {
+                DOM.voiceModeBtn.addEventListener('click', () => {
+                    // Show modal
+                    if (DOM.voiceModal) {
+                        DOM.voiceModal.style.display = 'flex';
+                        
+                        // Initialize voice conversation
+                        if (!voiceConversation) {
+                            voiceConversation = new VoiceConversation();
+                        }
+                    }
+                });
+            }
+
+            // Close voice modal
+            if (DOM.voiceModalClose) {
+                DOM.voiceModalClose.addEventListener('click', () => {
+                    if (DOM.voiceModal) {
+                        DOM.voiceModal.style.display = 'none';
+                        if (voiceConversation) {
+                            voiceConversation.stopConversation();
+                        }
+                    }
+                });
+            }
+
+            // Close modal when clicking outside
+            if (DOM.voiceModal) {
+                DOM.voiceModal.addEventListener('click', (e) => {
+                    if (e.target === DOM.voiceModal) {
+                        DOM.voiceModal.style.display = 'none';
+                        if (voiceConversation) {
+                            voiceConversation.stopConversation();
+                        }
+                    }
+                });
             }
 
             // ============================================
@@ -1779,7 +2555,7 @@
             });
 
             // ============================================
-            // PROFILE
+            // PROFILE - GMAIL LOGIN
             // ============================================
             function updateProfileUI() {
                 if (!DOM.profileAvatar || !DOM.dropdownAvatar) return;
@@ -1814,7 +2590,7 @@
             }
 
             // ============================================
-            // AUTH
+            // AUTH - GMAIL LOGIN
             // ============================================
             async function handleGmailLogin() {
                 showToast('Redirecting to Gmail...');
@@ -1979,7 +2755,6 @@
             function openSettings() {
                 DOM.settingsPanel?.classList.add('open');
                 loadSettings();
-                loadVoices();
             }
 
             function closeSettings() {
@@ -1997,105 +2772,10 @@
                 if (DOM.enterToSend) DOM.enterToSend.classList.toggle('active', State.settings.enterToSend);
                 if (DOM.typingIndicatorToggle) DOM.typingIndicatorToggle.classList.toggle('active', State.settings.typingIndicator);
                 if (DOM.saveHistory) DOM.saveHistory.classList.toggle('active', State.settings.saveHistory);
-                if (DOM.ttsToggle) DOM.ttsToggle.classList.toggle('active', State.settings.ttsEnabled);
-                if (DOM.rateSelect) DOM.rateSelect.value = State.settings.ttsRate;
             }
 
             // ============================================
-            // VOICE
-            // ============================================
-            let synth = window.speechSynthesis;
-            let voices = [];
-            let currentUtterance = null;
-
-            function loadVoices() {
-                return new Promise((resolve) => {
-                    voices = synth.getVoices();
-                    if (voices.length > 0) {
-                        populateVoiceSelect();
-                        resolve(voices);
-                    } else {
-                        synth.onvoiceschanged = () => {
-                            voices = synth.getVoices();
-                            populateVoiceSelect();
-                            resolve(voices);
-                        };
-                    }
-                });
-            }
-
-            function populateVoiceSelect() {
-                if (!DOM.voiceSelect) return;
-                DOM.voiceSelect.innerHTML = '';
-                
-                const englishVoices = voices.filter(v => v.lang.includes('en'));
-                const voicesToShow = englishVoices.length > 0 ? englishVoices : voices;
-                
-                voicesToShow.forEach(voice => {
-                    const option = document.createElement('option');
-                    option.value = voice.voiceURI;
-                    option.textContent = `${voice.name}`;
-                    DOM.voiceSelect.appendChild(option);
-                });
-                
-                const savedVoice = localStorage.getItem('prai_voice');
-                if (savedVoice && DOM.voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
-                    DOM.voiceSelect.value = savedVoice;
-                }
-            }
-
-            function speakText(text, messageId = null) {
-                if (!State.settings.ttsEnabled || !synth) return;
-                
-                stopSpeaking();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                if (State.settings.ttsVoice) {
-                    const voice = voices.find(v => v.voiceURI === State.settings.ttsVoice);
-                    if (voice) utterance.voice = voice;
-                }
-                
-                utterance.rate = State.settings.ttsRate;
-                
-                utterance.onstart = () => {
-                    currentUtterance = utterance;
-                    if (messageId) {
-                        const btn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
-                        if (btn) {
-                            btn.classList.add('speaking');
-                            btn.innerHTML = '⏹️';
-                        }
-                    }
-                };
-                
-                utterance.onend = () => {
-                    currentUtterance = null;
-                    if (messageId) {
-                        const btn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
-                        if (btn) {
-                            btn.classList.remove('speaking');
-                            btn.innerHTML = '🔊';
-                        }
-                    }
-                };
-                
-                synth.speak(utterance);
-            }
-
-            function stopSpeaking() {
-                if (synth) {
-                    synth.cancel();
-                    currentUtterance = null;
-                    document.querySelectorAll('.voice-btn.speaking').forEach(btn => {
-                        btn.classList.remove('speaking');
-                        btn.innerHTML = '🔊';
-                    });
-                }
-            }
-
-            // ============================================
-            // UNIVERSAL FILE UPLOAD
+            // FILE UPLOAD
             // ============================================
             async function handleFileUpload(e) {
                 const file = e.target.files[0];
@@ -2120,11 +2800,9 @@
                         State.uploadedFile = {
                             name: data.filename,
                             size: data.size,
-                            info: data.file_info,
-                            text: data.extracted_text || ''
+                            extracted_text: data.extracted_text || ''
                         };
                         
-                        // Show file indicator
                         if (DOM.fileUploadIndicator && DOM.fileNameDisplay && DOM.fileSizeDisplay) {
                             DOM.fileNameDisplay.textContent = data.filename;
                             DOM.fileSizeDisplay.textContent = formatFileSize(data.size);
@@ -2133,7 +2811,6 @@
                         
                         showToast(`✅ ${data.filename} uploaded`);
                         
-                        // Auto-add file context to message
                         DOM.messageInput.value = `[File: ${data.filename}] `;
                         DOM.messageInput.focus();
                     }
@@ -2152,7 +2829,7 @@
             }
 
             // ============================================
-            // MESSAGES - CHATGPT STYLE
+            // MESSAGES
             // ============================================
             function addMessage(content, isUser, metadata = {}) {
                 if (!DOM.messagesContainer) return;
@@ -2166,81 +2843,20 @@
                 const contentDiv = document.createElement('div');
                 contentDiv.className = 'message-content';
                 
-                // Sender
                 const senderSpan = document.createElement('span');
                 senderSpan.className = 'message-sender';
                 senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
-                
-                // Add real-time badge for time/date responses
-                if (!isUser && metadata.type === 'real_time') {
-                    const badge = document.createElement('span');
-                    badge.className = 'realtime-badge';
-                    badge.textContent = 'Live';
-                    senderSpan.appendChild(badge);
-                }
-                
                 contentDiv.appendChild(senderSpan);
                 
-                // File preview for uploads
-                if (metadata.file_info && !isUser) {
-                    const filePreview = document.createElement('div');
-                    filePreview.className = 'file-preview';
-                    
-                    let icon = '📄';
-                    if (metadata.file_info.type === 'image') icon = '🖼️';
-                    else if (metadata.file_info.type === 'pdf') icon = '📑';
-                    else if (metadata.file_info.type === 'spreadsheet') icon = '📊';
-                    else if (metadata.file_info.type === 'archive') icon = '🗜️';
-                    
-                    filePreview.innerHTML = `
-                        <span class="file-icon">${icon}</span>
-                        <div class="file-info">
-                            <span class="file-name">${metadata.file_info.filename}</span>
-                            <span class="file-size">${formatFileSize(metadata.file_info.size)}</span>
-                        </div>
-                    `;
-                    contentDiv.appendChild(filePreview);
-                }
-                
-                // Message text
                 const textDiv = document.createElement('div');
                 textDiv.textContent = content;
                 textDiv.className = 'message-text';
                 contentDiv.appendChild(textDiv);
                 
-                // Voice button for bot messages
-                if (!isUser) {
-                    const footerDiv = document.createElement('div');
-                    footerDiv.className = 'message-footer';
-                    
-                    const voiceBtn = document.createElement('button');
-                    voiceBtn.className = 'voice-btn';
-                    voiceBtn.innerHTML = '🔊';
-                    voiceBtn.title = 'Listen';
-                    voiceBtn.setAttribute('data-message-id', messageId);
-                    voiceBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        if (currentUtterance) {
-                            stopSpeaking();
-                        } else {
-                            speakText(content, messageId);
-                        }
-                    };
-                    
-                    footerDiv.appendChild(voiceBtn);
-                    contentDiv.appendChild(footerDiv);
-                }
-                
                 messageDiv.appendChild(contentDiv);
                 DOM.messagesContainer.appendChild(messageDiv);
                 DOM.messagesContainer.scrollTop = DOM.messagesContainer.scrollHeight;
                 
-                // Auto-play voice
-                if (!isUser && State.settings.ttsEnabled) {
-                    setTimeout(() => speakText(content, messageId), 100);
-                }
-                
-                // Save to history
                 if (State.settings.saveHistory) {
                     if (!State.chats[State.currentChatId]) {
                         State.chats[State.currentChatId] = {
@@ -2265,12 +2881,7 @@
             }
 
             function addWelcomeMessage() {
-                const hour = new Date().getHours();
-                let greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-                
-                let welcomeMsg = `How can I help you today?`;
-                
-                addMessage(welcomeMsg, false);
+                addMessage(`How can I help you today?`, false);
             }
 
             function showTypingIndicator() {
@@ -2295,19 +2906,13 @@
                 if (indicator) indicator.remove();
             }
 
-            // ============================================
-            // SEND MESSAGE - CHATGPT STYLE
-            // ============================================
             async function sendMessage() {
                 if (!DOM.messageInput) return;
                 
                 const content = DOM.messageInput.value.trim();
                 if (!content && !State.uploadedFile) return;
                 
-                // Add user message
-                addMessage(content || '[File uploaded]', true, {
-                    file_info: State.uploadedFile?.info
-                });
+                addMessage(content || '[File uploaded]', true);
                 
                 DOM.messageInput.value = '';
                 DOM.messageInput.style.height = 'auto';
@@ -2329,8 +2934,7 @@
                             file_info: State.uploadedFile ? {
                                 filename: State.uploadedFile.name,
                                 size: State.uploadedFile.size,
-                                type: State.uploadedFile.info?.type,
-                                extracted_text: State.uploadedFile.text
+                                extracted_text: State.uploadedFile.extracted_text
                             } : null
                         })
                     });
@@ -2341,12 +2945,9 @@
                     if (data.error) {
                         addMessage(`Error: ${data.error}`, false);
                     } else if (data[0]?.generated_text) {
-                        addMessage(data[0].generated_text, false, {
-                            type: data[0].type
-                        });
+                        addMessage(data[0].generated_text, false);
                     }
                     
-                    // Clear uploaded file after sending
                     clearUploadedFile();
                     
                 } catch (error) {
@@ -2370,9 +2971,7 @@
                 if (savedChats) {
                     try {
                         State.chats = JSON.parse(savedChats);
-                    } catch (e) {
-                        State.chats = {};
-                    }
+                    } catch (e) {}
                 }
                 
                 if (Object.keys(State.chats).length === 0) {
@@ -2565,13 +3164,13 @@
                     });
                 }
                 
-                // File upload - UNIVERSAL (any file type)
+                // File upload
                 if (DOM.uploadBtn) {
                     DOM.uploadBtn.addEventListener('click', () => DOM.fileInput?.click());
                 }
                 
                 if (DOM.fileInput) {
-                    DOM.fileInput.setAttribute('accept', '*/*'); // Accept any file!
+                    DOM.fileInput.setAttribute('accept', '*/*');
                     DOM.fileInput.addEventListener('change', handleFileUpload);
                 }
                 
@@ -2581,30 +3180,6 @@
                 }
                 
                 // Settings toggles
-                if (DOM.ttsToggle) {
-                    DOM.ttsToggle.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        this.classList.toggle('active');
-                        State.settings.ttsEnabled = this.classList.contains('active');
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                    });
-                }
-                
-                if (DOM.voiceSelect) {
-                    DOM.voiceSelect.addEventListener('change', (e) => {
-                        State.settings.ttsVoice = e.target.value;
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                        localStorage.setItem('prai_voice', e.target.value);
-                    });
-                }
-                
-                if (DOM.rateSelect) {
-                    DOM.rateSelect.addEventListener('change', (e) => {
-                        State.settings.ttsRate = parseFloat(e.target.value);
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                    });
-                }
-                
                 if (DOM.enterToSend) {
                     DOM.enterToSend.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -2657,9 +3232,6 @@
                 // OAuth callback
                 handleOAuthCallback();
                 
-                // Load voices
-                loadVoices();
-                
                 // Event listeners
                 initEventListeners();
                 
@@ -2677,7 +3249,7 @@
                 // Focus input
                 if (DOM.messageInput) DOM.messageInput.focus();
                 
-                console.log('✅ P.R.A.I v5.0.0 - ChatGPT Style');
+                console.log('✅ P.R.A.I v5.2.0 - Voice Conversation Mode Ready');
             }
 
             init();
