@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           P.R.A.I v5.2.0 - VOICE CONVERSATION MODE
-           ✅ TWO-WAY AUDIO | ✅ CHATGPT STYLE | ✅ MEMORY
+           P.R.A.I v6.0.0 - COMPLETE UI WITH ALL FIXES!
+           ✅ VOICE MODE | ✅ SEARCH | ✅ EDIT/COPY | ✅ RECENT
            ============================================ */
         
         * {
@@ -46,10 +46,10 @@
         }
 
         /* ============================================
-           SIDEBAR - WITH VOICE MODE BUTTON
+           SIDEBAR - WITH SEARCH & VOICE MODE
            ============================================ */
         .sidebar {
-            width: 260px;
+            width: 280px;
             background: #f9fafb;
             border-right: 1px solid #e5e7eb;
             display: flex;
@@ -117,35 +117,148 @@
         }
 
         /* ============================================
-           VOICE CONVERSATION MODE BUTTON - MAIN FEATURE!
+           VOICE CONVERSATION MODE BUTTON - FIXED!
            ============================================ */
         .voice-mode-btn {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 16px;
             background: linear-gradient(135deg, #2563eb, #1d4ed8);
             border: none;
-            border-radius: 12px;
+            border-radius: 40px;
             color: white;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
+            justify-content: space-between;
+            gap: 8px;
             margin-bottom: 24px;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            border: 1px solid rgba(255,255,255,0.1);
+            white-space: nowrap;
         }
 
         .voice-mode-btn:hover {
             background: linear-gradient(135deg, #1d4ed8, #1e40af);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.4);
         }
 
-        .voice-mode-btn span {
+        .voice-mode-btn span:first-child {
             font-size: 20px;
+            margin-right: 4px;
+        }
+
+        .voice-mode-btn span:last-child {
+            font-size: 11px;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-left: 4px;
+            white-space: nowrap;
+        }
+
+        /* ============================================
+           SEARCH CHATS - NEW FEATURE!
+           ============================================ */
+        .search-container {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 0 4px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            color: #6b7280;
+            font-size: 15px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .dark-mode .search-icon {
+            color: #9ca3af;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            background: #f3f4f6;
+            border: 1px solid transparent;
+            border-radius: 30px;
+            color: #111827;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .dark-mode .search-input {
+            background: #1f2937;
+            color: #f9fafb;
+        }
+
+        .search-input:focus {
+            background: white;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .dark-mode .search-input:focus {
+            background: #111827;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .dark-mode .search-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9ca3af;
+            border: none;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+        }
+
+        .search-clear:hover {
+            background: #6b7280;
+            transform: scale(1.1);
+        }
+
+        .dark-mode .search-clear {
+            background: #4b5563;
+            color: #f9fafb;
+        }
+
+        .dark-mode .search-clear:hover {
+            background: #6b7280;
         }
 
         .history-section {
@@ -183,6 +296,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
         }
 
         .dark-mode .history-item {
@@ -210,8 +325,48 @@
             color: #bfdbfe;
         }
 
+        .history-item.highlight {
+            background: #dbeafe !important;
+            border-left: 4px solid #2563eb;
+            font-weight: 600;
+        }
+
+        .dark-mode .history-item.highlight {
+            background: #1e3a5f !important;
+            border-left: 4px solid #60a5fa;
+        }
+
+        .no-search-results {
+            padding: 20px 12px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .dark-mode .no-search-results {
+            color: #9ca3af;
+        }
+
+        .search-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: #2563eb;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .dark-mode .search-badge {
+            background: #3b82f6;
+        }
+
         /* ============================================
-           MAIN CHAT AREA
+           MAIN CHAT AREA - WITH REAL-TIME CLOCK
            ============================================ */
         .chat-area {
             flex: 1;
@@ -243,9 +398,60 @@
             font-size: 16px;
             font-weight: 600;
             color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .dark-mode .chat-title {
+            color: #f9fafb;
+        }
+
+        .version-badge {
+            font-size: 11px;
+            background: rgba(37,99,235,0.1);
+            padding: 3px 8px;
+            border-radius: 20px;
+            color: #2563eb;
+            font-weight: 500;
+        }
+
+        .dark-mode .version-badge {
+            background: rgba(96,165,250,0.2);
+            color: #93c5fd;
+        }
+
+        .realtime-widget {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #f3f4f6;
+            padding: 6px 16px;
+            border-radius: 40px;
+        }
+
+        .dark-mode .realtime-widget {
+            background: #1f2937;
+        }
+
+        .time-widget, .date-widget {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .time-widget span, .date-widget span {
+            font-size: 15px;
+        }
+
+        #current-time, #current-date {
+            font-size: 14px;
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .dark-mode #current-time,
+        .dark-mode #current-date {
             color: #f9fafb;
         }
 
@@ -474,7 +680,7 @@
         }
 
         /* ============================================
-           MESSAGES
+           MESSAGES - WITH EDIT/COPY FEATURES
            ============================================ */
         .messages-container {
             flex: 1;
@@ -488,6 +694,7 @@
         .message {
             max-width: 85%;
             animation: fadeIn 0.3s ease;
+            position: relative;
         }
 
         @keyframes fadeIn {
@@ -509,6 +716,7 @@
             font-size: 15px;
             line-height: 1.6;
             word-break: break-word;
+            position: relative;
         }
 
         .user-message .message-content {
@@ -544,7 +752,133 @@
             white-space: pre-wrap;
         }
 
-        /* Voice button for bot messages */
+        /* ============================================
+           MESSAGE ACTIONS - COPY & EDIT!
+           ============================================ */
+        .message-actions {
+            display: none;
+            position: absolute;
+            top: -30px;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 30px;
+            padding: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .dark-mode .message-actions {
+            background: #1f2937;
+            border: 1px solid #374151;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .message:hover .message-actions {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .message-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 20px;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .message-action-btn {
+            color: #9ca3af;
+        }
+
+        .message-action-btn:hover {
+            background: #f3f4f6;
+            color: #2563eb;
+        }
+
+        .dark-mode .message-action-btn:hover {
+            background: #374151;
+            color: #60a5fa;
+        }
+
+        .message.editing .message-content {
+            background: #fef3c7 !important;
+            border: 2px solid #f59e0b !important;
+        }
+
+        .dark-mode .message.editing .message-content {
+            background: #2d2a1a !important;
+            border: 2px solid #f59e0b !important;
+            color: #f9fafb !important;
+        }
+
+        .edit-textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: inherit;
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .edit-save-btn, .edit-cancel-btn {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .edit-save-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .edit-save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .edit-cancel-btn {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .dark-mode .edit-cancel-btn {
+            background: #374151;
+            color: #f9fafb;
+        }
+
+        .edit-cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .dark-mode .edit-cancel-btn:hover {
+            background: #4b5563;
+        }
+
+        /* Voice button */
         .voice-btn {
             width: 32px;
             height: 32px;
@@ -627,7 +961,7 @@
         }
 
         /* ============================================
-           VOICE CONVERSATION MODAL - FULL TWO-WAY AUDIO!
+           VOICE CONVERSATION MODAL
            ============================================ */
         .voice-modal {
             display: none;
@@ -708,7 +1042,6 @@
             color: white;
         }
 
-        /* Voice Avatar - Animated */
         .voice-avatar {
             width: 140px;
             height: 140px;
@@ -767,7 +1100,6 @@
         .voice-status.speaking { color: #2563eb; }
         .voice-status.thinking { color: #f59e0b; }
 
-        /* Voice Wave Animation */
         .voice-wave {
             display: flex;
             align-items: center;
@@ -799,7 +1131,6 @@
             50% { transform: scaleY(1.2); opacity: 1; }
         }
 
-        /* Transcript Area */
         .voice-transcript {
             background: #f3f4f6;
             border-radius: 20px;
@@ -857,7 +1188,6 @@
             border: 1px solid #374151;
         }
 
-        /* Voice Controls */
         .voice-controls {
             display: flex;
             gap: 16px;
@@ -902,7 +1232,6 @@
             transform: scale(1.05);
         }
 
-        /* Voice Settings */
         .voice-settings {
             margin-top: 24px;
             padding: 20px;
@@ -983,7 +1312,7 @@
         }
 
         /* ============================================
-           INPUT AREA - SIMPLE, CLEAN
+           INPUT AREA
            ============================================ */
         .input-area {
             padding: 16px 24px 24px;
@@ -1105,7 +1434,6 @@
             transform: none;
         }
 
-        /* File upload indicator */
         .file-upload-indicator {
             display: flex;
             align-items: center;
@@ -1641,7 +1969,7 @@
 </head>
 <body class="dark-mode">
     <div class="app">
-        <!-- Sidebar - WITH VOICE MODE BUTTON -->
+        <!-- Sidebar - WITH VOICE MODE & SEARCH -->
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">P</div>
@@ -1653,17 +1981,30 @@
                 New Chat
             </button>
 
-            <!-- ============================================
-               VOICE CONVERSATION MODE BUTTON - MAIN FEATURE!
-               ============================================ -->
+            <!-- VOICE CONVERSATION MODE BUTTON - FIXED! -->
             <button class="voice-mode-btn" id="voice-mode-btn">
                 <span>🎤</span>
                 Voice Conversation Mode
-                <span style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 20px;">Two-Way Audio</span>
+                <span>Two-Way Audio</span>
             </button>
 
+            <!-- SEARCH CHATS - NEW FEATURE! -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        id="search-chats" 
+                        class="search-input" 
+                        placeholder="Search chats..."
+                        autocomplete="off"
+                    />
+                    <button class="search-clear" id="search-clear" style="display: none;">✕</button>
+                </div>
+            </div>
+
             <div class="history-section">
-                <div class="history-title">Chat History</div>
+                <div class="history-title">Recent</div>
                 <div class="history-list" id="history-list">
                     <div class="history-item" id="empty-history">
                         No conversations yet
@@ -1672,10 +2013,28 @@
             </div>
         </aside>
 
-        <!-- Main Chat Area -->
+        <!-- Main Chat Area - WITH REAL-TIME CLOCK -->
         <main class="chat-area">
             <div class="chat-header">
-                <div class="chat-title">P.R.A.I</div>
+                <div class="chat-title">
+                    P.R.A.I Assistant
+                    <span class="version-badge">v6.0</span>
+                    <span class="search-badge" id="search-badge" style="display: none;">
+                        🔍 <span id="search-term-display"></span>
+                    </span>
+                </div>
+
+                <!-- REAL-TIME CLOCK WIDGET -->
+                <div class="realtime-widget">
+                    <div class="time-widget">
+                        <span>🕐</span>
+                        <span id="current-time">--:--:--</span>
+                    </div>
+                    <div class="date-widget">
+                        <span>📅</span>
+                        <span id="current-date">Loading...</span>
+                    </div>
+                </div>
 
                 <div class="header-actions">
                     <button class="header-btn" id="clear-btn" title="Clear chat">🗑️</button>
@@ -1726,7 +2085,7 @@
 
             <div class="messages-container" id="messages-container"></div>
 
-            <!-- Input Area - Simple text input -->
+            <!-- Input Area -->
             <div class="input-area">
                 <!-- File upload indicator -->
                 <div id="file-upload-indicator" class="file-upload-indicator hidden">
@@ -1744,11 +2103,9 @@
                         rows="1"
                     ></textarea>
                     <div class="input-actions">
-                        <!-- File upload button -->
                         <button class="action-btn" id="upload-btn" title="Upload any file">
                             📎
                         </button>
-                        <!-- Send button -->
                         <button class="send-button" id="send-button" title="Send message">
                             →
                         </button>
@@ -1761,9 +2118,7 @@
         </main>
     </div>
 
-    <!-- ============================================
-       VOICE CONVERSATION MODAL - FULL TWO-WAY AUDIO!
-       ============================================ -->
+    <!-- VOICE CONVERSATION MODAL -->
     <div class="voice-modal" id="voice-modal">
         <div class="voice-modal-content">
             <div class="voice-modal-header">
@@ -1774,15 +2129,12 @@
                 <button class="voice-modal-close" id="voice-modal-close">✕</button>
             </div>
 
-            <!-- Animated Voice Avatar -->
             <div class="voice-avatar" id="voice-avatar">
                 <div class="avatar-icon" id="voice-avatar-icon">🎤</div>
             </div>
 
-            <!-- Status -->
             <div class="voice-status" id="voice-status">Ready to talk</div>
 
-            <!-- Voice Wave Animation -->
             <div class="voice-wave" id="voice-wave" style="display: none;">
                 <div class="wave-bar"></div>
                 <div class="wave-bar"></div>
@@ -1791,7 +2143,6 @@
                 <div class="wave-bar"></div>
             </div>
 
-            <!-- Live Transcript -->
             <div class="voice-transcript">
                 <div class="transcript-label">You said:</div>
                 <div class="user-transcript" id="voice-user-transcript">—</div>
@@ -1799,7 +2150,6 @@
                 <div class="assistant-transcript" id="voice-assistant-transcript">—</div>
             </div>
 
-            <!-- Voice Controls -->
             <div class="voice-controls">
                 <button class="voice-btn-control primary" id="voice-start-btn">
                     🎤 Start Conversation
@@ -1812,7 +2162,6 @@
                 </button>
             </div>
 
-            <!-- Voice Settings -->
             <div class="voice-settings">
                 <div class="settings-row">
                     <span class="settings-label">Voice</span>
@@ -1838,14 +2187,13 @@
         </div>
     </div>
 
-    <!-- Settings Panel -->
+    <!-- SETTINGS PANEL -->
     <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
             <div class="settings-title">Settings</div>
             <button class="settings-close" id="settings-close">✕</button>
         </div>
         <div class="settings-content">
-            <!-- Appearance -->
             <div class="settings-section">
                 <div class="settings-section-title">Appearance</div>
                 <div class="settings-item">
@@ -1868,7 +2216,36 @@
                 </div>
             </div>
 
-            <!-- Chat Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">Voice</div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Text-to-speech</div>
+                    </div>
+                    <button class="toggle-switch active" id="tts-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Voice</div>
+                    </div>
+                    <select class="select-input" id="voice-select">
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Speech rate</div>
+                    </div>
+                    <select class="select-input" id="rate-select">
+                        <option value="0.8">Slow</option>
+                        <option value="1" selected>Normal</option>
+                        <option value="1.2">Fast</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="settings-section">
                 <div class="settings-section-title">Chat</div>
                 <div class="settings-item">
@@ -1897,13 +2274,12 @@
                 </div>
             </div>
 
-            <!-- Danger Zone -->
             <div class="settings-section">
                 <div class="settings-section-title">Data</div>
                 <div class="danger-zone">
                     <div class="danger-title">Clear all conversations</div>
                     <div class="settings-item-desc" style="margin-bottom: 16px;">
-                        This action cannot be undone.
+                        This will permanently delete all chat history.
                     </div>
                     <button class="settings-btn danger" id="settings-clear-all-btn">
                         🗑️ Clear all chats
@@ -1911,20 +2287,19 @@
                 </div>
             </div>
 
-            <!-- About -->
             <div class="settings-section">
                 <div class="settings-section-title">About</div>
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">5.2.0 - Voice Conversation Mode</div>
+                        <div class="settings-item-desc">6.0.0 - Complete Conversational AI</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Auth Modal - Gmail Only -->
+    <!-- AUTH MODAL - GMAIL ONLY -->
     <div class="auth-modal" id="auth-modal">
         <div class="auth-modal-content">
             <button class="auth-modal-close" id="auth-modal-close">✕</button>
@@ -1943,7 +2318,6 @@
                 <span>or use email</span>
             </div>
 
-            <!-- Email Login -->
             <div id="login-form" class="auth-form active">
                 <div class="form-group">
                     <input type="email" id="email" class="form-input" placeholder="Email">
@@ -1962,7 +2336,6 @@
                 </div>
             </div>
 
-            <!-- Email Signup -->
             <div id="signup-form" class="auth-form">
                 <div class="form-group">
                     <input type="email" id="signup-email" class="form-input" placeholder="Email">
@@ -1990,8 +2363,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I v5.2.0 - VOICE CONVERSATION MODE
-        // ✅ TWO-WAY AUDIO | ✅ CHATGPT STYLE | ✅ MEMORY
+        // P.R.A.I v6.0.0 - COMPLETE UI WITH ALL FIXES!
+        // ✅ VOICE MODE | ✅ SEARCH | ✅ EDIT/COPY | ✅ RECENT
         // ============================================
 
         (function() {
@@ -2012,7 +2385,10 @@
                 settings: {
                     enterToSend: true,
                     typingIndicator: true,
-                    saveHistory: true
+                    saveHistory: true,
+                    ttsEnabled: true,
+                    ttsRate: 1,
+                    ttsVoice: ''
                 }
             };
 
@@ -2075,10 +2451,23 @@
                 voiceContinuousToggle: document.getElementById('voice-continuous-toggle'),
                 voiceRateSelect: document.getElementById('voice-rate-select'),
                 
+                // Search Elements
+                searchInput: document.getElementById('search-chats'),
+                searchClear: document.getElementById('search-clear'),
+                searchBadge: document.getElementById('search-badge'),
+                searchTermDisplay: document.getElementById('search-term-display'),
+                
                 // Settings
+                ttsToggle: document.getElementById('tts-toggle'),
+                voiceSelect: document.getElementById('voice-select'),
+                rateSelect: document.getElementById('rate-select'),
                 enterToSend: document.getElementById('enter-to-send'),
                 typingIndicatorToggle: document.getElementById('typing-indicator-toggle'),
-                saveHistory: document.getElementById('save-history')
+                saveHistory: document.getElementById('save-history'),
+                
+                // Time Elements
+                currentTime: document.getElementById('current-time'),
+                currentDate: document.getElementById('current-date')
             };
 
             // ============================================
@@ -2098,10 +2487,130 @@
             }
 
             // ============================================
-            // VOICE CONVERSATION MODE - FULL TWO-WAY AUDIO!
+            // REAL-TIME CLOCK
             // ============================================
-            
-            // Voice Conversation Class
+            function updateRealTimeClock() {
+                if (DOM.currentTime && DOM.currentDate) {
+                    const now = new Date();
+                    DOM.currentTime.textContent = now.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+                    DOM.currentDate.textContent = now.toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                    });
+                }
+            }
+            setInterval(updateRealTimeClock, 1000);
+            updateRealTimeClock();
+
+            // ============================================
+            // SEARCH CHATS - NEW FEATURE!
+            // ============================================
+            let searchTimeout = null;
+            let currentSearchTerm = '';
+
+            function initSearch() {
+                if (!DOM.searchInput) return;
+                
+                DOM.searchInput.addEventListener('input', function(e) {
+                    const term = e.target.value.trim();
+                    currentSearchTerm = term;
+                    
+                    if (DOM.searchClear) {
+                        DOM.searchClear.style.display = term.length > 0 ? 'flex' : 'none';
+                    }
+                    
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        performSearch(term);
+                    }, 300);
+                });
+                
+                if (DOM.searchClear) {
+                    DOM.searchClear.addEventListener('click', function() {
+                        DOM.searchInput.value = '';
+                        DOM.searchInput.focus();
+                        this.style.display = 'none';
+                        currentSearchTerm = '';
+                        performSearch('');
+                    });
+                }
+                
+                DOM.searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        this.value = '';
+                        if (DOM.searchClear) DOM.searchClear.style.display = 'none';
+                        currentSearchTerm = '';
+                        performSearch('');
+                    }
+                });
+            }
+
+            function performSearch(term) {
+                const historyItems = document.querySelectorAll('.history-item');
+                const emptyHistory = document.getElementById('empty-history');
+                const historyList = document.getElementById('history-list');
+                
+                const existingNoResults = document.querySelector('.no-search-results');
+                if (existingNoResults) existingNoResults.remove();
+                
+                if (DOM.searchBadge && DOM.searchTermDisplay) {
+                    if (term.length > 0) {
+                        DOM.searchBadge.style.display = 'inline-flex';
+                        DOM.searchTermDisplay.textContent = term;
+                    } else {
+                        DOM.searchBadge.style.display = 'none';
+                    }
+                }
+                
+                if (term.length === 0) {
+                    historyItems.forEach(item => {
+                        item.style.display = 'flex';
+                        item.classList.remove('highlight');
+                    });
+                    if (emptyHistory) {
+                        emptyHistory.style.display = Object.keys(State.chats).length === 0 ? 'flex' : 'none';
+                    }
+                    return;
+                }
+                
+                const searchLower = term.toLowerCase();
+                let hasResults = false;
+                
+                historyItems.forEach(item => {
+                    if (item.id === 'empty-history') return;
+                    
+                    const chatTitle = item.textContent.toLowerCase();
+                    
+                    if (chatTitle.includes(searchLower)) {
+                        item.style.display = 'flex';
+                        item.classList.add('highlight');
+                        hasResults = true;
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.remove('highlight');
+                    }
+                });
+                
+                if (emptyHistory) emptyHistory.style.display = 'none';
+                
+                if (!hasResults && historyList) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-search-results';
+                    noResults.innerHTML = `🔍 No chats matching "${term}"`;
+                    historyList.appendChild(noResults);
+                }
+            }
+
+            // ============================================
+            // VOICE CONVERSATION MODE
+            // ============================================
             class VoiceConversation {
                 constructor() {
                     this.recognition = null;
@@ -2313,8 +2822,7 @@
                             this.startListening();
                             this.updateUI();
                         })
-                        .catch((error) => {
-                            console.error('Microphone error:', error);
+                        .catch(() => {
                             if (DOM.voiceStatus) {
                                 DOM.voiceStatus.textContent = '❌ Please allow microphone access';
                             }
@@ -2325,9 +2833,7 @@
                     if (this.recognition && !this.isListening && this.conversationActive) {
                         try {
                             this.recognition.start();
-                        } catch (e) {
-                            console.log('Recognition already started');
-                        }
+                        } catch (e) {}
                     }
                 }
                 
@@ -2353,7 +2859,6 @@
                     this.isThinking = false;
                     this.updateUI();
                     
-                    // Reset transcript
                     if (DOM.voiceUserTranscript) DOM.voiceUserTranscript.textContent = '—';
                     if (DOM.voiceAssistantTranscript) DOM.voiceAssistantTranscript.textContent = '—';
                 }
@@ -2387,7 +2892,6 @@
                         DOM.voiceWave.style.display = 'none';
                     }
                     
-                    // Update buttons
                     if (DOM.voiceStartBtn && DOM.voicePauseBtn && DOM.voiceStopBtn) {
                         if (this.conversationActive) {
                             DOM.voiceStartBtn.style.display = 'none';
@@ -2421,28 +2925,15 @@
                 }
                 
                 setupEventListeners() {
-                    // Start conversation
                     if (DOM.voiceStartBtn) {
-                        DOM.voiceStartBtn.addEventListener('click', () => {
-                            this.startConversation();
-                        });
+                        DOM.voiceStartBtn.addEventListener('click', () => this.startConversation());
                     }
-                    
-                    // Pause conversation
                     if (DOM.voicePauseBtn) {
-                        DOM.voicePauseBtn.addEventListener('click', () => {
-                            this.pauseConversation();
-                        });
+                        DOM.voicePauseBtn.addEventListener('click', () => this.pauseConversation());
                     }
-                    
-                    // Stop conversation
                     if (DOM.voiceStopBtn) {
-                        DOM.voiceStopBtn.addEventListener('click', () => {
-                            this.stopConversation();
-                        });
+                        DOM.voiceStopBtn.addEventListener('click', () => this.stopConversation());
                     }
-                    
-                    // Continuous toggle
                     if (DOM.voiceContinuousToggle) {
                         DOM.voiceContinuousToggle.addEventListener('click', (e) => {
                             e.stopPropagation();
@@ -2451,8 +2942,6 @@
                             this.saveSettings();
                         });
                     }
-                    
-                    // Voice select
                     if (DOM.voiceVoiceSelect) {
                         DOM.voiceVoiceSelect.addEventListener('change', (e) => {
                             this.settings.voiceURI = e.target.value;
@@ -2460,8 +2949,6 @@
                             this.saveSettings();
                         });
                     }
-                    
-                    // Rate select
                     if (DOM.voiceRateSelect) {
                         DOM.voiceRateSelect.addEventListener('change', (e) => {
                             this.settings.rate = parseFloat(e.target.value);
@@ -2471,19 +2958,12 @@
                 }
             }
 
-            // Voice Conversation Instance
             let voiceConversation = null;
 
-            // ============================================
-            // VOICE MODE BUTTON HANDLER
-            // ============================================
             if (DOM.voiceModeBtn) {
                 DOM.voiceModeBtn.addEventListener('click', () => {
-                    // Show modal
                     if (DOM.voiceModal) {
                         DOM.voiceModal.style.display = 'flex';
-                        
-                        // Initialize voice conversation
                         if (!voiceConversation) {
                             voiceConversation = new VoiceConversation();
                         }
@@ -2491,7 +2971,6 @@
                 });
             }
 
-            // Close voice modal
             if (DOM.voiceModalClose) {
                 DOM.voiceModalClose.addEventListener('click', () => {
                     if (DOM.voiceModal) {
@@ -2503,7 +2982,6 @@
                 });
             }
 
-            // Close modal when clicking outside
             if (DOM.voiceModal) {
                 DOM.voiceModal.addEventListener('click', (e) => {
                     if (e.target === DOM.voiceModal) {
@@ -2513,6 +2991,100 @@
                         }
                     }
                 });
+            }
+
+            // ============================================
+            // TEXT-TO-SPEECH
+            // ============================================
+            let synth = window.speechSynthesis;
+            let voices = [];
+            let currentUtterance = null;
+
+            function loadVoices() {
+                return new Promise((resolve) => {
+                    voices = synth.getVoices();
+                    if (voices.length > 0) {
+                        populateVoiceSelect();
+                        resolve();
+                    } else {
+                        synth.onvoiceschanged = () => {
+                            voices = synth.getVoices();
+                            populateVoiceSelect();
+                            resolve();
+                        };
+                    }
+                });
+            }
+
+            function populateVoiceSelect() {
+                if (!DOM.voiceSelect) return;
+                DOM.voiceSelect.innerHTML = '';
+                
+                const englishVoices = voices.filter(v => v.lang.includes('en'));
+                const voicesToShow = englishVoices.length > 0 ? englishVoices : voices;
+                
+                voicesToShow.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.voiceURI;
+                    option.textContent = `${voice.name}`;
+                    DOM.voiceSelect.appendChild(option);
+                });
+                
+                const savedVoice = localStorage.getItem('prai_voice');
+                if (savedVoice && DOM.voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
+                    DOM.voiceSelect.value = savedVoice;
+                    State.settings.ttsVoice = savedVoice;
+                }
+            }
+
+            function speakText(text, messageId = null) {
+                if (!State.settings.ttsEnabled || !synth) return;
+                
+                stopSpeaking();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                if (State.settings.ttsVoice) {
+                    const voice = voices.find(v => v.voiceURI === State.settings.ttsVoice);
+                    if (voice) utterance.voice = voice;
+                }
+                
+                utterance.rate = State.settings.ttsRate;
+                
+                utterance.onstart = () => {
+                    currentUtterance = utterance;
+                    if (messageId) {
+                        const btn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
+                        if (btn) {
+                            btn.classList.add('speaking');
+                            btn.innerHTML = '⏹️';
+                        }
+                    }
+                };
+                
+                utterance.onend = () => {
+                    currentUtterance = null;
+                    if (messageId) {
+                        const btn = document.querySelector(`.voice-btn[data-message-id="${messageId}"]`);
+                        if (btn) {
+                            btn.classList.remove('speaking');
+                            btn.innerHTML = '🔊';
+                        }
+                    }
+                };
+                
+                synth.speak(utterance);
+            }
+
+            function stopSpeaking() {
+                if (synth) {
+                    synth.cancel();
+                    currentUtterance = null;
+                    document.querySelectorAll('.voice-btn.speaking').forEach(btn => {
+                        btn.classList.remove('speaking');
+                        btn.innerHTML = '🔊';
+                    });
+                }
             }
 
             // ============================================
@@ -2566,8 +3138,8 @@
                     const avatarUrl = localStorage.getItem('prai_avatar');
                     
                     if (avatarUrl && avatarUrl !== 'null') {
-                        DOM.profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile">`;
-                        DOM.dropdownAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile">`;
+                        DOM.profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">`;
+                        DOM.dropdownAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">`;
                     } else {
                         DOM.profileAvatar.innerHTML = initial;
                         DOM.dropdownAvatar.innerHTML = initial;
@@ -2634,6 +3206,18 @@
                             
                             updateProfileUI();
                             showToast(`Welcome, ${State.userName}!`);
+                            
+                            // Update welcome message with name
+                            if (DOM.messagesContainer && DOM.messagesContainer.children.length > 0) {
+                                const firstMessage = DOM.messagesContainer.children[0];
+                                if (firstMessage && firstMessage.classList.contains('bot-message')) {
+                                    const welcomeText = firstMessage.querySelector('.message-text');
+                                    if (welcomeText && welcomeText.textContent.includes("Hello!")) {
+                                        welcomeText.textContent = `Hello ${State.userName}! I'm P.R.A.I, your intelligent assistant. How can I help you today?`;
+                                    }
+                                }
+                            }
+                            
                             window.history.replaceState({}, document.title, '/');
                         }
                     });
@@ -2755,6 +3339,7 @@
             function openSettings() {
                 DOM.settingsPanel?.classList.add('open');
                 loadSettings();
+                loadVoices();
             }
 
             function closeSettings() {
@@ -2772,6 +3357,8 @@
                 if (DOM.enterToSend) DOM.enterToSend.classList.toggle('active', State.settings.enterToSend);
                 if (DOM.typingIndicatorToggle) DOM.typingIndicatorToggle.classList.toggle('active', State.settings.typingIndicator);
                 if (DOM.saveHistory) DOM.saveHistory.classList.toggle('active', State.settings.saveHistory);
+                if (DOM.ttsToggle) DOM.ttsToggle.classList.toggle('active', State.settings.ttsEnabled);
+                if (DOM.rateSelect) DOM.rateSelect.value = State.settings.ttsRate;
             }
 
             // ============================================
@@ -2829,7 +3416,7 @@
             }
 
             // ============================================
-            // MESSAGES
+            // MESSAGES - WITH EDIT/COPY FEATURES
             // ============================================
             function addMessage(content, isUser, metadata = {}) {
                 if (!DOM.messagesContainer) return;
@@ -2842,6 +3429,7 @@
                 
                 const contentDiv = document.createElement('div');
                 contentDiv.className = 'message-content';
+                contentDiv.setAttribute('data-original-content', content);
                 
                 const senderSpan = document.createElement('span');
                 senderSpan.className = 'message-sender';
@@ -2853,35 +3441,205 @@
                 textDiv.className = 'message-text';
                 contentDiv.appendChild(textDiv);
                 
+                // Message Actions - Copy & Edit (only for user messages)
+                if (isUser) {
+                    const actionsDiv = document.createElement('div');
+                    actionsDiv.className = 'message-actions';
+                    
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'message-action-btn';
+                    copyBtn.innerHTML = '📋';
+                    copyBtn.title = 'Copy message';
+                    copyBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(content);
+                        showToast('📋 Message copied to clipboard');
+                    };
+                    
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'message-action-btn';
+                    editBtn.innerHTML = '✏️';
+                    editBtn.title = 'Edit message';
+                    editBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        enableEditMode(messageDiv, contentDiv, textDiv, content);
+                    };
+                    
+                    actionsDiv.appendChild(copyBtn);
+                    actionsDiv.appendChild(editBtn);
+                    contentDiv.appendChild(actionsDiv);
+                }
+                
+                // Voice button for bot messages
+                if (!isUser) {
+                    const footerDiv = document.createElement('div');
+                    footerDiv.className = 'message-footer';
+                    
+                    const voiceBtn = document.createElement('button');
+                    voiceBtn.className = 'voice-btn';
+                    voiceBtn.innerHTML = '🔊';
+                    voiceBtn.title = 'Listen';
+                    voiceBtn.setAttribute('data-message-id', messageId);
+                    voiceBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        if (currentUtterance) {
+                            stopSpeaking();
+                        } else {
+                            speakText(content, messageId);
+                        }
+                    };
+                    
+                    footerDiv.appendChild(voiceBtn);
+                    contentDiv.appendChild(footerDiv);
+                }
+                
                 messageDiv.appendChild(contentDiv);
                 DOM.messagesContainer.appendChild(messageDiv);
                 DOM.messagesContainer.scrollTop = DOM.messagesContainer.scrollHeight;
                 
+                // Auto-play voice
+                if (!isUser && State.settings.ttsEnabled) {
+                    setTimeout(() => speakText(content, messageId), 100);
+                }
+                
+                // Save to history
                 if (State.settings.saveHistory) {
-                    if (!State.chats[State.currentChatId]) {
-                        State.chats[State.currentChatId] = {
-                            id: State.currentChatId,
-                            title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
-                            messages: [],
-                            timestamp: Date.now()
-                        };
-                    }
-                    
-                    State.chats[State.currentChatId].messages.push({
-                        id: messageId,
-                        content,
-                        isUser,
-                        timestamp: new Date().toLocaleTimeString(),
-                        metadata
-                    });
-                    
-                    localStorage.setItem('praiChats', JSON.stringify(State.chats));
-                    updateHistory();
+                    saveMessageToHistory(messageId, content, isUser, metadata);
                 }
             }
 
+            // ============================================
+            // EDIT MESSAGE FEATURE
+            // ============================================
+            function enableEditMode(messageDiv, contentDiv, textDiv, originalContent) {
+                messageDiv.classList.add('editing');
+                textDiv.style.display = 'none';
+                
+                const textarea = document.createElement('textarea');
+                textarea.className = 'edit-textarea';
+                textarea.value = originalContent;
+                textarea.style.height = 'auto';
+                textarea.style.height = (textarea.scrollHeight) + 'px';
+                textarea.focus();
+                
+                const editActions = document.createElement('div');
+                editActions.className = 'edit-actions';
+                
+                const saveBtn = document.createElement('button');
+                saveBtn.className = 'edit-save-btn';
+                saveBtn.innerHTML = 'Save';
+                
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'edit-cancel-btn';
+                cancelBtn.innerHTML = 'Cancel';
+                
+                editActions.appendChild(saveBtn);
+                editActions.appendChild(cancelBtn);
+                
+                contentDiv.appendChild(textarea);
+                contentDiv.appendChild(editActions);
+                
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+                
+                saveBtn.onclick = () => {
+                    const newContent = textarea.value.trim();
+                    if (newContent && newContent !== originalContent) {
+                        textDiv.textContent = newContent;
+                        contentDiv.setAttribute('data-original-content', newContent);
+                        updateMessageInHistory(messageDiv.id, newContent);
+                        showToast('✅ Message updated');
+                    }
+                    cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions);
+                };
+                
+                cancelBtn.onclick = () => {
+                    cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions);
+                };
+                
+                textarea.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions);
+                    }
+                });
+            }
+
+            function cleanupEditMode(messageDiv, contentDiv, textDiv, textarea, editActions) {
+                messageDiv.classList.remove('editing');
+                textDiv.style.display = 'block';
+                if (textarea && textarea.parentNode) textarea.remove();
+                if (editActions && editActions.parentNode) editActions.remove();
+            }
+
+            function updateMessageInHistory(messageId, newContent) {
+                if (!State.chats[State.currentChatId]) return;
+                const messages = State.chats[State.currentChatId].messages;
+                const messageIndex = messages.findIndex(m => m.id === messageId);
+                
+                if (messageIndex !== -1) {
+                    messages[messageIndex].content = newContent;
+                    messages[messageIndex].edited = true;
+                    messages[messageIndex].editedAt = new Date().toLocaleTimeString();
+                    localStorage.setItem('praiChats', JSON.stringify(State.chats));
+                    
+                    if (messageIndex === 0) {
+                        State.chats[State.currentChatId].title = newContent.substring(0, 30) + (newContent.length > 30 ? '...' : '');
+                        localStorage.setItem('praiChats', JSON.stringify(State.chats));
+                        updateHistory();
+                    }
+                }
+            }
+
+            function saveMessageToHistory(messageId, content, isUser, metadata) {
+                if (!State.chats[State.currentChatId]) {
+                    State.chats[State.currentChatId] = {
+                        id: State.currentChatId,
+                        title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
+                        messages: [],
+                        timestamp: Date.now()
+                    };
+                }
+                
+                State.chats[State.currentChatId].messages.push({
+                    id: messageId,
+                    content,
+                    isUser,
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    metadata,
+                    edited: false
+                });
+                
+                if (isUser && State.chats[State.currentChatId].messages.filter(m => m.isUser).length === 1) {
+                    State.chats[State.currentChatId].title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
+                }
+                
+                localStorage.setItem('praiChats', JSON.stringify(State.chats));
+                updateHistory();
+            }
+
+            // ============================================
+            // WELCOME MESSAGE - FRIENDLY & PERSONAL!
+            // ============================================
             function addWelcomeMessage() {
-                addMessage(`How can I help you today?`, false);
+                const existingMessages = DOM.messagesContainer?.children;
+                if (existingMessages && existingMessages.length > 0) {
+                    for (let i = 0; i < existingMessages.length; i++) {
+                        if (existingMessages[i].classList.contains('bot-message')) {
+                            return;
+                        }
+                    }
+                }
+                
+                const userName = State.userName || null;
+                let welcomeMessage = "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?";
+                
+                if (userName) {
+                    welcomeMessage = `Hello ${userName}! I'm P.R.A.I, your intelligent assistant. How can I help you today?`;
+                }
+                
+                addMessage(welcomeMessage, false);
             }
 
             function showTypingIndicator() {
@@ -2906,6 +3664,9 @@
                 if (indicator) indicator.remove();
             }
 
+            // ============================================
+            // SEND MESSAGE
+            // ============================================
             async function sendMessage() {
                 if (!DOM.messageInput) return;
                 
@@ -2945,7 +3706,9 @@
                     if (data.error) {
                         addMessage(`Error: ${data.error}`, false);
                     } else if (data[0]?.generated_text) {
-                        addMessage(data[0].generated_text, false);
+                        addMessage(data[0].generated_text, false, {
+                            type: data[0].type
+                        });
                     }
                     
                     clearUploadedFile();
@@ -2960,10 +3723,12 @@
             }
 
             // ============================================
-            // HISTORY
+            // HISTORY MANAGEMENT
             // ============================================
             function updateHistory() {
                 if (!DOM.historyList) return;
+                
+                const currentSearch = currentSearchTerm;
                 
                 DOM.historyList.innerHTML = '';
                 
@@ -2971,7 +3736,9 @@
                 if (savedChats) {
                     try {
                         State.chats = JSON.parse(savedChats);
-                    } catch (e) {}
+                    } catch (e) {
+                        State.chats = {};
+                    }
                 }
                 
                 if (Object.keys(State.chats).length === 0) {
@@ -2986,13 +3753,30 @@
                 
                 const sortedChats = Object.values(State.chats).sort((a, b) => b.timestamp - a.timestamp);
                 
-                sortedChats.slice(0, 20).forEach(chat => {
+                sortedChats.slice(0, 50).forEach(chat => {
                     const item = document.createElement('div');
                     item.className = `history-item ${chat.id === State.currentChatId ? 'active' : ''}`;
-                    item.textContent = chat.title || 'New Chat';
+                    
+                    let icon = '💬';
+                    const firstMessage = chat.messages?.[0]?.content || '';
+                    if (firstMessage.toLowerCase().includes('hello') || firstMessage.toLowerCase().includes('hi')) {
+                        icon = '👋';
+                    } else if (firstMessage.toLowerCase().includes('?')) {
+                        icon = '❓';
+                    } else if (firstMessage.toLowerCase().includes('code') || firstMessage.toLowerCase().includes('python')) {
+                        icon = '💻';
+                    } else if (firstMessage.toLowerCase().includes('file')) {
+                        icon = '📎';
+                    }
+                    
+                    item.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${chat.title || 'New Chat'}`;
                     item.onclick = () => loadChat(chat.id);
                     DOM.historyList.appendChild(item);
                 });
+                
+                if (currentSearch) {
+                    setTimeout(() => performSearch(currentSearch), 0);
+                }
             }
 
             function loadChat(chatId) {
@@ -3015,7 +3799,7 @@
             }
 
             function clearAllChats() {
-                if (confirm('Delete all conversations?')) {
+                if (confirm('Delete all conversations? This cannot be undone.')) {
                     State.chats = {};
                     localStorage.removeItem('praiChats');
                     State.currentChatId = 'chat-' + Date.now();
@@ -3024,8 +3808,9 @@
                         addWelcomeMessage();
                     }
                     updateHistory();
-                    showToast('All chats cleared');
+                    showToast('🗑️ All conversations cleared');
                     closeSettings();
+                    if (DOM.profileDropdown) DOM.profileDropdown.classList.remove('show');
                 }
             }
 
@@ -3180,6 +3965,30 @@
                 }
                 
                 // Settings toggles
+                if (DOM.ttsToggle) {
+                    DOM.ttsToggle.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        this.classList.toggle('active');
+                        State.settings.ttsEnabled = this.classList.contains('active');
+                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
+                    });
+                }
+                
+                if (DOM.voiceSelect) {
+                    DOM.voiceSelect.addEventListener('change', (e) => {
+                        State.settings.ttsVoice = e.target.value;
+                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
+                        localStorage.setItem('prai_voice', e.target.value);
+                    });
+                }
+                
+                if (DOM.rateSelect) {
+                    DOM.rateSelect.addEventListener('change', (e) => {
+                        State.settings.ttsRate = parseFloat(e.target.value);
+                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
+                    });
+                }
+                
                 if (DOM.enterToSend) {
                     DOM.enterToSend.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -3210,7 +4019,7 @@
             }
 
             // ============================================
-            // INIT
+            // INITIALIZE
             // ============================================
             function init() {
                 // Load chats
@@ -3218,7 +4027,9 @@
                 if (savedChats) {
                     try {
                         State.chats = JSON.parse(savedChats);
-                    } catch (e) {}
+                    } catch (e) {
+                        State.chats = {};
+                    }
                 }
                 
                 // Load settings
@@ -3231,6 +4042,12 @@
                 
                 // OAuth callback
                 handleOAuthCallback();
+                
+                // Load voices
+                loadVoices();
+                
+                // Initialize search
+                initSearch();
                 
                 // Event listeners
                 initEventListeners();
@@ -3249,7 +4066,7 @@
                 // Focus input
                 if (DOM.messageInput) DOM.messageInput.focus();
                 
-                console.log('✅ P.R.A.I v5.2.0 - Voice Conversation Mode Ready');
+                console.log('✅ P.R.A.I v6.0.0 - Complete Conversational AI');
             }
 
             init();
