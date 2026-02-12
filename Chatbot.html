@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P.R.A.I – Intelligent Assistant</title>
+    <title>P.R.A.I – Intelligent Conversational Assistant</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           PRODUCTION READY - DEEPSEEK STYLE SYSTEM
-           VERSION: 3.0.0 - STABLE
+           P.R.A.I v4.0.0 - PRODUCTION READY
+           CONVERSATIONAL AI WITH REAL-TIME DATA
            ============================================ */
         
-        /* CSS RESET */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* BASE STYLES */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #ffffff;
@@ -36,7 +34,6 @@
             color: #f9fafb;
         }
 
-        /* APP LAYOUT */
         .app {
             display: flex;
             height: 100vh;
@@ -49,7 +46,7 @@
         }
 
         /* ============================================
-           SIDEBAR - STABLE
+           SIDEBAR - ENHANCED
            ============================================ */
         .sidebar {
             width: 280px;
@@ -74,21 +71,21 @@
         }
 
         .logo-icon {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             background: #2563eb;
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             color: white;
-            font-size: 16px;
+            font-size: 20px;
         }
 
         .logo-text {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             color: #2563eb;
         }
 
@@ -116,6 +113,64 @@
 
         .new-chat-btn:hover {
             background: #1d4ed8;
+        }
+
+        /* ============================================
+           PERSONALITY SELECTOR - NEW!
+           ============================================ */
+        .personality-selector {
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .personality-label {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .dark-mode .personality-label {
+            color: #9ca3af;
+        }
+
+        .personality-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .personality-btn {
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            background: transparent;
+            color: #4b5563;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1 0 calc(50% - 4px);
+        }
+
+        .dark-mode .personality-btn {
+            border-color: #374151;
+            color: #d1d5db;
+        }
+
+        .personality-btn:hover {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .personality-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
         }
 
         .voice-mode-btn {
@@ -210,7 +265,7 @@
         }
 
         /* ============================================
-           MAIN CHAT AREA - STABLE
+           MAIN CHAT AREA - ENHANCED
            ============================================ */
         .chat-area {
             flex: 1;
@@ -246,6 +301,38 @@
 
         .dark-mode .chat-title {
             color: #f9fafb;
+        }
+
+        /* ============================================
+           REAL-TIME WIDGET - NEW!
+           ============================================ */
+        .realtime-widget {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border-radius: 40px;
+        }
+
+        .dark-mode .realtime-widget {
+            background: #1f2937;
+        }
+
+        .time-widget, .date-widget {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .dark-mode .time-widget, .dark-mode .date-widget {
+            color: #d1d5db;
+        }
+
+        .widget-icon {
+            font-size: 16px;
         }
 
         .header-actions {
@@ -470,6 +557,329 @@
         .dark-mode .dropdown-item.logout {
             color: #f87171;
             border-top: 1px solid #374151;
+        }
+
+        /* ============================================
+           MESSAGES - CONVERSATIONAL
+           ============================================ */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .message {
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .message-content {
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-size: 15px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .user-message .message-content {
+            background: #2563eb;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message .message-content {
+            background: #f3f4f6;
+            color: #111827;
+            border-bottom-left-radius: 4px;
+        }
+
+        .dark-mode .bot-message .message-content {
+            background: #1f2937;
+            color: #f9fafb;
+        }
+
+        .message-sender {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #6b7280;
+        }
+
+        .dark-mode .message-sender {
+            color: #9ca3af;
+        }
+
+        .message-text {
+            white-space: pre-wrap;
+        }
+
+        /* Personality Badge */
+        .personality-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 12px;
+            font-size: 10px;
+            color: #2563eb;
+            margin-left: 8px;
+        }
+
+        .dark-mode .personality-badge {
+            background: rgba(96, 165, 250, 0.2);
+            color: #93c5fd;
+        }
+
+        /* Voice button for bot messages */
+        .voice-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #d1d5db;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-left: 8px;
+        }
+
+        .dark-mode .voice-btn {
+            border: 1px solid #4b5563;
+            color: #9ca3af;
+        }
+
+        .voice-btn:hover {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .voice-btn.speaking {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+            animation: pulse 1.5s infinite;
+        }
+
+        .message-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .bot-message .message-footer {
+            justify-content: flex-start;
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 16px 20px;
+            background: #f3f4f6;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            width: fit-content;
+        }
+
+        .dark-mode .typing-indicator {
+            background: #1f2937;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #6b7280;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .dark-mode .typing-dot {
+            background: #9ca3af;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        /* ============================================
+           INPUT AREA - ENHANCED
+           ============================================ */
+        .input-area {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .dark-mode .input-area {
+            background: #0a0a0a;
+            border-top: 1px solid #1f2937;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            background: #f3f4f6;
+            border: 1px solid transparent;
+            border-radius: 24px;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .input-container {
+            background: #1f2937;
+        }
+
+        .input-container:focus-within {
+            border-color: #2563eb;
+            background: white;
+        }
+
+        .dark-mode .input-container:focus-within {
+            background: #111827;
+            border-color: #60a5fa;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 14px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 24px;
+            color: #111827;
+            font-size: 15px;
+            resize: none;
+            min-height: 52px;
+            max-height: 200px;
+            outline: none;
+        }
+
+        .dark-mode .message-input {
+            color: #f9fafb;
+        }
+
+        .message-input::placeholder {
+            color: #6b7280;
+        }
+
+        .dark-mode .message-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding-right: 8px;
+            padding-bottom: 8px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .dark-mode .action-btn {
+            color: #9ca3af;
+        }
+
+        .action-btn:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+        }
+
+        .send-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #2563eb;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .send-button:hover {
+            background: #1d4ed8;
+            transform: scale(1.05);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .quick-action {
+            padding: 6px 14px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            color: #4b5563;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .dark-mode .quick-action {
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #d1d5db;
+        }
+
+        .quick-action:hover {
+            background: white;
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .hidden {
+            display: none;
         }
 
         /* ============================================
@@ -761,532 +1171,7 @@
         }
 
         /* ============================================
-           MESSAGES - STABLE
-           ============================================ */
-        .messages-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .message {
-            max-width: 80%;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .user-message {
-            align-self: flex-end;
-        }
-
-        .bot-message {
-            align-self: flex-start;
-        }
-
-        .message-content {
-            padding: 16px 20px;
-            border-radius: 18px;
-            font-size: 15px;
-            line-height: 1.6;
-            word-break: break-word;
-        }
-
-        .user-message .message-content {
-            background: #2563eb;
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .bot-message .message-content {
-            background: #f3f4f6;
-            color: #111827;
-            border-bottom-left-radius: 4px;
-        }
-
-        .dark-mode .bot-message .message-content {
-            background: #1f2937;
-            color: #f9fafb;
-        }
-
-        .message-sender {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #6b7280;
-        }
-
-        .dark-mode .message-sender {
-            color: #9ca3af;
-        }
-
-        .message-text {
-            white-space: pre-wrap;
-        }
-
-        /* Voice button for bot messages */
-        .voice-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid #d1d5db;
-            background: transparent;
-            color: #6b7280;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            margin-left: 8px;
-        }
-
-        .dark-mode .voice-btn {
-            border: 1px solid #4b5563;
-            color: #9ca3af;
-        }
-
-        .voice-btn:hover {
-            background: #2563eb;
-            color: white;
-            border-color: #2563eb;
-        }
-
-        .voice-btn.speaking {
-            background: #dc2626;
-            color: white;
-            border-color: #dc2626;
-            animation: pulse 1.5s infinite;
-        }
-
-        .message-footer {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: 8px;
-        }
-
-        .bot-message .message-footer {
-            justify-content: flex-start;
-        }
-
-        /* Typing indicator */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 16px 20px;
-            background: #f3f4f6;
-            border-radius: 18px;
-            border-bottom-left-radius: 4px;
-            width: fit-content;
-        }
-
-        .dark-mode .typing-indicator {
-            background: #1f2937;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #6b7280;
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .dark-mode .typing-dot {
-            background: #9ca3af;
-        }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-8px); opacity: 1; }
-        }
-
-        /* ============================================
-           INPUT AREA - STABLE
-           ============================================ */
-        .input-area {
-            padding: 16px 24px;
-            border-top: 1px solid #e5e7eb;
-            background: white;
-        }
-
-        .dark-mode .input-area {
-            background: #0a0a0a;
-            border-top: 1px solid #1f2937;
-        }
-
-        .input-container {
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            background: #f3f4f6;
-            border: 1px solid transparent;
-            border-radius: 24px;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .input-container {
-            background: #1f2937;
-        }
-
-        .input-container:focus-within {
-            border-color: #2563eb;
-            background: white;
-        }
-
-        .dark-mode .input-container:focus-within {
-            background: #111827;
-            border-color: #60a5fa;
-        }
-
-        .message-input {
-            flex: 1;
-            padding: 14px 16px;
-            background: transparent;
-            border: none;
-            border-radius: 24px;
-            color: #111827;
-            font-size: 15px;
-            resize: none;
-            min-height: 52px;
-            max-height: 200px;
-            outline: none;
-        }
-
-        .dark-mode .message-input {
-            color: #f9fafb;
-        }
-
-        .message-input::placeholder {
-            color: #6b7280;
-        }
-
-        .dark-mode .message-input::placeholder {
-            color: #9ca3af;
-        }
-
-        .input-actions {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-            padding-right: 8px;
-            padding-bottom: 8px;
-        }
-
-        .action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: transparent;
-            border: none;
-            color: #6b7280;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .dark-mode .action-btn {
-            color: #9ca3af;
-        }
-
-        .action-btn:hover {
-            background: rgba(37, 99, 235, 0.1);
-            color: #2563eb;
-        }
-
-        .send-button {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #2563eb;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .send-button:hover {
-            background: #1d4ed8;
-            transform: scale(1.05);
-        }
-
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-
-        .quick-action {
-            padding: 6px 14px;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 20px;
-            color: #4b5563;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .dark-mode .quick-action {
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #d1d5db;
-        }
-
-        .quick-action:hover {
-            background: white;
-            border-color: #2563eb;
-            color: #2563eb;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* ============================================
-           AUTH MODAL - GMAIL ONLY
-           ============================================ */
-        .auth-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 999999;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .auth-modal-content {
-            background: white;
-            border-radius: 24px;
-            width: 440px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-        }
-
-        .dark-mode .auth-modal-content {
-            background: #1f2937;
-            border: 1px solid #374151;
-        }
-
-        .auth-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid #e5e7eb;
-            background: transparent;
-            color: #6b7280;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .dark-mode .auth-modal-close {
-            border: 1px solid #4b5563;
-            color: #9ca3af;
-        }
-
-        .auth-modal-close:hover {
-            background: #f3f4f6;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .auth-header h2 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 8px;
-        }
-
-        .dark-mode .auth-header h2 {
-            color: #f9fafb;
-        }
-
-        .auth-header p {
-            color: #6b7280;
-            font-size: 15px;
-        }
-
-        .dark-mode .auth-header p {
-            color: #9ca3af;
-        }
-
-        /* GMAIL ONLY - Primary button */
-        .gmail-login-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            background: #2563eb;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .gmail-login-btn:hover {
-            background: #1d4ed8;
-            transform: translateY(-1px);
-        }
-
-        .gmail-login-btn span {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: #6b7280;
-            font-size: 14px;
-            margin: 24px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .dark-mode .divider::before,
-        .dark-mode .divider::after {
-            border-bottom: 1px solid #4b5563;
-        }
-
-        .divider span {
-            margin: 0 16px;
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            color: #111827;
-            font-size: 15px;
-            transition: all 0.2s;
-        }
-
-        .dark-mode .form-input {
-            background: #111827;
-            border: 1px solid #4b5563;
-            color: #f9fafb;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #2563eb;
-            background: white;
-        }
-
-        .dark-mode .form-input:focus {
-            background: #1f2937;
-            border-color: #60a5fa;
-        }
-
-        .auth-action-btn {
-            width: 100%;
-            padding: 14px;
-            background: #2563eb;
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 8px;
-        }
-
-        .auth-action-btn:hover {
-            background: #1d4ed8;
-        }
-
-        .auth-toggle {
-            text-align: center;
-            margin-top: 20px;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .auth-toggle button {
-            background: none;
-            border: none;
-            color: #2563eb;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            margin-left: 4px;
-        }
-
-        .auth-toggle button:hover {
-            text-decoration: underline;
-        }
-
-        /* ============================================
-           VOICE MODAL - STABLE
+           VOICE MODAL - ENHANCED
            ============================================ */
         .voice-modal {
             display: none;
@@ -1582,37 +1467,221 @@
             color: #f9fafb;
         }
 
-        .toggle-switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            background: #d1d5db;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
+        /* ============================================
+           AUTH MODAL - GMAIL ONLY
+           ============================================ */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
         }
 
-        .dark-mode .toggle-switch {
-            background: #4b5563;
-        }
-
-        .toggle-switch.active {
-            background: #2563eb;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
+        .auth-modal-content {
             background: white;
-            border-radius: 50%;
-            transition: left 0.2s;
+            border-radius: 24px;
+            width: 440px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
         }
 
-        .toggle-switch.active .toggle-slider {
-            left: 22px;
+        .dark-mode .auth-modal-content {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+
+        .auth-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #e5e7eb;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .dark-mode .auth-modal-close {
+            border: 1px solid #4b5563;
+            color: #9ca3af;
+        }
+
+        .auth-modal-close:hover {
+            background: #f3f4f6;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .dark-mode .auth-header h2 {
+            color: #f9fafb;
+        }
+
+        .auth-header p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .dark-mode .auth-header p {
+            color: #9ca3af;
+        }
+
+        .gmail-login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .gmail-login-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .gmail-login-btn span {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin: 24px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dark-mode .divider::before,
+        .dark-mode .divider::after {
+            border-bottom: 1px solid #4b5563;
+        }
+
+        .divider span {
+            margin: 0 16px;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            color: #111827;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .form-input {
+            background: #111827;
+            border: 1px solid #4b5563;
+            color: #f9fafb;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+        }
+
+        .dark-mode .form-input:focus {
+            background: #1f2937;
+            border-color: #60a5fa;
+        }
+
+        .auth-action-btn {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .auth-action-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .auth-toggle button {
+            background: none;
+            border: none;
+            color: #2563eb;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+
+        .auth-toggle button:hover {
+            text-decoration: underline;
         }
 
         /* ============================================
@@ -1656,11 +1725,29 @@
             50% { transform: scale(1.05); opacity: 0.9; }
             100% { transform: scale(1); opacity: 1; }
         }
+
+        /* Real-time data indicator */
+        .realtime-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            font-size: 10px;
+            color: #10b981;
+            margin-left: 8px;
+        }
+
+        .dark-mode .realtime-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
     </style>
 </head>
 <body class="dark-mode">
     <div class="app">
-        <!-- Sidebar -->
+        <!-- Sidebar - Enhanced -->
         <aside class="sidebar">
             <div class="logo">
                 <div class="logo-icon">P</div>
@@ -1669,15 +1756,27 @@
 
             <button class="new-chat-btn" id="new-chat-btn">
                 <span>+</span>
-                New Chat
+                New Conversation
             </button>
+
+            <!-- Personality Selector - NEW! -->
+            <div class="personality-selector">
+                <span class="personality-label">AI Personality</span>
+                <div class="personality-buttons" id="personality-buttons">
+                    <button class="personality-btn active" data-personality="casual">😊 Casual</button>
+                    <button class="personality-btn" data-personality="professional">👔 Professional</button>
+                    <button class="personality-btn" data-personality="technical">⚙️ Technical</button>
+                    <button class="personality-btn" data-personality="creative">🎨 Creative</button>
+                    <button class="personality-btn" data-personality="teacher">📚 Teacher</button>
+                </div>
+            </div>
 
             <button class="voice-mode-btn" id="voice-mode-btn">
                 🎤 Voice Conversation
             </button>
 
             <div class="history-section">
-                <div class="history-title">Recent</div>
+                <div class="history-title">Conversation History</div>
                 <div class="history-list" id="history-list">
                     <div class="history-item" id="empty-history">
                         No conversations yet
@@ -1686,10 +1785,26 @@
             </div>
         </aside>
 
-        <!-- Main Chat Area -->
+        <!-- Main Chat Area - Enhanced -->
         <main class="chat-area">
             <div class="chat-header">
-                <div class="chat-title">P.R.A.I Assistant</div>
+                <div class="chat-title">
+                    P.R.A.I Assistant
+                    <span class="personality-badge" id="current-personality-badge">Casual</span>
+                </div>
+                
+                <!-- Real-time Widget - NEW! -->
+                <div class="realtime-widget">
+                    <div class="time-widget" id="time-widget">
+                        <span class="widget-icon">🕐</span>
+                        <span id="current-time">--:--:--</span>
+                    </div>
+                    <div class="date-widget" id="date-widget">
+                        <span class="widget-icon">📅</span>
+                        <span id="current-date">Loading...</span>
+                    </div>
+                </div>
+
                 <div class="header-actions">
                     <button class="header-btn" id="clear-btn" title="Clear Chat">🗑️</button>
                     <button class="header-btn" id="export-btn" title="Export">📥</button>
@@ -1751,7 +1866,7 @@
                     <textarea 
                         class="message-input" 
                         id="message-input"
-                        placeholder="Message P.R.A.I..."
+                        placeholder="Message P.R.A.I... (I remember our conversations!)"
                         rows="1"
                     ></textarea>
                     <div class="input-actions">
@@ -1764,8 +1879,17 @@
                     </div>
                 </div>
                 <div class="quick-actions">
-                    <button class="quick-action" id="suggest-btn">
-                        💡 Get suggestions
+                    <button class="quick-action" id="time-quick-btn">
+                        🕐 What time is it?
+                    </button>
+                    <button class="quick-action" id="date-quick-btn">
+                        📅 Today's date?
+                    </button>
+                    <button class="quick-action" id="ny-time-quick-btn">
+                        🗽 Time in NYC?
+                    </button>
+                    <button class="quick-action" id="london-time-quick-btn">
+                        🇬🇧 Time in London?
                     </button>
                 </div>
                 <input type="file" id="file-input" class="hidden" accept=".txt,.pdf">
@@ -1805,29 +1929,6 @@
                 </div>
             </div>
 
-            <!-- Language Section -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    🌐 Language
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Display language</div>
-                        <div class="settings-item-desc">Choose your preferred language</div>
-                    </div>
-                    <select class="select-input" id="language-select">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                        <option value="de">Deutsch</option>
-                        <option value="zh">中文</option>
-                        <option value="ja">日本語</option>
-                        <option value="ko">한국어</option>
-                        <option value="hi">हिन्दी</option>
-                    </select>
-                </div>
-            </div>
-
             <!-- Voice Output Settings -->
             <div class="settings-section">
                 <div class="settings-section-title">
@@ -1847,19 +1948,9 @@
                         <div class="settings-item-label">Voice</div>
                         <div class="settings-item-desc">Select preferred voice</div>
                     </div>
-                </div>
-                <div class="voice-settings" style="margin-top: 0; margin-bottom: 16px;">
-                    <select class="voice-select" id="voice-select">
+                    <select class="select-input" id="voice-select">
                         <option value="">Loading voices...</option>
                     </select>
-                    <div style="display: flex; gap: 8px; margin-top: 12px;">
-                        <button class="settings-btn" id="test-voice-btn">
-                            ▶️ Test Voice
-                        </button>
-                        <button class="settings-btn" id="stop-voice-btn">
-                            ⏹️ Stop
-                        </button>
-                    </div>
                 </div>
                 <div class="settings-item">
                     <div>
@@ -1876,25 +1967,9 @@
                         <div class="settings-item-desc">Speed of voice (0.5x - 2x)</div>
                     </div>
                     <select class="select-input" id="rate-select">
-                        <option value="0.5">0.5x - Slow</option>
-                        <option value="0.75">0.75x</option>
-                        <option value="1" selected>1x - Normal</option>
-                        <option value="1.25">1.25x</option>
-                        <option value="1.5">1.5x - Fast</option>
-                        <option value="2">2x - Very Fast</option>
-                    </select>
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Pitch</div>
-                        <div class="settings-item-desc">Voice pitch (0 - 2)</div>
-                    </div>
-                    <select class="select-input" id="pitch-select">
-                        <option value="0.5">0.5 - Low</option>
-                        <option value="0.75">0.75</option>
-                        <option value="1" selected>1 - Normal</option>
-                        <option value="1.25">1.25</option>
-                        <option value="1.5">1.5 - High</option>
+                        <option value="0.8">Slow</option>
+                        <option value="1" selected>Normal</option>
+                        <option value="1.2">Fast</option>
                     </select>
                 </div>
             </div>
@@ -1949,29 +2024,13 @@
                 </div>
             </div>
 
-            <!-- Data Management -->
-            <div class="settings-section">
-                <div class="settings-section-title">
-                    📁 Data Management
-                </div>
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-label">Export all chats</div>
-                        <div class="settings-item-desc">Download your conversation history</div>
-                    </div>
-                    <button class="settings-btn" id="settings-export-btn">
-                        Export
-                    </button>
-                </div>
-            </div>
-
-            <!-- Danger Zone - Clear All Chats -->
+            <!-- Danger Zone -->
             <div class="settings-section">
                 <div class="settings-section-title">
                     ⚠️ Danger Zone
                 </div>
                 <div class="danger-zone">
-                    <div class="danger-title">Clear all chat history</div>
+                    <div class="danger-title">Clear all conversation history</div>
                     <div class="settings-item-desc" style="margin-bottom: 16px;">
                         This action cannot be undone. All your conversations will be permanently deleted.
                     </div>
@@ -1989,13 +2048,19 @@
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">3.0.0 - Production Stable</div>
+                        <div class="settings-item-desc">4.0.0 - Conversational AI with Memory</div>
                     </div>
                 </div>
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Authentication</div>
                         <div class="settings-item-desc">Gmail Only</div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Real-time Data</div>
+                        <div class="settings-item-desc">Time, Date, World Cities</div>
                     </div>
                 </div>
             </div>
@@ -2009,10 +2074,10 @@
             
             <div class="auth-header">
                 <h2>Welcome to P.R.A.I</h2>
-                <p>Sign in to continue</p>
+                <p>Sign in with Gmail for the best experience</p>
             </div>
 
-            <!-- GMAIL ONLY - Primary authentication method -->
+            <!-- GMAIL ONLY - Primary authentication -->
             <button class="gmail-login-btn" id="gmail-login-btn">
                 <span>G</span>
                 Continue with Gmail
@@ -2137,8 +2202,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I PRODUCTION v3.0.0
-        // STATUS: ✅ STABLE | ✅ TESTED | ✅ SECURE
+        // P.R.A.I v4.0.0 - CONVERSATIONAL AI WITH MEMORY
+        // STATUS: ✅ PRODUCTION READY | ✅ REAL-TIME | ✅ MEMORY
         // AUTH: GMAIL ONLY + Email Fallback
         // ============================================
 
@@ -2146,7 +2211,7 @@
             'use strict';
 
             // ============================================
-            // STATE MANAGEMENT - PRODUCTION READY
+            // STATE MANAGEMENT - ENHANCED
             // ============================================
             const State = {
                 currentChatId: 'chat-' + Date.now(),
@@ -2156,13 +2221,13 @@
                 userEmail: localStorage.getItem('prai_email'),
                 userName: localStorage.getItem('prai_name'),
                 userAvatar: localStorage.getItem('prai_avatar'),
+                currentPersonality: localStorage.getItem('prai_personality') || 'casual',
                 
                 settings: {
                     enterToSend: true,
                     typingIndicator: true,
                     timestamps: false,
                     saveHistory: true,
-                    language: 'en',
                     ttsEnabled: true,
                     ttsAutoplay: false,
                     ttsRate: 1,
@@ -2176,11 +2241,18 @@
                     voiceURI: '',
                     rate: 1,
                     pitch: 1
+                },
+                
+                // Conversation memory
+                conversationContext: {
+                    userName: null,
+                    lastTopics: [],
+                    messageCount: 0
                 }
             };
 
             // ============================================
-            // DOM ELEMENTS - CACHED FOR PERFORMANCE
+            // DOM ELEMENTS
             // ============================================
             const DOM = {
                 messagesContainer: document.getElementById('messages-container'),
@@ -2191,7 +2263,6 @@
                 emptyHistory: document.getElementById('empty-history'),
                 clearBtn: document.getElementById('clear-btn'),
                 exportBtn: document.getElementById('export-btn'),
-                suggestBtn: document.getElementById('suggest-btn'),
                 uploadBtn: document.getElementById('upload-btn'),
                 fileInput: document.getElementById('file-input'),
                 profileBtn: document.getElementById('profile-btn'),
@@ -2210,7 +2281,6 @@
                 settingsPanel: document.getElementById('settings-panel'),
                 settingsClose: document.getElementById('settings-close'),
                 settingsClearAllBtn: document.getElementById('settings-clear-all-btn'),
-                settingsExportBtn: document.getElementById('settings-export-btn'),
                 voiceModeBtn: document.getElementById('voice-mode-btn'),
                 voiceModal: document.getElementById('voice-modal'),
                 voiceModalClose: document.getElementById('voice-modal-close'),
@@ -2224,71 +2294,141 @@
                 toast: document.getElementById('toast'),
                 toastMessage: document.getElementById('toast-message'),
                 
+                // Personality elements
+                personalityButtons: document.querySelectorAll('.personality-btn'),
+                currentPersonalityBadge: document.getElementById('current-personality-badge'),
+                
+                // Real-time widgets
+                currentTime: document.getElementById('current-time'),
+                currentDate: document.getElementById('current-date'),
+                
+                // Quick action buttons
+                timeQuickBtn: document.getElementById('time-quick-btn'),
+                dateQuickBtn: document.getElementById('date-quick-btn'),
+                nyTimeQuickBtn: document.getElementById('ny-time-quick-btn'),
+                londonTimeQuickBtn: document.getElementById('london-time-quick-btn'),
+                
                 // Settings toggles
                 ttsToggle: document.getElementById('tts-toggle'),
                 autoplayToggle: document.getElementById('autoplay-toggle'),
                 voiceSelect: document.getElementById('voice-select'),
                 rateSelect: document.getElementById('rate-select'),
-                pitchSelect: document.getElementById('pitch-select'),
-                testVoiceBtn: document.getElementById('test-voice-btn'),
-                stopVoiceBtn: document.getElementById('stop-voice-btn'),
                 enterToSend: document.getElementById('enter-to-send'),
                 typingIndicatorToggle: document.getElementById('typing-indicator-toggle'),
                 timestampToggle: document.getElementById('timestamp-toggle'),
-                saveHistory: document.getElementById('save-history'),
-                languageSelect: document.getElementById('language-select')
+                saveHistory: document.getElementById('save-history')
             };
 
             // ============================================
-            // TOAST NOTIFICATION - PRODUCTION READY
+            // REAL-TIME CLOCK - UPDATES EVERY SECOND
+            // ============================================
+            function updateRealTimeClock() {
+                if (!DOM.currentTime || !DOM.currentDate) return;
+                
+                const now = new Date();
+                
+                // Format time: HH:MM:SS AM/PM
+                const timeStr = now.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                });
+                
+                // Format date: Day, Month DD, YYYY
+                const dateStr = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                DOM.currentTime.textContent = timeStr;
+                DOM.currentDate.textContent = dateStr;
+            }
+
+            // Start real-time clock
+            setInterval(updateRealTimeClock, 1000);
+            updateRealTimeClock();
+
+            // ============================================
+            // TOAST NOTIFICATION
             // ============================================
             function showToast(message, duration = 3000) {
                 if (!DOM.toast || !DOM.toastMessage) return;
-                
                 DOM.toastMessage.textContent = message;
                 DOM.toast.classList.add('show');
-                
-                setTimeout(() => {
-                    DOM.toast.classList.remove('show');
-                }, duration);
+                setTimeout(() => DOM.toast.classList.remove('show'), duration);
             }
 
             // ============================================
-            // THEME MANAGEMENT - STABLE
+            // PERSONALITY MANAGEMENT - NEW!
+            // ============================================
+            function setPersonality(personality) {
+                State.currentPersonality = personality;
+                localStorage.setItem('prai_personality', personality);
+                
+                // Update UI
+                DOM.personalityButtons.forEach(btn => {
+                    if (btn.dataset.personality === personality) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                // Update badge
+                if (DOM.currentPersonalityBadge) {
+                    const personalityNames = {
+                        'casual': '😊 Casual',
+                        'professional': '👔 Professional',
+                        'technical': '⚙️ Technical',
+                        'creative': '🎨 Creative',
+                        'teacher': '📚 Teacher'
+                    };
+                    DOM.currentPersonalityBadge.textContent = personalityNames[personality] || 'Casual';
+                }
+                
+                showToast(`🎭 Switched to ${personality} personality`);
+            }
+
+            // Personality button listeners
+            DOM.personalityButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setPersonality(btn.dataset.personality);
+                });
+            });
+
+            // Set initial personality
+            setPersonality(State.currentPersonality);
+
+            // ============================================
+            // THEME MANAGEMENT
             // ============================================
             function setTheme(theme) {
                 if (theme === 'light') {
                     document.body.classList.remove('dark-mode');
                     document.body.classList.add('light-mode');
                     localStorage.setItem('prai_theme', 'light');
-                    if (DOM.dropdownTheme) {
-                        DOM.dropdownTheme.innerHTML = '🌙 Dark mode';
-                    }
+                    if (DOM.dropdownTheme) DOM.dropdownTheme.innerHTML = '🌙 Dark mode';
                 } else {
                     document.body.classList.remove('light-mode');
                     document.body.classList.add('dark-mode');
                     localStorage.setItem('prai_theme', 'dark');
-                    if (DOM.dropdownTheme) {
-                        DOM.dropdownTheme.innerHTML = '☀️ Light mode';
-                    }
+                    if (DOM.dropdownTheme) DOM.dropdownTheme.innerHTML = '☀️ Light mode';
                 }
                 
-                // Update theme radios
-                const themeRadios = document.querySelectorAll('input[name="theme"]');
-                themeRadios.forEach(radio => {
-                    if (radio.value === theme) {
-                        radio.checked = true;
-                    }
+                // Update radio buttons
+                document.querySelectorAll('input[name="theme"]').forEach(radio => {
+                    if (radio.value === theme) radio.checked = true;
                 });
                 
                 updateProfileUI();
             }
 
-            // Load saved theme
             const savedTheme = localStorage.getItem('prai_theme') || 'dark';
             setTheme(savedTheme);
 
-            // Theme toggle in dropdown
             if (DOM.dropdownTheme) {
                 DOM.dropdownTheme.addEventListener('click', () => {
                     const isDark = document.body.classList.contains('dark-mode');
@@ -2300,13 +2440,11 @@
 
             // Theme radio buttons
             document.querySelectorAll('input[name="theme"]').forEach(radio => {
-                radio.addEventListener('change', (e) => {
-                    setTheme(e.target.value);
-                });
+                radio.addEventListener('change', (e) => setTheme(e.target.value));
             });
 
             // ============================================
-            // PROFILE UI - GMAIL PROFILE PICTURE SUPPORT
+            // PROFILE UI - GMAIL PROFILE PICTURE
             // ============================================
             function updateProfileUI() {
                 if (!DOM.profileAvatar || !DOM.dropdownAvatar) return;
@@ -2317,31 +2455,23 @@
                     const avatarUrl = localStorage.getItem('prai_avatar');
                     
                     if (avatarUrl && avatarUrl !== 'null' && avatarUrl !== 'undefined') {
-                        // Show Gmail profile picture
                         DOM.profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">`;
                         DOM.dropdownAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">`;
                     } else {
-                        // Show initial
                         DOM.profileAvatar.innerHTML = initial;
                         DOM.dropdownAvatar.innerHTML = initial;
-                        DOM.profileAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
-                        DOM.dropdownAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
                     }
                     
                     DOM.profileEmail.textContent = name;
                     DOM.profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#f9fafb' : '#111827';
-                    
                     if (DOM.dropdownUserName) DOM.dropdownUserName.textContent = name;
                     if (DOM.dropdownUserEmail) DOM.dropdownUserEmail.textContent = State.userEmail;
                     if (DOM.dropdownLogout) DOM.dropdownLogout.style.display = 'flex';
                 } else {
                     DOM.profileAvatar.innerHTML = '👤';
                     DOM.dropdownAvatar.innerHTML = '👤';
-                    DOM.profileAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
-                    DOM.dropdownAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
                     DOM.profileEmail.textContent = 'Sign In';
                     DOM.profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#9ca3af' : '#6b7280';
-                    
                     if (DOM.dropdownUserName) DOM.dropdownUserName.textContent = 'Guest';
                     if (DOM.dropdownUserEmail) DOM.dropdownUserEmail.textContent = '';
                     if (DOM.dropdownLogout) DOM.dropdownLogout.style.display = 'none';
@@ -2349,31 +2479,23 @@
             }
 
             // ============================================
-            // GMAIL LOGIN - PRIMARY AUTH METHOD
+            // GMAIL LOGIN - PRIMARY
             // ============================================
             async function handleGmailLogin() {
                 showToast('🔗 Redirecting to Gmail login...');
-                
                 try {
                     const response = await fetch('/auth/login/google');
-                    
                     if (response.ok) {
                         const data = await response.json();
-                        if (data.url) {
-                            window.location.href = data.url;
-                            return;
-                        }
+                        if (data.url) window.location.href = data.url;
                     }
-                    
-                    showToast('❌ Failed to initiate Gmail login');
                 } catch (error) {
-                    console.error('Gmail login error:', error);
-                    showToast('❌ Connection error - please try again');
+                    showToast('❌ Connection error');
                 }
             }
 
             // ============================================
-            // OAUTH CALLBACK HANDLER - WITH PROFILE PICTURE
+            // OAUTH CALLBACK - WITH PROFILE PICTURE
             // ============================================
             function handleOAuthCallback() {
                 const hash = window.location.hash.substring(1);
@@ -2395,14 +2517,7 @@
                                             data.user_metadata?.name || 
                                             data.email.split('@')[0];
                             
-                            // Get Gmail profile picture
-                            let avatarUrl = null;
-                            if (data.user_metadata?.avatar_url) {
-                                avatarUrl = data.user_metadata.avatar_url;
-                            } else if (data.user_metadata?.picture) {
-                                avatarUrl = data.user_metadata.picture;
-                            }
-                            
+                            let avatarUrl = data.user_metadata?.avatar_url || data.user_metadata?.picture;
                             if (avatarUrl) {
                                 localStorage.setItem('prai_avatar', avatarUrl);
                                 State.userAvatar = avatarUrl;
@@ -2413,20 +2528,15 @@
                             
                             updateProfileUI();
                             showToast(`✅ Welcome, ${State.userName}!`);
-                            
-                            // Clean URL
                             window.history.replaceState({}, document.title, '/');
                         }
                     })
-                    .catch(err => {
-                        console.error('Failed to get user info:', err);
-                        showToast('❌ Failed to get user profile');
-                    });
+                    .catch(err => console.error('Auth error:', err));
                 }
             }
 
             // ============================================
-            // EMAIL AUTH - FALLBACK METHODS
+            // EMAIL AUTH - FALLBACK
             // ============================================
             async function handleEmailLogin() {
                 const email = document.getElementById('email')?.value.trim();
@@ -2454,21 +2564,15 @@
                         localStorage.setItem('prai_token', State.userToken);
                         localStorage.setItem('prai_email', email);
                         localStorage.setItem('prai_name', State.userName);
-                        localStorage.removeItem('prai_avatar'); // Clear any old avatar
                         
                         updateProfileUI();
                         hideAuthModal();
                         showToast(`✅ Welcome back, ${State.userName}!`);
-                        
-                        // Clear form
-                        document.getElementById('email').value = '';
-                        document.getElementById('password').value = '';
                     } else {
                         showToast(`❌ ${data.msg || data.error || 'Login failed'}`);
                     }
                 } catch (error) {
-                    console.error('Login error:', error);
-                    showToast('❌ Connection error - please try again');
+                    showToast('❌ Connection error');
                 }
             }
 
@@ -2499,39 +2603,30 @@
                         showToast('✅ Account created! Please login.');
                         showLoginForm();
                         document.getElementById('email').value = email;
-                        document.getElementById('signup-email').value = '';
-                        document.getElementById('signup-password').value = '';
                     } else {
                         showToast(`❌ ${data.msg || data.error || 'Signup failed'}`);
                     }
                 } catch (error) {
-                    console.error('Signup error:', error);
-                    showToast('❌ Connection error - please try again');
+                    showToast('❌ Connection error');
                 }
             }
 
             function handleLogout() {
-                // Clear local storage
                 localStorage.removeItem('prai_token');
                 localStorage.removeItem('prai_email');
                 localStorage.removeItem('prai_name');
                 localStorage.removeItem('prai_avatar');
                 
-                // Reset state
                 State.userToken = null;
                 State.userEmail = null;
                 State.userName = null;
                 State.userAvatar = null;
                 
-                // Update UI
                 updateProfileUI();
                 if (DOM.profileDropdown) DOM.profileDropdown.classList.remove('show');
                 showToast('👋 Logged out successfully');
                 
-                // Show auth modal
-                setTimeout(() => {
-                    showAuthModal();
-                }, 500);
+                setTimeout(() => showAuthModal(), 500);
             }
 
             // ============================================
@@ -2545,97 +2640,64 @@
             }
 
             function hideAuthModal() {
-                if (DOM.authModal) {
-                    DOM.authModal.style.display = 'none';
-                }
+                if (DOM.authModal) DOM.authModal.style.display = 'none';
             }
 
             function showLoginForm() {
-                const loginForm = document.getElementById('login-form');
-                const signupForm = document.getElementById('signup-form');
-                if (loginForm) loginForm.classList.add('active');
-                if (signupForm) signupForm.classList.remove('active');
+                document.getElementById('login-form')?.classList.add('active');
+                document.getElementById('signup-form')?.classList.remove('active');
             }
 
             function showSignupForm() {
-                const loginForm = document.getElementById('login-form');
-                const signupForm = document.getElementById('signup-form');
-                if (loginForm) loginForm.classList.remove('active');
-                if (signupForm) signupForm.classList.add('active');
+                document.getElementById('login-form')?.classList.remove('active');
+                document.getElementById('signup-form')?.classList.add('active');
             }
 
             // ============================================
-            // SETTINGS PANEL - FULLY RESTORED
+            // SETTINGS PANEL
             // ============================================
             function openSettings() {
                 if (DOM.settingsPanel) {
                     DOM.settingsPanel.classList.add('open');
                     loadSettingsIntoUI();
-                    loadVoices(); // Load voices for voice settings
+                    loadVoices();
                 }
             }
 
             function closeSettings() {
-                if (DOM.settingsPanel) {
-                    DOM.settingsPanel.classList.remove('open');
-                }
+                if (DOM.settingsPanel) DOM.settingsPanel.classList.remove('open');
             }
 
             function loadSettingsIntoUI() {
-                // Load settings from localStorage
                 const savedSettings = localStorage.getItem('prai_settings');
                 if (savedSettings) {
                     try {
                         State.settings = { ...State.settings, ...JSON.parse(savedSettings) };
-                    } catch (e) {
-                        console.error('Failed to load settings:', e);
-                    }
+                    } catch (e) {}
                 }
                 
                 // Update toggles
-                if (DOM.enterToSend) {
-                    DOM.enterToSend.classList.toggle('active', State.settings.enterToSend);
-                }
-                if (DOM.typingIndicatorToggle) {
-                    DOM.typingIndicatorToggle.classList.toggle('active', State.settings.typingIndicator);
-                }
-                if (DOM.timestampToggle) {
-                    DOM.timestampToggle.classList.toggle('active', State.settings.timestamps);
-                }
-                if (DOM.saveHistory) {
-                    DOM.saveHistory.classList.toggle('active', State.settings.saveHistory);
-                }
-                if (DOM.ttsToggle) {
-                    DOM.ttsToggle.classList.toggle('active', State.settings.ttsEnabled);
-                }
-                if (DOM.autoplayToggle) {
-                    DOM.autoplayToggle.classList.toggle('active', State.settings.ttsAutoplay);
-                }
-                if (DOM.rateSelect) {
-                    DOM.rateSelect.value = State.settings.ttsRate;
-                }
-                if (DOM.pitchSelect) {
-                    DOM.pitchSelect.value = State.settings.ttsPitch;
-                }
-                if (DOM.languageSelect) {
-                    DOM.languageSelect.value = State.settings.language;
-                }
+                if (DOM.enterToSend) DOM.enterToSend.classList.toggle('active', State.settings.enterToSend);
+                if (DOM.typingIndicatorToggle) DOM.typingIndicatorToggle.classList.toggle('active', State.settings.typingIndicator);
+                if (DOM.timestampToggle) DOM.timestampToggle.classList.toggle('active', State.settings.timestamps);
+                if (DOM.saveHistory) DOM.saveHistory.classList.toggle('active', State.settings.saveHistory);
+                if (DOM.ttsToggle) DOM.ttsToggle.classList.toggle('active', State.settings.ttsEnabled);
+                if (DOM.autoplayToggle) DOM.autoplayToggle.classList.toggle('active', State.settings.ttsAutoplay);
+                if (DOM.rateSelect) DOM.rateSelect.value = State.settings.ttsRate;
             }
 
             // ============================================
-            // CLEAR ALL CHATS - RESTORED
+            // CLEAR ALL CHATS
             // ============================================
             function clearAllChats() {
                 if (confirm('⚠️ Are you sure you want to clear ALL chat history?\n\nThis action cannot be undone.')) {
                     State.chats = {};
                     localStorage.removeItem('praiChats');
                     State.currentChatId = 'chat-' + Date.now();
-                    
                     if (DOM.messagesContainer) {
                         DOM.messagesContainer.innerHTML = '';
                         addWelcomeMessage();
                     }
-                    
                     updateHistoryDisplay();
                     showToast('🗑️ All chat history cleared');
                     closeSettings();
@@ -2667,10 +2729,8 @@
 
             function populateVoiceSelect() {
                 if (!DOM.voiceSelect) return;
-                
                 DOM.voiceSelect.innerHTML = '';
                 
-                // Filter for English voices
                 const englishVoices = voices.filter(v => v.lang.includes('en'));
                 const voicesToShow = englishVoices.length > 0 ? englishVoices : voices;
                 
@@ -2681,40 +2741,26 @@
                     DOM.voiceSelect.appendChild(option);
                 });
                 
-                // Set saved voice or default
                 const savedVoice = localStorage.getItem('prai_voice');
                 if (savedVoice && DOM.voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
                     DOM.voiceSelect.value = savedVoice;
                     State.voiceSettings.voiceURI = savedVoice;
-                } else {
-                    const defaultVoice = voices.find(v => v.default) || voices[0];
-                    if (defaultVoice) {
-                        DOM.voiceSelect.value = defaultVoice.voiceURI;
-                        State.voiceSettings.voiceURI = defaultVoice.voiceURI;
-                    }
                 }
             }
 
             function speakText(text, messageId = null) {
-                if (!State.settings.ttsEnabled) return;
-                if (!synth) {
-                    showToast('❌ Speech synthesis not supported');
-                    return;
-                }
+                if (!State.settings.ttsEnabled || !synth) return;
                 
-                // Stop current speech
                 stopSpeaking();
                 
                 const utterance = new SpeechSynthesisUtterance(text);
                 
-                // Set voice
                 if (State.voiceSettings.voiceURI) {
                     const selectedVoice = voices.find(v => v.voiceURI === State.voiceSettings.voiceURI);
                     if (selectedVoice) utterance.voice = selectedVoice;
                 }
                 
                 utterance.rate = State.settings.ttsRate;
-                utterance.pitch = State.settings.ttsPitch;
                 
                 utterance.onstart = () => {
                     currentUtterance = utterance;
@@ -2745,7 +2791,6 @@
                 if (synth) {
                     synth.cancel();
                     currentUtterance = null;
-                    
                     document.querySelectorAll('.voice-btn.speaking').forEach(btn => {
                         btn.classList.remove('speaking');
                         btn.innerHTML = '🔊';
@@ -2753,16 +2798,10 @@
                 }
             }
 
-            function testVoice() {
-                const testText = 'Hello, this is a test of the voice output system.';
-                speakText(testText);
-                showToast('🔊 Testing voice...');
-            }
-
             // ============================================
-            // MESSAGE FUNCTIONS
+            // MESSAGE FUNCTIONS - ENHANCED CONVERSATIONAL
             // ============================================
-            function addMessage(content, isUser) {
+            function addMessage(content, isUser, metadata = {}) {
                 if (!DOM.messagesContainer) return;
                 
                 const messageId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
@@ -2776,7 +2815,35 @@
                 
                 const senderSpan = document.createElement('span');
                 senderSpan.className = 'message-sender';
-                senderSpan.textContent = isUser ? 'You' : 'P.R.A.I';
+                
+                // Add sender name
+                if (isUser) {
+                    senderSpan.textContent = State.userName ? `${State.userName} (You)` : 'You';
+                } else {
+                    senderSpan.textContent = 'P.R.A.I';
+                    
+                    // Add personality badge
+                    const personalityBadge = document.createElement('span');
+                    personalityBadge.className = 'personality-badge';
+                    const personalityNames = {
+                        'casual': '😊 Casual',
+                        'professional': '👔 Professional',
+                        'technical': '⚙️ Technical',
+                        'creative': '🎨 Creative',
+                        'teacher': '📚 Teacher'
+                    };
+                    personalityBadge.textContent = personalityNames[State.currentPersonality] || 'Casual';
+                    senderSpan.appendChild(personalityBadge);
+                    
+                    // Add real-time badge if applicable
+                    if (metadata.type === 'real_time') {
+                        const realtimeBadge = document.createElement('span');
+                        realtimeBadge.className = 'realtime-badge';
+                        realtimeBadge.innerHTML = '🕐 Live Data';
+                        senderSpan.appendChild(realtimeBadge);
+                    }
+                }
+                
                 contentDiv.appendChild(senderSpan);
                 
                 // Add timestamp if enabled
@@ -2807,7 +2874,7 @@
                     voiceBtn.setAttribute('data-message-id', messageId);
                     voiceBtn.onclick = (e) => {
                         e.stopPropagation();
-                        if (currentUtterance && currentUtterance === window.currentUtterance) {
+                        if (currentUtterance) {
                             stopSpeaking();
                         } else {
                             speakText(content, messageId);
@@ -2824,19 +2891,18 @@
                 
                 // Auto-play if enabled
                 if (!isUser && State.settings.ttsEnabled && State.settings.ttsAutoplay) {
-                    setTimeout(() => {
-                        speakText(content, messageId);
-                    }, 100);
+                    setTimeout(() => speakText(content, messageId), 100);
                 }
                 
-                // Save to localStorage
+                // Save to history
                 if (State.settings.saveHistory) {
                     if (!State.chats[State.currentChatId]) {
                         State.chats[State.currentChatId] = {
                             id: State.currentChatId,
                             title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
                             messages: [],
-                            timestamp: Date.now()
+                            timestamp: Date.now(),
+                            personality: State.currentPersonality
                         };
                     }
                     
@@ -2844,7 +2910,9 @@
                         id: messageId,
                         content,
                         isUser,
-                        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        personality: !isUser ? State.currentPersonality : null,
+                        metadata
                     });
                     
                     localStorage.setItem('praiChats', JSON.stringify(State.chats));
@@ -2853,19 +2921,23 @@
             }
 
             function addWelcomeMessage() {
-                const welcomeMessages = [
-                    "Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?",
-                    "Welcome to P.R.A.I. I'm here to assist with any questions or tasks you have.",
-                    "Hi there! I'm P.R.A.I, ready to help. What would you like to discuss?"
-                ];
+                const hour = new Date().getHours();
+                let greeting;
                 
-                const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-                addMessage(randomMessage, false);
+                if (hour < 12) greeting = 'Good morning';
+                else if (hour < 18) greeting = 'Good afternoon';
+                else greeting = 'Good evening';
+                
+                const userName = State.userName ? State.userName : 'there';
+                const welcomeMsg = `${greeting}, ${userName}! I'm P.R.A.I, your conversational AI assistant. ` +
+                                 `I remember our conversations and can tell you real-time information like the current time, ` +
+                                 `date, or time in any major city. How can I help you today?`;
+                
+                addMessage(welcomeMsg, false);
             }
 
             function showTypingIndicator() {
-                if (!State.settings.typingIndicator) return;
-                if (!DOM.messagesContainer) return;
+                if (!State.settings.typingIndicator || !DOM.messagesContainer) return;
                 
                 const typingDiv = document.createElement('div');
                 typingDiv.className = 'typing-indicator';
@@ -2886,6 +2958,9 @@
                 if (indicator) indicator.remove();
             }
 
+            // ============================================
+            // SEND MESSAGE - ENHANCED WITH MEMORY
+            // ============================================
             async function sendMessage() {
                 if (!DOM.messageInput) return;
                 
@@ -2914,7 +2989,8 @@
                         body: JSON.stringify({
                             message: messageContent,
                             session_id: State.currentChatId,
-                            personality: 'casual'
+                            personality: State.currentPersonality,
+                            user_name: State.userName
                         })
                     });
                     
@@ -2924,15 +3000,15 @@
                     if (data.error) {
                         addMessage(`Error: ${data.error}`, false);
                     } else if (data[0]?.generated_text) {
-                        addMessage(data[0].generated_text, false);
-                    } else {
-                        addMessage('I received your message but had trouble generating a response.', false);
+                        addMessage(data[0].generated_text, false, {
+                            type: data[0].type || 'ai_response',
+                            personality: State.currentPersonality
+                        });
                     }
                     
                     State.uploadedFileContent = null;
                     
                 } catch (error) {
-                    console.error('Failed to send message:', error);
                     hideTypingIndicator();
                     addMessage('⚠️ Connection error. Please check your network and try again.', false);
                 }
@@ -2942,7 +3018,7 @@
             }
 
             // ============================================
-            // FILE UPLOAD - STABLE
+            // FILE UPLOAD
             // ============================================
             async function handleFileUpload(e) {
                 const file = e.target.files[0];
@@ -2969,7 +3045,6 @@
                         addMessage(`📎 File "${data.filename}" uploaded successfully. You can now ask questions about it.`, false);
                     }
                 } catch (error) {
-                    console.error('Upload error:', error);
                     showToast('❌ Failed to upload file');
                 }
                 
@@ -2984,7 +3059,6 @@
                 
                 DOM.historyList.innerHTML = '';
                 
-                // Load chats from localStorage
                 const savedChats = localStorage.getItem('praiChats');
                 if (savedChats) {
                     try {
@@ -3002,16 +3076,25 @@
                     return;
                 }
                 
-                if (DOM.emptyHistory) {
-                    DOM.emptyHistory.classList.add('hidden');
-                }
+                if (DOM.emptyHistory) DOM.emptyHistory.classList.add('hidden');
                 
                 const sortedChats = Object.values(State.chats).sort((a, b) => b.timestamp - a.timestamp);
                 
                 sortedChats.forEach(chat => {
                     const item = document.createElement('div');
                     item.className = `history-item ${chat.id === State.currentChatId ? 'active' : ''}`;
-                    item.textContent = chat.title || 'New Chat';
+                    
+                    // Add personality icon
+                    const personalityIcons = {
+                        'casual': '😊',
+                        'professional': '👔',
+                        'technical': '⚙️',
+                        'creative': '🎨',
+                        'teacher': '📚'
+                    };
+                    const icon = personalityIcons[chat.personality] || '💬';
+                    
+                    item.textContent = `${icon} ${chat.title || 'New Chat'}`;
                     item.onclick = () => loadChat(chat.id);
                     DOM.historyList.appendChild(item);
                 });
@@ -3025,8 +3108,13 @@
                     
                     const chat = State.chats[chatId];
                     if (chat && chat.messages && chat.messages.length > 0) {
+                        // Set personality from chat
+                        if (chat.personality) {
+                            setPersonality(chat.personality);
+                        }
+                        
                         chat.messages.forEach(msg => {
-                            addMessage(msg.content, msg.isUser);
+                            addMessage(msg.content, msg.isUser, msg.metadata || {});
                         });
                     } else {
                         addWelcomeMessage();
@@ -3037,37 +3125,7 @@
             }
 
             // ============================================
-            // EXPORT CHAT - STABLE
-            // ============================================
-            function exportCurrentChat() {
-                const currentChat = State.chats[State.currentChatId];
-                if (!currentChat || !currentChat.messages || currentChat.messages.length === 0) {
-                    showToast('❌ No messages to export');
-                    return;
-                }
-                
-                let exportText = `P.R.A.I Chat Export - ${new Date().toLocaleString()}\n`;
-                exportText += `Session ID: ${State.currentChatId}\n`;
-                exportText += `User: ${State.userEmail || 'Guest'}\n`;
-                exportText += '='.repeat(50) + '\n\n';
-                
-                currentChat.messages.forEach(msg => {
-                    exportText += `[${msg.timestamp}] ${msg.isUser ? 'You' : 'P.R.A.I'}:\n`;
-                    exportText += `${msg.content}\n\n`;
-                });
-                
-                const blob = new Blob([exportText], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `prai-chat-${State.currentChatId.slice(-8)}.txt`;
-                a.click();
-                URL.revokeObjectURL(url);
-                showToast('📥 Chat exported successfully');
-            }
-
-            // ============================================
-            // EVENT LISTENERS - INITIALIZATION
+            // EVENT LISTENERS
             // ============================================
             function initEventListeners() {
                 // Profile button
@@ -3082,8 +3140,8 @@
                     });
                 }
                 
-                // Close dropdown when clicking outside
-                document.addEventListener('click', function(e) {
+                // Close dropdown on outside click
+                document.addEventListener('click', (e) => {
                     if (DOM.profileBtn && DOM.profileDropdown) {
                         if (!DOM.profileBtn.contains(e.target) && !DOM.profileDropdown.contains(e.target)) {
                             DOM.profileDropdown.classList.remove('show');
@@ -3091,36 +3149,22 @@
                     }
                 });
                 
-                // Auth modal close
-                if (DOM.authModalClose) {
-                    DOM.authModalClose.addEventListener('click', hideAuthModal);
-                }
-                
-                // Close modal when clicking outside
+                // Auth modal
+                if (DOM.authModalClose) DOM.authModalClose.addEventListener('click', hideAuthModal);
                 if (DOM.authModal) {
                     DOM.authModal.addEventListener('click', (e) => {
-                        if (e.target === DOM.authModal) {
-                            hideAuthModal();
-                        }
+                        if (e.target === DOM.authModal) hideAuthModal();
                     });
                 }
                 
-                // Gmail login - PRIMARY
-                if (DOM.gmailLoginBtn) {
-                    DOM.gmailLoginBtn.addEventListener('click', handleGmailLogin);
-                }
+                // Gmail login
+                if (DOM.gmailLoginBtn) DOM.gmailLoginBtn.addEventListener('click', handleGmailLogin);
                 
-                // Email login - FALLBACK
-                if (DOM.loginBtn) {
-                    DOM.loginBtn.addEventListener('click', handleEmailLogin);
-                }
+                // Email login
+                if (DOM.loginBtn) DOM.loginBtn.addEventListener('click', handleEmailLogin);
+                if (DOM.signupBtn) DOM.signupBtn.addEventListener('click', handleEmailSignup);
                 
-                // Email signup - FALLBACK
-                if (DOM.signupBtn) {
-                    DOM.signupBtn.addEventListener('click', handleEmailSignup);
-                }
-                
-                // Show signup form
+                // Toggle auth forms
                 if (DOM.showSignupBtn) {
                     DOM.showSignupBtn.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -3128,7 +3172,6 @@
                     });
                 }
                 
-                // Show login form
                 if (DOM.showLoginBtn) {
                     DOM.showLoginBtn.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -3137,38 +3180,18 @@
                 }
                 
                 // Logout
-                if (DOM.dropdownLogout) {
-                    DOM.dropdownLogout.addEventListener('click', handleLogout);
-                }
+                if (DOM.dropdownLogout) DOM.dropdownLogout.addEventListener('click', handleLogout);
                 
                 // Settings
-                if (DOM.dropdownSettings) {
-                    DOM.dropdownSettings.addEventListener('click', openSettings);
-                }
-                if (DOM.settingsClose) {
-                    DOM.settingsClose.addEventListener('click', closeSettings);
-                }
+                if (DOM.dropdownSettings) DOM.dropdownSettings.addEventListener('click', openSettings);
+                if (DOM.settingsClose) DOM.settingsClose.addEventListener('click', closeSettings);
                 
                 // Clear all chats
-                if (DOM.dropdownClearAll) {
-                    DOM.dropdownClearAll.addEventListener('click', clearAllChats);
-                }
-                if (DOM.settingsClearAllBtn) {
-                    DOM.settingsClearAllBtn.addEventListener('click', clearAllChats);
-                }
-                
-                // Export chats
-                if (DOM.settingsExportBtn) {
-                    DOM.settingsExportBtn.addEventListener('click', exportCurrentChat);
-                }
-                if (DOM.exportBtn) {
-                    DOM.exportBtn.addEventListener('click', exportCurrentChat);
-                }
+                if (DOM.dropdownClearAll) DOM.dropdownClearAll.addEventListener('click', clearAllChats);
+                if (DOM.settingsClearAllBtn) DOM.settingsClearAllBtn.addEventListener('click', clearAllChats);
                 
                 // Send message
-                if (DOM.sendButton) {
-                    DOM.sendButton.addEventListener('click', sendMessage);
-                }
+                if (DOM.sendButton) DOM.sendButton.addEventListener('click', sendMessage);
                 
                 // Enter key
                 if (DOM.messageInput) {
@@ -3214,34 +3237,69 @@
                     });
                 }
                 
+                // Export chat
+                if (DOM.exportBtn) {
+                    DOM.exportBtn.addEventListener('click', () => {
+                        const currentChat = State.chats[State.currentChatId];
+                        if (!currentChat?.messages?.length) {
+                            showToast('❌ No messages to export');
+                            return;
+                        }
+                        
+                        let exportText = `P.R.A.I Chat Export - ${new Date().toLocaleString()}\n`;
+                        exportText += `Personality: ${currentChat.personality || 'casual'}\n`;
+                        exportText += '='.repeat(50) + '\n\n';
+                        
+                        currentChat.messages.forEach(msg => {
+                            exportText += `[${msg.timestamp}] ${msg.isUser ? 'You' : 'P.R.A.I'}:\n`;
+                            exportText += `${msg.content}\n\n`;
+                        });
+                        
+                        const blob = new Blob([exportText], { type: 'text/plain' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `prai-chat-${State.currentChatId.slice(-8)}.txt`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        showToast('📥 Chat exported successfully');
+                    });
+                }
+                
                 // File upload
                 if (DOM.uploadBtn) {
-                    DOM.uploadBtn.addEventListener('click', () => {
-                        if (DOM.fileInput) DOM.fileInput.click();
-                    });
+                    DOM.uploadBtn.addEventListener('click', () => DOM.fileInput?.click());
                 }
                 if (DOM.fileInput) {
                     DOM.fileInput.addEventListener('change', handleFileUpload);
                 }
                 
-                // Suggestions
-                if (DOM.suggestBtn) {
-                    const suggestions = [
-                        "Explain quantum computing in simple terms",
-                        "Write a Python function to reverse a string",
-                        "What are the latest trends in AI?",
-                        "How do I learn machine learning?",
-                        "What is the difference between AI and ML?"
-                    ];
-                    
-                    DOM.suggestBtn.addEventListener('click', () => {
-                        const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
-                        if (DOM.messageInput) {
-                            DOM.messageInput.value = randomSuggestion;
-                            DOM.messageInput.focus();
-                            DOM.messageInput.style.height = 'auto';
-                            DOM.messageInput.style.height = Math.min(DOM.messageInput.scrollHeight, 200) + 'px';
-                        }
+                // Quick actions
+                if (DOM.timeQuickBtn) {
+                    DOM.timeQuickBtn.addEventListener('click', () => {
+                        DOM.messageInput.value = "What time is it?";
+                        DOM.messageInput.focus();
+                    });
+                }
+                
+                if (DOM.dateQuickBtn) {
+                    DOM.dateQuickBtn.addEventListener('click', () => {
+                        DOM.messageInput.value = "What's today's date?";
+                        DOM.messageInput.focus();
+                    });
+                }
+                
+                if (DOM.nyTimeQuickBtn) {
+                    DOM.nyTimeQuickBtn.addEventListener('click', () => {
+                        DOM.messageInput.value = "What time is it in New York?";
+                        DOM.messageInput.focus();
+                    });
+                }
+                
+                if (DOM.londonTimeQuickBtn) {
+                    DOM.londonTimeQuickBtn.addEventListener('click', () => {
+                        DOM.messageInput.value = "What time is it in London?";
+                        DOM.messageInput.focus();
                     });
                 }
                 
@@ -3254,12 +3312,14 @@
                         }
                     });
                 }
+                
                 if (DOM.voiceModalClose) {
                     DOM.voiceModalClose.addEventListener('click', () => {
-                        if (DOM.voiceModal) DOM.voiceModal.style.display = 'none';
+                        DOM.voiceModal.style.display = 'none';
                         stopSpeaking();
                     });
                 }
+                
                 if (DOM.voiceModal) {
                     DOM.voiceModal.addEventListener('click', (e) => {
                         if (e.target === DOM.voiceModal) {
@@ -3267,14 +3327,6 @@
                             stopSpeaking();
                         }
                     });
-                }
-                
-                // Voice controls
-                if (DOM.testVoiceBtn) {
-                    DOM.testVoiceBtn.addEventListener('click', testVoice);
-                }
-                if (DOM.stopVoiceBtn) {
-                    DOM.stopVoiceBtn.addEventListener('click', stopSpeaking);
                 }
                 
                 // Settings toggles
@@ -3309,14 +3361,6 @@
                     DOM.rateSelect.addEventListener('change', (e) => {
                         State.settings.ttsRate = parseFloat(e.target.value);
                         State.voiceSettings.rate = State.settings.ttsRate;
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                    });
-                }
-                
-                if (DOM.pitchSelect) {
-                    DOM.pitchSelect.addEventListener('change', (e) => {
-                        State.settings.ttsPitch = parseFloat(e.target.value);
-                        State.voiceSettings.pitch = State.settings.ttsPitch;
                         localStorage.setItem('prai_settings', JSON.stringify(State.settings));
                     });
                 }
@@ -3360,18 +3404,10 @@
                     });
                 }
                 
-                if (DOM.languageSelect) {
-                    DOM.languageSelect.addEventListener('change', (e) => {
-                        State.settings.language = e.target.value;
-                        localStorage.setItem('prai_settings', JSON.stringify(State.settings));
-                        showToast(`🌐 Language: ${e.target.options[e.target.selectedIndex].text}`);
-                    });
-                }
-                
                 // Help & FAQ
                 if (DOM.dropdownHelp) {
                     DOM.dropdownHelp.addEventListener('click', () => {
-                        if (DOM.profileDropdown) DOM.profileDropdown.classList.remove('show');
+                        DOM.profileDropdown?.classList.remove('show');
                         showToast('📚 Help & FAQ - Coming soon!');
                     });
                 }
@@ -3379,14 +3415,14 @@
                 // Feedback
                 if (DOM.dropdownFeedback) {
                     DOM.dropdownFeedback.addEventListener('click', () => {
-                        if (DOM.profileDropdown) DOM.profileDropdown.classList.remove('show');
+                        DOM.profileDropdown?.classList.remove('show');
                         showToast('💬 Feedback form - Coming soon!');
                     });
                 }
             }
 
             // ============================================
-            // INITIALIZE APPLICATION
+            // INITIALIZE
             // ============================================
             function init() {
                 // Load chats
@@ -3409,19 +3445,17 @@
                         State.voiceSettings.rate = State.settings.ttsRate;
                         State.voiceSettings.pitch = State.settings.ttsPitch;
                         State.voiceSettings.voiceURI = State.settings.ttsVoice;
-                    } catch (e) {
-                        console.error('Failed to load settings:', e);
-                    }
+                    } catch (e) {}
                 }
                 
                 // Check for OAuth callback
                 handleOAuthCallback();
                 
-                // Initialize event listeners
-                initEventListeners();
-                
                 // Load voices
                 loadVoices();
+                
+                // Initialize event listeners
+                initEventListeners();
                 
                 // Update history
                 updateHistoryDisplay();
@@ -3435,11 +3469,9 @@
                 updateProfileUI();
                 
                 // Focus input
-                if (DOM.messageInput) {
-                    DOM.messageInput.focus();
-                }
+                if (DOM.messageInput) DOM.messageInput.focus();
                 
-                console.log('✅ P.R.A.I v3.0.0 initialized - Gmail only');
+                console.log('✅ P.R.A.I v4.0.0 initialized - Conversational AI with Memory');
             }
 
             // Start the application
