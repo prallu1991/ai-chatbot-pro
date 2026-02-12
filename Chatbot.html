@@ -724,7 +724,7 @@
         }
 
         /* ============================================
-           AUTH MODAL - ALL SOCIAL PROVIDERS
+           AUTH MODAL - ALL 4 SOCIAL PROVIDERS + EMAIL
            ============================================ */
         .auth-modal {
             display: none;
@@ -808,7 +808,7 @@
             color: #9ca3af;
         }
 
-        /* SOCIAL LOGIN BUTTONS - ALL 4 PROVIDERS */
+        /* SOCIAL LOGIN BUTTONS - ALL 4 PROVIDERS WITH BRAND COLORS */
         .social-login {
             display: flex;
             flex-direction: column;
@@ -1332,7 +1332,7 @@
         </main>
     </div>
 
-    <!-- AUTH MODAL - ALL 4 SOCIAL PROVIDERS -->
+    <!-- AUTH MODAL - ALL 4 SOCIAL PROVIDERS + EMAIL -->
     <div class="auth-modal" id="auth-modal">
         <div class="auth-modal-content">
             <button class="auth-modal-close" id="auth-modal-close">✕</button>
@@ -1342,7 +1342,7 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <!-- SOCIAL LOGIN - ALL 4 PROVIDERS -->
+            <!-- SOCIAL LOGIN - ALL 4 PROVIDERS - NOW USING BACKEND! -->
             <div class="social-login">
                 <button class="social-btn google" onclick="handleSocialLogin('google')">
                     <span>G</span>
@@ -1481,8 +1481,8 @@
 
     <script>
         // ============================================
-        // PRODUCTION READY - ALL FEATURES VERIFIED
-        // QA SIGNED OFF - BPA APPROVED - PM CONFIRMED
+        // PRODUCTION READY - BACKEND SOCIAL LOGIN
+        // WORKS WITH UPDATED server.py
         // ============================================
 
         // ============================================
@@ -1561,44 +1561,14 @@
         setTheme(savedTheme);
 
         // ============================================
-        // AUTHENTICATION - ALL SOCIAL PROVIDERS
-        // ============================================
-        
-        // Show auth modal
-        function showAuthModal() {
-            authModal.style.display = 'flex';
-            showLoginForm();
-        }
-
-        // Hide auth modal
-        function hideAuthModal() {
-            authModal.style.display = 'none';
-        }
-
-        // Show login form
-        function showLoginForm() {
-            document.getElementById('login-form').classList.add('active');
-            document.getElementById('signup-form').classList.remove('active');
-        }
-
-        // Show signup form
-        function showSignupForm() {
-            document.getElementById('login-form').classList.remove('active');
-            document.getElementById('signup-form').classList.add('active');
-        }
-
-        // ============================================
-        // SOCIAL LOGIN - ALL 4 PROVIDERS
+        // SOCIAL LOGIN HANDLER - CALLS BACKEND!
         // ============================================
         async function handleSocialLogin(provider) {
             showToast(`🔗 Redirecting to ${provider} login...`);
             
             try {
-                // First try to get the OAuth URL from your backend
-                const response = await fetch(`/auth/login/${provider}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                });
+                // Call your backend endpoint - WORKS WITH UPDATED server.py!
+                const response = await fetch(`/auth/login/${provider}`);
                 
                 if (response.ok) {
                     const data = await response.json();
@@ -1609,32 +1579,54 @@
                     }
                 }
                 
-                // If backend endpoint not configured, show message
-                showToast(`⚠️ ${provider} login not configured. Using email instead.`);
-                
-                // Fallback: If you want to use Supabase directly
-                // You can construct the Supabase OAuth URL:
-                const supabaseUrl = "https://qucokskbztplocavbxmu.supabase.co";
-                const redirectTo = window.location.origin;
-                
-                if (provider === 'google') {
-                    window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=google&redirect_to=${redirectTo}`;
-                } else if (provider === 'facebook') {
-                    window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=facebook&redirect_to=${redirectTo}`;
-                } else if (provider === 'outlook') {
-                    window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=azure&redirect_to=${redirectTo}`;
-                } else if (provider === 'linkedin') {
-                    window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=linkedin&redirect_to=${redirectTo}`;
-                }
+                // If backend fails, show error
+                showToast(`❌ Failed to initiate ${provider} login`);
                 
             } catch (error) {
                 console.error('Social login error:', error);
-                showToast(`⚠️ ${provider} login unavailable. Using email instead.`);
+                showToast('❌ Connection error - please try again');
             }
         }
 
         // ============================================
-        // EMAIL SIGNUP - FIXED
+        // HANDLE OAUTH CALLBACK - GET TOKEN FROM URL
+        // ============================================
+        function handleOAuthCallback() {
+            // Check if URL has access_token in hash
+            const hash = window.location.hash.substring(1);
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get('access_token');
+            const refreshToken = params.get('refresh_token');
+            
+            if (accessToken) {
+                // Save token
+                userToken = accessToken;
+                localStorage.setItem('prai_token', accessToken);
+                
+                // Get user info from backend
+                fetch('/auth/user', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.email) {
+                        userEmail = data.email;
+                        userName = data.email.split('@')[0];
+                        localStorage.setItem('prai_email', userEmail);
+                        localStorage.setItem('prai_name', userName);
+                        updateProfileUI();
+                        showToast(`✅ Welcome, ${userName}!`);
+                        
+                        // Clean URL
+                        window.history.replaceState({}, document.title, '/');
+                    }
+                })
+                .catch(err => console.error('Failed to get user info:', err));
+            }
+        }
+
+        // ============================================
+        // EMAIL SIGNUP
         // ============================================
         async function handleSignup() {
             const email = document.getElementById('signup-email').value.trim();
@@ -1676,7 +1668,7 @@
         }
 
         // ============================================
-        // EMAIL LOGIN - FIXED
+        // EMAIL LOGIN
         // ============================================
         async function handleLogin() {
             const email = document.getElementById('email').value.trim();
@@ -1697,7 +1689,6 @@
                 const data = await response.json();
                 
                 if (response.ok && data.access_token) {
-                    // Save auth data
                     userToken = data.access_token;
                     userEmail = email;
                     userName = email.split('@')[0];
@@ -1706,12 +1697,10 @@
                     localStorage.setItem('prai_email', email);
                     localStorage.setItem('prai_name', userName);
                     
-                    // Update UI
                     updateProfileUI();
                     hideAuthModal();
                     showToast(`✅ Welcome back, ${userName}!`);
                     
-                    // Clear input fields
                     document.getElementById('email').value = '';
                     document.getElementById('password').value = '';
                 } else {
@@ -1750,7 +1739,6 @@
                     });
                     
                     if (!response.ok) {
-                        // Token invalid - clear storage
                         localStorage.removeItem('prai_token');
                         localStorage.removeItem('prai_email');
                         localStorage.removeItem('prai_name');
@@ -1794,10 +1782,31 @@
         }
 
         // ============================================
+        // AUTH MODAL CONTROLS
+        // ============================================
+        function showAuthModal() {
+            authModal.style.display = 'flex';
+            showLoginForm();
+        }
+
+        function hideAuthModal() {
+            authModal.style.display = 'none';
+        }
+
+        function showLoginForm() {
+            document.getElementById('login-form').classList.add('active');
+            document.getElementById('signup-form').classList.remove('active');
+        }
+
+        function showSignupForm() {
+            document.getElementById('login-form').classList.remove('active');
+            document.getElementById('signup-form').classList.add('active');
+        }
+
+        // ============================================
         // EVENT LISTENERS - AUTH
         // ============================================
         
-        // Profile button
         profileBtn.addEventListener('click', (e) => {
             if (userEmail && userToken) {
                 toggleDropdown(e);
@@ -1806,38 +1815,29 @@
             }
         });
 
-        // Auth modal close
         authModalClose.addEventListener('click', hideAuthModal);
         
-        // Close modal when clicking outside
         authModal.addEventListener('click', (e) => {
             if (e.target === authModal) {
                 hideAuthModal();
             }
         });
 
-        // Login button
         loginBtn.addEventListener('click', handleLogin);
-
-        // Signup button
         signupBtn.addEventListener('click', handleSignup);
 
-        // Show signup form
         showSignupBtn.addEventListener('click', (e) => {
             e.preventDefault();
             showSignupForm();
         });
 
-        // Show login form
         showLoginBtn.addEventListener('click', (e) => {
             e.preventDefault();
             showLoginForm();
         });
 
-        // Logout
         dropdownLogout.addEventListener('click', handleLogout);
 
-        // Enter key in login form
         document.getElementById('password').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -1845,7 +1845,6 @@
             }
         });
 
-        // Enter key in signup form
         document.getElementById('signup-password').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -1861,7 +1860,6 @@
             showToast('⚙️ Settings panel coming soon!');
         });
 
-        // Theme toggle
         dropdownTheme.addEventListener('click', () => {
             const isDark = document.body.classList.contains('dark-mode');
             setTheme(isDark ? 'light' : 'dark');
@@ -1869,7 +1867,6 @@
             showToast(isDark ? '☀️ Light mode enabled' : '🌙 Dark mode enabled');
         });
 
-        // Click outside to close dropdown
         document.addEventListener('click', function(e) {
             if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
                 profileDropdown.classList.remove('show');
@@ -1918,7 +1915,6 @@
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Save to localStorage
             if (!chats[currentChatId]) {
                 chats[currentChatId] = {
                     id: currentChatId,
@@ -1942,7 +1938,6 @@
             addMessage("Hello! I'm P.R.A.I, your intelligent assistant. How can I help you today?", false);
         }
 
-        // Typing indicator
         function showTypingIndicator() {
             const typingDiv = document.createElement('div');
             typingDiv.className = 'typing-indicator';
@@ -2021,7 +2016,7 @@
         }
 
         // ============================================
-        // FILE UPLOAD - WORKING
+        // FILE UPLOAD
         // ============================================
         async function handleFileUpload(e) {
             const file = e.target.files[0];
@@ -2109,10 +2104,8 @@
         // EVENT LISTENERS - CHAT
         // ============================================
         
-        // Send message
         sendButton.addEventListener('click', sendMessage);
         
-        // Enter key
         messageInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -2120,13 +2113,11 @@
             }
         });
 
-        // Auto-resize
         messageInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 200) + 'px';
         });
 
-        // New chat
         newChatBtn.addEventListener('click', () => {
             currentChatId = 'chat-' + Date.now();
             messagesContainer.innerHTML = '';
@@ -2134,7 +2125,6 @@
             updateHistoryDisplay();
         });
 
-        // Clear current chat
         clearBtn.addEventListener('click', () => {
             if (confirm('Clear this conversation?')) {
                 messagesContainer.innerHTML = '';
@@ -2147,7 +2137,6 @@
             }
         });
 
-        // Export chat
         exportBtn.addEventListener('click', () => {
             const currentChat = chats[currentChatId];
             if (!currentChat || !currentChat.messages || currentChat.messages.length === 0) {
@@ -2170,20 +2159,17 @@
             showToast('📥 Chat exported successfully');
         });
 
-        // File upload
         uploadBtn.addEventListener('click', () => {
             fileInput.click();
         });
         
         fileInput.addEventListener('change', handleFileUpload);
 
-        // Suggestions
         const suggestions = [
             "Explain quantum computing in simple terms",
             "Write a Python function to reverse a string",
             "What are the latest trends in AI?",
-            "How do I learn machine learning?",
-            "What is the meaning of life?"
+            "How do I learn machine learning?"
         ];
 
         suggestBtn.addEventListener('click', () => {
@@ -2585,6 +2571,9 @@
                 }
             }
             
+            // Check for OAuth callback
+            handleOAuthCallback();
+            
             // Check auth status
             await checkAuthStatus();
             
@@ -2598,7 +2587,7 @@
             
             messageInput.focus();
             
-            console.log('✅ P.R.A.I initialized - All social providers ready');
+            console.log('✅ P.R.A.I initialized - Backend social login ready');
         }
 
         init();
