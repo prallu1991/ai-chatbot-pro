@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           DEEPSEEK-STYLE DESIGN SYSTEM
+           DEEPSEEK-STYLE DESIGN SYSTEM - PREMIUM
            ============================================ */
         * {
             margin: 0;
@@ -45,7 +45,7 @@
         }
 
         /* ============================================
-           SIDEBAR - DEEPSEEK INSPIRED
+           SIDEBAR - DEEPSEEK EXACT
            ============================================ */
         .sidebar {
             width: 280px;
@@ -62,7 +62,6 @@
             border-right: 1px solid #2a2a2a;
         }
 
-        /* Logo - Clean & Minimal */
         .logo {
             display: flex;
             align-items: center;
@@ -93,7 +92,6 @@
             color: #3b82f6;
         }
 
-        /* New Chat Button */
         .new-chat-btn {
             width: 100%;
             padding: 12px 16px;
@@ -116,7 +114,6 @@
             background: #0052cc;
         }
 
-        /* History Section */
         .history-section {
             flex: 1;
             overflow-y: auto;
@@ -190,7 +187,6 @@
             background: #0f0f0f;
         }
 
-        /* Header - Clean & Functional */
         .chat-header {
             padding: 16px 24px;
             border-bottom: 1px solid #e5e5e5;
@@ -251,7 +247,7 @@
         }
 
         /* ============================================
-           PROFILE / AVATAR SECTION - DEEPSEEK STYLE
+           PROFILE SECTION - DEEPSEEK EXACT
            ============================================ */
         .profile-container {
             position: relative;
@@ -315,12 +311,12 @@
             color: white;
         }
 
-        /* Dropdown Menu */
+        /* Dropdown Menu - DeepSeek Style */
         .profile-dropdown {
             position: absolute;
             top: 50px;
             right: 0;
-            width: 240px;
+            width: 280px;
             background: white;
             border: 1px solid #e5e5e5;
             border-radius: 12px;
@@ -341,18 +337,39 @@
         }
 
         .dropdown-header {
-            padding: 12px;
+            padding: 16px;
             border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .dark-mode .dropdown-header {
             border-bottom: 1px solid #2a2a2a;
         }
 
+        .dropdown-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .dropdown-user-info {
+            flex: 1;
+        }
+
         .dropdown-user-name {
             font-weight: 600;
             color: #0f0f0f;
             margin-bottom: 4px;
+            font-size: 15px;
         }
 
         .dark-mode .dropdown-user-name {
@@ -362,6 +379,15 @@
         .dropdown-user-email {
             font-size: 12px;
             color: #666666;
+        }
+
+        .dropdown-section {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .dark-mode .dropdown-section {
+            border-bottom: 1px solid #2a2a2a;
         }
 
         .dropdown-item {
@@ -374,7 +400,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 4px;
         }
 
         .dark-mode .dropdown-item {
@@ -391,8 +416,8 @@
 
         .dropdown-item.logout {
             color: #ff4444;
-            border-top: 1px solid #e5e5e5;
             margin-top: 8px;
+            border-top: 1px solid #e5e5e5;
             padding-top: 12px;
         }
 
@@ -400,8 +425,253 @@
             border-top: 1px solid #2a2a2a;
         }
 
+        .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
         /* ============================================
-           AUTH MODAL - DEEPSEEK STYLE
+           SETTINGS PANEL - DEEPSEEK STYLE
+           ============================================ */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 480px;
+            height: 100vh;
+            background: white;
+            border-left: 1px solid #e5e5e5;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            z-index: 99999;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark-mode .settings-panel {
+            background: #1a1a1a;
+            border-left: 1px solid #2a2a2a;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .settings-panel.open {
+            right: 0;
+        }
+
+        .settings-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dark-mode .settings-header {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .settings-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0f0f0f;
+        }
+
+        .dark-mode .settings-title {
+            color: white;
+        }
+
+        .settings-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #e5e5e5;
+            background: transparent;
+            color: #666666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .dark-mode .settings-close {
+            border: 1px solid #2a2a2a;
+            color: #8a8a8a;
+        }
+
+        .settings-close:hover {
+            background: #f5f5f5;
+        }
+
+        .dark-mode .settings-close:hover {
+            background: #2a2a2a;
+        }
+
+        .settings-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .settings-section {
+            margin-bottom: 32px;
+        }
+
+        .settings-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f0f0f;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode .settings-section-title {
+            color: white;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .dark-mode .settings-item {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-item-label {
+            font-size: 14px;
+            color: #0f0f0f;
+        }
+
+        .dark-mode .settings-item-label {
+            color: white;
+        }
+
+        .settings-item-desc {
+            font-size: 12px;
+            color: #666666;
+            margin-top: 4px;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: #e5e5e5;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode .toggle-switch {
+            background: #2a2a2a;
+        }
+
+        .toggle-switch.active {
+            background: #0066ff;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: left 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            left: 22px;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #e5e5e5;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+        }
+
+        .dark-mode .radio-custom {
+            border-color: #2a2a2a;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom {
+            border-color: #0066ff;
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 6px;
+            height: 6px;
+            background: #0066ff;
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            font-size: 14px;
+            color: #0f0f0f;
+        }
+
+        .dark-mode .radio-label {
+            color: white;
+        }
+
+        /* Select Input */
+        .select-input {
+            padding: 8px 12px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            color: #0f0f0f;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .dark-mode .select-input {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: white;
+        }
+
+        /* ============================================
+           AUTH MODAL - DEEPSEEK PREMIUM
            ============================================ */
         #auth-modal {
             display: none;
@@ -456,7 +726,7 @@
             font-size: 15px;
         }
 
-        /* Social Login Buttons */
+        /* Social Login Buttons - Facebook, Outlook, LinkedIn */
         .social-login {
             display: flex;
             flex-direction: column;
@@ -495,9 +765,34 @@
             background: #3a3a3a;
         }
 
-        .social-btn img {
-            width: 20px;
-            height: 20px;
+        .social-btn.facebook {
+            background: #1877f2;
+            color: white;
+            border: none;
+        }
+
+        .social-btn.facebook:hover {
+            background: #166fe5;
+        }
+
+        .social-btn.outlook {
+            background: #0078d4;
+            color: white;
+            border: none;
+        }
+
+        .social-btn.outlook:hover {
+            background: #106ebe;
+        }
+
+        .social-btn.linkedin {
+            background: #0a66c2;
+            color: white;
+            border: none;
+        }
+
+        .social-btn.linkedin:hover {
+            background: #004182;
         }
 
         .divider {
@@ -525,7 +820,6 @@
             margin: 0 16px;
         }
 
-        /* Email Login Form */
         .email-login-form {
             display: none;
         }
@@ -691,7 +985,6 @@
             color: #8a8a8a;
         }
 
-        /* Typing Indicator */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -909,12 +1202,33 @@
                         <!-- Dropdown Menu -->
                         <div class="profile-dropdown" id="profile-dropdown">
                             <div class="dropdown-header">
-                                <div class="dropdown-user-name" id="dropdown-user-name">Guest</div>
-                                <div class="dropdown-user-email" id="dropdown-user-email"></div>
+                                <div class="dropdown-avatar" id="dropdown-avatar">
+                                    👤
+                                </div>
+                                <div class="dropdown-user-info">
+                                    <div class="dropdown-user-name" id="dropdown-user-name">Guest</div>
+                                    <div class="dropdown-user-email" id="dropdown-user-email"></div>
+                                </div>
                             </div>
-                            <div class="dropdown-item" id="dropdown-settings">
-                                ⚙️ Settings
+                            
+                            <div class="dropdown-section">
+                                <div class="dropdown-item" id="dropdown-settings">
+                                    ⚙️ Settings
+                                </div>
+                                <div class="dropdown-item" id="dropdown-theme">
+                                    🌙 Dark mode
+                                </div>
                             </div>
+                            
+                            <div class="dropdown-section">
+                                <div class="dropdown-item" id="dropdown-help">
+                                    📚 Help & FAQ
+                                </div>
+                                <div class="dropdown-item" id="dropdown-feedback">
+                                    💬 Send feedback
+                                </div>
+                            </div>
+                            
                             <div class="dropdown-item logout" id="dropdown-logout">
                                 🚪 Logout
                             </div>
@@ -955,7 +1269,144 @@
         </main>
     </div>
 
-    <!-- AUTH MODAL - DEEPSEEK STYLE WITH SOCIAL LOGIN -->
+    <!-- SETTINGS PANEL - DEEPSEEK STYLE -->
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <div class="settings-title">Settings</div>
+            <button class="settings-close" id="settings-close">✕</button>
+        </div>
+        <div class="settings-content">
+            <!-- Appearance Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🌓 Appearance
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Theme</div>
+                        <div class="settings-item-desc">Switch between light and dark mode</div>
+                    </div>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="theme" value="dark" checked>
+                            <span class="radio-custom"></span>
+                            <span class="radio-label">Dark</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="theme" value="light">
+                            <span class="radio-custom"></span>
+                            <span class="radio-label">Light</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🌐 Language
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Display language</div>
+                        <div class="settings-item-desc">Choose your preferred language</div>
+                    </div>
+                    <select class="select-input" id="language-select">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ja">Japanese</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Chat Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    💬 Chat
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Enter to send</div>
+                        <div class="settings-item-desc">Press Enter to send message, Shift+Enter for new line</div>
+                    </div>
+                    <button class="toggle-switch active" id="enter-to-send">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Typing indicator</div>
+                        <div class="settings-item-desc">Show when assistant is typing</div>
+                    </div>
+                    <button class="toggle-switch active" id="typing-indicator-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Message timestamp</div>
+                        <div class="settings-item-desc">Show time for each message</div>
+                    </div>
+                    <button class="toggle-switch" id="timestamp-toggle">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Privacy Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    🔒 Privacy
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Save chat history</div>
+                        <div class="settings-item-desc">Store conversations locally</div>
+                    </div>
+                    <button class="toggle-switch active" id="save-history">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Usage data</div>
+                        <div class="settings-item-desc">Help improve P.R.A.I by sharing anonymous usage data</div>
+                    </div>
+                    <button class="toggle-switch" id="usage-data">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    ℹ️ About
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Version</div>
+                        <div class="settings-item-desc">2.0.0 - DeepSeek Edition</div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Terms of Service</div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-label">Privacy Policy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL - FACEBOOK, OUTLOOK, LINKEDIN -->
     <div id="auth-modal">
         <div class="auth-container">
             <button class="close-btn" onclick="hideAuthModal()">✕</button>
@@ -965,19 +1416,19 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <!-- Social Login Buttons -->
+            <!-- Social Login Buttons - Facebook, Outlook, LinkedIn -->
             <div class="social-login">
-                <button class="social-btn" onclick="handleSocialLogin('google')">
-                    <img src="https://www.google.com/favicon.ico" alt="Google" style="width: 20px; height: 20px;">
-                    Continue with Google
+                <button class="social-btn facebook" onclick="handleSocialLogin('facebook')">
+                    <span style="font-size: 18px;">f</span>
+                    Continue with Facebook
                 </button>
-                <button class="social-btn" onclick="handleSocialLogin('github')">
-                    <img src="https://github.com/favicon.ico" alt="GitHub" style="width: 20px; height: 20px;">
-                    Continue with GitHub
+                <button class="social-btn outlook" onclick="handleSocialLogin('outlook')">
+                    <span style="font-size: 18px;">@</span>
+                    Continue with Outlook
                 </button>
-                <button class="social-btn" onclick="handleSocialLogin('discord')">
-                    <img src="https://discord.com/favicon.ico" alt="Discord" style="width: 20px; height: 20px;">
-                    Continue with Discord
+                <button class="social-btn linkedin" onclick="handleSocialLogin('linkedin')">
+                    <span style="font-size: 18px;">in</span>
+                    Continue with LinkedIn
                 </button>
             </div>
 
@@ -985,7 +1436,7 @@
                 <span>or continue with email</span>
             </div>
 
-            <!-- Email Login (Default) -->
+            <!-- Email Login -->
             <div id="login-form" class="email-login-form active">
                 <div class="form-group">
                     <input type="email" id="email" class="form-input" placeholder="Email address" autocomplete="email">
@@ -1004,7 +1455,7 @@
                 </div>
             </div>
 
-            <!-- Email Signup (Hidden by Default) -->
+            <!-- Email Signup -->
             <div id="signup-form" class="email-login-form">
                 <div class="form-group">
                     <input type="email" id="signup-email" class="form-input" placeholder="Email address" autocomplete="email">
@@ -1063,9 +1514,26 @@
         const profileDropdown = document.getElementById('profile-dropdown');
         const profileAvatar = document.getElementById('profile-avatar');
         const profileEmail = document.getElementById('profile-email');
+        const dropdownAvatar = document.getElementById('dropdown-avatar');
         const dropdownUserName = document.getElementById('dropdown-user-name');
         const dropdownUserEmail = document.getElementById('dropdown-user-email');
         const dropdownLogout = document.getElementById('dropdown-logout');
+        const dropdownSettings = document.getElementById('dropdown-settings');
+        const dropdownTheme = document.getElementById('dropdown-theme');
+        const settingsPanel = document.getElementById('settings-panel');
+        const settingsClose = document.getElementById('settings-close');
+
+        // ============================================
+        // SETTINGS PANEL FUNCTIONS
+        // ============================================
+        function openSettings() {
+            settingsPanel.classList.add('open');
+            hideDropdown();
+        }
+
+        function closeSettings() {
+            settingsPanel.classList.remove('open');
+        }
 
         // ============================================
         // PROFILE / DROPDOWN FUNCTIONS
@@ -1087,9 +1555,12 @@
                 
                 if (userAvatar) {
                     profileAvatar.innerHTML = `<img src="${userAvatar}" alt="Profile">`;
+                    dropdownAvatar.innerHTML = `<img src="${userAvatar}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">`;
                 } else {
                     profileAvatar.innerHTML = initial;
+                    dropdownAvatar.innerHTML = initial;
                     profileAvatar.style.background = 'linear-gradient(135deg, #0066ff, #0052cc)';
+                    dropdownAvatar.style.background = 'linear-gradient(135deg, #0066ff, #0052cc)';
                 }
                 
                 profileEmail.textContent = displayName;
@@ -1097,15 +1568,51 @@
                 
                 dropdownUserName.textContent = name;
                 dropdownUserEmail.textContent = userEmail;
+                
+                // Update theme dropdown text based on current mode
+                const isDark = document.body.classList.contains('dark-mode');
+                dropdownTheme.innerHTML = isDark ? '☀️ Light mode' : '🌙 Dark mode';
             } else {
                 profileAvatar.innerHTML = '👤';
                 profileAvatar.style.background = 'linear-gradient(135deg, #0066ff, #0052cc)';
                 profileEmail.textContent = 'Sign In';
                 profileEmail.style.color = '#8a8a8a';
                 
+                dropdownAvatar.innerHTML = '👤';
                 dropdownUserName.textContent = 'Guest';
                 dropdownUserEmail.textContent = '';
+                dropdownTheme.innerHTML = '🌙 Dark mode';
             }
+        }
+
+        // ============================================
+        // THEME FUNCTIONS
+        // ============================================
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('light-mode');
+                localStorage.setItem('prai_theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('prai_theme', 'dark');
+            }
+            
+            // Update radio buttons
+            const radioButtons = document.querySelectorAll('input[name="theme"]');
+            radioButtons.forEach(radio => {
+                if (radio.value === theme) {
+                    radio.checked = true;
+                }
+            });
+            
+            updateProfileUI();
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.contains('dark-mode');
+            setTheme(isDark ? 'light' : 'dark');
         }
 
         // ============================================
@@ -1130,14 +1637,9 @@
             document.getElementById('signup-form').classList.add('active');
         }
 
-        // Social Login Handler
+        // Social Login Handler - Facebook, Outlook, LinkedIn
         async function handleSocialLogin(provider) {
             alert(`🔗 Redirecting to ${provider} login...\n\nIn production, this would redirect to:\n/auth/login/${provider}\n\nFor now, please use email signup.`);
-            
-            // In production, you would redirect to:
-            // window.location.href = `/auth/login/${provider}`;
-            
-            // For demo, show email form
             showLoginForm();
         }
 
@@ -1321,6 +1823,10 @@
         // INITIALIZATION
         // ============================================
         function init() {
+            // Load theme
+            const savedTheme = localStorage.getItem('prai_theme') || 'dark';
+            setTheme(savedTheme);
+            
             loadFromStorage();
             checkAuthStatus();
             updateHistoryDisplay();
@@ -1570,13 +2076,49 @@
             }
         });
 
+        // Settings button in dropdown
+        dropdownSettings.addEventListener('click', openSettings);
+
+        // Theme toggle in dropdown
+        dropdownTheme.addEventListener('click', toggleTheme);
+
         // Logout button
         dropdownLogout.addEventListener('click', logout);
 
-        // Settings button
-        document.getElementById('dropdown-settings').addEventListener('click', () => {
-            alert('⚙️ Settings panel coming soon!');
-            hideDropdown();
+        // Settings panel close
+        settingsClose.addEventListener('click', closeSettings);
+
+        // Theme radio buttons
+        document.querySelectorAll('input[name="theme"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                setTheme(e.target.value);
+            });
+        });
+
+        // Toggle switches
+        document.getElementById('enter-to-send').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('typing-indicator-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('timestamp-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('save-history').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('usage-data').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
         });
 
         micBtn.addEventListener('click', toggleRecording);
