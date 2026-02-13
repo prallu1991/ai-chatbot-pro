@@ -8,3 +8,7 @@ pytz==2024.1
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 Werkzeug==3.0.1
+
+# ===== REAL-TIME DATA APIS - 100% FREE, NO CREDIT CARD =====
+yfinance==0.2.28           # Stocks - NO API KEY NEEDED!
+apify-client==1.3.1       # News - Free tier, no CC
