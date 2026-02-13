@@ -1,6 +1,6 @@
 """
-P.R.A.I - PRODUCTION SERVER v6.9.0
-STATUS: ✅ CONVERSATIONAL MEMORY | ✅ REMEMBERS NAME | ✅ CONTEXT
+P.R.A.I - PRODUCTION SERVER v7.0.0
+STATUS: ✅ GROQ API CONNECTED | ✅ CONVERSATIONAL | ✅ MEMORY
 """
 
 from flask import Flask, request, jsonify, send_from_directory, redirect
@@ -39,40 +39,45 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================
-# ENVIRONMENT VARIABLES
+# ENVIRONMENT VARIABLES - CHECK THESE ON RENDER!
 # ============================================
 SUPABASE_URL = os.environ.get('SUPABASE_URL', '').rstrip('/')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY', '')
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://ai-chatbot-pro-wdqz.onrender.com').rstrip('/')
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
+
+# ============================================
+# GROQ API CONFIGURATION
+# ============================================
 GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
 GROQ_MODEL = 'llama-3.3-70b-versatile'
 
 # ============================================
-# CONVERSATIONAL SYSTEM PROMPT - WITH MEMORY!
+# CONVERSATIONAL SYSTEM PROMPT
 # ============================================
-SYSTEM_PROMPT = """You are P.R.A.I, a helpful AI assistant with perfect memory.
+SYSTEM_PROMPT = """You are P.R.A.I, a helpful, friendly AI assistant with perfect memory.
 
 CONVERSATIONAL RULES:
-1. REMEMBER the user's name - when they tell you, use it naturally
-2. REMEMBER previous topics - refer back to what was discussed
-3. REMEMBER preferences - if user says they like something, remember it
-4. Be conversational and natural - like talking to a friend
-5. Keep responses concise but friendly
+1. Be natural and conversational - like talking to a friend
+2. Remember the user's name and use it naturally
+3. Remember previous topics and refer back to them
+4. Keep responses concise but helpful (2-3 sentences usually)
+5. Never say "I received your message" - that's robotic
+6. Answer questions directly and accurately
+7. If you don't know something, say so honestly
 
 Current date and time: {current_time}
 User's name: {user_name}
-Previous conversation summary: {conversation_summary}
+Previous conversation: {conversation_summary}
 """
 
 # ============================================
-# SUPABASE FUNCTIONS - WITH MEMORY!
+# SUPABASE FUNCTIONS
 # ============================================
 def validate_supabase():
     return bool(SUPABASE_URL and SUPABASE_KEY)
 
 def get_conversation_history(session_id, limit=50):
-    """Get full conversation history with memory"""
     if not validate_supabase():
         return []
     try:
@@ -83,11 +88,11 @@ def get_conversation_history(session_id, limit=50):
             timeout=5
         )
         return response.json() if response.status_code == 200 else []
-    except:
+    except Exception as e:
+        logger.error(f"History error: {str(e)}")
         return []
 
 def save_conversation(session_id, user_message, bot_reply, user_name=None, file_info=None):
-    """Save conversation with metadata"""
     if not validate_supabase():
         return False
     try:
@@ -106,23 +111,15 @@ def save_conversation(session_id, user_message, bot_reply, user_name=None, file_
         }
         requests.post(f'{SUPABASE_URL}/rest/v1/chat_history', headers=headers, json=data, timeout=5)
         return True
-    except:
+    except Exception as e:
+        logger.error(f"Save error: {str(e)}")
         return False
 
 def extract_user_context(history):
-    """Extract user name and preferences from conversation history"""
-    context = {
-        'user_name': None,
-        'preferences': [],
-        'topics': [],
-        'message_count': len(history)
-    }
-    
-    for msg in history:
+    context = {'user_name': None, 'message_count': len(history)}
+    for msg in history[-20:]:
         if not context['user_name'] and msg.get('user_message'):
             user_msg = msg['user_message'].lower()
-            
-            # Extract name from "my name is X" or "I am X"
             if "my name is" in user_msg:
                 name_part = user_msg.split("my name is")[-1].strip()
                 context['user_name'] = name_part.split()[0].capitalize()
@@ -133,24 +130,19 @@ def extract_user_context(history):
             elif "call me" in user_msg:
                 name_part = user_msg.split("call me")[-1].strip()
                 context['user_name'] = name_part.split()[0].capitalize()
-    
     return context
 
-def generate_conversation_summary(history, max_messages=10):
-    """Create a brief summary of recent conversation for context"""
+def generate_conversation_summary(history, max_messages=6):
     if not history:
-        return "This is a new conversation."
-    
+        return "New conversation"
     recent = history[-max_messages:]
     summary = []
-    
     for msg in recent:
         if msg.get('user_message'):
-            summary.append(f"User: {msg['user_message'][:50]}")
+            summary.append(f"User: {msg['user_message'][:30]}")
         if msg.get('bot_reply'):
-            summary.append(f"Assistant: {msg['bot_reply'][:50]}")
-    
-    return " | ".join(summary[-6:])  # Last 3 exchanges
+            summary.append(f"Assistant: {msg['bot_reply'][:30]}")
+    return " | ".join(summary)
 
 # ============================================
 # AUTHENTICATION - GMAIL LOGIN
@@ -189,7 +181,8 @@ def get_user():
         headers = {'apikey': SUPABASE_KEY, 'Authorization': auth_header}
         response = requests.get(f'{SUPABASE_URL}/auth/v1/user', headers=headers, timeout=5)
         return jsonify(response.json()), response.status_code
-    except:
+    except Exception as e:
+        logger.error(f"Get user error: {str(e)}")
         return jsonify({'user': None}), 200
 
 @app.route('/auth/logout', methods=['POST'])
@@ -197,55 +190,54 @@ def logout():
     return jsonify({'success': True}), 200
 
 # ============================================
-# CHAT API - WITH FULL CONVERSATIONAL MEMORY!
+# CHAT API - REAL GROQ AI, NOT ECHO!
 # ============================================
 @app.route('/chat', methods=['POST'])
 def chat():
-    """Chat endpoint with full conversational memory"""
+    """REAL AI CHAT - Connected to Groq API"""
     try:
+        # 1. CHECK GROQ API KEY
         if not GROQ_API_KEY:
-            return jsonify({'error': 'AI service not configured'}), 503
+            logger.error("❌ GROQ_API_KEY not configured")
+            return jsonify({'error': 'AI service not configured - please set GROQ_API_KEY in Render environment variables'}), 503
         
+        # 2. PARSE REQUEST
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Invalid request'}), 400
+            
         user_message = data.get('message', '').strip()
         session_id = data.get('session_id', f'session_{datetime.utcnow().timestamp()}')[:50]
         user_name = data.get('user_name')
-        file_info = data.get('file_info')
         
         if not user_message:
             return jsonify({'error': 'Message cannot be empty'}), 400
         
-        logger.info(f"💬 Chat - Session: {session_id[:8]}")
+        logger.info(f"💬 Chat request - Session: {session_id[:8]}")
+        logger.info(f"📝 User message: {user_message[:50]}")
         
-        # ============================================
-        # GET CONVERSATION HISTORY AND EXTRACT CONTEXT
-        # ============================================
-        history = get_conversation_history(session_id, limit=50)
+        # 3. GET CONVERSATION HISTORY
+        history = get_conversation_history(session_id, limit=20)
         context = extract_user_context(history)
         
-        # Update with current user_name if provided
-        if user_name and not context['user_name']:
+        if user_name and not context.get('user_name'):
             context['user_name'] = user_name
         
-        # Generate conversation summary
-        summary = generate_conversation_summary(history)
-        
-        # ============================================
-        # BUILD MESSAGES WITH FULL CONTEXT
-        # ============================================
+        # 4. BUILD MESSAGES FOR GROQ
         messages = []
         
-        # System prompt with memory context
+        # System prompt with context
         current_time = datetime.now().strftime("%A, %B %d, %Y at %I:%M %p")
+        summary = generate_conversation_summary(history)
         system_prompt = SYSTEM_PROMPT.format(
             current_time=current_time,
-            user_name=context['user_name'] or "Guest",
+            user_name=context.get('user_name', 'there'),
             conversation_summary=summary
         )
         messages.append({'role': 'system', 'content': system_prompt})
         
-        # Add conversation history (last 10 exchanges for context)
-        for msg in history[-20:]:
+        # Add conversation history (last 10 messages)
+        for msg in history[-10:]:
             if msg.get('user_message'):
                 messages.append({'role': 'user', 'content': msg['user_message'][:500]})
             if msg.get('bot_reply'):
@@ -254,38 +246,49 @@ def chat():
         # Add current message
         messages.append({'role': 'user', 'content': user_message[:500]})
         
-        # ============================================
-        # CALL GROQ API
-        # ============================================
+        # 5. CALL GROQ API
+        logger.info(f"🔄 Calling Groq API with model: {GROQ_MODEL}")
+        
         response = requests.post(
             GROQ_API_URL,
-            headers={'Authorization': f'Bearer {GROQ_API_KEY}', 'Content-Type': 'application/json'},
+            headers={
+                'Authorization': f'Bearer {GROQ_API_KEY}',
+                'Content-Type': 'application/json'
+            },
             json={
                 'model': GROQ_MODEL,
                 'messages': messages,
                 'temperature': 0.7,
-                'max_tokens': 500
+                'max_tokens': 500,
+                'top_p': 0.9
             },
             timeout=30
         )
         
+        # 6. HANDLE GROQ RESPONSE
         if response.status_code == 200:
             result = response.json()
             bot_reply = result['choices'][0]['message']['content']
             
             # Save to database
-            save_conversation(session_id, user_message, bot_reply, context['user_name'], file_info)
+            save_conversation(session_id, user_message, bot_reply, context.get('user_name'))
             
-            logger.info(f"✅ Response sent - Memory active")
+            logger.info(f"✅ Groq response sent")
+            logger.info(f"🤖 Bot reply: {bot_reply[:50]}...")
+            
             return jsonify([{
                 'generated_text': bot_reply,
                 'session_id': session_id,
-                'user_name': context['user_name']
+                'model': GROQ_MODEL
             }])
         else:
             logger.error(f"❌ Groq API error: {response.status_code}")
-            return jsonify({'error': 'AI service error'}), 503
+            logger.error(f"❌ Response: {response.text[:200]}")
+            return jsonify({'error': f'Groq API error: {response.status_code}'}), 503
             
+    except requests.exceptions.Timeout:
+        logger.error("❌ Groq API timeout")
+        return jsonify({'error': 'AI service timeout'}), 504
     except Exception as e:
         logger.error(f"❌ Chat error: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
@@ -304,7 +307,6 @@ def upload_file():
         
         filename = secure_filename(file.filename)
         
-        # Extract text from PDFs and text files
         extracted_text = ""
         if filename.lower().endswith('.txt'):
             try:
@@ -325,7 +327,6 @@ def upload_file():
         return jsonify({
             'success': True,
             'filename': filename,
-            'size': 0,  # Size not needed for memory fix
             'extracted_text': extracted_text,
             'message': f'File "{filename}" uploaded successfully'
         })
@@ -344,22 +345,28 @@ def index():
 def health():
     return jsonify({
         'status': 'healthy',
-        'version': '6.9.0',
-        'timestamp': datetime.utcnow().isoformat(),
-        'features': {
-            'conversational_memory': True,
-            'name_recognition': True,
-            'context_aware': True
-        }
+        'version': '7.0.0',
+        'groq_api': 'configured' if GROQ_API_KEY else 'missing',
+        'groq_model': GROQ_MODEL,
+        'supabase': 'connected' if validate_supabase() else 'disconnected',
+        'timestamp': datetime.utcnow().isoformat()
     })
 
 if __name__ == '__main__':
     print("\n" + "=" * 70)
-    print("🚀 P.R.A.I v6.9.0 - CONVERSATIONAL MEMORY FIXED!")
+    print("🚀 P.R.A.I v7.0.0 - GROQ API CONNECTED!")
     print("=" * 70)
-    print(f"✅ Memory: Remembers user name and context")
-    print(f"✅ Groq: {'Configured' if GROQ_API_KEY else 'Missing'}")
-    print(f"✅ Supabase: {'Connected' if validate_supabase() else 'Disconnected'}")
+    print(f"✅ Groq API Key: {'✓ Set' if GROQ_API_KEY else '✗ MISSING!'}")
+    print(f"✅ Groq Model: {GROQ_MODEL}")
+    print(f"✅ Supabase: {'✓ Connected' if validate_supabase() else '✗ Disconnected'}")
+    print("=" * 70)
+    
+    if not GROQ_API_KEY:
+        print("⚠️  WARNING: GROQ_API_KEY not set in environment variables!")
+        print("⚠️  Please add it in Render Dashboard → Environment")
+    else:
+        print("✅ Groq API ready to respond conversationally!")
+    
     print("=" * 70)
     
     port = int(os.environ.get('PORT', 8000))
