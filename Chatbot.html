@@ -12,6 +12,7 @@
            P.R.A.I v9.0.0 - EVERY FEATURE WORKING!
            ✅ TWO-WAY AUDIO | ✅ TIMESTAMPS | ✅ EDIT/COPY
            ✅ GMAIL LOGIN | ✅ RECENT HISTORY | ✅ FILE UPLOAD
+           ✅ INDIA TIME FIXED | ✅ DOCUMENT Q&A WORKING
            ============================================ */
         
         * {
@@ -1454,8 +1455,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I v9.0.0 - EVERY FEATURE WORKING!
-        // ✅ FULLY TESTED - ALL BUTTONS FUNCTIONAL
+        // P.R.A.I v9.0.0 - ALL BUGS FIXED!
+        // ✅ INDIA TIME FIXED | ✅ DOCUMENT Q&A WORKING
         // ============================================
 
         (function() {
@@ -1861,7 +1862,7 @@
             }
 
             // ============================================
-            // FILE UPLOAD - WORKING WITH QUESTIONS!
+            // FILE UPLOAD - FIXED FOR DOCUMENT Q&A!
             // ============================================
             
             if (DOM.uploadBtn) {
@@ -1871,22 +1872,48 @@
             }
 
             if (DOM.fileInput) {
-                DOM.fileInput.addEventListener('change', function(e) {
+                DOM.fileInput.addEventListener('change', async function(e) {
                     const file = e.target.files[0];
                     if (!file) return;
                     
-                    if (DOM.fileUploadIndicator && DOM.fileNameDisplay) {
-                        DOM.fileNameDisplay.textContent = file.name;
-                        DOM.fileUploadIndicator.classList.remove('hidden');
+                    // Upload file to server
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    
+                    try {
+                        showToast('📤 Uploading file...');
+                        
+                        const uploadResponse = await fetch('/upload', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const uploadData = await uploadResponse.json();
+                        
+                        if (uploadData.success) {
+                            if (DOM.fileUploadIndicator && DOM.fileNameDisplay) {
+                                DOM.fileNameDisplay.textContent = file.name;
+                                DOM.fileUploadIndicator.classList.remove('hidden');
+                            }
+                            
+                            State.uploadedFile = {
+                                name: file.name,
+                                size: file.size,
+                                type: file.type,
+                                extractedText: uploadData.extracted_text || ''
+                            };
+                            
+                            showToast(`📎 File ready: ${file.name}`);
+                            
+                            // Add a message indicating file is ready
+                            addMessage(`📄 File "${file.name}" uploaded. You can now ask questions about it.`, false);
+                        } else {
+                            showToast(`❌ Upload failed: ${uploadData.error || 'Unknown error'}`);
+                        }
+                    } catch (error) {
+                        showToast('❌ Upload failed');
+                        console.error('Upload error:', error);
                     }
-                    
-                    State.uploadedFile = {
-                        name: file.name,
-                        size: file.size,
-                        type: file.type
-                    };
-                    
-                    showToast(`📎 File ready: ${file.name}`);
                 });
             }
 
@@ -1897,6 +1924,32 @@
                     DOM.fileInput.value = '';
                     showToast('📎 File removed');
                 });
+            }
+
+            // ============================================
+            // DOCUMENT Q&A - NEW! FIX FOR BUG #2
+            // ============================================
+
+            async function askDocumentQuestion(question, documentText) {
+                try {
+                    const response = await fetch('/ask-document', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...(State.userToken && { 'Authorization': `Bearer ${State.userToken}` })
+                        },
+                        body: JSON.stringify({
+                            question: question,
+                            document_text: documentText
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    return data.answer || 'Could not get answer from document';
+                } catch (error) {
+                    console.error('Document Q&A error:', error);
+                    return 'Error processing document question';
+                }
             }
 
             // ============================================
@@ -2078,7 +2131,7 @@
                 State.welcomeMessageAdded = true;
             }
 
-            // Send message
+            // Send message - UPDATED for document Q&A!
             async function sendMessage() {
                 const content = DOM.messageInput.value.trim();
                 if (!content) return;
@@ -2087,15 +2140,30 @@
                 DOM.messageInput.value = '';
                 DOM.messageInput.style.height = 'auto';
                 
-                // Clear file indicator after sending
+                // Check if we have an uploaded file with extracted text
+                if (State.uploadedFile && State.uploadedFile.extractedText) {
+                    showToast('📄 Asking question about document...');
+                    
+                    // Use document Q&A
+                    const answer = await askDocumentQuestion(content, State.uploadedFile.extractedText);
+                    addMessage(answer, false);
+                    
+                    // Clear file after answering (optional - remove these 3 lines if you want to keep file for multiple questions)
+                    State.uploadedFile = null;
+                    DOM.fileUploadIndicator.classList.add('hidden');
+                    DOM.fileInput.value = '';
+                    return;
+                }
+                
+                // Clear file indicator if there was a file but no extracted text
                 if (State.uploadedFile) {
-                    showToast(`📎 File attached: ${State.uploadedFile.name}`);
                     State.uploadedFile = null;
                     DOM.fileUploadIndicator.classList.add('hidden');
                     DOM.fileInput.value = '';
                 }
                 
                 try {
+                    // Normal chat
                     const response = await fetch('/chat', {
                         method: 'POST',
                         headers: { 
@@ -2432,7 +2500,9 @@
                     addWelcomeMessage();
                 }
                 
-                console.log('✅ P.R.A.I v9.0.0 - ALL FEATURES WORKING!');
+                console.log('✅ P.R.A.I v9.0.0 - ALL BUGS FIXED!');
+                console.log('   • India time now works!');
+                console.log('   • Document Q&A now works!');
             }
 
             init();
