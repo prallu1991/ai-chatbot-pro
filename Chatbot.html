@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           P.R.A.I v6.8.0 - SLEEK VOICE MODAL!
-           ✅ COMPACT | ✅ MATCHES UI | ✅ FULLY FUNCTIONAL
+           P.R.A.I v6.8.1 - GMAIL LOGIN FIXED!
+           ✅ OAUTH CALLBACK | ✅ PROFILE PICTURES | ✅ SLEEK VOICE
            ============================================ */
         
         * {
@@ -1362,7 +1362,7 @@
         }
 
         /* ============================================
-           SLEEK VOICE MODAL - COMPACT & MATCHES UI
+           SLEEK VOICE MODAL
            ============================================ */
         .sleek-voice-modal {
             display: none;
@@ -1822,7 +1822,7 @@
             <div class="chat-header">
                 <div class="chat-title">
                     P.R.A.I Assistant
-                    <span class="version-badge">v6.8</span>
+                    <span class="version-badge">v6.8.1</span>
                 </div>
 
                 <!-- REAL-TIME CLOCK -->
@@ -1985,7 +1985,7 @@
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">6.8.0 - Sleek Voice Modal</div>
+                        <div class="settings-item-desc">6.8.1 - Gmail Login Fixed</div>
                     </div>
                 </div>
             </div>
@@ -1999,8 +1999,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I v6.8.0 - SLEEK VOICE MODAL!
-        // ✅ COMPACT | ✅ MATCHES UI | ✅ FULLY FUNCTIONAL
+        // P.R.A.I v6.8.1 - GMAIL LOGIN FIXED!
+        // ✅ OAUTH CALLBACK | ✅ PROFILE PICTURES | ✅ SLEEK VOICE
         // ============================================
 
         (function() {
@@ -2125,8 +2125,156 @@
             }
 
             // ============================================
-            // SLEEK VOICE CONVERSATION CLASS
+            // HANDLE OAUTH CALLBACK - FIXED GMAIL LOGIN!
             // ============================================
+            function handleOAuthCallback() {
+                console.log('🔍 Checking for OAuth callback...');
+                
+                // Check for access_token in URL hash
+                const hash = window.location.hash.substring(1);
+                const params = new URLSearchParams(hash);
+                const accessToken = params.get('access_token');
+                
+                console.log('🔑 Access token found:', !!accessToken);
+                
+                if (accessToken) {
+                    // Save token immediately
+                    State.userToken = accessToken;
+                    localStorage.setItem('prai_token', accessToken);
+                    console.log('💾 Token saved to localStorage');
+                    
+                    // Fetch user info from backend
+                    fetch('/auth/user', {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log('👤 User data received:', data);
+                        
+                        if (data && data.email) {
+                            // Set user info
+                            State.userEmail = data.email;
+                            State.userName = data.user_metadata?.full_name || 
+                                            data.user_metadata?.name || 
+                                            data.email.split('@')[0];
+                            
+                            // Get profile picture
+                            let avatarUrl = null;
+                            if (data.user_metadata?.avatar_url) {
+                                avatarUrl = data.user_metadata.avatar_url;
+                            } else if (data.user_metadata?.picture) {
+                                avatarUrl = data.user_metadata.picture;
+                            }
+                            
+                            if (avatarUrl) {
+                                localStorage.setItem('prai_avatar', avatarUrl);
+                                State.userAvatar = avatarUrl;
+                                console.log('🖼️ Avatar saved:', avatarUrl);
+                            }
+                            
+                            // Save to localStorage
+                            localStorage.setItem('prai_email', State.userEmail);
+                            localStorage.setItem('prai_name', State.userName);
+                            
+                            // Update UI
+                            updateProfileUI();
+                            showToast(`✅ Welcome, ${State.userName}!`);
+                            
+                            // Reset welcome message to show name
+                            State.welcomeMessageAdded = false;
+                            if (DOM.messagesContainer) {
+                                DOM.messagesContainer.innerHTML = '';
+                                addWelcomeMessage();
+                            }
+                            
+                            // Clear URL hash
+                            window.history.replaceState({}, document.title, '/');
+                            console.log('✅ Login complete!');
+                        }
+                    })
+                    .catch(err => {
+                        console.error('❌ Failed to get user info:', err);
+                        showToast('⚠️ Logged in but failed to load profile');
+                    });
+                }
+            }
+
+            // ============================================
+            // VOICE MODE BUTTON HANDLER
+            // ============================================
+            let sleekVoiceConversation = null;
+
+            function createSleekVoiceModal() {
+                const modal = document.createElement('div');
+                modal.className = 'sleek-voice-modal';
+                modal.id = 'sleek-voice-modal';
+                
+                modal.innerHTML = `
+                    <div class="sleek-voice-container">
+                        <div class="sleek-voice-header">
+                            <div class="sleek-voice-title">
+                                <span class="sleek-voice-icon">🎤</span>
+                                <span>Voice Conversation</span>
+                            </div>
+                            <button class="sleek-voice-close" id="sleek-voice-close">✕</button>
+                        </div>
+                        
+                        <div class="sleek-avatar-section">
+                            <div class="sleek-avatar" id="sleek-avatar">
+                                <div class="sleek-avatar-icon" id="sleek-avatar-icon">🎤</div>
+                                <div class="sleek-avatar-ring" id="sleek-avatar-ring"></div>
+                            </div>
+                            <div class="sleek-status" id="sleek-status">Ready to talk</div>
+                        </div>
+                        
+                        <div class="sleek-conversation">
+                            <div class="sleek-message user-message">
+                                <span class="sleek-message-label">You</span>
+                                <span class="sleek-message-text" id="sleek-user-text">—</span>
+                            </div>
+                            <div class="sleek-message bot-message">
+                                <span class="sleek-message-label">P.R.A.I</span>
+                                <span class="sleek-message-text" id="sleek-bot-text">—</span>
+                            </div>
+                        </div>
+                        
+                        <div class="sleek-controls">
+                            <button class="sleek-btn primary" id="sleek-start-btn">
+                                <span>🎤</span> Start Conversation
+                            </button>
+                            <button class="sleek-btn danger" id="sleek-stop-btn" style="display: none;">
+                                <span>⏹️</span> End
+                            </button>
+                        </div>
+                        
+                        <div class="sleek-settings">
+                            <div class="sleek-setting-row">
+                                <span class="sleek-setting-label">Voice</span>
+                                <select class="sleek-select" id="sleek-voice-select">
+                                    <option value="">Loading voices...</option>
+                                </select>
+                            </div>
+                            <div class="sleek-setting-row">
+                                <span class="sleek-setting-label">Auto</span>
+                                <button class="sleek-toggle active" id="sleek-continuous-toggle">
+                                    <span class="sleek-toggle-slider"></span>
+                                </button>
+                            </div>
+                            <div class="sleek-setting-row">
+                                <span class="sleek-setting-label">Speed</span>
+                                <select class="sleek-select" id="sleek-rate-select">
+                                    <option value="0.8">Slow</option>
+                                    <option value="1" selected>Normal</option>
+                                    <option value="1.2">Fast</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                return modal;
+            }
+
             class SleekVoiceConversation {
                 constructor() {
                     this.recognition = null;
@@ -2457,85 +2605,6 @@
                 }
             }
 
-            // ============================================
-            // CREATE SLEEK VOICE MODAL
-            // ============================================
-            function createSleekVoiceModal() {
-                const modal = document.createElement('div');
-                modal.className = 'sleek-voice-modal';
-                modal.id = 'sleek-voice-modal';
-                
-                modal.innerHTML = `
-                    <div class="sleek-voice-container">
-                        <div class="sleek-voice-header">
-                            <div class="sleek-voice-title">
-                                <span class="sleek-voice-icon">🎤</span>
-                                <span>Voice Conversation</span>
-                            </div>
-                            <button class="sleek-voice-close" id="sleek-voice-close">✕</button>
-                        </div>
-                        
-                        <div class="sleek-avatar-section">
-                            <div class="sleek-avatar" id="sleek-avatar">
-                                <div class="sleek-avatar-icon" id="sleek-avatar-icon">🎤</div>
-                                <div class="sleek-avatar-ring" id="sleek-avatar-ring"></div>
-                            </div>
-                            <div class="sleek-status" id="sleek-status">Ready to talk</div>
-                        </div>
-                        
-                        <div class="sleek-conversation">
-                            <div class="sleek-message user-message">
-                                <span class="sleek-message-label">You</span>
-                                <span class="sleek-message-text" id="sleek-user-text">—</span>
-                            </div>
-                            <div class="sleek-message bot-message">
-                                <span class="sleek-message-label">P.R.A.I</span>
-                                <span class="sleek-message-text" id="sleek-bot-text">—</span>
-                            </div>
-                        </div>
-                        
-                        <div class="sleek-controls">
-                            <button class="sleek-btn primary" id="sleek-start-btn">
-                                <span>🎤</span> Start Conversation
-                            </button>
-                            <button class="sleek-btn danger" id="sleek-stop-btn" style="display: none;">
-                                <span>⏹️</span> End
-                            </button>
-                        </div>
-                        
-                        <div class="sleek-settings">
-                            <div class="sleek-setting-row">
-                                <span class="sleek-setting-label">Voice</span>
-                                <select class="sleek-select" id="sleek-voice-select">
-                                    <option value="">Loading voices...</option>
-                                </select>
-                            </div>
-                            <div class="sleek-setting-row">
-                                <span class="sleek-setting-label">Auto</span>
-                                <button class="sleek-toggle active" id="sleek-continuous-toggle">
-                                    <span class="sleek-toggle-slider"></span>
-                                </button>
-                            </div>
-                            <div class="sleek-setting-row">
-                                <span class="sleek-setting-label">Speed</span>
-                                <select class="sleek-select" id="sleek-rate-select">
-                                    <option value="0.8">Slow</option>
-                                    <option value="1" selected>Normal</option>
-                                    <option value="1.2">Fast</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                return modal;
-            }
-
-            // ============================================
-            // SETUP SLEEK VOICE LISTENERS
-            // ============================================
-            let sleekVoiceConversation = null;
-
             function setupSleekVoiceListeners(modal) {
                 const closeBtn = document.getElementById('sleek-voice-close');
                 const startBtn = document.getElementById('sleek-start-btn');
@@ -2609,9 +2678,6 @@
                 });
             }
 
-            // ============================================
-            // VOICE MODE BUTTON HANDLER
-            // ============================================
             if (DOM.voiceModeBtn) {
                 DOM.voiceModeBtn.addEventListener('click', () => {
                     let sleekModal = document.getElementById('sleek-voice-modal');
@@ -2916,7 +2982,7 @@
             setTheme(savedTheme);
 
             // ============================================
-            // PROFILE UI
+            // PROFILE UI - FIXED WITH AVATAR SUPPORT!
             // ============================================
             function updateProfileUI() {
                 if (!DOM.profileAvatar || !DOM.dropdownAvatar) return;
@@ -2926,7 +2992,9 @@
                     const initial = name.charAt(0).toUpperCase();
                     const avatarUrl = localStorage.getItem('prai_avatar');
                     
-                    if (avatarUrl && avatarUrl !== 'null') {
+                    console.log('👤 Updating profile:', { name, avatarUrl });
+                    
+                    if (avatarUrl && avatarUrl !== 'null' && avatarUrl !== 'undefined') {
                         DOM.profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">`;
                         DOM.dropdownAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">`;
                     } else {
@@ -2936,9 +3004,11 @@
                     
                     DOM.profileEmail.textContent = name;
                     DOM.profileEmail.style.color = document.body.classList.contains('dark-mode') ? '#f9fafb' : '#111827';
+                    
                     if (DOM.dropdownUserName) DOM.dropdownUserName.textContent = name;
                     if (DOM.dropdownUserEmail) DOM.dropdownUserEmail.textContent = State.userEmail;
                     if (DOM.dropdownLogout) DOM.dropdownLogout.style.display = 'flex';
+                    
                 } else {
                     DOM.profileAvatar.innerHTML = '👤';
                     DOM.dropdownAvatar.innerHTML = '👤';
@@ -3109,6 +3179,7 @@
             // INITIALIZE
             // ============================================
             function init() {
+                // Load chats
                 const savedChats = localStorage.getItem('praiChats');
                 if (savedChats) {
                     try {
@@ -3116,6 +3187,7 @@
                     } catch (e) {}
                 }
                 
+                // Load settings
                 const savedSettings = localStorage.getItem('prai_settings');
                 if (savedSettings) {
                     try {
@@ -3123,19 +3195,30 @@
                     } catch (e) {}
                 }
                 
+                // ===== CRITICAL: Check for OAuth callback =====
+                handleOAuthCallback();
+                // =============================================
+                
+                // Event listeners
                 initEventListeners();
+                
+                // Update history
                 updateHistory();
                 
+                // Welcome message - ONLY ONCE
                 if (DOM.messagesContainer && DOM.messagesContainer.children.length === 0) {
                     addWelcomeMessage();
                 } else {
                     State.welcomeMessageAdded = true;
                 }
                 
+                // Profile UI
                 updateProfileUI();
+                
+                // Focus input
                 if (DOM.messageInput) DOM.messageInput.focus();
                 
-                console.log('✅ P.R.A.I v6.8.0 - Sleek Voice Modal Ready');
+                console.log('✅ P.R.A.I v6.8.1 - Gmail Login Fixed!');
             }
 
             init();
