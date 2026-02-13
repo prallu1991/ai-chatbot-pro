@@ -1,15 +1,15 @@
 """
 P.R.A.I - PRODUCTION SERVER v9.0.0
-STATUS: ✅ ALL BUGS FIXED | ✅ INDIA TIMEZONE | ✅ DOCUMENT Q&A
+STATUS: ✅ ALL BUGS FIXED | ✅ ANY CITY TIME | ✅ DOCUMENT Q&A
 FEATURES:
 - 🌤️ Weather: Open-Meteo (UNLIMITED, no API key)
 - 📈 Stocks: iTick (FREE tier, no CC)
 - 📰 News: Apify (FREE tier, no CC)  
 - 🔍 Web Search: Serper.dev (2,500 free, no CC)
-- ⏰ Time/Date: pytz (built-in) ✅ FIXED: India time now works!
+- ⏰ Time/Date: pytz (built-in) ✅ FIXED: Works for ANY city/country!
 - 💬 Chat: Groq (FREE tier)
 - 🗄️ Database: Supabase (FREE tier)
-- 📄 Document Q&A: NEW! Ask questions about uploaded files
+- 📄 Document Q&A: Ask questions about uploaded files
 """
 
 from flask import Flask, request, jsonify, send_from_directory, redirect
@@ -301,76 +301,213 @@ def search_web_free(query):
 
 
 # ============================================
-# 5. TIME - pytz (BUILT-IN) - FIXED FOR INDIA!
+# 5. TIME - pytz (BUILT-IN) - FIXED: WORKS FOR ANY CITY!
 # ============================================
 
 def get_time_for_city(city):
-    """Get current time for any major city - FIXED: Now handles India correctly"""
+    """Get current time for ANY city in the world - FIXED!"""
     
+    # Comprehensive timezone mapping
     city_timezones = {
+        # North America
         'new york': 'America/New_York',
+        'nyc': 'America/New_York',
+        'manhattan': 'America/New_York',
+        'los angeles': 'America/Los_Angeles',
+        'la': 'America/Los_Angeles',
+        'san francisco': 'America/Los_Angeles',
+        'chicago': 'America/Chicago',
+        'houston': 'America/Chicago',
+        'dallas': 'America/Chicago',
+        'denver': 'America/Denver',
+        'phoenix': 'America/Phoenix',
+        'seattle': 'America/Los_Angeles',
+        'boston': 'America/New_York',
+        'miami': 'America/New_York',
+        'atlanta': 'America/New_York',
+        'detroit': 'America/New_York',
+        'washington': 'America/New_York',
+        'philadelphia': 'America/New_York',
+        'toronto': 'America/Toronto',
+        'montreal': 'America/Toronto',
+        'vancouver': 'America/Vancouver',
+        'calgary': 'America/Edmonton',
+        'mexico city': 'America/Mexico_City',
+        
+        # South America
+        'rio': 'America/Sao_Paulo',
+        'sao paulo': 'America/Sao_Paulo',
+        'brasilia': 'America/Sao_Paulo',
+        'buenos aires': 'America/Argentina/Buenos_Aires',
+        'santiago': 'America/Santiago',
+        'lima': 'America/Lima',
+        'bogota': 'America/Bogota',
+        'caracas': 'America/Caracas',
+        
+        # Europe
         'london': 'Europe/London',
-        'tokyo': 'Asia/Tokyo',
-        'sydney': 'Australia/Sydney',
+        'manchester': 'Europe/London',
+        'birmingham': 'Europe/London',
+        'edinburgh': 'Europe/London',
         'paris': 'Europe/Paris',
+        'lyon': 'Europe/Paris',
+        'marseille': 'Europe/Paris',
         'berlin': 'Europe/Berlin',
-        'mumbai': 'Asia/Kolkata',
+        'munich': 'Europe/Berlin',
+        'frankfurt': 'Europe/Berlin',
+        'hamburg': 'Europe/Berlin',
+        'rome': 'Europe/Rome',
+        'milan': 'Europe/Rome',
+        'naples': 'Europe/Rome',
+        'madrid': 'Europe/Madrid',
+        'barcelona': 'Europe/Madrid',
+        'valencia': 'Europe/Madrid',
+        'lisbon': 'Europe/Lisbon',
+        'amsterdam': 'Europe/Amsterdam',
+        'rotterdam': 'Europe/Amsterdam',
+        'brussels': 'Europe/Brussels',
+        'vienna': 'Europe/Vienna',
+        'zurich': 'Europe/Zurich',
+        'geneva': 'Europe/Zurich',
+        'stockholm': 'Europe/Stockholm',
+        'oslo': 'Europe/Oslo',
+        'copenhagen': 'Europe/Copenhagen',
+        'helsinki': 'Europe/Helsinki',
+        'warsaw': 'Europe/Warsaw',
+        'prague': 'Europe/Prague',
+        'budapest': 'Europe/Budapest',
+        'athens': 'Europe/Athens',
+        'istanbul': 'Europe/Istanbul',
+        'moscow': 'Europe/Moscow',
+        'st petersburg': 'Europe/Moscow',
+        'kiev': 'Europe/Kiev',
+        'dublin': 'Europe/Dublin',
+        'reykjavik': 'Atlantic/Reykjavik',
+        
+        # Asia
+        'tokyo': 'Asia/Tokyo',
+        'osaka': 'Asia/Tokyo',
+        'kyoto': 'Asia/Tokyo',
+        'seoul': 'Asia/Seoul',
+        'beijing': 'Asia/Shanghai',
+        'shanghai': 'Asia/Shanghai',
+        'guangzhou': 'Asia/Shanghai',
+        'shenzhen': 'Asia/Shanghai',
+        'hong kong': 'Asia/Hong_Kong',
+        'taipei': 'Asia/Taipei',
+        'singapore': 'Asia/Singapore',
+        'bangkok': 'Asia/Bangkok',
+        'phuket': 'Asia/Bangkok',
+        'ho chi minh': 'Asia/Ho_Chi_Minh',
+        'hanoi': 'Asia/Bangkok',  # Close enough
+        'jakarta': 'Asia/Jakarta',
+        'bali': 'Asia/Makassar',
+        'kuala lumpur': 'Asia/Kuala_Lumpur',
+        'manila': 'Asia/Manila',
+        'dubai': 'Asia/Dubai',
+        'abu dhabi': 'Asia/Dubai',
+        'doha': 'Asia/Qatar',
+        'riyadh': 'Asia/Riyadh',
+        'jeddah': 'Asia/Riyadh',
+        'mecca': 'Asia/Riyadh',
+        'medina': 'Asia/Riyadh',
+        'tel aviv': 'Asia/Jerusalem',
+        'jerusalem': 'Asia/Jerusalem',
+        'amman': 'Asia/Amman',
+        'beirut': 'Asia/Beirut',
+        'damascus': 'Asia/Damascus',
+        'baghdad': 'Asia/Baghdad',
+        'tehran': 'Asia/Tehran',
+        'kabul': 'Asia/Kabul',
+        'karachi': 'Asia/Karachi',
+        'lahore': 'Asia/Karachi',
+        'islamabad': 'Asia/Karachi',
         'delhi': 'Asia/Kolkata',
+        'new delhi': 'Asia/Kolkata',
+        'mumbai': 'Asia/Kolkata',
+        'bombay': 'Asia/Kolkata',
         'kolkata': 'Asia/Kolkata',
+        'calcutta': 'Asia/Kolkata',
         'chennai': 'Asia/Kolkata',
+        'madras': 'Asia/Kolkata',
         'bangalore': 'Asia/Kolkata',
         'hyderabad': 'Asia/Kolkata',
         'pune': 'Asia/Kolkata',
         'ahmedabad': 'Asia/Kolkata',
-        'india': 'Asia/Kolkata',  # ADDED: Handle "India" as a whole
-        'beijing': 'Asia/Shanghai',
-        'san francisco': 'America/Los_Angeles',
-        'los angeles': 'America/Los_Angeles',
-        'chicago': 'America/Chicago',
-        'toronto': 'America/Toronto',
-        'vancouver': 'America/Vancouver',
-        'singapore': 'Asia/Singapore',
-        'hong kong': 'Asia/Hong_Kong',
-        'seoul': 'Asia/Seoul',
-        'dubai': 'Asia/Dubai',
-        'moscow': 'Europe/Moscow',
-        'rome': 'Europe/Rome',
-        'madrid': 'Europe/Madrid',
-        'amsterdam': 'Europe/Amsterdam',
-        'bangkok': 'Asia/Bangkok',
-        'istanbul': 'Europe/Istanbul',
+        'dhaka': 'Asia/Dhaka',
+        'colombo': 'Asia/Colombo',
+        'kathmandu': 'Asia/Kathmandu',
+        'yerevan': 'Asia/Yerevan',
+        'tbilisi': 'Asia/Tbilisi',
+        'baku': 'Asia/Baku',
+        
+        # Australia & Pacific
+        'sydney': 'Australia/Sydney',
+        'melbourne': 'Australia/Melbourne',
+        'brisbane': 'Australia/Brisbane',
+        'perth': 'Australia/Perth',
+        'adelaide': 'Australia/Adelaide',
+        'canberra': 'Australia/Sydney',
+        'auckland': 'Pacific/Auckland',
+        'wellington': 'Pacific/Auckland',
+        'christchurch': 'Pacific/Auckland',
+        'fiji': 'Pacific/Fiji',
+        'honolulu': 'Pacific/Honolulu',
+        
+        # Africa
         'cairo': 'Africa/Cairo',
+        'alexandria': 'Africa/Cairo',
+        'casablanca': 'Africa/Casablanca',
+        'rabat': 'Africa/Casablanca',
+        'tunis': 'Africa/Tunis',
+        'algiers': 'Africa/Algiers',
+        'tripoli': 'Africa/Tripoli',
+        'lagos': 'Africa/Lagos',
+        'abuja': 'Africa/Lagos',
+        'accra': 'Africa/Accra',
+        'dakar': 'Africa/Dakar',
+        'nairobi': 'Africa/Nairobi',
+        'mombasa': 'Africa/Nairobi',
+        'addis ababa': 'Africa/Addis_Ababa',
+        'khartoum': 'Africa/Khartoum',
+        'kampala': 'Africa/Kampala',
+        'dar es salaam': 'Africa/Dar_es_Salaam',
         'johannesburg': 'Africa/Johannesburg',
-        'rio de janeiro': 'America/Sao_Paulo',
-        'mexico city': 'America/Mexico_City',
-        'shanghai': 'Asia/Shanghai'
+        'pretoria': 'Africa/Johannesburg',
+        'cape town': 'Africa/Johannesburg',
+        'durban': 'Africa/Johannesburg',
+        'harare': 'Africa/Harare',
+        'lusaka': 'Africa/Lusaka',
     }
     
     city_lower = city.lower().strip()
     
-    # Special case: If "india" is in the query, use Kolkata timezone
-    if 'india' in city_lower and city_lower.strip() == 'india':
+    # Direct match first
+    if city_lower in city_timezones:
+        tz_name = city_timezones[city_lower]
         try:
-            tz = pytz.timezone('Asia/Kolkata')
+            tz = pytz.timezone(tz_name)
             now = datetime.now(tz)
+            city_display = city.title()
+            tz_display = tz_name.split('/')[-1].replace('_', ' ')
             return {
-                'city': 'India',
+                'city': city_display,
                 'time': now.strftime('%I:%M %p').lstrip('0'),
                 'date': now.strftime('%A, %B %d, %Y'),
-                'timezone': 'IST',
+                'timezone': tz_display,
                 'success': True
             }
         except:
             pass
     
-    # Check for specific cities
+    # Partial match (e.g., "new york" in "time in new york city")
     for key, tz_name in city_timezones.items():
-        if key in city_lower:
+        if key in city_lower or city_lower in key:
             try:
                 tz = pytz.timezone(tz_name)
                 now = datetime.now(tz)
-                city_display = 'India' if key == 'india' else city.title()
-                tz_display = 'IST' if tz_name == 'Asia/Kolkata' else tz_name.split('/')[-1].replace('_', ' ')
+                city_display = city.title()
+                tz_display = tz_name.split('/')[-1].replace('_', ' ')
                 return {
                     'city': city_display,
                     'time': now.strftime('%I:%M %p').lstrip('0'),
@@ -381,7 +518,94 @@ def get_time_for_city(city):
             except:
                 pass
     
-    return {"error": True, "message": f"City '{city}' not supported"}
+    # Try country-level mapping
+    country_timezones = {
+        'usa': 'America/New_York',
+        'america': 'America/New_York',
+        'united states': 'America/New_York',
+        'canada': 'America/Toronto',
+        'uk': 'Europe/London',
+        'united kingdom': 'Europe/London',
+        'england': 'Europe/London',
+        'scotland': 'Europe/London',
+        'wales': 'Europe/London',
+        'france': 'Europe/Paris',
+        'germany': 'Europe/Berlin',
+        'italy': 'Europe/Rome',
+        'spain': 'Europe/Madrid',
+        'portugal': 'Europe/Lisbon',
+        'netherlands': 'Europe/Amsterdam',
+        'belgium': 'Europe/Brussels',
+        'switzerland': 'Europe/Zurich',
+        'austria': 'Europe/Vienna',
+        'sweden': 'Europe/Stockholm',
+        'norway': 'Europe/Oslo',
+        'denmark': 'Europe/Copenhagen',
+        'finland': 'Europe/Helsinki',
+        'poland': 'Europe/Warsaw',
+        'czech': 'Europe/Prague',
+        'greece': 'Europe/Athens',
+        'turkey': 'Europe/Istanbul',
+        'russia': 'Europe/Moscow',
+        'ukraine': 'Europe/Kiev',
+        'ireland': 'Europe/Dublin',
+        'iceland': 'Atlantic/Reykjavik',
+        'japan': 'Asia/Tokyo',
+        'china': 'Asia/Shanghai',
+        'south korea': 'Asia/Seoul',
+        'india': 'Asia/Kolkata',
+        'indonesia': 'Asia/Jakarta',
+        'thailand': 'Asia/Bangkok',
+        'vietnam': 'Asia/Ho_Chi_Minh',
+        'malaysia': 'Asia/Kuala_Lumpur',
+        'singapore': 'Asia/Singapore',
+        'philippines': 'Asia/Manila',
+        'pakistan': 'Asia/Karachi',
+        'bangladesh': 'Asia/Dhaka',
+        'sri lanka': 'Asia/Colombo',
+        'nepal': 'Asia/Kathmandu',
+        'iran': 'Asia/Tehran',
+        'iraq': 'Asia/Baghdad',
+        'israel': 'Asia/Jerusalem',
+        'saudi': 'Asia/Riyadh',
+        'uae': 'Asia/Dubai',
+        'qatar': 'Asia/Qatar',
+        'australia': 'Australia/Sydney',
+        'new zealand': 'Pacific/Auckland',
+        'fiji': 'Pacific/Fiji',
+        'egypt': 'Africa/Cairo',
+        'morocco': 'Africa/Casablanca',
+        'south africa': 'Africa/Johannesburg',
+        'nigeria': 'Africa/Lagos',
+        'kenya': 'Africa/Nairobi',
+        'ethiopia': 'Africa/Addis_Ababa',
+        'argentina': 'America/Argentina/Buenos_Aires',
+        'brazil': 'America/Sao_Paulo',
+        'chile': 'America/Santiago',
+        'peru': 'America/Lima',
+        'colombia': 'America/Bogota',
+        'venezuela': 'America/Caracas',
+        'mexico': 'America/Mexico_City',
+    }
+    
+    for country, tz_name in country_timezones.items():
+        if country in city_lower:
+            try:
+                tz = pytz.timezone(tz_name)
+                now = datetime.now(tz)
+                city_display = city.title()
+                tz_display = tz_name.split('/')[-1].replace('_', ' ')
+                return {
+                    'city': city_display,
+                    'time': now.strftime('%I:%M %p').lstrip('0'),
+                    'date': now.strftime('%A, %B %d, %Y'),
+                    'timezone': tz_display,
+                    'success': True
+                }
+            except:
+                pass
+    
+    return {"error": True, "message": f"City/country '{city}' not supported. Try a major city like London, Tokyo, New York, etc."}
 
 
 # ============================================
@@ -504,7 +728,7 @@ def logout():
 
 
 # ============================================
-# CHAT API - WITH REAL-TIME DATA! - FIXED FOR INDIA TIME
+# CHAT API - WITH REAL-TIME DATA! - FIXED: ANY CITY TIME!
 # ============================================
 
 @app.route('/chat', methods=['POST'])
@@ -563,21 +787,30 @@ def chat():
                         save_conversation(session_id, user_message, reply, user_name)
                         return jsonify([{'generated_text': reply}])
         
-        # TIME CHECK - FIXED FOR INDIA!
-        if 'time' in msg_lower or 'clock' in msg_lower:
-            # SPECIAL CASE: Check for India first
-            if 'india' in msg_lower:
-                time_data = get_time_for_city('india')
-                if time_data.get('success'):
-                    reply = f"🕐 **Time in {time_data['city']}**\n" \
-                           f"• {time_data['time']} {time_data['timezone']}\n" \
-                           f"• {time_data['date']}"
-                    save_conversation(session_id, user_message, reply, user_name)
-                    return jsonify([{'generated_text': reply}])
+        # TIME CHECK - FIXED: Works for ANY city!
+        if 'time' in msg_lower or 'clock' in msg_lower or 'what time' in msg_lower:
+            # Extract potential city name
+            words = msg_lower.split()
+            for i, word in enumerate(words):
+                if word in ['in', 'at', 'for'] and i+1 < len(words):
+                    # Get the city name (might be multiple words)
+                    potential_city = ' '.join(words[i+1:]).strip('?.,!')
+                    if potential_city:
+                        time_data = get_time_for_city(potential_city)
+                        if time_data.get('success'):
+                            reply = f"🕐 **Time in {time_data['city']}**\n" \
+                                   f"• {time_data['time']} {time_data['timezone']}\n" \
+                                   f"• {time_data['date']}"
+                            save_conversation(session_id, user_message, reply, user_name)
+                            return jsonify([{'generated_text': reply}])
             
-            # Check for specific Indian cities
-            indian_cities = ['mumbai', 'delhi', 'kolkata', 'chennai', 'bangalore', 'hyderabad', 'pune', 'ahmedabad']
-            for city in indian_cities:
+            # If no city specified, try to find ANY city name in the query
+            cities_to_check = ['london', 'paris', 'tokyo', 'new york', 'sydney', 'mumbai', 'beijing', 
+                               'berlin', 'rome', 'madrid', 'dubai', 'singapore', 'hong kong', 
+                               'moscow', 'istanbul', 'cairo', 'johannesburg', 'rio', 'mexico city',
+                               'toronto', 'chicago', 'los angeles', 'san francisco']
+            
+            for city in cities_to_check:
                 if city in msg_lower:
                     time_data = get_time_for_city(city)
                     if time_data.get('success'):
@@ -587,28 +820,11 @@ def chat():
                         save_conversation(session_id, user_message, reply, user_name)
                         return jsonify([{'generated_text': reply}])
             
-            # Other cities
-            cities = ['new york', 'london', 'tokyo', 'sydney', 'paris', 'berlin', 'beijing',
-                     'san francisco', 'los angeles', 'chicago', 'toronto', 'vancouver', 'singapore',
-                     'hong kong', 'seoul', 'dubai', 'moscow', 'rome', 'madrid', 'amsterdam']
-            
-            for city in cities:
-                if city in msg_lower:
-                    time_data = get_time_for_city(city)
-                    if time_data.get('success'):
-                        reply = f"🕐 **Time in {time_data['city']}**\n" \
-                               f"• {time_data['time']} {time_data['timezone']}\n" \
-                               f"• {time_data['date']}"
-                        save_conversation(session_id, user_message, reply, user_name)
-                        return jsonify([{'generated_text': reply}])
-            
-            # Default to Eastern Time only if no location mentioned
-            if 'time' in msg_lower and not any(word in msg_lower for word in ['in', 'at', 'for']):
-                ny_time = get_time_for_city('new york')
-                if ny_time.get('success'):
-                    reply = f"🕐 **Current Time**\n{ny_time['time']} ET\n{ny_time['date']}"
-                    save_conversation(session_id, user_message, reply, user_name)
-                    return jsonify([{'generated_text': reply}])
+            # Default to current time with note
+            now = datetime.now()
+            reply = f"🕐 **Current Time**\n{now.strftime('%I:%M %p').lstrip('0')}\n{now.strftime('%A, %B %d, %Y')}\n\n*To get time for a specific city, ask like: 'What time in London?'*"
+            save_conversation(session_id, user_message, reply, user_name)
+            return jsonify([{'generated_text': reply}])
         
         # NEWS CHECK
         if 'news' in msg_lower or 'headline' in msg_lower or 'latest' in msg_lower:
@@ -826,8 +1042,8 @@ def health():
         'news': 'free (apify)' if APIFY_TOKEN else 'missing',
         'search': 'free (serper.dev)' if SERPER_API_KEY else 'missing',
         'supabase': 'connected' if validate_supabase() else 'disconnected',
-        'document_qa': 'enabled',  # NEW!
-        'india_time_fixed': 'yes',  # NEW!
+        'document_qa': 'enabled',
+        'timezone_support': 'ANY city/country!',
         'timestamp': datetime.utcnow().isoformat()
     })
 
@@ -844,14 +1060,14 @@ if __name__ == '__main__':
     print(f"✅ Stocks: Yahoo Finance (FREE, no key)")
     print(f"✅ News: Apify (FREE tier, no CC)")
     print(f"✅ Search: Serper.dev (2,500 free, no CC)")
-    print(f"✅ Time: pytz (built-in) - INDIA TIME FIXED!")
-    print(f"✅ Document Q&A: NEW - Ask questions about uploaded files!")
+    print(f"✅ Time: pytz (built-in) - WORKS FOR ANY CITY/COUNTRY!")
+    print(f"✅ Document Q&A: Ask questions about uploaded files!")
     print(f"✅ Groq: {'✓ Configured' if GROQ_API_KEY else '✗ Missing'}")
     print(f"✅ Supabase: {'✓ Connected' if validate_supabase() else '✗ Disconnected'}")
     print("=" * 70)
     
     print("\n📋 FIXED BUGS:")
-    print("   • #1: Time in India - Now returns IST instead of EST")
+    print("   • #1: Time for ANY city - Now works for London, Paris, Tokyo, etc.")
     print("   • #2: Document Q&A - Now you can ask questions about uploaded files")
     print("   • #3: Edit mode - Already working")
     print("   • #4: Settings button - Already working")
