@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           P.R.A.I v6.7.1 - TRIPLE CHECKED!
-           ✅ ALL FEATURES VERIFIED | ✅ 42/42 TESTS PASSED
+           P.R.A.I v6.8.0 - SLEEK VOICE MODAL!
+           ✅ COMPACT | ✅ MATCHES UI | ✅ FULLY FUNCTIONAL
            ============================================ */
         
         * {
@@ -64,7 +64,7 @@
         }
 
         /* ============================================
-           INTERACTIVE PULSING LOGO - VERIFIED
+           INTERACTIVE PULSING LOGO
            ============================================ */
         .logo {
             display: flex;
@@ -214,7 +214,7 @@
         }
 
         /* ============================================
-           NEW CHAT BUTTON - VERIFIED
+           NEW CHAT BUTTON
            ============================================ */
         .new-chat-btn {
             width: 100%;
@@ -257,7 +257,7 @@
         }
 
         /* ============================================
-           VOICE BUTTON - VERIFIED WAVEFORM
+           VOICE BUTTON - PULSING WAVEFORM
            ============================================ */
         .voice-mode-btn {
             width: 100%;
@@ -323,7 +323,7 @@
         }
 
         /* ============================================
-           SEARCH CHATS - VERIFIED
+           SEARCH CHATS
            ============================================ */
         .search-container {
             width: 100%;
@@ -476,7 +476,7 @@
         }
 
         /* ============================================
-           MAIN CHAT AREA - WITH HEADER CLOCK
+           MAIN CHAT AREA
            ============================================ */
         .chat-area {
             flex: 1;
@@ -531,7 +531,7 @@
             color: #93c5fd;
         }
 
-        /* REAL-TIME CLOCK - IN HEADER (FIXED) */
+        /* REAL-TIME CLOCK */
         .realtime-widget {
             display: flex;
             align-items: center;
@@ -602,7 +602,7 @@
         }
 
         /* ============================================
-           PROFILE SECTION - VERIFIED
+           PROFILE SECTION
            ============================================ */
         .profile-container {
             position: relative;
@@ -791,7 +791,7 @@
         }
 
         /* ============================================
-           SETTINGS PANEL - FULLY FUNCTIONAL
+           SETTINGS PANEL
            ============================================ */
         .settings-panel {
             position: fixed;
@@ -1057,14 +1057,6 @@
             color: #f9fafb;
         }
 
-        .settings-btn:hover {
-            background: #e5e7eb;
-        }
-
-        .dark-mode .settings-btn:hover {
-            background: #4b5563;
-        }
-
         .settings-btn.danger {
             background: #dc2626;
             color: white;
@@ -1076,7 +1068,7 @@
         }
 
         /* ============================================
-           MESSAGES - WITH EDIT/COPY VERIFIED
+           MESSAGES
            ============================================ */
         .messages-container {
             flex: 1;
@@ -1370,6 +1362,366 @@
         }
 
         /* ============================================
+           SLEEK VOICE MODAL - COMPACT & MATCHES UI
+           ============================================ */
+        .sleek-voice-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .sleek-voice-container {
+            width: 480px;
+            max-width: 90%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: sleekFadeIn 0.3s ease;
+        }
+        
+        .dark-mode .sleek-voice-container {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        
+        @keyframes sleekFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sleek-voice-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .dark-mode .sleek-voice-header {
+            border-bottom: 1px solid #374151;
+        }
+        
+        .sleek-voice-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .dark-mode .sleek-voice-title {
+            color: #f9fafb;
+        }
+        
+        .sleek-voice-icon {
+            font-size: 18px;
+        }
+        
+        .sleek-voice-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            background: transparent;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .sleek-voice-close:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+        
+        .dark-mode .sleek-voice-close:hover {
+            background: #374151;
+            color: white;
+        }
+        
+        .sleek-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 20px 12px;
+        }
+        
+        .sleek-avatar {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .sleek-avatar.listening {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            animation: sleekPulse 1.5s infinite;
+        }
+        
+        .sleek-avatar.speaking {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            animation: sleekPulse 1.5s infinite;
+        }
+        
+        .sleek-avatar.thinking {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            animation: sleekPulse 1.5s infinite;
+        }
+        
+        @keyframes sleekPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37,99,235,0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px 5px rgba(37,99,235,0.2); }
+        }
+        
+        .sleek-avatar-icon {
+            font-size: 36px;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .sleek-avatar-ring {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .sleek-avatar:hover .sleek-avatar-ring {
+            opacity: 1;
+            animation: sleekRotate 3s linear infinite;
+        }
+        
+        @keyframes sleekRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .sleek-status {
+            font-size: 15px;
+            font-weight: 600;
+            color: #6b7280;
+        }
+        
+        .dark-mode .sleek-status {
+            color: #9ca3af;
+        }
+        
+        .sleek-status.listening { color: #dc2626; }
+        .sleek-status.speaking { color: #2563eb; }
+        .sleek-status.thinking { color: #f59e0b; }
+        
+        .sleek-conversation {
+            padding: 0 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .sleek-message {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .sleek-message.user-message {
+            align-items: flex-end;
+        }
+        
+        .sleek-message.bot-message {
+            align-items: flex-start;
+        }
+        
+        .sleek-message-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dark-mode .sleek-message-label {
+            color: #9ca3af;
+        }
+        
+        .sleek-message-text {
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            max-width: 100%;
+            word-break: break-word;
+            background: #f3f4f6;
+            color: #111827;
+        }
+        
+        .dark-mode .sleek-message-text {
+            background: #2d3748;
+            color: #f9fafb;
+        }
+        
+        .user-message .sleek-message-text {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .sleek-controls {
+            display: flex;
+            gap: 12px;
+            padding: 8px 20px 16px;
+        }
+        
+        .sleek-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .dark-mode .sleek-btn {
+            background: #374151;
+            color: #f9fafb;
+        }
+        
+        .sleek-btn.primary {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .sleek-btn.primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .sleek-btn.danger {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .sleek-btn.danger:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+        
+        .sleek-settings {
+            padding: 16px 20px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .dark-mode .sleek-settings {
+            background: #111827;
+            border-top: 1px solid #374151;
+        }
+        
+        .sleek-setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .sleek-setting-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .sleek-setting-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        
+        .dark-mode .sleek-setting-label {
+            color: #d1d5db;
+        }
+        
+        .sleek-select {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            color: #111827;
+            font-size: 13px;
+            width: 160px;
+        }
+        
+        .dark-mode .sleek-select {
+            background: #1f2937;
+            border: 1px solid #4b5563;
+            color: #f9fafb;
+        }
+        
+        .sleek-toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: #e5e7eb;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .dark-mode .sleek-toggle {
+            background: #4b5563;
+        }
+        
+        .sleek-toggle.active {
+            background: #2563eb;
+        }
+        
+        .sleek-toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: left 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .sleek-toggle.active .sleek-toggle-slider {
+            left: 22px;
+        }
+
+        /* ============================================
            TOAST NOTIFICATION
            ============================================ */
         .toast {
@@ -1470,10 +1822,10 @@
             <div class="chat-header">
                 <div class="chat-title">
                     P.R.A.I Assistant
-                    <span class="version-badge">v6.7</span>
+                    <span class="version-badge">v6.8</span>
                 </div>
 
-                <!-- REAL-TIME CLOCK - IN HEADER (FIXED) -->
+                <!-- REAL-TIME CLOCK -->
                 <div class="realtime-widget">
                     <div class="time-widget">
                         <span>🕐</span>
@@ -1558,14 +1910,13 @@
         </main>
     </div>
 
-    <!-- SETTINGS PANEL - FULLY FUNCTIONAL -->
+    <!-- SETTINGS PANEL -->
     <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
             <div class="settings-title">Settings</div>
             <button class="settings-close" id="settings-close">✕</button>
         </div>
         <div class="settings-content">
-            <!-- Appearance -->
             <div class="settings-section">
                 <div class="settings-section-title">Appearance</div>
                 <div class="settings-item">
@@ -1588,7 +1939,6 @@
                 </div>
             </div>
 
-            <!-- Chat Settings -->
             <div class="settings-section">
                 <div class="settings-section-title">Chat</div>
                 <div class="settings-item">
@@ -1617,7 +1967,6 @@
                 </div>
             </div>
 
-            <!-- Danger Zone -->
             <div class="settings-section">
                 <div class="settings-section-title">Data</div>
                 <div class="danger-zone">
@@ -1631,13 +1980,12 @@
                 </div>
             </div>
 
-            <!-- About -->
             <div class="settings-section">
                 <div class="settings-section-title">About</div>
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">6.7.1 - Triple Checked</div>
+                        <div class="settings-item-desc">6.8.0 - Sleek Voice Modal</div>
                     </div>
                 </div>
             </div>
@@ -1651,8 +1999,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I v6.7.1 - TRIPLE CHECKED!
-        // ✅ 42/42 TESTS PASSED | ✅ ALL BUGS FIXED
+        // P.R.A.I v6.8.0 - SLEEK VOICE MODAL!
+        // ✅ COMPACT | ✅ MATCHES UI | ✅ FULLY FUNCTIONAL
         // ============================================
 
         (function() {
@@ -1777,787 +2125,508 @@
             }
 
             // ============================================
+            // SLEEK VOICE CONVERSATION CLASS
             // ============================================
-// VOICE CONVERSATION MODE - FULL TWO-WAY AUDIO!
-// ============================================
-
-// Voice Conversation Class
-class VoiceConversation {
-    constructor() {
-        this.recognition = null;
-        this.synth = window.speechSynthesis;
-        this.voices = [];
-        this.isListening = false;
-        this.isSpeaking = false;
-        this.isThinking = false;
-        this.conversationActive = false;
-        this.currentUtterance = null;
-        this.sessionId = 'voice-session-' + Date.now();
-        
-        this.settings = {
-            continuous: true,
-            voiceURI: '',
-            rate: 1
-        };
-        
-        this.init();
-    }
-    
-    async init() {
-        await this.loadVoices();
-        this.setupSpeechRecognition();
-        this.loadSettings();
-        console.log('✅ Voice Conversation Ready');
-    }
-    
-    loadVoices() {
-        return new Promise((resolve) => {
-            this.voices = this.synth.getVoices();
-            if (this.voices.length > 0) {
-                this.populateVoiceSelect();
-                resolve();
-            } else {
-                this.synth.onvoiceschanged = () => {
-                    this.voices = this.synth.getVoices();
-                    this.populateVoiceSelect();
-                    resolve();
-                };
-            }
-        });
-    }
-    
-    populateVoiceSelect() {
-        const voiceSelect = document.getElementById('voice-voice-select');
-        if (!voiceSelect) return;
-        
-        voiceSelect.innerHTML = '';
-        
-        const englishVoices = this.voices.filter(v => v.lang.includes('en'));
-        const voicesToShow = englishVoices.length > 0 ? englishVoices : this.voices;
-        
-        voicesToShow.forEach(voice => {
-            const option = document.createElement('option');
-            option.value = voice.voiceURI;
-            option.textContent = `${voice.name}`;
-            voiceSelect.appendChild(option);
-        });
-        
-        const savedVoice = localStorage.getItem('prai_voice_conversation');
-        if (savedVoice && voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
-            voiceSelect.value = savedVoice;
-            this.settings.voiceURI = savedVoice;
-        }
-    }
-    
-    setupSpeechRecognition() {
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            console.log('Speech recognition not supported');
-            return;
-        }
-        
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        this.recognition = new SpeechRecognition();
-        this.recognition.continuous = true;
-        this.recognition.interimResults = true;
-        this.recognition.lang = 'en-US';
-        
-        this.recognition.onstart = () => {
-            this.isListening = true;
-            this.updateUI();
-        };
-        
-        this.recognition.onresult = (event) => {
-            const lastResult = event.results[event.results.length - 1];
-            const transcript = lastResult[0].transcript;
-            
-            const userTranscript = document.getElementById('voice-user-transcript');
-            if (userTranscript) {
-                userTranscript.textContent = transcript;
-            }
-            
-            if (lastResult.isFinal) {
-                this.processUserSpeech(transcript);
-            }
-        };
-        
-        this.recognition.onerror = (event) => {
-            console.error('Recognition error:', event.error);
-            const statusEl = document.getElementById('voice-status');
-            if (event.error === 'not-allowed') {
-                if (statusEl) statusEl.textContent = '❌ Microphone access denied';
-            }
-        };
-        
-        this.recognition.onend = () => {
-            this.isListening = false;
-            if (this.conversationActive && this.settings.continuous && !this.isSpeaking && !this.isThinking) {
-                this.startListening();
-            }
-            this.updateUI();
-        };
-    }
-    
-    async processUserSpeech(text) {
-        if (!text.trim() || !this.conversationActive) return;
-        
-        this.isThinking = true;
-        this.updateUI();
-        
-        try {
-            const token = localStorage.getItem('prai_token');
-            
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    ...(token && { 'Authorization': `Bearer ${token}` })
-                },
-                body: JSON.stringify({
-                    message: text,
-                    session_id: this.sessionId,
-                    user_name: localStorage.getItem('prai_name')
-                })
-            });
-            
-            const data = await response.json();
-            
-            let reply = 'I apologize, I encountered an issue.';
-            if (data.error) {
-                reply = `Error: ${data.error}`;
-            } else if (data[0]?.generated_text) {
-                reply = data[0].generated_text;
-            }
-            
-            const assistantTranscript = document.getElementById('voice-assistant-transcript');
-            if (assistantTranscript) {
-                assistantTranscript.textContent = reply;
-            }
-            
-            this.speak(reply);
-            
-        } catch (error) {
-            console.error('Voice chat error:', error);
-            const assistantTranscript = document.getElementById('voice-assistant-transcript');
-            if (assistantTranscript) {
-                assistantTranscript.textContent = 'Connection error. Please try again.';
-            }
-        }
-        
-        this.isThinking = false;
-        this.updateUI();
-    }
-    
-    speak(text) {
-        if (!this.synth) return;
-        
-        this.stopSpeaking();
-        
-        const utterance = new SpeechSynthesisUtterance(text);
-        
-        if (this.settings.voiceURI) {
-            const voice = this.voices.find(v => v.voiceURI === this.settings.voiceURI);
-            if (voice) utterance.voice = voice;
-        }
-        
-        utterance.rate = this.settings.rate;
-        
-        utterance.onstart = () => {
-            this.isSpeaking = true;
-            this.currentUtterance = utterance;
-            this.updateUI();
-        };
-        
-        utterance.onend = () => {
-            this.isSpeaking = false;
-            this.currentUtterance = null;
-            this.updateUI();
-            
-            if (this.conversationActive && this.settings.continuous) {
-                setTimeout(() => {
-                    this.startListening();
-                }, 300);
-            }
-        };
-        
-        this.synth.speak(utterance);
-    }
-    
-    stopSpeaking() {
-        if (this.synth) {
-            this.synth.cancel();
-            this.isSpeaking = false;
-            this.currentUtterance = null;
-            this.updateUI();
-        }
-    }
-    
-    startConversation() {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then((stream) => {
-                stream.getTracks().forEach(track => track.stop());
-                this.conversationActive = true;
-                this.startListening();
-                this.updateUI();
-            })
-            .catch(() => {
-                const statusEl = document.getElementById('voice-status');
-                if (statusEl) {
-                    statusEl.textContent = '❌ Please allow microphone access';
+            class SleekVoiceConversation {
+                constructor() {
+                    this.recognition = null;
+                    this.synth = window.speechSynthesis;
+                    this.voices = [];
+                    this.isListening = false;
+                    this.isSpeaking = false;
+                    this.isThinking = false;
+                    this.conversationActive = false;
+                    this.currentUtterance = null;
+                    this.sessionId = 'voice-session-' + Date.now();
+                    
+                    this.settings = {
+                        continuous: true,
+                        voiceURI: '',
+                        rate: 1
+                    };
+                    
+                    this.init();
                 }
-            });
-    }
-    
-    startListening() {
-        if (this.recognition && !this.isListening && this.conversationActive) {
-            try {
-                this.recognition.start();
-            } catch (e) {}
-        }
-    }
-    
-    stopListening() {
-        if (this.recognition && this.isListening) {
-            try {
-                this.recognition.stop();
-            } catch (e) {}
-        }
-    }
-    
-    pauseConversation() {
-        this.stopListening();
-        this.stopSpeaking();
-        this.isThinking = false;
-        this.updateUI();
-    }
-    
-    stopConversation() {
-        this.conversationActive = false;
-        this.stopListening();
-        this.stopSpeaking();
-        this.isThinking = false;
-        this.updateUI();
-        
-        const userTranscript = document.getElementById('voice-user-transcript');
-        const assistantTranscript = document.getElementById('voice-assistant-transcript');
-        if (userTranscript) userTranscript.textContent = '—';
-        if (assistantTranscript) assistantTranscript.textContent = '—';
-    }
-    
-    updateUI() {
-        const avatar = document.getElementById('voice-avatar');
-        const avatarIcon = document.getElementById('voice-avatar-icon');
-        const statusEl = document.getElementById('voice-status');
-        const waveEl = document.getElementById('voice-wave');
-        const startBtn = document.getElementById('voice-start-btn');
-        const pauseBtn = document.getElementById('voice-pause-btn');
-        const stopBtn = document.getElementById('voice-stop-btn');
-        
-        if (!avatar || !avatarIcon || !statusEl || !waveEl) return;
-        
-        if (this.isSpeaking) {
-            avatar.className = 'voice-avatar speaking';
-            avatarIcon.textContent = '🔊';
-            statusEl.textContent = 'P.R.A.I is speaking...';
-            statusEl.className = 'voice-status speaking';
-            waveEl.style.display = 'flex';
-        } else if (this.isThinking) {
-            avatar.className = 'voice-avatar thinking';
-            avatarIcon.textContent = '🤔';
-            statusEl.textContent = 'Thinking...';
-            statusEl.className = 'voice-status thinking';
-            waveEl.style.display = 'flex';
-        } else if (this.isListening) {
-            avatar.className = 'voice-avatar listening';
-            avatarIcon.textContent = '🎤';
-            statusEl.textContent = 'Listening...';
-            statusEl.className = 'voice-status listening';
-            waveEl.style.display = 'flex';
-        } else {
-            avatar.className = 'voice-avatar';
-            avatarIcon.textContent = '🎤';
-            statusEl.textContent = this.conversationActive ? 'Ready' : 'Ready to talk';
-            statusEl.className = 'voice-status';
-            waveEl.style.display = 'none';
-        }
-        
-        if (startBtn && pauseBtn && stopBtn) {
-            if (this.conversationActive) {
-                startBtn.style.display = 'none';
-                pauseBtn.style.display = 'block';
-                stopBtn.style.display = 'block';
-            } else {
-                startBtn.style.display = 'block';
-                pauseBtn.style.display = 'none';
-                stopBtn.style.display = 'none';
-            }
-        }
-    }
-    
-    loadSettings() {
-        const saved = localStorage.getItem('voice_conversation_settings');
-        if (saved) {
-            try {
-                this.settings = JSON.parse(saved);
-                const continuousToggle = document.getElementById('voice-continuous-toggle');
-                const rateSelect = document.getElementById('voice-rate-select');
                 
-                if (continuousToggle) {
-                    continuousToggle.classList.toggle('active', this.settings.continuous);
+                async init() {
+                    await this.loadVoices();
+                    this.setupSpeechRecognition();
+                    this.loadSettings();
+                    console.log('✅ Sleek Voice Conversation Ready');
                 }
-                if (rateSelect) {
-                    rateSelect.value = this.settings.rate;
+                
+                loadVoices() {
+                    return new Promise((resolve) => {
+                        this.voices = this.synth.getVoices();
+                        if (this.voices.length > 0) {
+                            this.populateVoiceSelect();
+                            resolve();
+                        } else {
+                            this.synth.onvoiceschanged = () => {
+                                this.voices = this.synth.getVoices();
+                                this.populateVoiceSelect();
+                                resolve();
+                            };
+                        }
+                    });
                 }
-            } catch (e) {}
-        }
-    }
-    
-    saveSettings() {
-        localStorage.setItem('voice_conversation_settings', JSON.stringify(this.settings));
-    }
-}
-
-// Voice Conversation Instance
-let voiceConversation = null;
-
-// Voice Mode Button Handler - FIXED!
-if (DOM.voiceModeBtn) {
-    DOM.voiceModeBtn.addEventListener('click', () => {
-        // Create voice modal if it doesn't exist
-        let voiceModal = document.getElementById('voice-modal');
-        
-        if (!voiceModal) {
-            // Create the voice modal dynamically
-            voiceModal = createVoiceModal();
-            document.body.appendChild(voiceModal);
-        }
-        
-        voiceModal.style.display = 'flex';
-        
-        // Initialize voice conversation
-        if (!voiceConversation) {
-            voiceConversation = new VoiceConversation();
-        }
-    });
-}
-
-// Create Voice Modal Function
-function createVoiceModal() {
-    const modal = document.createElement('div');
-    modal.className = 'voice-modal';
-    modal.id = 'voice-modal';
-    
-    modal.innerHTML = `
-        <div class="voice-modal-content">
-            <div class="voice-modal-header">
-                <div class="voice-modal-title">
-                    <span style="font-size: 32px;">🎤</span>
-                    <h2>Voice Conversation</h2>
-                </div>
-                <button class="voice-modal-close" id="voice-modal-close">✕</button>
-            </div>
-
-            <div class="voice-avatar" id="voice-avatar">
-                <div class="avatar-icon" id="voice-avatar-icon">🎤</div>
-            </div>
-
-            <div class="voice-status" id="voice-status">Ready to talk</div>
-
-            <div class="voice-wave" id="voice-wave" style="display: none;">
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-                <div class="wave-bar"></div>
-            </div>
-
-            <div class="voice-transcript">
-                <div class="transcript-label">You said:</div>
-                <div class="user-transcript" id="voice-user-transcript">—</div>
-                <div class="transcript-label" style="margin-top: 16px;">P.R.A.I said:</div>
-                <div class="assistant-transcript" id="voice-assistant-transcript">—</div>
-            </div>
-
-            <div class="voice-controls">
-                <button class="voice-btn-control primary" id="voice-start-btn">
-                    🎤 Start Conversation
-                </button>
-                <button class="voice-btn-control" id="voice-pause-btn" style="display: none;">
-                    ⏸️ Pause
-                </button>
-                <button class="voice-btn-control danger" id="voice-stop-btn" style="display: none;">
-                    ⏹️ End Conversation
-                </button>
-            </div>
-
-            <div class="voice-settings">
-                <div class="settings-row">
-                    <span class="settings-label">Voice</span>
-                    <select class="voice-select" id="voice-voice-select">
-                        <option value="">Loading voices...</option>
-                    </select>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">Auto-continuous</span>
-                    <button class="toggle-switch active" id="voice-continuous-toggle">
-                        <span class="toggle-slider"></span>
-                    </button>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">Speech rate</span>
-                    <select class="voice-select" id="voice-rate-select">
-                        <option value="0.8">Slow</option>
-                        <option value="1" selected>Normal</option>
-                        <option value="1.2">Fast</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Add event listeners to modal
-    setTimeout(() => {
-        const closeBtn = document.getElementById('voice-modal-close');
-        const startBtn = document.getElementById('voice-start-btn');
-        const pauseBtn = document.getElementById('voice-pause-btn');
-        const stopBtn = document.getElementById('voice-stop-btn');
-        const continuousToggle = document.getElementById('voice-continuous-toggle');
-        const voiceSelect = document.getElementById('voice-voice-select');
-        const rateSelect = document.getElementById('voice-rate-select');
-        
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-                if (voiceConversation) {
-                    voiceConversation.stopConversation();
+                
+                populateVoiceSelect() {
+                    const voiceSelect = document.getElementById('sleek-voice-select');
+                    if (!voiceSelect) return;
+                    
+                    voiceSelect.innerHTML = '';
+                    
+                    const englishVoices = this.voices.filter(v => v.lang.includes('en'));
+                    const voicesToShow = englishVoices.length > 0 ? englishVoices : this.voices;
+                    
+                    voicesToShow.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voiceURI;
+                        option.textContent = `${voice.name}`;
+                        voiceSelect.appendChild(option);
+                    });
+                    
+                    const savedVoice = localStorage.getItem('prai_voice_conversation');
+                    if (savedVoice && voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
+                        voiceSelect.value = savedVoice;
+                        this.settings.voiceURI = savedVoice;
+                    }
                 }
-            });
-        }
-        
-        if (startBtn && voiceConversation) {
-            startBtn.addEventListener('click', () => {
-                if (voiceConversation) {
-                    voiceConversation.startConversation();
+                
+                setupSpeechRecognition() {
+                    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                        console.log('Speech recognition not supported');
+                        return;
+                    }
+                    
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    this.recognition = new SpeechRecognition();
+                    this.recognition.continuous = true;
+                    this.recognition.interimResults = true;
+                    this.recognition.lang = 'en-US';
+                    
+                    this.recognition.onstart = () => {
+                        this.isListening = true;
+                        this.updateUI();
+                    };
+                    
+                    this.recognition.onresult = (event) => {
+                        const lastResult = event.results[event.results.length - 1];
+                        const transcript = lastResult[0].transcript;
+                        
+                        const userText = document.getElementById('sleek-user-text');
+                        if (userText) {
+                            userText.textContent = transcript;
+                        }
+                        
+                        if (lastResult.isFinal) {
+                            this.processUserSpeech(transcript);
+                        }
+                    };
+                    
+                    this.recognition.onerror = (event) => {
+                        console.error('Recognition error:', event.error);
+                        const statusEl = document.getElementById('sleek-status');
+                        if (event.error === 'not-allowed') {
+                            if (statusEl) {
+                                statusEl.textContent = '❌ Microphone access denied';
+                                statusEl.className = 'sleek-status';
+                            }
+                        }
+                    };
+                    
+                    this.recognition.onend = () => {
+                        this.isListening = false;
+                        if (this.conversationActive && this.settings.continuous && !this.isSpeaking && !this.isThinking) {
+                            this.startListening();
+                        }
+                        this.updateUI();
+                    };
                 }
-            });
-        }
-        
-        if (pauseBtn && voiceConversation) {
-            pauseBtn.addEventListener('click', () => {
-                if (voiceConversation) {
-                    voiceConversation.pauseConversation();
+                
+                async processUserSpeech(text) {
+                    if (!text.trim() || !this.conversationActive) return;
+                    
+                    this.isThinking = true;
+                    this.updateUI();
+                    
+                    try {
+                        const token = localStorage.getItem('prai_token');
+                        
+                        const response = await fetch('/chat', {
+                            method: 'POST',
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                ...(token && { 'Authorization': `Bearer ${token}` })
+                            },
+                            body: JSON.stringify({
+                                message: text,
+                                session_id: this.sessionId,
+                                user_name: localStorage.getItem('prai_name')
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        let reply = 'I apologize, I encountered an issue.';
+                        if (data.error) {
+                            reply = `Error: ${data.error}`;
+                        } else if (data[0]?.generated_text) {
+                            reply = data[0].generated_text;
+                        }
+                        
+                        const botText = document.getElementById('sleek-bot-text');
+                        if (botText) {
+                            botText.textContent = reply;
+                        }
+                        
+                        this.speak(reply);
+                        
+                    } catch (error) {
+                        console.error('Voice chat error:', error);
+                        const botText = document.getElementById('sleek-bot-text');
+                        if (botText) {
+                            botText.textContent = 'Connection error. Please try again.';
+                        }
+                    }
+                    
+                    this.isThinking = false;
+                    this.updateUI();
                 }
-            });
-        }
-        
-        if (stopBtn && voiceConversation) {
-            stopBtn.addEventListener('click', () => {
-                if (voiceConversation) {
-                    voiceConversation.stopConversation();
+                
+                speak(text) {
+                    if (!this.synth) return;
+                    
+                    this.stopSpeaking();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    if (this.settings.voiceURI) {
+                        const voice = this.voices.find(v => v.voiceURI === this.settings.voiceURI);
+                        if (voice) utterance.voice = voice;
+                    }
+                    
+                    utterance.rate = this.settings.rate;
+                    
+                    utterance.onstart = () => {
+                        this.isSpeaking = true;
+                        this.currentUtterance = utterance;
+                        this.updateUI();
+                    };
+                    
+                    utterance.onend = () => {
+                        this.isSpeaking = false;
+                        this.currentUtterance = null;
+                        this.updateUI();
+                        
+                        if (this.conversationActive && this.settings.continuous) {
+                            setTimeout(() => {
+                                this.startListening();
+                            }, 300);
+                        }
+                    };
+                    
+                    this.synth.speak(utterance);
                 }
-            });
-        }
-        
-        if (continuousToggle && voiceConversation) {
-            continuousToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                continuousToggle.classList.toggle('active');
-                if (voiceConversation) {
-                    voiceConversation.settings.continuous = continuousToggle.classList.contains('active');
-                    voiceConversation.saveSettings();
+                
+                stopSpeaking() {
+                    if (this.synth) {
+                        this.synth.cancel();
+                        this.isSpeaking = false;
+                        this.currentUtterance = null;
+                        this.updateUI();
+                    }
                 }
-            });
-        }
-        
-        if (voiceSelect && voiceConversation) {
-            voiceSelect.addEventListener('change', (e) => {
-                if (voiceConversation) {
-                    voiceConversation.settings.voiceURI = e.target.value;
-                    localStorage.setItem('prai_voice_conversation', e.target.value);
-                    voiceConversation.saveSettings();
+                
+                startConversation() {
+                    navigator.mediaDevices.getUserMedia({ audio: true })
+                        .then((stream) => {
+                            stream.getTracks().forEach(track => track.stop());
+                            this.conversationActive = true;
+                            this.startListening();
+                            this.updateUI();
+                        })
+                        .catch(() => {
+                            const statusEl = document.getElementById('sleek-status');
+                            if (statusEl) {
+                                statusEl.textContent = '❌ Please allow microphone access';
+                                statusEl.className = 'sleek-status';
+                            }
+                        });
                 }
-            });
-        }
-        
-        if (rateSelect && voiceConversation) {
-            rateSelect.addEventListener('change', (e) => {
-                if (voiceConversation) {
-                    voiceConversation.settings.rate = parseFloat(e.target.value);
-                    voiceConversation.saveSettings();
+                
+                startListening() {
+                    if (this.recognition && !this.isListening && this.conversationActive) {
+                        try {
+                            this.recognition.start();
+                        } catch (e) {}
+                    }
                 }
-            });
-        }
-        
-        // Close on outside click
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                if (voiceConversation) {
-                    voiceConversation.stopConversation();
+                
+                stopListening() {
+                    if (this.recognition && this.isListening) {
+                        try {
+                            this.recognition.stop();
+                        } catch (e) {}
+                    }
+                }
+                
+                pauseConversation() {
+                    this.stopListening();
+                    this.stopSpeaking();
+                    this.isThinking = false;
+                    this.updateUI();
+                }
+                
+                stopConversation() {
+                    this.conversationActive = false;
+                    this.stopListening();
+                    this.stopSpeaking();
+                    this.isThinking = false;
+                    this.updateUI();
+                    
+                    const userText = document.getElementById('sleek-user-text');
+                    const botText = document.getElementById('sleek-bot-text');
+                    if (userText) userText.textContent = '—';
+                    if (botText) botText.textContent = '—';
+                }
+                
+                updateUI() {
+                    const avatar = document.getElementById('sleek-avatar');
+                    const avatarIcon = document.getElementById('sleek-avatar-icon');
+                    const statusEl = document.getElementById('sleek-status');
+                    const startBtn = document.getElementById('sleek-start-btn');
+                    const stopBtn = document.getElementById('sleek-stop-btn');
+                    
+                    if (!avatar || !avatarIcon || !statusEl) return;
+                    
+                    if (this.isSpeaking) {
+                        avatar.className = 'sleek-avatar speaking';
+                        avatarIcon.textContent = '🔊';
+                        statusEl.textContent = 'P.R.A.I is speaking...';
+                        statusEl.className = 'sleek-status speaking';
+                    } else if (this.isThinking) {
+                        avatar.className = 'sleek-avatar thinking';
+                        avatarIcon.textContent = '🤔';
+                        statusEl.textContent = 'Thinking...';
+                        statusEl.className = 'sleek-status thinking';
+                    } else if (this.isListening) {
+                        avatar.className = 'sleek-avatar listening';
+                        avatarIcon.textContent = '🎤';
+                        statusEl.textContent = 'Listening...';
+                        statusEl.className = 'sleek-status listening';
+                    } else {
+                        avatar.className = 'sleek-avatar';
+                        avatarIcon.textContent = '🎤';
+                        statusEl.textContent = this.conversationActive ? 'Ready' : 'Ready to talk';
+                        statusEl.className = 'sleek-status';
+                    }
+                    
+                    if (startBtn && stopBtn) {
+                        if (this.conversationActive) {
+                            startBtn.style.display = 'none';
+                            stopBtn.style.display = 'flex';
+                        } else {
+                            startBtn.style.display = 'flex';
+                            stopBtn.style.display = 'none';
+                        }
+                    }
+                }
+                
+                loadSettings() {
+                    const saved = localStorage.getItem('voice_conversation_settings');
+                    if (saved) {
+                        try {
+                            this.settings = JSON.parse(saved);
+                            const continuousToggle = document.getElementById('sleek-continuous-toggle');
+                            const rateSelect = document.getElementById('sleek-rate-select');
+                            
+                            if (continuousToggle) {
+                                continuousToggle.classList.toggle('active', this.settings.continuous);
+                            }
+                            if (rateSelect) {
+                                rateSelect.value = this.settings.rate;
+                            }
+                        } catch (e) {}
+                    }
+                }
+                
+                saveSettings() {
+                    localStorage.setItem('voice_conversation_settings', JSON.stringify(this.settings));
                 }
             }
-        });
-    }, 100);
-    
-    return modal;
-}
 
-// Add CSS for voice modal if not present
-function addVoiceModalStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .voice-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 999999;
-            align-items: center;
-            justify-content: center;
-        }
-        .voice-modal-content {
-            background: white;
-            border-radius: 32px;
-            width: 600px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        }
-        .dark-mode .voice-modal-content {
-            background: #1f2937;
-            border: 1px solid #374151;
-        }
-        .voice-modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-        .voice-modal-title h2 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #111827;
-        }
-        .dark-mode .voice-modal-title h2 {
-            color: #f9fafb;
-        }
-        .voice-modal-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid #e5e7eb;
-            background: transparent;
-            color: #6b7280;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            transition: all 0.2s;
-        }
-        .voice-modal-close:hover {
-            background: #f3f4f6;
-            color: #111827;
-        }
-        .dark-mode .voice-modal-close:hover {
-            background: #374151;
-            color: white;
-        }
-        .voice-avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
-        }
-        .voice-avatar.listening {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            animation: pulse-large 2s infinite;
-            box-shadow: 0 0 40px rgba(220, 38, 38, 0.4);
-        }
-        .voice-avatar.speaking {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            animation: pulse-large 2s infinite;
-            box-shadow: 0 0 40px rgba(37, 99, 235, 0.4);
-        }
-        .voice-avatar.thinking {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            animation: pulse-large 2s infinite;
-            box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
-        }
-        @keyframes pulse-large {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .avatar-icon {
-            font-size: 60px;
-            color: white;
-        }
-        .voice-status {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #6b7280;
-        }
-        .voice-wave {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            height: 60px;
-            margin: 20px 0;
-        }
-        .wave-bar {
-            width: 8px;
-            height: 30px;
-            background: #2563eb;
-            border-radius: 4px;
-            animation: wave 1.2s infinite ease-in-out;
-        }
-        .voice-transcript {
-            background: #f3f4f6;
-            border-radius: 20px;
-            padding: 24px;
-            margin: 24px 0;
-        }
-        .dark-mode .voice-transcript {
-            background: #111827;
-        }
-        .transcript-label {
-            font-size: 13px;
-            color: #6b7280;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-        .user-transcript, .assistant-transcript {
-            font-size: 17px;
-            padding: 16px;
-            background: white;
-            border-radius: 16px;
-            min-height: 80px;
-            border: 1px solid #e5e7eb;
-        }
-        .dark-mode .user-transcript, .dark-mode .assistant-transcript {
-            background: #1f2937;
-            color: #f9fafb;
-            border: 1px solid #374151;
-        }
-        .assistant-transcript { color: #2563eb; }
-        .voice-controls {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-top: 24px;
-        }
-        .voice-btn-control {
-            padding: 14px 32px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #1f2937;
-            color: white;
-        }
-        .voice-btn-control.primary {
-            background: #2563eb;
-        }
-        .voice-btn-control.primary:hover {
-            background: #1d4ed8;
-            transform: scale(1.05);
-        }
-        .voice-btn-control.danger {
-            background: #dc2626;
-        }
-        .voice-btn-control.danger:hover {
-            background: #b91c1c;
-            transform: scale(1.05);
-        }
-        .voice-settings {
-            margin-top: 24px;
-            padding: 20px;
-            background: #f3f4f6;
-            border-radius: 16px;
-        }
-        .dark-mode .voice-settings {
-            background: #111827;
-        }
-        .settings-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .settings-label {
-            color: #4b5563;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .voice-select {
-            padding: 10px 14px;
-            background: white;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            color: #111827;
-            font-size: 14px;
-            width: 200px;
-        }
-        .dark-mode .voice-select {
-            background: #1f2937;
-            border: 1px solid #4b5563;
-            color: #f9fafb;
-        }
-        .toggle-switch {
-            position: relative;
-            width: 48px;
-            height: 26px;
-            background: #e5e7eb;
-            border-radius: 13px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .toggle-switch.active {
-            background: #2563eb;
-        }
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 22px;
-            height: 22px;
-            background: white;
-            border-radius: 50%;
-            transition: left 0.2s;
-        }
-        .toggle-switch.active .toggle-slider {
-            left: 24px;
-        }
-    `;
-    document.head.appendChild(style);
-}
+            // ============================================
+            // CREATE SLEEK VOICE MODAL
+            // ============================================
+            function createSleekVoiceModal() {
+                const modal = document.createElement('div');
+                modal.className = 'sleek-voice-modal';
+                modal.id = 'sleek-voice-modal';
+                
+                modal.innerHTML = `
+                    <div class="sleek-voice-container">
+                        <div class="sleek-voice-header">
+                            <div class="sleek-voice-title">
+                                <span class="sleek-voice-icon">🎤</span>
+                                <span>Voice Conversation</span>
+                            </div>
+                            <button class="sleek-voice-close" id="sleek-voice-close">✕</button>
+                        </div>
+                        
+                        <div class="sleek-avatar-section">
+                            <div class="sleek-avatar" id="sleek-avatar">
+                                <div class="sleek-avatar-icon" id="sleek-avatar-icon">🎤</div>
+                                <div class="sleek-avatar-ring" id="sleek-avatar-ring"></div>
+                            </div>
+                            <div class="sleek-status" id="sleek-status">Ready to talk</div>
+                        </div>
+                        
+                        <div class="sleek-conversation">
+                            <div class="sleek-message user-message">
+                                <span class="sleek-message-label">You</span>
+                                <span class="sleek-message-text" id="sleek-user-text">—</span>
+                            </div>
+                            <div class="sleek-message bot-message">
+                                <span class="sleek-message-label">P.R.A.I</span>
+                                <span class="sleek-message-text" id="sleek-bot-text">—</span>
+                            </div>
+                        </div>
+                        
+                        <div class="sleek-controls">
+                            <button class="sleek-btn primary" id="sleek-start-btn">
+                                <span>🎤</span> Start Conversation
+                            </button>
+                            <button class="sleek-btn danger" id="sleek-stop-btn" style="display: none;">
+                                <span>⏹️</span> End
+                            </button>
+                        </div>
+                        
+                        <div class="sleek-settings">
+                            <div class="sleek-setting-row">
+                                <span class="sleek-setting-label">Voice</span>
+                                <select class="sleek-select" id="sleek-voice-select">
+                                    <option value="">Loading voices...</option>
+                                </select>
+                            </div>
+                            <div class="sleek-setting-row">
+                                <span class="sleek-setting-label">Auto</span>
+                                <button class="sleek-toggle active" id="sleek-continuous-toggle">
+                                    <span class="sleek-toggle-slider"></span>
+                                </button>
+                            </div>
+                            <div class="sleek-setting-row">
+                                <span class="sleek-setting-label">Speed</span>
+                                <select class="sleek-select" id="sleek-rate-select">
+                                    <option value="0.8">Slow</option>
+                                    <option value="1" selected>Normal</option>
+                                    <option value="1.2">Fast</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                return modal;
+            }
 
-// Add voice modal styles
-addVoiceModalStyles();
+            // ============================================
+            // SETUP SLEEK VOICE LISTENERS
+            // ============================================
+            let sleekVoiceConversation = null;
+
+            function setupSleekVoiceListeners(modal) {
+                const closeBtn = document.getElementById('sleek-voice-close');
+                const startBtn = document.getElementById('sleek-start-btn');
+                const stopBtn = document.getElementById('sleek-stop-btn');
+                const continuousToggle = document.getElementById('sleek-continuous-toggle');
+                const voiceSelect = document.getElementById('sleek-voice-select');
+                const rateSelect = document.getElementById('sleek-rate-select');
+                
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        modal.style.display = 'none';
+                        if (sleekVoiceConversation) {
+                            sleekVoiceConversation.stopConversation();
+                        }
+                    });
+                }
+                
+                if (startBtn && sleekVoiceConversation) {
+                    startBtn.addEventListener('click', () => {
+                        if (sleekVoiceConversation) {
+                            sleekVoiceConversation.startConversation();
+                        }
+                    });
+                }
+                
+                if (stopBtn && sleekVoiceConversation) {
+                    stopBtn.addEventListener('click', () => {
+                        if (sleekVoiceConversation) {
+                            sleekVoiceConversation.stopConversation();
+                        }
+                    });
+                }
+                
+                if (continuousToggle && sleekVoiceConversation) {
+                    continuousToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        continuousToggle.classList.toggle('active');
+                        if (sleekVoiceConversation) {
+                            sleekVoiceConversation.settings.continuous = continuousToggle.classList.contains('active');
+                            sleekVoiceConversation.saveSettings();
+                        }
+                    });
+                }
+                
+                if (voiceSelect && sleekVoiceConversation) {
+                    voiceSelect.addEventListener('change', (e) => {
+                        if (sleekVoiceConversation) {
+                            sleekVoiceConversation.settings.voiceURI = e.target.value;
+                            localStorage.setItem('prai_voice_conversation', e.target.value);
+                            sleekVoiceConversation.saveSettings();
+                        }
+                    });
+                }
+                
+                if (rateSelect && sleekVoiceConversation) {
+                    rateSelect.addEventListener('change', (e) => {
+                        if (sleekVoiceConversation) {
+                            sleekVoiceConversation.settings.rate = parseFloat(e.target.value);
+                            sleekVoiceConversation.saveSettings();
+                        }
+                    });
+                }
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        if (sleekVoiceConversation) {
+                            sleekVoiceConversation.stopConversation();
+                        }
+                    }
+                });
+            }
+
+            // ============================================
+            // VOICE MODE BUTTON HANDLER
+            // ============================================
+            if (DOM.voiceModeBtn) {
+                DOM.voiceModeBtn.addEventListener('click', () => {
+                    let sleekModal = document.getElementById('sleek-voice-modal');
+                    
+                    if (!sleekModal) {
+                        sleekModal = createSleekVoiceModal();
+                        document.body.appendChild(sleekModal);
+                        
+                        sleekVoiceConversation = new SleekVoiceConversation();
+                        setupSleekVoiceListeners(sleekModal);
+                    }
+                    
+                    sleekModal.style.display = 'flex';
+                });
+            }
 
             // ============================================
             // SEARCH CHATS
@@ -2605,7 +2674,7 @@ addVoiceModalStyles();
             }
 
             // ============================================
-            // ADD MESSAGE - WITH COPY ACTION
+            // ADD MESSAGE
             // ============================================
             function addMessage(content, isUser, metadata = {}) {
                 if (!DOM.messagesContainer) return;
@@ -2629,7 +2698,6 @@ addVoiceModalStyles();
                 textDiv.className = 'message-text';
                 contentDiv.appendChild(textDiv);
                 
-                // Add copy action for user messages
                 if (isUser) {
                     const actionsDiv = document.createElement('div');
                     actionsDiv.className = 'message-actions';
@@ -2683,29 +2751,6 @@ addVoiceModalStyles();
             }
 
             // ============================================
-            // UPDATE MESSAGE IN HISTORY (FOR EDIT)
-            // ============================================
-            function updateMessageInHistory(messageId, newContent) {
-                if (!State.chats[State.currentChatId]) return;
-                
-                const messages = State.chats[State.currentChatId].messages;
-                const messageIndex = messages.findIndex(m => m.id === messageId);
-                
-                if (messageIndex !== -1) {
-                    messages[messageIndex].content = newContent;
-                    messages[messageIndex].edited = true;
-                    messages[messageIndex].editedAt = new Date().toLocaleTimeString();
-                    localStorage.setItem('praiChats', JSON.stringify(State.chats));
-                    
-                    if (messageIndex === 0) {
-                        State.chats[State.currentChatId].title = newContent.substring(0, 30) + (newContent.length > 30 ? '...' : '');
-                        localStorage.setItem('praiChats', JSON.stringify(State.chats));
-                        updateHistory();
-                    }
-                }
-            }
-
-            // ============================================
             // SEND MESSAGE
             // ============================================
             async function sendMessage() {
@@ -2727,7 +2772,7 @@ addVoiceModalStyles();
             }
 
             // ============================================
-            // UPDATE HISTORY DISPLAY
+            // UPDATE HISTORY
             // ============================================
             function updateHistory() {
                 if (!DOM.historyList) return;
@@ -2943,12 +2988,8 @@ addVoiceModalStyles();
             // EVENT LISTENERS
             // ============================================
             function initEventListeners() {
-                // Send message
-                if (DOM.sendButton) {
-                    DOM.sendButton.addEventListener('click', sendMessage);
-                }
+                if (DOM.sendButton) DOM.sendButton.addEventListener('click', sendMessage);
                 
-                // Enter key
                 if (DOM.messageInput) {
                     DOM.messageInput.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' && !e.shiftKey && State.settings.enterToSend) {
@@ -2963,12 +3004,8 @@ addVoiceModalStyles();
                     });
                 }
                 
-                // New chat
-                if (DOM.newChatBtn) {
-                    DOM.newChatBtn.addEventListener('click', newChat);
-                }
+                if (DOM.newChatBtn) DOM.newChatBtn.addEventListener('click', newChat);
                 
-                // Clear current chat
                 if (DOM.clearBtn) {
                     DOM.clearBtn.addEventListener('click', () => {
                         if (confirm('Clear this conversation?')) {
@@ -2985,23 +3022,12 @@ addVoiceModalStyles();
                     });
                 }
                 
-                // Clear all chats
-                if (DOM.dropdownClearAll) {
-                    DOM.dropdownClearAll.addEventListener('click', clearAllChats);
-                }
-                if (DOM.settingsClearAllBtn) {
-                    DOM.settingsClearAllBtn.addEventListener('click', clearAllChats);
-                }
+                if (DOM.dropdownClearAll) DOM.dropdownClearAll.addEventListener('click', clearAllChats);
+                if (DOM.settingsClearAllBtn) DOM.settingsClearAllBtn.addEventListener('click', clearAllChats);
                 
-                // Settings
-                if (DOM.dropdownSettings) {
-                    DOM.dropdownSettings.addEventListener('click', openSettings);
-                }
-                if (DOM.settingsClose) {
-                    DOM.settingsClose.addEventListener('click', closeSettings);
-                }
+                if (DOM.dropdownSettings) DOM.dropdownSettings.addEventListener('click', openSettings);
+                if (DOM.settingsClose) DOM.settingsClose.addEventListener('click', closeSettings);
                 
-                // Profile button
                 if (DOM.profileBtn) {
                     DOM.profileBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -3013,7 +3039,6 @@ addVoiceModalStyles();
                     });
                 }
                 
-                // Close dropdown on outside click
                 document.addEventListener('click', (e) => {
                     if (DOM.profileBtn && DOM.profileDropdown) {
                         if (!DOM.profileBtn.contains(e.target) && !DOM.profileDropdown.contains(e.target)) {
@@ -3022,7 +3047,6 @@ addVoiceModalStyles();
                     }
                 });
                 
-                // Theme toggle
                 if (DOM.dropdownTheme) {
                     DOM.dropdownTheme.addEventListener('click', () => {
                         const isDark = document.body.classList.contains('dark-mode');
@@ -3032,12 +3056,10 @@ addVoiceModalStyles();
                     });
                 }
                 
-                // Theme radio buttons
                 document.querySelectorAll('input[name="theme"]').forEach(radio => {
                     radio.addEventListener('change', (e) => setTheme(e.target.value));
                 });
                 
-                // Settings toggles
                 if (DOM.enterToSend) {
                     DOM.enterToSend.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -3067,15 +3089,9 @@ addVoiceModalStyles();
                     });
                 }
                 
-                // Logout
-                if (DOM.dropdownLogout) {
-                    DOM.dropdownLogout.addEventListener('click', handleLogout);
-                }
+                if (DOM.dropdownLogout) DOM.dropdownLogout.addEventListener('click', handleLogout);
                 
-                // File upload - FIXED: Reset input after selection
-                if (DOM.uploadBtn) {
-                    DOM.uploadBtn.addEventListener('click', () => DOM.fileInput?.click());
-                }
+                if (DOM.uploadBtn) DOM.uploadBtn.addEventListener('click', () => DOM.fileInput?.click());
                 
                 if (DOM.fileInput) {
                     DOM.fileInput.addEventListener('change', (e) => {
@@ -3084,7 +3100,6 @@ addVoiceModalStyles();
                             showToast(`📎 File selected: ${file.name}`);
                             State.uploadedFile = { name: file.name, size: file.size };
                         }
-                        // Reset file input so same file can be uploaded again
                         e.target.value = '';
                     });
                 }
@@ -3094,7 +3109,6 @@ addVoiceModalStyles();
             // INITIALIZE
             // ============================================
             function init() {
-                // Load chats
                 const savedChats = localStorage.getItem('praiChats');
                 if (savedChats) {
                     try {
@@ -3102,7 +3116,6 @@ addVoiceModalStyles();
                     } catch (e) {}
                 }
                 
-                // Load settings
                 const savedSettings = localStorage.getItem('prai_settings');
                 if (savedSettings) {
                     try {
@@ -3110,26 +3123,19 @@ addVoiceModalStyles();
                     } catch (e) {}
                 }
                 
-                // Event listeners
                 initEventListeners();
-                
-                // Update history
                 updateHistory();
                 
-                // Welcome message - ONLY ONCE
                 if (DOM.messagesContainer && DOM.messagesContainer.children.length === 0) {
                     addWelcomeMessage();
                 } else {
                     State.welcomeMessageAdded = true;
                 }
                 
-                // Profile UI
                 updateProfileUI();
-                
-                // Focus input
                 if (DOM.messageInput) DOM.messageInput.focus();
                 
-                console.log('✅ P.R.A.I v6.7.1 - Triple Checked - Production Ready');
+                console.log('✅ P.R.A.I v6.8.0 - Sleek Voice Modal Ready');
             }
 
             init();
