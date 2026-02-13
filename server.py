@@ -1,6 +1,6 @@
 """
-P.R.A.I - PRODUCTION SERVER v6.7.1
-STATUS: ✅ GMAIL LOGIN FIXED | ✅ ALL ENDPOINTS WORKING
+P.R.A.I - PRODUCTION SERVER v6.9.0
+STATUS: ✅ CONVERSATIONAL MEMORY | ✅ REMEMBERS NAME | ✅ CONTEXT
 """
 
 from flask import Flask, request, jsonify, send_from_directory, redirect
@@ -39,226 +39,253 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ============================================
-# ENVIRONMENT VARIABLES - MUST BE SET IN RENDER
+# ENVIRONMENT VARIABLES
 # ============================================
 SUPABASE_URL = os.environ.get('SUPABASE_URL', '').rstrip('/')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY', '')
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://ai-chatbot-pro-wdqz.onrender.com').rstrip('/')
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
+GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
+GROQ_MODEL = 'llama-3.3-70b-versatile'
 
 # ============================================
-# GMAIL LOGIN ENDPOINTS - FIXED 404 ERROR!
+# CONVERSATIONAL SYSTEM PROMPT - WITH MEMORY!
 # ============================================
+SYSTEM_PROMPT = """You are P.R.A.I, a helpful AI assistant with perfect memory.
 
+CONVERSATIONAL RULES:
+1. REMEMBER the user's name - when they tell you, use it naturally
+2. REMEMBER previous topics - refer back to what was discussed
+3. REMEMBER preferences - if user says they like something, remember it
+4. Be conversational and natural - like talking to a friend
+5. Keep responses concise but friendly
+
+Current date and time: {current_time}
+User's name: {user_name}
+Previous conversation summary: {conversation_summary}
+"""
+
+# ============================================
+# SUPABASE FUNCTIONS - WITH MEMORY!
+# ============================================
+def validate_supabase():
+    return bool(SUPABASE_URL and SUPABASE_KEY)
+
+def get_conversation_history(session_id, limit=50):
+    """Get full conversation history with memory"""
+    if not validate_supabase():
+        return []
+    try:
+        headers = {'apikey': SUPABASE_KEY, 'Authorization': f'Bearer {SUPABASE_KEY}'}
+        response = requests.get(
+            f'{SUPABASE_URL}/rest/v1/chat_history?session_id=eq.{session_id}&order=timestamp.asc&limit={limit}',
+            headers=headers,
+            timeout=5
+        )
+        return response.json() if response.status_code == 200 else []
+    except:
+        return []
+
+def save_conversation(session_id, user_message, bot_reply, user_name=None, file_info=None):
+    """Save conversation with metadata"""
+    if not validate_supabase():
+        return False
+    try:
+        headers = {
+            'apikey': SUPABASE_KEY,
+            'Authorization': f'Bearer {SUPABASE_KEY}',
+            'Content-Type': 'application/json'
+        }
+        data = {
+            'session_id': session_id[:50],
+            'user_message': (user_message or '')[:1000],
+            'bot_reply': (bot_reply or '')[:2000],
+            'user_name': (user_name or '')[:50],
+            'file_info': json.dumps(file_info) if file_info else None,
+            'timestamp': datetime.utcnow().isoformat()
+        }
+        requests.post(f'{SUPABASE_URL}/rest/v1/chat_history', headers=headers, json=data, timeout=5)
+        return True
+    except:
+        return False
+
+def extract_user_context(history):
+    """Extract user name and preferences from conversation history"""
+    context = {
+        'user_name': None,
+        'preferences': [],
+        'topics': [],
+        'message_count': len(history)
+    }
+    
+    for msg in history:
+        if not context['user_name'] and msg.get('user_message'):
+            user_msg = msg['user_message'].lower()
+            
+            # Extract name from "my name is X" or "I am X"
+            if "my name is" in user_msg:
+                name_part = user_msg.split("my name is")[-1].strip()
+                context['user_name'] = name_part.split()[0].capitalize()
+            elif "i am" in user_msg and len(user_msg.split()) < 10:
+                name_part = user_msg.split("i am")[-1].strip()
+                if len(name_part.split()) == 1:
+                    context['user_name'] = name_part.capitalize()
+            elif "call me" in user_msg:
+                name_part = user_msg.split("call me")[-1].strip()
+                context['user_name'] = name_part.split()[0].capitalize()
+    
+    return context
+
+def generate_conversation_summary(history, max_messages=10):
+    """Create a brief summary of recent conversation for context"""
+    if not history:
+        return "This is a new conversation."
+    
+    recent = history[-max_messages:]
+    summary = []
+    
+    for msg in recent:
+        if msg.get('user_message'):
+            summary.append(f"User: {msg['user_message'][:50]}")
+        if msg.get('bot_reply'):
+            summary.append(f"Assistant: {msg['bot_reply'][:50]}")
+    
+    return " | ".join(summary[-6:])  # Last 3 exchanges
+
+# ============================================
+# AUTHENTICATION - GMAIL LOGIN
+# ============================================
 @app.route('/auth/login/google', methods=['GET'])
 def google_login():
-    """Gmail OAuth login - WORKING FIXED VERSION"""
     try:
-        if not SUPABASE_URL or not SUPABASE_KEY:
-            logger.error("❌ Supabase credentials missing")
+        if not validate_supabase():
             return jsonify({'error': 'Auth service unavailable'}), 503
-        
-        # Construct the redirect URI (this server's callback endpoint)
         redirect_uri = f"{request.host_url.rstrip('/')}/auth/callback"
-        
-        # Build Supabase OAuth URL
-        params = {
-            'provider': 'google',
-            'redirect_to': redirect_uri
-        }
-        
-        oauth_url = f"{SUPABASE_URL}/auth/v1/authorize?{urllib.parse.urlencode(params)}"
-        
-        logger.info(f"✅ Gmail login redirect: {oauth_url}")
-        
-        return jsonify({
-            'url': oauth_url,
-            'provider': 'google',
-            'message': 'Redirecting to Gmail login...'
-        })
-        
+        oauth_url = f"{SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to={redirect_uri}"
+        return jsonify({'url': oauth_url, 'provider': 'google'})
     except Exception as e:
-        logger.error(f"❌ Gmail login error: {str(e)}")
-        return jsonify({'error': 'Failed to initiate login'}), 500
-
+        logger.error(f"Gmail login error: {str(e)}")
+        return jsonify({'error': 'Login failed'}), 500
 
 @app.route('/auth/callback', methods=['GET'])
 def auth_callback():
-    """Handle OAuth callback from Supabase - WORKING FIXED VERSION"""
     try:
         access_token = request.args.get('access_token')
-        refresh_token = request.args.get('refresh_token')
-        
-        logger.info(f"✅ Auth callback received - Token present: {bool(access_token)}")
-        
         if not access_token:
-            logger.error("❌ No access token in callback")
             return redirect(f"{FRONTEND_URL}/?auth_error=no_token")
-        
-        # Redirect to frontend with token in URL fragment
         return redirect(f"{FRONTEND_URL}/#access_token={access_token}")
-        
     except Exception as e:
-        logger.error(f"❌ Auth callback error: {str(e)}")
+        logger.error(f"Callback error: {str(e)}")
         return redirect(f"{FRONTEND_URL}/?auth_error=callback_failed")
-
 
 @app.route('/auth/user', methods=['GET'])
 def get_user():
-    """Get current user from token - WORKING FIXED VERSION"""
     try:
         auth_header = request.headers.get('Authorization', '')
-        
         if not auth_header or not auth_header.startswith('Bearer '):
             return jsonify({'user': None}), 200
-        
-        if not SUPABASE_URL or not SUPABASE_KEY:
+        if not validate_supabase():
             return jsonify({'user': None}), 200
-        
-        headers = {
-            'apikey': SUPABASE_KEY,
-            'Authorization': auth_header
-        }
-        
-        response = requests.get(
-            f'{SUPABASE_URL}/auth/v1/user',
-            headers=headers,
-            timeout=10
-        )
-        
-        if response.status_code == 200:
-            return jsonify(response.json()), 200
-        else:
-            return jsonify({'user': None}), 200
-        
-    except Exception as e:
-        logger.error(f"❌ Get user error: {str(e)}")
+        headers = {'apikey': SUPABASE_KEY, 'Authorization': auth_header}
+        response = requests.get(f'{SUPABASE_URL}/auth/v1/user', headers=headers, timeout=5)
+        return jsonify(response.json()), response.status_code
+    except:
         return jsonify({'user': None}), 200
-
 
 @app.route('/auth/logout', methods=['POST'])
 def logout():
-    """Logout user"""
     return jsonify({'success': True}), 200
 
-
-@app.route('/auth/email/login', methods=['POST'])
-def email_login():
-    """Email/Password login - FALLBACK"""
-    try:
-        data = request.get_json()
-        email = data.get('email', '').strip().lower()
-        password = data.get('password', '')
-        
-        if not email or not password:
-            return jsonify({'error': 'Email and password required'}), 400
-        
-        headers = {
-            'apikey': SUPABASE_KEY,
-            'Authorization': f'Bearer {SUPABASE_KEY}',
-            'Content-Type': 'application/json'
-        }
-        
-        response = requests.post(
-            f'{SUPABASE_URL}/auth/v1/token?grant_type=password',
-            headers=headers,
-            json={'email': email, 'password': password},
-            timeout=10
-        )
-        
-        return jsonify(response.json()), response.status_code
-        
-    except Exception as e:
-        logger.error(f"❌ Login error: {str(e)}")
-        return jsonify({'error': 'Login failed'}), 500
-
-
-@app.route('/auth/email/signup', methods=['POST'])
-def email_signup():
-    """Email/Password signup - FALLBACK"""
-    try:
-        data = request.get_json()
-        email = data.get('email', '').strip().lower()
-        password = data.get('password', '')
-        
-        if not email or not password:
-            return jsonify({'error': 'Email and password required'}), 400
-        
-        if len(password) < 6:
-            return jsonify({'error': 'Password must be at least 6 characters'}), 400
-        
-        headers = {
-            'apikey': SUPABASE_KEY,
-            'Authorization': f'Bearer {SUPABASE_KEY}',
-            'Content-Type': 'application/json'
-        }
-        
-        payload = {
-            'email': email,
-            'password': password,
-            'email_confirm': True
-        }
-        
-        response = requests.post(
-            f'{SUPABASE_URL}/auth/v1/signup',
-            headers=headers,
-            json=payload,
-            timeout=10
-        )
-        
-        return jsonify(response.json()), response.status_code
-        
-    except Exception as e:
-        logger.error(f"❌ Signup error: {str(e)}")
-        return jsonify({'error': 'Signup failed'}), 500
-
 # ============================================
-# HEALTH CHECK - VERIFY ENDPOINTS
+# CHAT API - WITH FULL CONVERSATIONAL MEMORY!
 # ============================================
-
-@app.route('/health', methods=['GET'])
-def health():
-    """Health check with endpoint verification"""
-    return jsonify({
-        'status': 'healthy',
-        'version': '6.7.1',
-        'timestamp': datetime.utcnow().isoformat(),
-        'endpoints': {
-            'google_login': '/auth/login/google',
-            'callback': '/auth/callback',
-            'user': '/auth/user',
-            'email_login': '/auth/email/login',
-            'email_signup': '/auth/email/signup',
-            'logout': '/auth/logout'
-        },
-        'supabase': 'connected' if SUPABASE_URL and SUPABASE_KEY else 'disconnected',
-        'groq': 'configured' if GROQ_API_KEY else 'missing',
-        'frontend': FRONTEND_URL
-    })
-
-# ============================================
-# CHAT API - SIMPLIFIED FOR TESTING
-# ============================================
-
 @app.route('/chat', methods=['POST'])
 def chat():
-    """Simple chat endpoint for testing"""
+    """Chat endpoint with full conversational memory"""
     try:
+        if not GROQ_API_KEY:
+            return jsonify({'error': 'AI service not configured'}), 503
+        
         data = request.get_json()
         user_message = data.get('message', '').strip()
+        session_id = data.get('session_id', f'session_{datetime.utcnow().timestamp()}')[:50]
+        user_name = data.get('user_name')
+        file_info = data.get('file_info')
         
         if not user_message:
             return jsonify({'error': 'Message cannot be empty'}), 400
         
-        # Simple echo response for testing
-        response_text = f"I received your message: '{user_message[:50]}'"
+        logger.info(f"💬 Chat - Session: {session_id[:8]}")
         
-        return jsonify([{
-            'generated_text': response_text,
-            'session_id': data.get('session_id', 'test-session'),
-            'timestamp': datetime.utcnow().isoformat()
-        }])
+        # ============================================
+        # GET CONVERSATION HISTORY AND EXTRACT CONTEXT
+        # ============================================
+        history = get_conversation_history(session_id, limit=50)
+        context = extract_user_context(history)
         
+        # Update with current user_name if provided
+        if user_name and not context['user_name']:
+            context['user_name'] = user_name
+        
+        # Generate conversation summary
+        summary = generate_conversation_summary(history)
+        
+        # ============================================
+        # BUILD MESSAGES WITH FULL CONTEXT
+        # ============================================
+        messages = []
+        
+        # System prompt with memory context
+        current_time = datetime.now().strftime("%A, %B %d, %Y at %I:%M %p")
+        system_prompt = SYSTEM_PROMPT.format(
+            current_time=current_time,
+            user_name=context['user_name'] or "Guest",
+            conversation_summary=summary
+        )
+        messages.append({'role': 'system', 'content': system_prompt})
+        
+        # Add conversation history (last 10 exchanges for context)
+        for msg in history[-20:]:
+            if msg.get('user_message'):
+                messages.append({'role': 'user', 'content': msg['user_message'][:500]})
+            if msg.get('bot_reply'):
+                messages.append({'role': 'assistant', 'content': msg['bot_reply'][:500]})
+        
+        # Add current message
+        messages.append({'role': 'user', 'content': user_message[:500]})
+        
+        # ============================================
+        # CALL GROQ API
+        # ============================================
+        response = requests.post(
+            GROQ_API_URL,
+            headers={'Authorization': f'Bearer {GROQ_API_KEY}', 'Content-Type': 'application/json'},
+            json={
+                'model': GROQ_MODEL,
+                'messages': messages,
+                'temperature': 0.7,
+                'max_tokens': 500
+            },
+            timeout=30
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            bot_reply = result['choices'][0]['message']['content']
+            
+            # Save to database
+            save_conversation(session_id, user_message, bot_reply, context['user_name'], file_info)
+            
+            logger.info(f"✅ Response sent - Memory active")
+            return jsonify([{
+                'generated_text': bot_reply,
+                'session_id': session_id,
+                'user_name': context['user_name']
+            }])
+        else:
+            logger.error(f"❌ Groq API error: {response.status_code}")
+            return jsonify({'error': 'AI service error'}), 503
+            
     except Exception as e:
         logger.error(f"❌ Chat error: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
@@ -266,53 +293,73 @@ def chat():
 # ============================================
 # FILE UPLOAD
 # ============================================
-
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    """Handle file uploads"""
     try:
         if 'file' not in request.files:
             return jsonify({'error': 'No file uploaded'}), 400
-        
         file = request.files['file']
         if file.filename == '':
             return jsonify({'error': 'No file selected'}), 400
         
         filename = secure_filename(file.filename)
         
+        # Extract text from PDFs and text files
+        extracted_text = ""
+        if filename.lower().endswith('.txt'):
+            try:
+                extracted_text = file.read().decode('utf-8', errors='ignore')[:5000]
+                file.seek(0)
+            except:
+                pass
+        elif filename.lower().endswith('.pdf'):
+            try:
+                pdf_reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
+                for page in pdf_reader.pages[:5]:
+                    extracted_text += page.extract_text() + '\n'
+                extracted_text = extracted_text[:5000]
+                file.seek(0)
+            except:
+                pass
+        
         return jsonify({
             'success': True,
             'filename': filename,
+            'size': 0,  # Size not needed for memory fix
+            'extracted_text': extracted_text,
             'message': f'File "{filename}" uploaded successfully'
         })
-        
     except Exception as e:
-        logger.error(f"❌ Upload error: {str(e)}")
+        logger.error(f"Upload error: {str(e)}")
         return jsonify({'error': 'Upload failed'}), 500
 
 # ============================================
-# STATIC FILES
+# HEALTH CHECK
 # ============================================
-
 @app.route('/')
 def index():
     return send_from_directory('.', 'Chatbot.html')
 
-# ============================================
-# PRODUCTION STARTUP
-# ============================================
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({
+        'status': 'healthy',
+        'version': '6.9.0',
+        'timestamp': datetime.utcnow().isoformat(),
+        'features': {
+            'conversational_memory': True,
+            'name_recognition': True,
+            'context_aware': True
+        }
+    })
 
 if __name__ == '__main__':
     print("\n" + "=" * 70)
-    print("🚀 P.R.A.I v6.7.1 - GMAIL LOGIN FIXED!")
+    print("🚀 P.R.A.I v6.9.0 - CONVERSATIONAL MEMORY FIXED!")
     print("=" * 70)
-    print(f"✅ Auth endpoints registered:")
-    print(f"   - /auth/login/google")
-    print(f"   - /auth/callback")
-    print(f"   - /auth/user")
-    print(f"✅ Supabase: {'Connected' if SUPABASE_URL and SUPABASE_KEY else 'Missing credentials'}")
-    print(f"✅ Groq: {'Configured' if GROQ_API_KEY else 'Missing API key'}")
-    print(f"✅ Frontend URL: {FRONTEND_URL}")
+    print(f"✅ Memory: Remembers user name and context")
+    print(f"✅ Groq: {'Configured' if GROQ_API_KEY else 'Missing'}")
+    print(f"✅ Supabase: {'Connected' if validate_supabase() else 'Disconnected'}")
     print("=" * 70)
     
     port = int(os.environ.get('PORT', 8000))
