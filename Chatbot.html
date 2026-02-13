@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           P.R.A.I v6.8.1 - GMAIL LOGIN FIXED!
-           ✅ OAUTH CALLBACK | ✅ PROFILE PICTURES | ✅ SLEEK VOICE
+           P.R.A.I v7.2.0 - REAL GROQ API CALLS!
+           ✅ FIXED SENDMESSAGE | ✅ TYPING INDICATOR
            ============================================ */
         
         * {
@@ -1188,6 +1188,9 @@
             color: #60a5fa;
         }
 
+        /* ============================================
+           TYPING INDICATOR
+           ============================================ */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -1338,6 +1341,12 @@
         .send-button:hover {
             background: #1d4ed8;
             transform: scale(1.05);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .file-upload-indicator {
@@ -1822,7 +1831,7 @@
             <div class="chat-header">
                 <div class="chat-title">
                     P.R.A.I Assistant
-                    <span class="version-badge">v6.8.1</span>
+                    <span class="version-badge">v7.2</span>
                 </div>
 
                 <!-- REAL-TIME CLOCK -->
@@ -1985,7 +1994,7 @@
                 <div class="settings-item">
                     <div>
                         <div class="settings-item-label">Version</div>
-                        <div class="settings-item-desc">6.8.1 - Gmail Login Fixed</div>
+                        <div class="settings-item-desc">7.2.0 - Real Groq API</div>
                     </div>
                 </div>
             </div>
@@ -1999,8 +2008,8 @@
 
     <script>
         // ============================================
-        // P.R.A.I v6.8.1 - GMAIL LOGIN FIXED!
-        // ✅ OAUTH CALLBACK | ✅ PROFILE PICTURES | ✅ SLEEK VOICE
+        // P.R.A.I v7.2.0 - REAL GROQ API CALLS!
+        // ✅ FIXED SENDMESSAGE | ✅ TYPING INDICATOR
         // ============================================
 
         (function() {
@@ -2125,40 +2134,30 @@
             }
 
             // ============================================
-            // HANDLE OAUTH CALLBACK - FIXED GMAIL LOGIN!
+            // HANDLE OAUTH CALLBACK
             // ============================================
             function handleOAuthCallback() {
                 console.log('🔍 Checking for OAuth callback...');
                 
-                // Check for access_token in URL hash
                 const hash = window.location.hash.substring(1);
                 const params = new URLSearchParams(hash);
                 const accessToken = params.get('access_token');
                 
-                console.log('🔑 Access token found:', !!accessToken);
-                
                 if (accessToken) {
-                    // Save token immediately
                     State.userToken = accessToken;
                     localStorage.setItem('prai_token', accessToken);
-                    console.log('💾 Token saved to localStorage');
                     
-                    // Fetch user info from backend
                     fetch('/auth/user', {
                         headers: { 'Authorization': `Bearer ${accessToken}` }
                     })
                     .then(res => res.json())
                     .then(data => {
-                        console.log('👤 User data received:', data);
-                        
                         if (data && data.email) {
-                            // Set user info
                             State.userEmail = data.email;
                             State.userName = data.user_metadata?.full_name || 
                                             data.user_metadata?.name || 
                                             data.email.split('@')[0];
                             
-                            // Get profile picture
                             let avatarUrl = null;
                             if (data.user_metadata?.avatar_url) {
                                 avatarUrl = data.user_metadata.avatar_url;
@@ -2169,27 +2168,21 @@
                             if (avatarUrl) {
                                 localStorage.setItem('prai_avatar', avatarUrl);
                                 State.userAvatar = avatarUrl;
-                                console.log('🖼️ Avatar saved:', avatarUrl);
                             }
                             
-                            // Save to localStorage
                             localStorage.setItem('prai_email', State.userEmail);
                             localStorage.setItem('prai_name', State.userName);
                             
-                            // Update UI
                             updateProfileUI();
                             showToast(`✅ Welcome, ${State.userName}!`);
                             
-                            // Reset welcome message to show name
                             State.welcomeMessageAdded = false;
                             if (DOM.messagesContainer) {
                                 DOM.messagesContainer.innerHTML = '';
                                 addWelcomeMessage();
                             }
                             
-                            // Clear URL hash
                             window.history.replaceState({}, document.title, '/');
-                            console.log('✅ Login complete!');
                         }
                     })
                     .catch(err => {
@@ -2203,524 +2196,6 @@
             // VOICE MODE BUTTON HANDLER
             // ============================================
             let sleekVoiceConversation = null;
-
-            function createSleekVoiceModal() {
-                const modal = document.createElement('div');
-                modal.className = 'sleek-voice-modal';
-                modal.id = 'sleek-voice-modal';
-                
-                modal.innerHTML = `
-                    <div class="sleek-voice-container">
-                        <div class="sleek-voice-header">
-                            <div class="sleek-voice-title">
-                                <span class="sleek-voice-icon">🎤</span>
-                                <span>Voice Conversation</span>
-                            </div>
-                            <button class="sleek-voice-close" id="sleek-voice-close">✕</button>
-                        </div>
-                        
-                        <div class="sleek-avatar-section">
-                            <div class="sleek-avatar" id="sleek-avatar">
-                                <div class="sleek-avatar-icon" id="sleek-avatar-icon">🎤</div>
-                                <div class="sleek-avatar-ring" id="sleek-avatar-ring"></div>
-                            </div>
-                            <div class="sleek-status" id="sleek-status">Ready to talk</div>
-                        </div>
-                        
-                        <div class="sleek-conversation">
-                            <div class="sleek-message user-message">
-                                <span class="sleek-message-label">You</span>
-                                <span class="sleek-message-text" id="sleek-user-text">—</span>
-                            </div>
-                            <div class="sleek-message bot-message">
-                                <span class="sleek-message-label">P.R.A.I</span>
-                                <span class="sleek-message-text" id="sleek-bot-text">—</span>
-                            </div>
-                        </div>
-                        
-                        <div class="sleek-controls">
-                            <button class="sleek-btn primary" id="sleek-start-btn">
-                                <span>🎤</span> Start Conversation
-                            </button>
-                            <button class="sleek-btn danger" id="sleek-stop-btn" style="display: none;">
-                                <span>⏹️</span> End
-                            </button>
-                        </div>
-                        
-                        <div class="sleek-settings">
-                            <div class="sleek-setting-row">
-                                <span class="sleek-setting-label">Voice</span>
-                                <select class="sleek-select" id="sleek-voice-select">
-                                    <option value="">Loading voices...</option>
-                                </select>
-                            </div>
-                            <div class="sleek-setting-row">
-                                <span class="sleek-setting-label">Auto</span>
-                                <button class="sleek-toggle active" id="sleek-continuous-toggle">
-                                    <span class="sleek-toggle-slider"></span>
-                                </button>
-                            </div>
-                            <div class="sleek-setting-row">
-                                <span class="sleek-setting-label">Speed</span>
-                                <select class="sleek-select" id="sleek-rate-select">
-                                    <option value="0.8">Slow</option>
-                                    <option value="1" selected>Normal</option>
-                                    <option value="1.2">Fast</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                return modal;
-            }
-
-            class SleekVoiceConversation {
-                constructor() {
-                    this.recognition = null;
-                    this.synth = window.speechSynthesis;
-                    this.voices = [];
-                    this.isListening = false;
-                    this.isSpeaking = false;
-                    this.isThinking = false;
-                    this.conversationActive = false;
-                    this.currentUtterance = null;
-                    this.sessionId = 'voice-session-' + Date.now();
-                    
-                    this.settings = {
-                        continuous: true,
-                        voiceURI: '',
-                        rate: 1
-                    };
-                    
-                    this.init();
-                }
-                
-                async init() {
-                    await this.loadVoices();
-                    this.setupSpeechRecognition();
-                    this.loadSettings();
-                    console.log('✅ Sleek Voice Conversation Ready');
-                }
-                
-                loadVoices() {
-                    return new Promise((resolve) => {
-                        this.voices = this.synth.getVoices();
-                        if (this.voices.length > 0) {
-                            this.populateVoiceSelect();
-                            resolve();
-                        } else {
-                            this.synth.onvoiceschanged = () => {
-                                this.voices = this.synth.getVoices();
-                                this.populateVoiceSelect();
-                                resolve();
-                            };
-                        }
-                    });
-                }
-                
-                populateVoiceSelect() {
-                    const voiceSelect = document.getElementById('sleek-voice-select');
-                    if (!voiceSelect) return;
-                    
-                    voiceSelect.innerHTML = '';
-                    
-                    const englishVoices = this.voices.filter(v => v.lang.includes('en'));
-                    const voicesToShow = englishVoices.length > 0 ? englishVoices : this.voices;
-                    
-                    voicesToShow.forEach(voice => {
-                        const option = document.createElement('option');
-                        option.value = voice.voiceURI;
-                        option.textContent = `${voice.name}`;
-                        voiceSelect.appendChild(option);
-                    });
-                    
-                    const savedVoice = localStorage.getItem('prai_voice_conversation');
-                    if (savedVoice && voiceSelect.querySelector(`option[value="${savedVoice}"]`)) {
-                        voiceSelect.value = savedVoice;
-                        this.settings.voiceURI = savedVoice;
-                    }
-                }
-                
-                setupSpeechRecognition() {
-                    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                        console.log('Speech recognition not supported');
-                        return;
-                    }
-                    
-                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    this.recognition = new SpeechRecognition();
-                    this.recognition.continuous = true;
-                    this.recognition.interimResults = true;
-                    this.recognition.lang = 'en-US';
-                    
-                    this.recognition.onstart = () => {
-                        this.isListening = true;
-                        this.updateUI();
-                    };
-                    
-                    this.recognition.onresult = (event) => {
-                        const lastResult = event.results[event.results.length - 1];
-                        const transcript = lastResult[0].transcript;
-                        
-                        const userText = document.getElementById('sleek-user-text');
-                        if (userText) {
-                            userText.textContent = transcript;
-                        }
-                        
-                        if (lastResult.isFinal) {
-                            this.processUserSpeech(transcript);
-                        }
-                    };
-                    
-                    this.recognition.onerror = (event) => {
-                        console.error('Recognition error:', event.error);
-                        const statusEl = document.getElementById('sleek-status');
-                        if (event.error === 'not-allowed') {
-                            if (statusEl) {
-                                statusEl.textContent = '❌ Microphone access denied';
-                                statusEl.className = 'sleek-status';
-                            }
-                        }
-                    };
-                    
-                    this.recognition.onend = () => {
-                        this.isListening = false;
-                        if (this.conversationActive && this.settings.continuous && !this.isSpeaking && !this.isThinking) {
-                            this.startListening();
-                        }
-                        this.updateUI();
-                    };
-                }
-                
-                async processUserSpeech(text) {
-                    if (!text.trim() || !this.conversationActive) return;
-                    
-                    this.isThinking = true;
-                    this.updateUI();
-                    
-                    try {
-                        const token = localStorage.getItem('prai_token');
-                        
-                        const response = await fetch('/chat', {
-                            method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                ...(token && { 'Authorization': `Bearer ${token}` })
-                            },
-                            body: JSON.stringify({
-                                message: text,
-                                session_id: this.sessionId,
-                                user_name: localStorage.getItem('prai_name')
-                            })
-                        });
-                        
-                        const data = await response.json();
-                        
-                        let reply = 'I apologize, I encountered an issue.';
-                        if (data.error) {
-                            reply = `Error: ${data.error}`;
-                        } else if (data[0]?.generated_text) {
-                            reply = data[0].generated_text;
-                        }
-                        
-                        const botText = document.getElementById('sleek-bot-text');
-                        if (botText) {
-                            botText.textContent = reply;
-                        }
-                        
-                        this.speak(reply);
-                        
-                    } catch (error) {
-                        console.error('Voice chat error:', error);
-                        const botText = document.getElementById('sleek-bot-text');
-                        if (botText) {
-                            botText.textContent = 'Connection error. Please try again.';
-                        }
-                    }
-                    
-                    this.isThinking = false;
-                    this.updateUI();
-                }
-                
-                speak(text) {
-                    if (!this.synth) return;
-                    
-                    this.stopSpeaking();
-                    
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    
-                    if (this.settings.voiceURI) {
-                        const voice = this.voices.find(v => v.voiceURI === this.settings.voiceURI);
-                        if (voice) utterance.voice = voice;
-                    }
-                    
-                    utterance.rate = this.settings.rate;
-                    
-                    utterance.onstart = () => {
-                        this.isSpeaking = true;
-                        this.currentUtterance = utterance;
-                        this.updateUI();
-                    };
-                    
-                    utterance.onend = () => {
-                        this.isSpeaking = false;
-                        this.currentUtterance = null;
-                        this.updateUI();
-                        
-                        if (this.conversationActive && this.settings.continuous) {
-                            setTimeout(() => {
-                                this.startListening();
-                            }, 300);
-                        }
-                    };
-                    
-                    this.synth.speak(utterance);
-                }
-                
-                stopSpeaking() {
-                    if (this.synth) {
-                        this.synth.cancel();
-                        this.isSpeaking = false;
-                        this.currentUtterance = null;
-                        this.updateUI();
-                    }
-                }
-                
-                startConversation() {
-                    navigator.mediaDevices.getUserMedia({ audio: true })
-                        .then((stream) => {
-                            stream.getTracks().forEach(track => track.stop());
-                            this.conversationActive = true;
-                            this.startListening();
-                            this.updateUI();
-                        })
-                        .catch(() => {
-                            const statusEl = document.getElementById('sleek-status');
-                            if (statusEl) {
-                                statusEl.textContent = '❌ Please allow microphone access';
-                                statusEl.className = 'sleek-status';
-                            }
-                        });
-                }
-                
-                startListening() {
-                    if (this.recognition && !this.isListening && this.conversationActive) {
-                        try {
-                            this.recognition.start();
-                        } catch (e) {}
-                    }
-                }
-                
-                stopListening() {
-                    if (this.recognition && this.isListening) {
-                        try {
-                            this.recognition.stop();
-                        } catch (e) {}
-                    }
-                }
-                
-                pauseConversation() {
-                    this.stopListening();
-                    this.stopSpeaking();
-                    this.isThinking = false;
-                    this.updateUI();
-                }
-                
-                stopConversation() {
-                    this.conversationActive = false;
-                    this.stopListening();
-                    this.stopSpeaking();
-                    this.isThinking = false;
-                    this.updateUI();
-                    
-                    const userText = document.getElementById('sleek-user-text');
-                    const botText = document.getElementById('sleek-bot-text');
-                    if (userText) userText.textContent = '—';
-                    if (botText) botText.textContent = '—';
-                }
-                
-                updateUI() {
-                    const avatar = document.getElementById('sleek-avatar');
-                    const avatarIcon = document.getElementById('sleek-avatar-icon');
-                    const statusEl = document.getElementById('sleek-status');
-                    const startBtn = document.getElementById('sleek-start-btn');
-                    const stopBtn = document.getElementById('sleek-stop-btn');
-                    
-                    if (!avatar || !avatarIcon || !statusEl) return;
-                    
-                    if (this.isSpeaking) {
-                        avatar.className = 'sleek-avatar speaking';
-                        avatarIcon.textContent = '🔊';
-                        statusEl.textContent = 'P.R.A.I is speaking...';
-                        statusEl.className = 'sleek-status speaking';
-                    } else if (this.isThinking) {
-                        avatar.className = 'sleek-avatar thinking';
-                        avatarIcon.textContent = '🤔';
-                        statusEl.textContent = 'Thinking...';
-                        statusEl.className = 'sleek-status thinking';
-                    } else if (this.isListening) {
-                        avatar.className = 'sleek-avatar listening';
-                        avatarIcon.textContent = '🎤';
-                        statusEl.textContent = 'Listening...';
-                        statusEl.className = 'sleek-status listening';
-                    } else {
-                        avatar.className = 'sleek-avatar';
-                        avatarIcon.textContent = '🎤';
-                        statusEl.textContent = this.conversationActive ? 'Ready' : 'Ready to talk';
-                        statusEl.className = 'sleek-status';
-                    }
-                    
-                    if (startBtn && stopBtn) {
-                        if (this.conversationActive) {
-                            startBtn.style.display = 'none';
-                            stopBtn.style.display = 'flex';
-                        } else {
-                            startBtn.style.display = 'flex';
-                            stopBtn.style.display = 'none';
-                        }
-                    }
-                }
-                
-                loadSettings() {
-                    const saved = localStorage.getItem('voice_conversation_settings');
-                    if (saved) {
-                        try {
-                            this.settings = JSON.parse(saved);
-                            const continuousToggle = document.getElementById('sleek-continuous-toggle');
-                            const rateSelect = document.getElementById('sleek-rate-select');
-                            
-                            if (continuousToggle) {
-                                continuousToggle.classList.toggle('active', this.settings.continuous);
-                            }
-                            if (rateSelect) {
-                                rateSelect.value = this.settings.rate;
-                            }
-                        } catch (e) {}
-                    }
-                }
-                
-                saveSettings() {
-                    localStorage.setItem('voice_conversation_settings', JSON.stringify(this.settings));
-                }
-            }
-
-            function setupSleekVoiceListeners(modal) {
-                const closeBtn = document.getElementById('sleek-voice-close');
-                const startBtn = document.getElementById('sleek-start-btn');
-                const stopBtn = document.getElementById('sleek-stop-btn');
-                const continuousToggle = document.getElementById('sleek-continuous-toggle');
-                const voiceSelect = document.getElementById('sleek-voice-select');
-                const rateSelect = document.getElementById('sleek-rate-select');
-                
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', () => {
-                        modal.style.display = 'none';
-                        if (sleekVoiceConversation) {
-                            sleekVoiceConversation.stopConversation();
-                        }
-                    });
-                }
-                
-                if (startBtn && sleekVoiceConversation) {
-                    startBtn.addEventListener('click', () => {
-                        if (sleekVoiceConversation) {
-                            sleekVoiceConversation.startConversation();
-                        }
-                    });
-                }
-                
-                if (stopBtn && sleekVoiceConversation) {
-                    stopBtn.addEventListener('click', () => {
-                        if (sleekVoiceConversation) {
-                            sleekVoiceConversation.stopConversation();
-                        }
-                    });
-                }
-                
-                if (continuousToggle && sleekVoiceConversation) {
-                    continuousToggle.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        continuousToggle.classList.toggle('active');
-                        if (sleekVoiceConversation) {
-                            sleekVoiceConversation.settings.continuous = continuousToggle.classList.contains('active');
-                            sleekVoiceConversation.saveSettings();
-                        }
-                    });
-                }
-                
-                if (voiceSelect && sleekVoiceConversation) {
-                    voiceSelect.addEventListener('change', (e) => {
-                        if (sleekVoiceConversation) {
-                            sleekVoiceConversation.settings.voiceURI = e.target.value;
-                            localStorage.setItem('prai_voice_conversation', e.target.value);
-                            sleekVoiceConversation.saveSettings();
-                        }
-                    });
-                }
-                
-                if (rateSelect && sleekVoiceConversation) {
-                    rateSelect.addEventListener('change', (e) => {
-                        if (sleekVoiceConversation) {
-                            sleekVoiceConversation.settings.rate = parseFloat(e.target.value);
-                            sleekVoiceConversation.saveSettings();
-                        }
-                    });
-                }
-                
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
-                        if (sleekVoiceConversation) {
-                            sleekVoiceConversation.stopConversation();
-                        }
-                    }
-                });
-            }
-
-            if (DOM.voiceModeBtn) {
-                DOM.voiceModeBtn.addEventListener('click', () => {
-                    let sleekModal = document.getElementById('sleek-voice-modal');
-                    
-                    if (!sleekModal) {
-                        sleekModal = createSleekVoiceModal();
-                        document.body.appendChild(sleekModal);
-                        
-                        sleekVoiceConversation = new SleekVoiceConversation();
-                        setupSleekVoiceListeners(sleekModal);
-                    }
-                    
-                    sleekModal.style.display = 'flex';
-                });
-            }
-
-            // ============================================
-            // SEARCH CHATS
-            // ============================================
-            let searchTimeout = null;
-            
-            if (DOM.searchInput) {
-                DOM.searchInput.addEventListener('input', function(e) {
-                    const term = e.target.value.trim();
-                    
-                    if (DOM.searchClear) {
-                        DOM.searchClear.style.display = term.length > 0 ? 'flex' : 'none';
-                    }
-                    
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        console.log('Searching for:', term);
-                    }, 300);
-                });
-                
-                if (DOM.searchClear) {
-                    DOM.searchClear.addEventListener('click', function() {
-                        DOM.searchInput.value = '';
-                        DOM.searchInput.focus();
-                        this.style.display = 'none';
-                    });
-                }
-            }
 
             // ============================================
             // WELCOME MESSAGE - ONLY ONCE!
@@ -2817,7 +2292,33 @@
             }
 
             // ============================================
-            // SEND MESSAGE
+            // TYPING INDICATOR - FIXED!
+            // ============================================
+            function showTypingIndicator() {
+                if (!State.settings.typingIndicator) return;
+                if (!DOM.messagesContainer) return;
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typing-indicator';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    typingDiv.appendChild(dot);
+                }
+                
+                DOM.messagesContainer.appendChild(typingDiv);
+                DOM.messagesContainer.scrollTop = DOM.messagesContainer.scrollHeight;
+            }
+
+            function hideTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) indicator.remove();
+            }
+
+            // ============================================
+            // SEND MESSAGE - FIXED! CALLS YOUR BACKEND!
             // ============================================
             async function sendMessage() {
                 if (!DOM.messageInput) return;
@@ -2825,16 +2326,46 @@
                 const content = DOM.messageInput.value.trim();
                 if (!content) return;
                 
+                // Add user message
                 addMessage(content, true);
                 DOM.messageInput.value = '';
                 DOM.messageInput.style.height = 'auto';
                 
                 if (DOM.sendButton) DOM.sendButton.disabled = true;
+                showTypingIndicator();
                 
-                setTimeout(() => {
-                    addMessage(`I received your message: "${content.substring(0, 50)}${content.length > 50 ? '...' : ''}"`, false);
-                    if (DOM.sendButton) DOM.sendButton.disabled = false;
-                }, 1000);
+                try {
+                    // ✅✅✅ REAL API CALL TO YOUR BACKEND!
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            ...(State.userToken && { 'Authorization': `Bearer ${State.userToken}` })
+                        },
+                        body: JSON.stringify({
+                            message: content,
+                            session_id: State.currentChatId,
+                            user_name: State.userName
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    hideTypingIndicator();
+                    
+                    if (data.error) {
+                        addMessage(`Error: ${data.error}`, false);
+                    } else if (data[0]?.generated_text) {
+                        // ✅ REAL AI RESPONSE FROM GROQ!
+                        addMessage(data[0].generated_text, false);
+                    }
+                    
+                } catch (error) {
+                    hideTypingIndicator();
+                    addMessage('Connection error. Please try again.', false);
+                }
+                
+                if (DOM.sendButton) DOM.sendButton.disabled = false;
+                DOM.messageInput.focus();
             }
 
             // ============================================
@@ -2982,7 +2513,7 @@
             setTheme(savedTheme);
 
             // ============================================
-            // PROFILE UI - FIXED WITH AVATAR SUPPORT!
+            // PROFILE UI
             // ============================================
             function updateProfileUI() {
                 if (!DOM.profileAvatar || !DOM.dropdownAvatar) return;
@@ -2991,8 +2522,6 @@
                     const name = State.userName || State.userEmail.split('@')[0];
                     const initial = name.charAt(0).toUpperCase();
                     const avatarUrl = localStorage.getItem('prai_avatar');
-                    
-                    console.log('👤 Updating profile:', { name, avatarUrl });
                     
                     if (avatarUrl && avatarUrl !== 'null' && avatarUrl !== 'undefined') {
                         DOM.profileAvatar.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">`;
@@ -3195,9 +2724,8 @@
                     } catch (e) {}
                 }
                 
-                // ===== CRITICAL: Check for OAuth callback =====
+                // Handle OAuth callback
                 handleOAuthCallback();
-                // =============================================
                 
                 // Event listeners
                 initEventListeners();
@@ -3218,7 +2746,7 @@
                 // Focus input
                 if (DOM.messageInput) DOM.messageInput.focus();
                 
-                console.log('✅ P.R.A.I v6.8.1 - Gmail Login Fixed!');
+                console.log('✅ P.R.A.I v7.2.0 - Real Groq API Ready!');
             }
 
             init();
